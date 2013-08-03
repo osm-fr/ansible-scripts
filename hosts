@@ -1,0 +1,12 @@
+osm2.openstreetmap.fr
+#osm7.openstreetmap.fr
+#osm8.openstreetmap.fr
+
+[vm]
+osm102.openstreetmap.fr
+osm103.openstreetmap.fr
+osm104.openstreetmap.fr
+osm108.openstreetmap.fr
+
+[osmose-backend]
+osm104.openstreetmap.fr

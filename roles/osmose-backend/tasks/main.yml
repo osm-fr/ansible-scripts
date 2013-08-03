@@ -1,0 +1,94 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - python-dateutil
+    - python-imposm-parser
+    - python-lockfile
+    - python-polib
+    - python-psycopg2
+    - python-shapely
+    - postgresql-9.1
+    - postgresql-9.1-postgis
+    - openjdk-6-jre-headless
+
+- name: ensure postgresql server is running
+  service: name=postgresql state=started
+
+- name: init osmose user
+  user: name=osmose home=/data/project/osmose/ shell=/bin/bash
+
+- name: init /data/work/osmose path
+  file: path=/data/work/osmose state=directory owner=osmose group=osmose
+
+- name: init /data/work/osmose/ sub path
+  file: path=/data/work/osmose/{{ item }} state=directory owner=osmose group=osmose
+  with_items:
+    - cache
+    - diffs
+    - extracts
+    - logs
+    - results
+    - tmp
+
+- name: link to results
+  file: src=/data/work/osmose/results/ dest=/var/www/osmose state=link
+        owner=osmose group=osmose
+
+- name: add sudoers to access osmose user
+  copy: src=sudoers dest=/etc/sudoers.d/osmose-backend mode=0440 owner=root group=root validate='visudo -cf %s'
+
+- name: init ssh key to osmose user
+  authorized_key: user=osmose key="{{ item }}"
+  with_file:
+    - "{{ lookup('env','PWD') }}/public_keys/jocelyn"
+
+- name: init database
+  postgresql_db: name=osmose encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
+  register: createdb_osmose
+  sudo: yes
+  sudo_user: postgres
+
+- name: init database user
+  postgresql_user: name=osmose password=-osmose- db=osmose priv=ALL
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql extension hstore
+  command: psql -d osmose -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
+  register: psql_res
+  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
+  sudo: yes
+  sudo_user: postgres
+  with_items:
+    - fuzzystrmatch
+    - hstore
+
+- name: psql extension postgis
+  command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+  when: createdb_osmose.changed
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql extension postgis - spatial_ref_sys
+  command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+  when: createdb_osmose.changed
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql access to tables
+  postgresql_privs: database=osmose type=table objs={{ item }} roles=osmose privs=SELECT,INSERT,UPDATE,DELETE
+  sudo: yes
+  sudo_user: postgres
+  with_items:
+    - geometry_columns
+    - spatial_ref_sys
+
+- name: checkout git repository
+  git: repo=https://git.gitorious.org/osmose/backend.git dest=/data/project/osmose/backend/ force=no update=no
+  sudo: yes
+  sudo_user: osmose
+
+- name: git config receive.denyCurrentBranch refuse
+  command: chdir=/data/project/osmose/backend/ git config receive.denyCurrentBranch refuse
+  sudo: yes
+  sudo_user: osmose

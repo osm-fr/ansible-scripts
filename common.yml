@@ -1,0 +1,5 @@
+- name: default configuration
+  hosts: all
+  sudo: yes
+  roles:
+    - common

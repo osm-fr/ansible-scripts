@@ -1,0 +1,2 @@
+jocelyn ALL=(osmose) NOPASSWD: ALL
+jocelyn ALL=(postgres) NOPASSWD: ALL

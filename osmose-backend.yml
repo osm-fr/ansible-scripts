@@ -1,0 +1,6 @@
+- name: osmose-backend configuration
+  hosts: osmose-backend
+  gather_facts: no
+  sudo: yes
+  roles:
+    - osmose-backend
