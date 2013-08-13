@@ -10,3 +10,6 @@ osm108.openstreetmap.fr
 
 [osmose-backend]
 osm104.openstreetmap.fr
+
+[osmbin]
+osm104.openstreetmap.fr
