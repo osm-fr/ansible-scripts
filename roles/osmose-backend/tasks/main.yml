@@ -89,6 +89,6 @@
   sudo_user: osmose
 
 - name: git config receive.denyCurrentBranch refuse
-  command: chdir=/data/project/osmose/backend/ git config receive.denyCurrentBranch refuse
+  command: chdir=/data/project/osmose/backend/ git config receive.denyCurrentBranch ignore
   sudo: yes
   sudo_user: osmose
