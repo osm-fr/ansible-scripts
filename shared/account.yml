@@ -1,0 +1,10 @@
+- name: init user
+  user: name={{ user }} home=/home/{{ user }}/ shell=/bin/bash uid={{ uid }}
+
+- name: init /data/work/ path for ${user}
+  file: path=/data/work/{{ user }} state=directory owner={{ user }} group={{ user }}
+
+- name: init ssh key to  user
+  authorized_key: user={{ user }} key="{{ item }}"
+  with_file:
+    - "{{ lookup('env','PWD') }}/public_keys/{{ user }}"

@@ -18,3 +18,5 @@
     - munin-node
     - sudo
     - vim-nox
+
+- include: ../../../shared/account.yml user=jocelyn uid=1203
