@@ -1,0 +1,10 @@
+- name: add allowed hosts to munin-node
+  lineinfile: dest=/etc/munin/munin-node.conf regexp="^allow .{{ item.regexp }}.$"
+              insertafter="^allow" line="allow ^{{ item.ip }}$"
+  with_items:
+    - {ip: '138\.231\.138\.102', regexp: "138..231..138..102"}
+    - {ip: "2a01:240:fe3d:4:214:c2ff:fe3f:9e5c", regexp: "2a01:240:fe3d:4:214:c2ff:fe3f:9e5c"}
+
+- name: configure hostname of munin-node
+  lineinfile: dest=/etc/munin/munin-node.conf regexp="^host_name {{ hostname }}"
+              insertafter="^#host_name" line="host_name {{ hostname }}"

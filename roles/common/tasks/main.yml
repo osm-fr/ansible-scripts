@@ -20,3 +20,5 @@
     - vim-nox
 
 - include: ../../../shared/account.yml user=jocelyn uid=1203
+
+- include: munin-node.yml
