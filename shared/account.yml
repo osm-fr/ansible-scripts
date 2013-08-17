@@ -8,6 +8,9 @@
   user: name={{ user }} home=/home/{{ user }}/ shell=/bin/bash uid={{ uid }}
   when: user_exist.changed
 
+- name: init group ${user}
+  group: name={{ user }}
+
 - name: init /data/work/ path for ${user}
   file: path=/data/work/{{ user }} state=directory owner={{ user }} group={{ user }}
 
