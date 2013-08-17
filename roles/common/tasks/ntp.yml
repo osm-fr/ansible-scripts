@@ -1,0 +1,5 @@
+- name: install ntp package
+  apt: pkg=ntp
+
+- name: launch ntp
+  service: name=ntp state=running enabled=yes

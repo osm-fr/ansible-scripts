@@ -26,3 +26,6 @@
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - include: munin-node.yml
+
+- include: ntp.yml
+  when: "not 'vm' in {{ group_names }}"
