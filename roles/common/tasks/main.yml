@@ -19,6 +19,10 @@
     - sudo
     - vim-nox
 
+- include: ../../../shared/account.yml user=cquest  uid=1202
 - include: ../../../shared/account.yml user=jocelyn uid=1203
+
+- name: add default sudoers
+  copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - include: munin-node.yml
