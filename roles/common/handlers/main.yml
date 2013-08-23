@@ -1,1 +1,4 @@
+- name: generate locales
+  command: /usr/sbin/locale-gen
+
 - include: munin-node.yml

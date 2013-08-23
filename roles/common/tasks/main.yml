@@ -25,6 +25,15 @@
 - name: add default sudoers
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 
+- name: configure locales
+  lineinfile: dest=/etc/locale.gen regexp="{{ item }}" line="{{ item }} "
+  notify:
+    - generate locales
+  with_items:
+    - en_GB.UTF-8 UTF-8
+    - en_US.UTF-8 UTF-8
+    - fr_FR.UTF-8 UTF-8
+
 - include: munin-node.yml
 
 - include: ntp.yml
