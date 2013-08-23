@@ -8,6 +8,7 @@
     - python
     - python-apt
 
+    - apache2
     - atop
     - bash-completion
     - etckeeper
@@ -18,6 +19,7 @@
     - libwww-perl  # for apache's munin plugin
     - monit
     - munin-node
+    - screen
     - sudo
     - vim-nox
 
@@ -27,6 +29,13 @@
     - lm-sensors   # for sensors's munin plugin
   notify:
     - detect sensors
+
+- name: init /data/ paths
+  file: path={{ item }} state=directory owner=root group=root
+  with_items:
+    - /data
+    - /data/project
+    - /data/work
 
 - include: ../../../shared/account.yml user=cquest  uid=1202
 - include: ../../../shared/account.yml user=jocelyn uid=1203
