@@ -1,4 +1,7 @@
 - name: generate locales
   command: /usr/sbin/locale-gen
 
+- name: detect sensors
+  shell: /usr/sbin/sensors-detect < /dev/null
+
 - include: munin-node.yml

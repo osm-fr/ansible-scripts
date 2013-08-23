@@ -14,10 +14,19 @@
     - git
     - htop
     - lftp
+    - libdbd-pg-perl  # for postgresql's munin plugin
+    - libwww-perl  # for apache's munin plugin
     - monit
     - munin-node
     - sudo
     - vim-nox
+
+- name: install sensors package
+  apt: pkg={{ item }}
+  with_items:
+    - lm-sensors   # for sensors's munin plugin
+  notify:
+    - detect sensors
 
 - include: ../../../shared/account.yml user=cquest  uid=1202
 - include: ../../../shared/account.yml user=jocelyn uid=1203
