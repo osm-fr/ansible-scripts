@@ -9,6 +9,7 @@
     - python-shapely
     - postgresql-9.1
     - postgresql-9.1-postgis
+    - postgresql-contrib-9.1
     - openjdk-6-jre-headless
 
 - name: ensure postgresql server is running
