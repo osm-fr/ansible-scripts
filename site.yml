@@ -1,2 +1,3 @@
 - include: common.yml
 - include: osmose-backend.yml
+- include: taginfo.yml

@@ -1,0 +1,21 @@
+<Location "/taginfo">
+    ProxyPass http://localhost:4567/
+    Allow from all
+</Location>
+
+<VirtualHost *:80>
+
+        ServerAdmin jjaubert@openstreetmap.fr
+
+        ServerName taginfo.openstreetmap.fr
+
+        ProxyPass / http://localhost:4567/
+        ProxyPassReverse / http://localhost:4567/
+        ProxyPreserveHost On
+        ProxyTimeout 600
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/taginfo-error.log
+        CustomLog /var/log/apache2/taginfo-access.log combined
+
+</VirtualHost>

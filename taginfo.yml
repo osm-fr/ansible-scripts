@@ -1,0 +1,6 @@
+- name: taginfo configuration
+  hosts: taginfo
+  gather_facts: no
+  sudo: yes
+  roles:
+    - taginfo

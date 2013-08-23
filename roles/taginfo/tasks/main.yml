@@ -1,0 +1,129 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - curl
+    - libapache2-mod-passenger
+    - sqlite3
+
+    - ruby1.9.1
+    - ruby1.9.1-dev
+    - ruby-passenger
+    - ruby-sqlite3
+
+    # for osmium library
+    - libboost-dev
+    - libshp-dev
+    - libgd2-xpm-dev
+    - libgdal1-dev
+    - libexpat1-dev
+    - libgeos++-dev
+    - libsparsehash-dev
+    - libprotoc-dev
+    - protobuf-compiler
+    - libosmpbf-dev
+
+
+- name: init taginfo user
+  user: name=taginfo home=/data/project/taginfo/ shell=/bin/bash
+
+- name: init /data/work/taginfo paths
+  file: path={{ item }} state=directory owner=taginfo group=taginfo
+  with_items:
+    - /data/work/taginfo
+    - /data/work/taginfo/download
+
+- name: add sudoers to access taginfo user
+  copy: src=sudoers dest=/etc/sudoers.d/taginfo mode=0440 owner=root group=root validate='visudo -cf %s'
+
+- name: install gems
+  gem: user_install=yes name="{{ item }}" state=present
+  sudo: yes
+  sudo_user: taginfo
+  with_items:
+    - rack
+    - rack-contrib
+    - sinatra
+    - sinatra-r18n
+    - json
+
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/taginfo"
+
+- name: enable apache proxy
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - proxy.conf
+    - proxy.load
+    - proxy_http.load
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/taginfo" dest="/etc/apache2/sites-enabled/taginfo" state=link
+  notify: restart apache
+
+- name: checkout git repository
+  git: repo="{{ item.repo }}" dest="/data/project/taginfo/{{ item.path }}" force=no update=no
+  sudo: yes
+  sudo_user: taginfo
+  with_items:
+    - { repo: "https://github.com/joto/taginfo.git",   path: "taginfo" }
+    - { repo: "https://github.com/joto/osmium.git",    path: "osmium" }
+    - { repo: "https://github.com/scrosby/OSM-binary", path: "OSM-binary" }
+
+- name: add taginfo files
+  copy: src="{{ item }}" dest="/data/project/taginfo/{{ item }}"
+  sudo: yes
+  sudo_user: taginfo
+  with_items:
+    - taginfo-config.json
+    - 10_download.sh
+    - 10_update_pbf.sh
+    - 20_update.sh
+    - 30_restart_webserver.sh
+
+- name: add taginfo france.png file
+  copy: src="france.png" dest="/data/project/taginfo/taginfo/web/public/img/france.png"
+  sudo: yes
+  sudo_user: taginfo
+ 
+- name: compile OSM-binary
+  command: chdir=/data/project/taginfo/OSM-binary/src make
+  register: make
+  changed_when: "not 'make: Nothing to be done for ' in \"\"\"{{ make.stdout }}\"\"\""
+  sudo: yes
+  sudo_user: taginfo
+
+- name: compile tagstats
+  command: chdir=/data/project/taginfo/taginfo/tagstats make
+  register: make
+  changed_when: "not 'make: Nothing to be done for ' in \"\"\"{{ make.stdout }}\"\"\""
+  sudo: yes
+  sudo_user: taginfo
+
+- name: copy compiled tagstats
+  command: cp /data/project/taginfo/taginfo/tagstats/tagstats /data/project/taginfo/taginfo/sources/db/tagstats
+  sudo: yes
+  sudo_user: taginfo
+
+- name: enable apache site
+  file: src="/data/work/taginfo/{{ item }}" dest="/data/project/taginfo/{{ item }}" state=link
+  sudo: yes
+  sudo_user: taginfo
+  with_items:
+    - data
+    - download
+
+- name: initialize daily crontab
+  cron: name="update taginfo" hour=0 minute=5 job="(./10_download.sh && ./20_update.sh && ./30_restart_webserver.sh)"
+  sudo: yes
+  sudo_user: taginfo
+
+- name: initialize reboot crontab
+  cron: name="start taginfo" special_time=reboot job="./30_restart_webserver.sh"
+  sudo: yes
+  sudo_user: taginfo
+
+# To finish installation, run:
+# - ./10_download.sh
+# - ./20_update.sh
+# - ./30_restart_webserver.sh
