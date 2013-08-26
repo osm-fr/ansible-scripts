@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+
+        ServerAdmin cquest@openstreetmap.fr
+
+        ServerName live.openstreetmap.fr
+
+        DocumentRoot /data/project/live/osm-livechanges/frontend/
+
+        <Directory /data/project/live/osm-livechanges/frontend/>
+                AddDefaultCharset UTF-8
+                Options FollowSymLinks Indexes MultiViews
+                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                AddHandler cgi-script .py
+                AllowOverride None
+        </Directory>
+
+        ErrorLog /var/log/apache2/live-error.log
+        LogLevel warn
+        CustomLog /var/log/apache2/live-access.log combined
+        ServerSignature On
+
+</VirtualHost>
+

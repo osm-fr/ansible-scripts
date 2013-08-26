@@ -1,0 +1,2 @@
+cquest ALL=(live) NOPASSWD: ALL
+jocelyn ALL=(live) NOPASSWD: ALL

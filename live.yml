@@ -1,0 +1,6 @@
+- name: live configuration
+  hosts: live
+  gather_facts: no
+  sudo: yes
+  roles:
+    - live

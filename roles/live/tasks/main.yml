@@ -1,0 +1,41 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - python-lxml
+
+- name: init live user
+  user: name=live home=/data/project/live/ shell=/bin/bash
+
+- name: init /data/work/live path
+  file: path=/data/work/live state=directory owner=live group=live
+
+- name: add sudoers to access live user
+  copy: src=sudoers dest=/etc/sudoers.d/live mode=0440 owner=root group=root validate='visudo -cf %s'
+
+- name: checkout git repository
+  git: repo="https://github.com/cstenac/osm-livechanges.git" dest="/data/project/live/osm-livechanges" force=no update=no
+  sudo: yes
+  sudo_user: live
+
+- name: init sqlite database
+  shell: creates="/data/work/live/changesets.db" chdir="/data/project/live/osm-livechanges/backend" echo ".exit" | sqlite3 -init schema /data/work/live/changesets.db
+  sudo: yes
+  sudo_user: live
+
+- name: add link to sqlite database
+  file: src="/data/work/live/changesets.db" dest="/data/project/live/osm-livechanges/backend/changesets.db" state=link
+  sudo: yes
+  sudo_user: live
+ 
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/live"
+  notify: restart apache 
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/live" dest="/etc/apache2/sites-enabled/live" state=link
+  notify: restart apache 
+
+- name: initialize minute crontab
+  cron: name="update live" job="(cd /data/project/live/osm-livechanges/backend && ./cron-dl.sh) > /dev/null"
+  sudo: yes
+  sudo_user: live
