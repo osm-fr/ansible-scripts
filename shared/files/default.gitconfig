@@ -1,0 +1,13 @@
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[alias]
+	st = status
+	ci = commit
+	br = branch
+	cp = cherry-pick
+	logf = log --follow
+[log]
+	decorate = short
+

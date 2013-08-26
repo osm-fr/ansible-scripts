@@ -23,3 +23,10 @@
   tags: user_creation
   with_file:
     - "{{ lookup('env','PWD') }}/public_keys/{{ user }}"
+
+- name: copy default config files
+  copy: force=no src="shared/files/default{{ item }}" dest="/home/{{ user }}/{{ item }}" owner={{ user }} group={{ user }}
+  tags: user_creation
+  with_items:
+    - .gitconfig
+    - .vimrc
