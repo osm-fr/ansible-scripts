@@ -48,6 +48,7 @@
 
 - name: copy apache config
   copy: src=apache.site dest="/etc/apache2/sites-available/taginfo"
+  notify: restart apache
 
 - name: enable apache proxy
   file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
@@ -105,7 +106,7 @@
   sudo: yes
   sudo_user: taginfo
 
-- name: enable apache site
+- name: add links to /data/work/taginfo
   file: src="/data/work/taginfo/{{ item }}" dest="/data/project/taginfo/{{ item }}" state=link
   sudo: yes
   sudo_user: taginfo
