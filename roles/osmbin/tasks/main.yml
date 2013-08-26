@@ -1,8 +1,4 @@
-- name: init osmbin user
-  user: name=osmbin home=/data/project/osmbin/ shell=/bin/bash
-
-- name: init /data/work/osmbin path
-  file: path=/data/work/osmbin state=directory owner=osmbin group=osmbin
+- include: ../../../shared/project-account.yml user=osmbin
 
 - name: add sudoers to access osmbin user
   copy: src=sudoers dest=/etc/sudoers.d/osmbin mode=0440 owner=root group=root validate='visudo -cf %s'

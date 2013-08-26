@@ -3,11 +3,7 @@
   with_items:
     - python-lxml
 
-- name: init live user
-  user: name=live home=/data/project/live/ shell=/bin/bash
-
-- name: init /data/work/live path
-  file: path=/data/work/live state=directory owner=live group=live
+- include: ../../../shared/project-account.yml user=live
 
 - name: add sudoers to access live user
   copy: src=sudoers dest=/etc/sudoers.d/live mode=0440 owner=root group=root validate='visudo -cf %s'

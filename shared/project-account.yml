@@ -1,0 +1,21 @@
+- name: Check if user exists
+  action: shell /usr/bin/getent passwd {{ user }}
+  register: user_exist
+  ignore_errors: True
+  changed_when: "user_exist.rc != 0"
+
+- name: init user ${user}
+  user: name={{ user }} home=/data/project/{{ user }}/ shell=/bin/bash
+  when: user_exist.changed
+
+- name: init group ${user}
+  group: name={{ user }}
+
+- name: init /data/work/ path for ${user}
+  file: path=/data/work/{{ user }} state=directory owner={{ user }} group={{ user }}
+
+- name: copy default config files
+  copy: force=no src="shared/files/default{{ item }}" dest="/data/project/{{ user }}/{{ item }}" owner={{ user }} group={{ user }}
+  with_items:
+    - .gitconfig
+    - .vimrc

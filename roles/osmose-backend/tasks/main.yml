@@ -15,11 +15,7 @@
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
-- name: init osmose user
-  user: name=osmose home=/data/project/osmose/ shell=/bin/bash
-
-- name: init /data/work/osmose path
-  file: path=/data/work/osmose state=directory owner=osmose group=osmose
+- include: ../../../shared/project-account.yml user=osmose
 
 - name: init /data/work/osmose/ sub path
   file: path=/data/work/osmose/{{ item }} state=directory owner=osmose group=osmose

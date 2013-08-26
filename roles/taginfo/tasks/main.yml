@@ -22,14 +22,11 @@
     - protobuf-compiler
     - libosmpbf-dev
 
-
-- name: init taginfo user
-  user: name=taginfo home=/data/project/taginfo/ shell=/bin/bash
+- include: ../../../shared/project-account.yml user=taginfo
 
 - name: init /data/work/taginfo paths
   file: path={{ item }} state=directory owner=taginfo group=taginfo
   with_items:
-    - /data/work/taginfo
     - /data/work/taginfo/download
 
 - name: add sudoers to access taginfo user
