@@ -9,6 +9,10 @@ osm103.openstreetmap.fr
 osm104.openstreetmap.fr
 osm108.openstreetmap.fr
 
+# services
+[osm2pgsql]
+osm3.openstreetmap.fr
+
 [osmose-backend]
 osm3.openstreetmap.fr
 osm104.openstreetmap.fr

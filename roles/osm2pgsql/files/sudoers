@@ -1,0 +1,5 @@
+jocelyn ALL=(postgres) NOPASSWD: ALL
+
+cquest ALL=(osm2pgsql) NOPASSWD: ALL
+jocelyn ALL=(osm2pgsql) NOPASSWD: ALL
+sly    ALL=(osm2pgsql) NOPASSWD: ALL
