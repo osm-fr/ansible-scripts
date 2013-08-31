@@ -49,6 +49,15 @@
 - name: add default sudoers
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 
+- name: add user backuppc
+  user: name=backuppc home=/home/backuppc system=yes
+
+- name: init backuppc ssh
+  file: path=/home/backuppc/.ssh state=directory mode=0700 owner=backuppc group=backuppc
+
+- name: add authorized_keys for user backuppc
+  copy: src=backuppc.authorized_keys dest=/home/backuppc/.ssh/authorized_keys mode=0600 owner=backuppc group=backuppc
+
 - name: configure locales
   lineinfile: dest=/etc/locale.gen regexp="{{ item }}" line="{{ item }} "
   notify:
