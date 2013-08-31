@@ -115,15 +115,7 @@
   sudo: yes
   sudo_user: osm2pgsql
 
-- name: download osmosis
-  file: path=/data/project/osm2pgsql/osmosis-0.43.1 state=directory
-  sudo: yes
-  sudo_user: osm2pgsql
-
-- name: download osmosis
-  command: creates=/data/project/osm2pgsql/osmosis-0.43.1/bin/osmosis tar -xf /data/project/osm2pgsql/osmosis-0.43.1.tgz -C /data/project/osm2pgsql/osmosis-0.43.1
-  sudo: yes
-  sudo_user: osm2pgsql
+- include: ../../../shared/osmosis.yml user=osm2pgsql version=0.43.1
 
 # To finish installation, run:
 # - (cd /data/work/osm2pgsql/ && wget http://download.openstreetmap.fr/extracts/europe/france.osm.pbf)
