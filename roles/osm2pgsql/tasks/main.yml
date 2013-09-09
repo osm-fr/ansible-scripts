@@ -79,7 +79,7 @@
   sudo_user: postgres
 
 - name: psql schema osm2pgsql
-  command: psql -d osm -c "CREATE SCHEMA IF NOT EXISTS osm2pgsql; ALTER USER osm2pgsql SET search_path TO osm2pgsql, public;"
+  command: psql -d osm -c "CREATE SCHEMA osm2pgsql; ALTER USER osm2pgsql SET search_path TO osm2pgsql, public;"
   when: check_schema.changed
   sudo: yes
   sudo_user: osm2pgsql
