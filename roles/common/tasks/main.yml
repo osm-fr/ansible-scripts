@@ -46,6 +46,9 @@
 - include: ../../../shared/account.yml user=jgcailton uid=1207
   when: "'jgcailton' in {{ group_names }}"
 
+- include: ../../../shared/account.yml user=sly uid=1209
+  when: "'sly' in {{ group_names }}"
+
 - name: add default sudoers
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 

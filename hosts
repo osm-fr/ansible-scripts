@@ -29,8 +29,12 @@ osm3.openstreetmap.fr
 
 # user creation
 [fred]
+osm3.openstreetmap.fr
 osm104.openstreetmap.fr
 
 [jgcailton]
 osm104.openstreetmap.fr
 osm107.openstreetmap.fr
+
+[sly]
+osm3.openstreetmap.fr
