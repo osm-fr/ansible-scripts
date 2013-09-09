@@ -52,6 +52,9 @@
 - name: add default sudoers
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 
+- name: add alias for ll
+  lineinfile: dest=/etc/bash.bashrc regexp='alias ll="ls -l"' line='alias ll="ls -l"'
+
 - name: add user backuppc
   user: name=backuppc home=/home/backuppc system=yes
 
