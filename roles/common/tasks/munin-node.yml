@@ -22,6 +22,13 @@
     - {src: /usr/share/munin/plugins/apache_processes, dest: apache_processes}
     - {src: /usr/share/munin/plugins/apache_volume, dest: apache_volume}
     - {src: /usr/share/munin/plugins/df_abs, dest: df_abs}
+
+- name: add plugin links for sensors
+  file: state=link src="{{ item.src }}" dest="/etc/munin/plugins/{{ item.dest }}"
+  notify:
+    - restart munin-node
+  with_items:
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_fan}
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_temp}
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_volt}
+  when: "not 'vm' in {{ group_names }}"

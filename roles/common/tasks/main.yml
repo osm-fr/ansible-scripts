@@ -25,6 +25,7 @@
 
 - name: install sensors package
   apt: pkg={{ item }}
+  when: "not 'vm' in {{ group_names }}"
   with_items:
     - lm-sensors   # for sensors's munin plugin
   notify:
