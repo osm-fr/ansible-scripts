@@ -7,6 +7,7 @@ osm3.openstreetmap.fr
 osm102.openstreetmap.fr
 osm103.openstreetmap.fr
 osm104.openstreetmap.fr
+osm106.openstreetmap.fr
 osm108.openstreetmap.fr
 
 # services
@@ -31,6 +32,7 @@ osm3.openstreetmap.fr
 [fred]
 osm3.openstreetmap.fr
 osm104.openstreetmap.fr
+osm106.openstreetmap.fr
 
 [jgcailton]
 osm104.openstreetmap.fr
