@@ -1,4 +1,5 @@
 cquest  ALL= NOPASSWD: ALL
 jocelyn ALL= NOPASSWD: ALL
+sly     ALL= NOPASSWD: ALL
 
 backuppc  ALL=NOPASSWD: /usr/bin/rsync --server --sender *
