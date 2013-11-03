@@ -50,17 +50,24 @@
 - include: ../../../shared/account.yml user=jgcailton uid=1207
   when: "'jgcailton' in {{ group_names }}"
 
-- include: ../../../shared/account.yml user=sly uid=1209
-  when: "'sly' in {{ group_names }}"
-
 - name: add default sudoers
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - name: add alias for ll
   lineinfile: dest=/etc/bash.bashrc regexp='alias ll="ls -l"' line='alias ll="ls -l"'
 
+- name: Check if user backuppc exists
+  action: shell /usr/bin/getent passwd backuppc
+  register: user_exist
+  ignore_errors: True
+  changed_when: "user_exist.rc != 0"
+
 - name: add user backuppc
   user: name=backuppc home=/home/backuppc system=yes
+  when: user_exist.changed
+
+- name: init group backuppc
+  group: name=backuppc
 
 - name: init backuppc ssh
   file: path=/home/backuppc/.ssh state=directory mode=0700 owner=backuppc group=backuppc
