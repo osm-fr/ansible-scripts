@@ -1,0 +1,4 @@
+jocelyn ALL=(postgres) NOPASSWD: ALL
+
+fred    ALL=(osmosis) NOPASSWD: ALL
+jocelyn ALL=(osmosis) NOPASSWD: ALL
