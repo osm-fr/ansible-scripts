@@ -16,7 +16,7 @@
     - protobuf-c-compiler
     - libprotobuf-c0-dev
     - lua5.1
-    - liblua5.1-dev
+    - liblua5.1-0-dev
     - autoconf
     - automake
     - libtool
