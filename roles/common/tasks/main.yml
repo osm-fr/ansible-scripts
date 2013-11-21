@@ -86,6 +86,9 @@
     - fr_FR.UTF-8 UTF-8
   when: "'{{ ansible_distribution }}' == 'Debian'"
 
+- include: ssh-tunnel.yml user=ssh-tunnel uid=1104
+  when: "'ssh-tunnel' in {{ group_names }}"
+
 - include: munin-node.yml
 
 - include: ntp.yml
