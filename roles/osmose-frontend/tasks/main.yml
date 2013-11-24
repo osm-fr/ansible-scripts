@@ -1,0 +1,103 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - python-psycopg2
+    - python-matplotlib
+    - python-imaging
+    - librsvg2-bin
+    - apache2
+    - gettext
+    - libapache2-mod-wsgi
+    - postgresql-9.1
+    - postgresql-contrib-9.1
+
+- name: ensure postgresql server is running
+  service: name=postgresql state=started
+
+- include: ../../../shared/project-account.yml user=osmose
+
+- name: add sudoers to access osmose user
+  copy: src=sudoers dest=/etc/sudoers.d/osmose-frontend mode=0440 owner=root group=root validate='visudo -cf %s'
+
+- name: init ssh key to osmose user
+  authorized_key: user=osmose key="{{ item }}"
+  with_file:
+    - "{{ lookup('env','PWD') }}/public_keys/jocelyn"
+
+- name: init database
+  postgresql_db: name=osmose_frontend encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
+  register: createdb_osmose
+  sudo: yes
+  sudo_user: postgres
+
+- name: init database user
+  postgresql_user: name=osmose password=clostAdtoi db=osmose_frontend priv=ALL
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql extension hstore
+  command: psql -d osmose_frontend -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
+  register: psql_res
+  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
+  sudo: yes
+  sudo_user: postgres
+  with_items:
+    - fuzzystrmatch
+    - hstore
+
+- name: checkout git repository
+  git: repo=https://git.gitorious.org/osmose/frontend.git dest=/data/project/osmose/frontend/ force=no update=no
+  sudo: yes
+  sudo_user: osmose
+
+- name: git config receive.denyCurrentBranch refuse
+  command: chdir=/data/project/osmose/frontend/ git config receive.denyCurrentBranch ignore
+  sudo: yes
+  sudo_user: osmose
+
+- name: configure osmose website
+  lineinfile: dest="/data/project/osmose/frontend/tools/utils.py" regexp="^website *="
+              line="website           = \"{{ osmose_frontend_site }}\""
+
+- name: make po
+  command: chdir=/data/project/osmose/frontend/po/ make 
+  sudo: yes
+  sudo_user: osmose
+
+- name: git submodule
+  command: chdir=/data/project/osmose/frontend/ git submodule update --init
+  sudo: yes
+  sudo_user: osmose
+
+- name: psql init
+  command: chdir=/data/project/osmose/frontend/ psql -f tools/database/schema.sql
+  sudo: yes
+  sudo_user: osmose
+
+- name: copy apache config
+  command: creates="/etc/apache2/sites-available/{{ osmose_frontend_site }}" cp /data/project/osmose/frontend/apache-site "/etc/apache2/sites-available/{{ osmose_frontend_site }}"
+
+- name: configure apache website
+  lineinfile: dest="/etc/apache2/sites-available/{{ osmose_frontend_site }}" regexp="{{ item.regexp }}"
+              line="{{ item.line }}"
+  notify: restart apache
+  with_items:
+    - {regexp: "ServerName", line: "        ServerName {{ osmose_frontend_site }}"}
+    - {regexp: "ErrorLog",   line: "        ErrorLog /var/log/apache2/{{ osmose_frontend_site }}-error.log"}
+    - {regexp: "CustomLog",  line: "        CustomLog /var/log/apache2/{{ osmose_frontend_site }}-access.log combined"}
+
+- name: add apache mods
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - expires.load
+    - rewrite.load
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}" state=link
+  notify: restart apache
+
+- name: initialize daily crontab
+  cron: name="launch osmose-frontend" hour=2 minute=2 job="(cd frontend && tools/cron.sh)"
+  sudo: yes
+  sudo_user: osmose
