@@ -74,7 +74,7 @@
   file: path=/home/backuppc/.ssh state=directory mode=0700 owner=backuppc group=backuppc
 
 - name: add authorized_keys for user backuppc
-  copy: src=backuppc.authorized_keys dest=/home/backuppc/.ssh/authorized_keys mode=0600 owner=backuppc group=backuppc
+  copy: src=backuppc.authorized_keys dest=/home/backuppc/.ssh/authorized_keys mode=0600 owner=backuppc group=backuppc force=yes
 
 - name: configure locales
   lineinfile: dest=/etc/locale.gen regexp="{{ item }}" line="{{ item }} "
