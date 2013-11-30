@@ -16,6 +16,9 @@ osm106.openstreetmap.fr
 osm108.openstreetmap.fr
 
 # services
+[backuppc-server]
+osm3.openstreetmap.fr
+
 [osm2pgsql]
 osm3.openstreetmap.fr
 osm7.openstreetmap.fr

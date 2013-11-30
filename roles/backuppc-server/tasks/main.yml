@@ -1,0 +1,34 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - backuppc
+    - rsync
+
+- name: change path to /data
+  command: creates="/data/backuppc" mv /var/lib/backuppc /data/backuppc
+
+- name: add link from /var/lib/backuppc
+  file: src="/data/backuppc" dest="/var/lib/backuppc" state=link
+
+- name: activate ssl-only
+  lineinfile: dest="/etc/backuppc/apache.conf" regexp=".*SSLRequireSSL"
+              line="        SSLRequireSSL"
+  notify: restart apache
+
+- name: add apache ssl site
+  file: src="/etc/apache2/sites-available/{{ item }}" dest="/etc/apache2/sites-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - default-ssl
+
+- name: add apache mods
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - ssl.conf
+    - ssl.load
+
+- name: enable apache config
+  file: src="/etc/backuppc/apache.conf" dest="/etc/apache2/conf.d/backuppc" state=link
+  notify: restart apache
