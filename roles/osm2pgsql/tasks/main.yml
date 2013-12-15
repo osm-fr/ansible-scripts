@@ -119,6 +119,12 @@
 
 - include: ../../../shared/osmosis.yml user=osm2pgsql version=0.43.1
 
+- name: add munin plugin
+  file: src="/data/project/osm2pgsql/import-base-osm/maintenance/munin/osm_replication_lag-osm2pgsql" dest="/etc/munin/plugins/osm_replication_lag-osm2pgsql" state=link
+
+- name: add munin plugin conf
+  file: src="/data/project/osm2pgsql/import-base-osm/maintenance/munin/osm_replication_lag-osm2pgsql.conf" dest="/etc/munin/plugin-conf.d/osm_replication_lag-osm2pgsql" state=link
+
 # To finish installation, run:
 # - (cd /data/work/osm2pgsql/ && wget http://download.openstreetmap.fr/extracts/europe/france.osm.pbf)
 # - (cd import-base-osm && ./import.sh /data/work/osm2pgsql/france.osm.pbf)
