@@ -1,0 +1,6 @@
+- name: layers configuration
+  hosts: layers
+  gather_facts: no
+  sudo: yes
+  roles:
+    - layers

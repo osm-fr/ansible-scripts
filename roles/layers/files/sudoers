@@ -1,0 +1,3 @@
+cquest  ALL=(layers) NOPASSWD: ALL
+jocelyn ALL=(layers) NOPASSWD: ALL
+sly     ALL=(layers) NOPASSWD: ALL
