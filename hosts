@@ -12,6 +12,7 @@ osm101.openstreetmap.fr
 osm102.openstreetmap.fr
 osm103.openstreetmap.fr
 osm104.openstreetmap.fr
+osm105.openstreetmap.fr
 osm106.openstreetmap.fr
 osm108.openstreetmap.fr
 
@@ -19,9 +20,13 @@ osm108.openstreetmap.fr
 [backuppc-server]
 osm3.openstreetmap.fr
 
+[layers]
+osm105.openstreetmap.fr
+
 [osm2pgsql]
 osm3.openstreetmap.fr
 osm7.openstreetmap.fr
+osm105.openstreetmap.fr
 
 [osmose-backend]
 osm3.openstreetmap.fr
@@ -63,4 +68,6 @@ osm107.openstreetmap.fr
 [ssh-tunnel]
 osm3.openstreetmap.fr
 osm7.openstreetmap.fr
+osm13.openstreetmap.fr
 osm101.openstreetmap.fr
+osm105.openstreetmap.fr
