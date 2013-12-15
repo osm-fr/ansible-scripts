@@ -21,6 +21,7 @@
     - munin-node
     - screen
     - sudo
+    - time
     - vim-nox
 
 - name: install sensors package
