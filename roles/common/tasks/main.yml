@@ -3,7 +3,7 @@
 
 #- apt: update_cache=yes
 - name: install packages
-  apt: pkg={{ item }}
+  apt: pkg={{ item }} update_cache=yes
   with_items:
     - python
     - python-apt
