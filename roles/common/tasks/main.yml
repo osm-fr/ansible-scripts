@@ -11,6 +11,7 @@
     - apache2
     - atop
     - bash-completion
+    - denyhosts
     - etckeeper
     - git
     - htop
@@ -76,6 +77,13 @@
 
 - name: add authorized_keys for user backuppc
   copy: src=backuppc.authorized_keys dest=/home/backuppc/.ssh/authorized_keys mode=0600 owner=backuppc group=backuppc force=yes
+
+- name: update hosts.allow
+  lineinfile: dest=/etc/hosts.allow regexp='^{{ item }}$' line='{{ item }}'
+  with_items:
+    - 'sshd: 127.0.0.1'
+    - 'sshd: 78.238.28.132'      # Jocelyn
+    - 'sshd: stmaur.cquest.org'  # Christian
 
 - name: configure locales
   lineinfile: dest=/etc/locale.gen regexp="{{ item }}" line="{{ item }} "
