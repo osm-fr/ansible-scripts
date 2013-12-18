@@ -34,7 +34,7 @@
     - detect sensors
 
 - name: init /data/ paths
-  file: path={{ item }} state=directory owner=root group=root
+  file: path={{ item }} state=directory owner=root group=root force=no
   with_items:
     - /data
     - /data/project
