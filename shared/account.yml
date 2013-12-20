@@ -19,10 +19,10 @@
   tags: user_creation
 
 - name: init ssh key to user ${user}
-  authorized_key: user={{ user }} key="{{ item }}"
+  authorized_key: user={{ user }} key="{{ lookup('file',item) }}"
   tags: user_creation
-  with_file:
-    - "{{ lookup('env','PWD') }}/public_keys/{{ user }}"
+  with_fileglob:
+    - "{{ lookup('env','PWD') }}/public_keys/{{ user }}*"
 
 - name: copy default config files
   copy: force=no src="shared/files/default{{ item }}" dest="/home/{{ user }}/{{ item }}" owner={{ user }} group={{ user }}
