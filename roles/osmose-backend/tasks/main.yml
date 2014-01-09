@@ -90,6 +90,12 @@
   sudo: yes
   sudo_user: osmose
 
+- name: create branch osmose-fr
+  command: git branch osmose-fr
+  sudo: yes
+  sudo_user: osmose
+
+
 - name: initialize daily crontab
   cron: name="launch osmose-backend" hour=6 minute=2 job="(cd backend && ./cron-launcher)"
   sudo: yes
