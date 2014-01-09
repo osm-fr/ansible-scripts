@@ -1,0 +1,1 @@
+jenkins ALL=(osmose) NOPASSWD: ALL

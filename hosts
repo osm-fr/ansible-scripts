@@ -8,6 +8,8 @@ osm14.openstreetmap.fr
 osm15.openstreetmap.fr
 
 [vm]
+osm5
+osm6
 osm101.openstreetmap.fr
 osm102.openstreetmap.fr
 osm103.openstreetmap.fr
@@ -21,6 +23,13 @@ osm110.openstreetmap.fr
 # services
 [backuppc-server]
 osm3.openstreetmap.fr
+
+[jenkins-slave]
+osm3.openstreetmap.fr
+osm5
+osm6
+osm8.openstreetmap.fr
+osm110.openstreetmap.fr
 
 [layers]
 osm105.openstreetmap.fr
