@@ -18,6 +18,7 @@
     - lftp
     - libdbd-pg-perl  # for postgresql's munin plugin
     - libwww-perl  # for apache's munin plugin
+    - mc # Midnight Commander
     - monit
     - munin-node
     - screen
