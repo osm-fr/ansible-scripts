@@ -1,5 +1,4 @@
 ############## layers.openstreetmap.fr
-# Si problème / question => nicolas@bouthors.org
 <VirtualHost *:80>
         ServerName layers.openstreetmap.fr
         ServerAlias dev.layers.openstreetmap.fr
