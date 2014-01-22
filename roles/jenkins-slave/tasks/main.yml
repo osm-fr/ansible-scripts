@@ -1,3 +1,8 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - openjdk-6-jre-headless
+
 - include: ../../../shared/project-account.yml user=jenkins
 
 - name: add sudoers to access osmose user
