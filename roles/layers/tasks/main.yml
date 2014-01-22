@@ -37,3 +37,6 @@
 - name: enable apache site
   file: src="/etc/apache2/sites-available/layers.openstreetmap.fr" dest="/etc/apache2/sites-enabled/layers.openstreetmap.fr" state=link
   notify: restart apache
+
+- include: ../../../shared/project-account.yml user=hot
+- include: ../../../shared/project-account.yml user=riverboat
