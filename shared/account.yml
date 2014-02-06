@@ -1,24 +1,24 @@
-- name: Check if user exists
+- name: Check if user {{ user }} exists
   action: shell /usr/bin/getent passwd {{ user }}
   register: user_exist
   ignore_errors: True
   changed_when: "user_exist.rc != 0"
   tags: user_creation
 
-- name: init user ${user}
+- name: init user {{ user }}
   user: name={{ user }} home=/home/{{ user }}/ shell=/bin/bash uid={{ uid }}
   when: user_exist.changed
   tags: user_creation
 
-- name: init group ${user}
+- name: init group {{ user }}
   group: name={{ user }}
   tags: user_creation
 
-- name: init /data/work/ path for ${user}
+- name: init /data/work/ path for {{ user }}
   file: path=/data/work/{{ user }} state=directory owner={{ user }} group={{ user }}
   tags: user_creation
 
-- name: init ssh key to user ${user}
+- name: init ssh key to user {{ user }}
   authorized_key: user={{ user }} key="{{ lookup('file',item) }}"
   tags: user_creation
   with_fileglob:
