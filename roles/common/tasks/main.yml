@@ -54,6 +54,12 @@
 - include: ../../../shared/account.yml user=jgcailton uid=1207
   when: "'jgcailton' in {{ group_names }}"
 
+- include: ../../../shared/account.yml user=tyndare uid=1212
+  when: "'tyndare' in {{ group_names }}"
+
+- include: ../../../shared/account.yml user=vdct uid=1217
+  when: "'vdct' in {{ group_names }}"
+
 - include: ../../../shared/account.yml user=ybon uid=1223
   when: "'ybon' in {{ group_names }}"
 
