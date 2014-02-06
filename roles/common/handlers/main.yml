@@ -1,3 +1,6 @@
+- name: restart denyhosts
+  service: name=denyhosts state=restarted
+
 - name: generate locales
   command: /usr/sbin/locale-gen
 

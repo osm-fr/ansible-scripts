@@ -89,6 +89,13 @@
     - 'sshd: 78.238.28.132'      # Jocelyn
     - 'sshd: stmaur.cquest.org'  # Christian
 
+- name: configure denyhosts.conf
+  lineinfile: dest=/etc/denyhosts.conf regexp="{{ item.regexp }}" line="{{ item.line }}"
+  notify: restart denyhosts
+  with_items:
+    - {regexp: "PURGE_DENY = $", line: "#PURGE_DENY = "}
+    - {regexp: "PURGE_DENY = 1w$", line: "PURGE_DENY = 1w"}
+
 - name: configure locales
   lineinfile: dest=/etc/locale.gen regexp="{{ item }}" line="{{ item }} "
   notify:
