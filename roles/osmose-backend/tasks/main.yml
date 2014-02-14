@@ -50,7 +50,7 @@
   sudo: yes
   sudo_user: postgres
 
-- name: psql extension hstore
+- name: psql extensions
   command: psql -d osmose -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
   register: psql_res
   changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
@@ -59,6 +59,7 @@
   with_items:
     - fuzzystrmatch
     - hstore
+    - unaccent
 
 - name: psql extension postgis
   command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
