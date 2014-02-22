@@ -1,5 +1,6 @@
 - name: bootstrap python-apt package
   raw: apt-get -y install python-apt
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 #- apt: update_cache=yes
 - name: install packages
@@ -25,6 +26,29 @@
     - sudo
     - time
     - vim-nox
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: install packages
+  yum: name={{ item }}
+  with_items:
+    - python
+
+    - atop
+    - bash-completion
+    - denyhosts
+    - etckeeper
+    - git
+    - htop
+    - lftp
+    - mc # Midnight Commander
+    - monit
+    - munin-node
+    - screen
+    - sudo
+    - time
+    - vim-enhanced
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
 
 - name: install sensors package
   apt: pkg={{ item }}
@@ -33,6 +57,7 @@
     - lm-sensors   # for sensors's munin plugin
   notify:
     - detect sensors
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: init /data/ paths
   file: path={{ item }} state=directory owner=root group=root force=no
@@ -71,6 +96,7 @@
 
 - name: add alias for ll
   lineinfile: dest=/etc/bash.bashrc regexp='alias ll="ls -l"' line='alias ll="ls -l"'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Check if user backuppc exists
   action: shell /usr/bin/getent passwd backuppc
