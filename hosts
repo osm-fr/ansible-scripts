@@ -52,7 +52,7 @@ osm108.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [osmose-frontend]
-osm7.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
+osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
 
 [osmbin]
 osm108.openstreetmap.fr
