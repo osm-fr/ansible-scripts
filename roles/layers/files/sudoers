@@ -3,8 +3,10 @@ jocelyn ALL=(layers) NOPASSWD: ALL
 sly     ALL=(layers) NOPASSWD: ALL
 
 ybon    ALL=(hot) NOPASSWD: ALL
+jocelyn ALL=(hot) NOPASSWD: ALL
 
 ybon    ALL=(riverboat) NOPASSWD: ALL
+jocelyn ALL=(riverboat) NOPASSWD: ALL
 
 
 hot ALL=NOPASSWD: /etc/init.d/renderd restart
