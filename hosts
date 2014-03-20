@@ -21,6 +21,8 @@ osm107.openstreetmap.fr
 osm108.openstreetmap.fr
 osm109.openstreetmap.fr
 osm110.openstreetmap.fr
+osm111.openstreetmap.fr
+osm112.openstreetmap.fr
 
 # services
 [backuppc-server]
@@ -80,6 +82,7 @@ osm7.openstreetmap.fr
 osm104.openstreetmap.fr
 osm106.openstreetmap.fr
 osm110.openstreetmap.fr
+osm112.openstreetmap.fr
 
 [jgcailton]
 osm104.openstreetmap.fr
