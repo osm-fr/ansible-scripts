@@ -52,12 +52,11 @@
 
 - name: install sensors package
   apt: pkg={{ item }}
-  when: "not 'vm' in {{ group_names }}"
   with_items:
     - lm-sensors   # for sensors's munin plugin
   notify:
     - detect sensors
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when:  not 'vm' in {{ group_names }} and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
 - name: init /data/ paths
   file: path={{ item }} state=directory owner=root group=root force=no
