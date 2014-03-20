@@ -38,5 +38,57 @@
   file: src="/etc/apache2/sites-available/layers.openstreetmap.fr" dest="/etc/apache2/sites-enabled/layers.openstreetmap.fr" state=link
   notify: restart apache
 
+# user hot
+
 - include: ../../../shared/project-account.yml user=hot
+
+- name: init database user hot
+  postgresql_user: name=hot password=cienohjeiCohM3h db=osm priv=ALL
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql grant access to database osm
+  postgresql_privs: db=osm privs=CONNECT type=database obj=osm role=hot
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql check schema hot
+  command: psql -t -d osm -c "SELECT EXISTS(SELECT 1 FROM pg_namespace WHERE nspname = 'hot');"
+  register: check_schema
+  changed_when: "'f' in '{{ check_schema.stdout }}'"
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql schema hot
+  command: psql -d osm -c "CREATE SCHEMA hot; ALTER USER hot SET search_path TO hot, osm2pgsql, public;"
+  when: check_schema.changed
+  sudo: yes
+  sudo_user: hot
+
+
+# user riverboat
+
 - include: ../../../shared/project-account.yml user=riverboat
+
+- name: init database user riverboat
+  postgresql_user: name=riverboat password=toto db=osm priv=ALL
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql grant access to tables of schema osmosis
+  postgresql_privs: db=osm privs=CONNECT type=database obj=osm role=riverboat
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql check schema riverboat
+  command: psql -t -d osm -c "SELECT EXISTS(SELECT 1 FROM pg_namespace WHERE nspname = 'riverboat');"
+  register: check_schema
+  changed_when: "'f' in '{{ check_schema.stdout }}'"
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql schema riverboat
+  command: psql -d osm -c "CREATE SCHEMA riverboat; ALTER USER riverboat SET search_path TO riverboat, osm2pgsql, public;"
+  when: check_schema.changed
+  sudo: yes
+  sudo_user: riverboat
