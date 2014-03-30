@@ -140,6 +140,16 @@
     - fr_FR.UTF-8 UTF-8
   when: "'{{ ansible_distribution }}' == 'Debian'"
 
+- name: configure locales
+  lineinfile: dest=/var/lib/locales/supported.d/local regexp="{{ item }}" line="{{ item }} "
+  notify:
+    - generate locales
+  with_items:
+    - en_GB.UTF-8 UTF-8
+    - en_US.UTF-8 UTF-8
+    - fr_FR.UTF-8 UTF-8
+  when: "'{{ ansible_distribution }}' == 'Ubuntu'"
+
 - include: ssh-tunnel.yml user=ssh-tunnel uid=1104
   when: "'ssh-tunnel' in {{ group_names }}"
 
