@@ -1,3 +1,7 @@
+- name: apt-get update
+  raw: apt-get update
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 - name: bootstrap python-apt package
   raw: apt-get -y install python-apt
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
