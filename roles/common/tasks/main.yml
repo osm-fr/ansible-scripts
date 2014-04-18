@@ -129,6 +129,9 @@
     - 'sshd: 127.0.0.1'
     - 'sshd: 78.238.28.132'      # Jocelyn
     - 'sshd: stmaur.cquest.org'  # Christian
+    - 'sshd: osm2.crans.org'     # backup
+    - 'sshd: osm3.crans.org'     # backup
+    - 'sshd: .openstreetmap.fr'  # other machines
 
 - name: configure denyhosts.conf
   lineinfile: dest=/etc/denyhosts.conf regexp="{{ item.regexp }}" line="{{ item.line }}"
