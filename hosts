@@ -25,6 +25,7 @@ osm109.openstreetmap.fr
 osm110.openstreetmap.fr
 osm111.openstreetmap.fr
 osm112.openstreetmap.fr
+osm120.openstreetmap.fr
 
 # services
 [backuppc-server]
@@ -37,6 +38,7 @@ osm6
 osm8.openstreetmap.fr
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
+osm120.openstreetmap.fr
 
 [layers]
 osm105.openstreetmap.fr
@@ -55,6 +57,7 @@ osm104.openstreetmap.fr
 osm106.openstreetmap.fr
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
+osm120.openstreetmap.fr
 
 [osmose-frontend]
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
