@@ -163,6 +163,8 @@
 - include: ssh-tunnel.yml user=ssh-tunnel uid=1104
   when: "'ssh-tunnel' in {{ group_names }}"
 
+- include: apache2.yml
+
 - include: munin-node.yml
 
 - include: ntp.yml

@@ -1,0 +1,53 @@
+- name: init https keys directory
+  file: path=/etc/apache2/ssl/ state=directory owner=root group=root mode=0600 force=no
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: install https keys
+  copy: src="ssl/{{ item }}" dest="//etc/apache2/ssl/{{ item }}" owner=root group=root mode=0600
+  notify: restart apache
+  with_items:
+    - wildcard.cert.pem
+    - wildcard.chain.pem
+    - wildcard.key.pem
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: configure https keys
+  lineinfile: dest=/etc/apache2/sites-available/default-ssl regexp="{{ item.regexp }}" line="{{ item.line }}" insertbefore="{{ item.before }}" validate="/usr/sbin/apache2ctl -f %s -t"
+  notify: restart apache
+  with_items:
+    - {regexp: "^[ 	]*SSLCertificateFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateFile	/etc/apache2/ssl/wildcard.cert.pem"}
+    - {regexp: "^[ 	]*SSLCertificateKeyFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateKeyFile	/etc/apache2/ssl/wildcard.key.pem"}
+    - {regexp: "^[ 	]*SSLCertificateChainFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateChainFile	/etc/apache2/ssl/wildcard.chain.pem"}
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: enable virtualhost on https
+  lineinfile: dest=/etc/apache2/ports.conf regexp="^ *NameVirtualHost \*:443" line="    NameVirtualHost *:443" insertafter="<IfModule mod_ssl.c>" validate="/usr/sbin/apache2ctl -f %s -t"
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: add apache ssl module
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - ssl.conf
+    - ssl.load
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: add apache ssl site
+  file: src="/etc/apache2/sites-available/{{ item.a }}" dest="/etc/apache2/sites-enabled/{{ item.b }}" state=link
+  notify: restart apache
+  with_items:
+    - {a: default-ssl, b: 000-default-ssl}
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: delete default-ssl link
+  file: dest="/etc/apache2/sites-enabled/default-ssl" state=absent
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
