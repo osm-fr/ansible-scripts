@@ -1,0 +1,6 @@
+- name: jenkins-slave configuration
+  hosts: jenkins-slave
+  gather_facts: no
+  sudo: yes
+  roles:
+    - jenkins-slave
