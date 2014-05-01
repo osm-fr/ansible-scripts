@@ -4,6 +4,9 @@
 - name: restart denyhosts
   service: name=denyhosts state=restarted
 
+- name: restart monit
+  service: name=monit state=restarted
+
 - name: generate locales
   command: /usr/sbin/locale-gen
 

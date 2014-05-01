@@ -50,4 +50,3 @@
   file: dest="/etc/apache2/sites-enabled/default-ssl" state=absent
   notify: restart apache
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-

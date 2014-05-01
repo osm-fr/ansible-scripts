@@ -1,0 +1,5 @@
+<Location "/monit/">
+    ProxyPass http://localhost:2812/
+
+    SSLRequireSSL
+</Location>

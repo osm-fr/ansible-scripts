@@ -1,0 +1,32 @@
+- name: configure monit webserver
+  copy: src=monit-webserver dest=/etc/monit/conf.d/webserver mode=0600 owner=root group=root force=yes
+  notify: restart monit
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: add monit modules
+  file: src="/etc/monit/monitrc.d/{{ item }}" dest="/etc/monit/conf.d/{{ item }}" state=link
+  notify: restart monit
+  with_items:
+    - cron
+    - openssh-server
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+
+- name: add apache proxy module
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - proxy.conf
+    - proxy_http.load
+    - proxy.load
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: configure monit in apache
+  copy: src="apache-monit" dest="/etc/apache2/sites-available/monit" owner=root group=root mode=0644
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: enable monit in apache
+  file: src="/etc/apache2/sites-available/monit" dest="/etc/apache2/sites-enabled/monit" state=link
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
