@@ -11,7 +11,42 @@
     - openssh-server
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+# mysql
+- name: check if mysql installed
+  command: /usr/bin/test -e /var/run/mysqld/mysqld.pid
+  ignore_errors: True
+  register: mysql_installed
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: add monit module for mysql
+  copy: src="monit-mysql" dest="/etc/monit/conf.d/mysql" owner=root group=root mode=0644
+  notify: restart monit
+  when: mysql_installed.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+# postgresql
+- name: find version of postgresql
+  shell: '/usr/bin/test -e /var/run/postgresql/{{ item }}-main.pid && echo "{{ item }}"'
+  with_items:
+    - 8.4
+    - 9.1
+    - 9.2
+    - 9.3
+  ignore_errors: True
+  register: postgresql_installed
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: set postgresql_version
+  set_fact: postgresql_version="{{ item.stdout }}"
+  when: item.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  with_items: postgresql_installed.results
+
+- name: add monit module for postgresql
+  template: src="monit-postgresql" dest="/etc/monit/conf.d/postgresql" owner=root group=root mode=0644
+  notify: restart monit
+  when: postgresql_version is defined and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+
+# apache configuration
 - name: add apache proxy module
   file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
   notify: restart apache
