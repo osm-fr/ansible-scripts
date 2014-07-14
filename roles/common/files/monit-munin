@@ -1,0 +1,5 @@
+check process munin with pidfile /var/run/munin/munin-node.pid
+  start program = "/etc/init.d/munin-node start"
+  stop program  = "/etc/init.d/munin-node stop"
+  if failed port 4949 then restart
+  if 5 restarts within 5 cycles then timeout

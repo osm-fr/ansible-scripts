@@ -11,6 +11,12 @@
     - openssh-server
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+# munin
+- name: add monit module for munin
+  copy: src="monit-munin" dest="/etc/monit/conf.d/munin" owner=root group=root mode=0644
+  notify: restart monit
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 # mysql
 - name: check if mysql installed
   command: /usr/bin/test -e /var/run/mysqld/mysqld.pid
@@ -44,6 +50,18 @@
   template: src="monit-postgresql" dest="/etc/monit/conf.d/postgresql" owner=root group=root mode=0644
   notify: restart monit
   when: postgresql_version is defined and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+# sympa
+- name: check if sympa installed
+  command: /usr/bin/test -e /var/run/sympa/sympa.pid
+  ignore_errors: True
+  register: sympa_installed
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: add monit module for sympa
+  copy: src="monit-sympa" dest="/etc/monit/conf.d/sympa" owner=root group=root mode=0644
+  notify: restart monit
+  when: sympa_installed.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
 
 # apache configuration

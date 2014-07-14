@@ -1,0 +1,30 @@
+check process sympa with pidfile /var/run/sympa/sympa.pid
+  start program = "/etc/init.d/sympa start"
+  stop program = "/etc/init.d/sympa stop"
+  depends on sympa_bulk, sympa_archived, sympa_bounced, sympa_task_manager
+  mode manual
+  group sympa
+
+check process sympa_bulk with pidfile /var/run/sympa/bulk.pid
+  start program = "/bin/true"
+  stop program = "/bin/true"
+  mode manual
+  group sympa
+
+check process sympa_archived with pidfile /var/run/sympa/archived.pid
+  start program = "/bin/true"
+  stop program = "/bin/true"
+  mode manual
+  group sympa
+
+check process sympa_bounced with pidfile /var/run/sympa/bounced.pid
+  start program = "/bin/true"
+  stop program = "/bin/true"
+  mode manual
+  group sympa
+
+check process sympa_task_manager with pidfile /var/run/sympa/task_manager.pid
+  start program = "/bin/true"
+  stop program = "/bin/true"
+  mode manual
+  group sympa
