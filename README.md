@@ -9,18 +9,11 @@ scripts are used with [ansible][http://www.ansibleworks.com/].
 Configuring ansible
 -------------------
 
-We currently need a recent version of ansible, and the easiest way is to
-install directly from sources. This is quite easy as ansible is a python-only
-binary.
+A version of ansible >= 1.4 is sufficient, and is available in Debian testing,
+or from git repository https://github.com/ansible/ansible.git
 
-    git clone https://github.com/ansible/ansible.git
-    cd ansible
-    git checkout v1.3.4
-    make deb   # to make a debian package
-    cd ..
-    sudo dpkg -i ansible_1.3.4_all.deb
 
-A few variables are needed to launch ansible easily.
+Then, a few variables are needed to launch ansible easily.
 
     source init.sh
 
