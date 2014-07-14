@@ -11,8 +11,28 @@
     - wildcard.key.pem
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: check name of default-ssl
+  command: /usr/bin/test -e /etc/apache2/sites-available/default-ssl.conf
+  ignore_errors: True
+  register: apache_default_ssl_conf
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: set apache_default_ssl to default-ssl.conf
+  set_fact: apache_default_ssl=default-ssl.conf
+  when: apache_default_ssl_conf.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+- name: set apache_default_ssl to default-ssl
+  set_fact: apache_default_ssl=default-ssl
+  when: apache_default_ssl_conf.rc != 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+
+- name: add apache ssl module
+  command: a2enmod ssl
+  notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 - name: configure https keys
-  lineinfile: dest=/etc/apache2/sites-available/default-ssl regexp="{{ item.regexp }}" line="{{ item.line }}" insertbefore="{{ item.before }}" validate="/usr/sbin/apache2ctl -f %s -t"
+  lineinfile: dest="/etc/apache2/sites-available/{{ apache_default_ssl }}" regexp="{{ item.regexp }}" line="{{ item.line }}" insertbefore="{{ item.before }}"
   notify: restart apache
   with_items:
     - {regexp: "^[ 	]*SSLCertificateFile.*",
@@ -27,26 +47,22 @@
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: enable virtualhost on https
-  lineinfile: dest=/etc/apache2/ports.conf regexp="^ *NameVirtualHost \*:443" line="    NameVirtualHost *:443" insertafter="<IfModule mod_ssl.c>" validate="/usr/sbin/apache2ctl -f %s -t"
+  lineinfile: dest=/etc/apache2/ports.conf regexp="^ *NameVirtualHost \*:443" line="    NameVirtualHost *:443" insertafter="<IfModule mod_ssl.c>"
   notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: add apache ssl module
-  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
-  notify: restart apache
-  with_items:
-    - ssl.conf
-    - ssl.load
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: add apache ssl site
   file: src="/etc/apache2/sites-available/{{ item.a }}" dest="/etc/apache2/sites-enabled/{{ item.b }}" state=link
   notify: restart apache
   with_items:
-    - {a: default-ssl, b: 000-default-ssl}
+    - {a: "{{ apache_default_ssl }}", b: "000-{{ apache_default_ssl }}" }
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: delete default-ssl link
-  file: dest="/etc/apache2/sites-enabled/default-ssl" state=absent
+  file: dest="/etc/apache2/sites-enabled/{{ apache_default_ssl }}" state=absent
   notify: restart apache
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: check apache configuration
+  command: apache2ctl configtest
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
