@@ -11,6 +11,12 @@
     - openssh-server
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+# apache
+- name: add monit module for apache
+  copy: src="monit-apache" dest="/etc/monit/conf.d/apache" owner=root group=root mode=0644
+  notify: restart monit
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 # munin
 - name: add monit module for munin
   copy: src="monit-munin" dest="/etc/monit/conf.d/munin" owner=root group=root mode=0644
