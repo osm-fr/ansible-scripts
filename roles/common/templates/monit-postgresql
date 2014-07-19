@@ -2,6 +2,8 @@ check process postgres with pidfile /var/run/postgresql/{{ postgresql_version }}
   group database
   start program = "/etc/init.d/postgresql start"
   stop  program = "/etc/init.d/postgresql stop"
-  if failed unixsocket /var/run/postgresql/.s.PGSQL.5432 protocol pgsql 
+  if failed unixsocket /var/run/postgresql/.s.PGSQL.5432 protocol pgsql
+     with timeout 10 seconds
+     for 3 times within 5 cycles
      then restart
   if 5 restarts within 5 cycles then timeout
