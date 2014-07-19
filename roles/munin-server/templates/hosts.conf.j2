@@ -1,0 +1,22 @@
+# Munin hosts.
+{% for host in groups['all'] %}
+{%   set has_vm = [] %}
+{%   for host2 in groups['all'] %}
+{%     if ("vm_host" in hostvars[host2]) and (hostvars[host2]["vm_host"] == host) %}
+{%       if has_vm.append(1) %}
+{%       endif %}
+{%     endif %}
+{%   endfor %}
+{%   if "vm_host" in hostvars[host] %}
+[{{ hostvars[host]["vm_host"] }};{{ host }}]
+{%   elif has_vm %}
+[{{ host }};]
+    node_order {{ host }}
+
+[{{ host }};{{ host }}]
+{%   else %}
+[openstreetmap.fr;{{ host }}]
+{%   endif %}
+    address {{ host }}
+
+{% endfor %}

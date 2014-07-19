@@ -14,19 +14,20 @@ osm17.openstreetmap.fr
 [vm]
 osm5
 osm6
-osm101.openstreetmap.fr
-osm102.openstreetmap.fr
-osm103.openstreetmap.fr
-osm104.openstreetmap.fr
-osm105.openstreetmap.fr
-osm106.openstreetmap.fr
-osm107.openstreetmap.fr
-osm108.openstreetmap.fr
-osm109.openstreetmap.fr
-osm110.openstreetmap.fr
-osm111.openstreetmap.fr
-osm112.openstreetmap.fr
-osm120.openstreetmap.fr
+osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+osm102.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+osm103.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+osm104.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm105.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm106.openstreetmap.fr vm_host=osm14.openstreetmap.fr
+osm107.openstreetmap.fr vm_host=osm14.openstreetmap.fr
+osm108.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm109.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+osm110.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm113.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+osm120.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 
 # services
 [backuppc-server]
@@ -43,6 +44,9 @@ osm120.openstreetmap.fr
 
 [layers]
 osm105.openstreetmap.fr
+
+[munin-server]
+osm1.openstreetmap.fr
 
 [osm2pgsql]
 osm3.openstreetmap.fr

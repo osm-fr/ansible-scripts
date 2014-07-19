@@ -1,0 +1,23 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - munin
+
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/munin"
+  notify: restart apache
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/munin" dest="/etc/apache2/sites-enabled/munin" state=link
+  notify: restart apache
+
+- name: add apache mods
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - cgi.load
+    - expires.load
+
+- name: configure munin hosts
+  template: src=hosts.conf.j2 dest=/etc/munin/munin-conf.d/hosts.conf owner=root group=root mode=644

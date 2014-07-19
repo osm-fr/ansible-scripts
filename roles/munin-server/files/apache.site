@@ -1,0 +1,48 @@
+<VirtualHost *:80 *:443>
+
+	ServerAdmin jjaubert@openstreetmap.fr
+
+	ServerName dev.munin.openstreetmap.fr
+	
+	DocumentRoot /var/cache/munin/www
+	<Directory /var/cache/munin/www>
+		Options None
+		AllowOverride None
+		Order allow,deny
+		Allow from all
+
+		<IfModule mod_expires.c>
+			ExpiresActive On
+			ExpiresDefault M310
+		</IfModule>
+	</Directory>
+
+	ScriptAlias /munin-cgi/munin-cgi-graph /usr/lib/munin/cgi/munin-cgi-graph
+	<Location /munin-cgi/munin-cgi-graph>
+		Order allow,deny
+		Allow from all
+
+		<IfModule mod_fastcgi.c>
+			SetHandler fastcgi-script
+		</IfModule>
+	</Location>
+
+	ScriptAlias /munin-cgi/munin-cgi-html /usr/lib/munin/cgi/munin-cgi-html
+	<Location /munin-cgi/munin-cgi-html>
+		Order allow,deny
+		Allow from all
+
+		<IfModule mod_fastcgi.c>
+			SetHandler fastcgi-script
+		</IfModule>
+	</Location>
+
+	ErrorLog /var/log/apache2/munin-error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/munin-access.log combined
+
+</VirtualHost>
