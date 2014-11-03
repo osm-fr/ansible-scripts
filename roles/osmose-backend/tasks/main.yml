@@ -40,7 +40,7 @@
     - "{{ lookup('env','PWD') }}/public_keys/jocelyn"
 
 - name: init database
-  postgresql_db: name=osmose encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
+  postgresql_db: name=osmose encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'
   register: createdb_osmose
   sudo: yes
   sudo_user: postgres
