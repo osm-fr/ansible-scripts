@@ -16,8 +16,8 @@
     - apache2
     - atop
     - bash-completion
-    - denyhosts
     - etckeeper
+    - fail2ban
     - git
     - htop
     - lftp
@@ -39,8 +39,8 @@
 
     - atop
     - bash-completion
-    - denyhosts
     - etckeeper
+    - fail2ban
     - git
     - htop
     - lftp
@@ -132,13 +132,6 @@
     - 'sshd: osm2.crans.org'     # backup
     - 'sshd: osm3.crans.org'     # backup
     - 'sshd: .openstreetmap.fr'  # other machines
-
-- name: configure denyhosts.conf
-  lineinfile: dest=/etc/denyhosts.conf regexp="{{ item.regexp }}" line="{{ item.line }}"
-  notify: restart denyhosts
-  with_items:
-    - {regexp: "PURGE_DENY = $", line: "#PURGE_DENY = "}
-    - {regexp: "PURGE_DENY = 1w$", line: "PURGE_DENY = 1w"}
 
 - name: configure locales
   lineinfile: dest=/etc/locale.gen regexp="{{ item }}" line="{{ item }} "
