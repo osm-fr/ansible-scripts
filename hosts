@@ -29,6 +29,7 @@ osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm113.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm120.openstreetmap.fr vm_host=osm17.openstreetmap.fr
+osm121.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 
 # services
 [backuppc-server]
