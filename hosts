@@ -44,8 +44,8 @@ osm108.openstreetmap.fr
 osm110.openstreetmap.fr
 osm120.openstreetmap.fr
 
-[layers]
-osm105.openstreetmap.fr
+[layers.openstreetmap.fr]
+osm121.openstreetmap.fr
 
 [munin-server]
 osm1.openstreetmap.fr
