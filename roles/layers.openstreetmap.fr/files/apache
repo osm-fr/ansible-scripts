@@ -1,0 +1,13 @@
+############## layers.openstreetmap.fr
+<VirtualHost *:80 *:443>
+        ServerName layers.openstreetmap.fr
+
+        DocumentRoot /data/project/layers.openstreetmap.fr/web
+        <Directory /data/project/layers.openstreetmap.fr/web>
+                AllowOverride all 
+        </Directory>
+
+        ErrorLog /var/log/apache2/layers.openstreetmap.fr-error.log   
+	CustomLog /var/log/apache2/layers.openstreetmap.fr-access.log combined
+</VirtualHost>
+

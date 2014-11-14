@@ -1,0 +1,32 @@
+- include: ../../../shared/project-account.yml user=layers.opensteetmap.fr
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - libapache2-mod-php5
+
+- name: checkout git repository
+  git: repo={{ item.repo }} dest={{ item.dir }} force=no update=no
+  sudo: yes
+  sudo_user: layers.opensteetmap.fr
+  with_items:
+    - {repo: "https://github.com/osm-fr/presentoir-carte.git", dir: "/data/project/layers.openstreetmap.fr/web"}
+
+
+- name: copy apache config
+  copy: src=apache dest=/etc/apache2/sites-available/layers.openstreetmap.fr
+  notify: restart apache
+
+- name: add apache mods
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - expires.load
+    - php5.conf
+    - php5.load
+    - rewrite.load
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/layers.openstreetmap.fr" dest="/etc/apache2/sites-enabled/layers.openstreetmap.fr" state=link
+  notify: restart apache
+

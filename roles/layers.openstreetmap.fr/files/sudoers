@@ -1,0 +1,3 @@
+sly     ALL=(layers.openstreetmap.fr) NOPASSWD: ALL
+cquest     ALL=(layers.openstreetmap.fr) NOPASSWD: ALL
+jocelyn     ALL=(layers.openstreetmap.fr) NOPASSWD: ALL
