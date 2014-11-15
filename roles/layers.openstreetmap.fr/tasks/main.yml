@@ -1,4 +1,4 @@
-- include: ../../../shared/project-account.yml user=layers.opensteetmap.fr
+- include: ../../../shared/project-account.yml user=layers.openstreetmap.fr
 - name: install packages
   apt: pkg={{ item }}
   with_items:
@@ -8,7 +8,7 @@
 - name: checkout git repository
   git: repo={{ item.repo }} dest={{ item.dir }} force=no update=no
   sudo: yes
-  sudo_user: layers.opensteetmap.fr
+  sudo_user: layers.openstreetmap.fr
   with_items:
     - {repo: "https://github.com/osm-fr/presentoir-carte.git", dir: "/data/project/layers.openstreetmap.fr/web"}
 
