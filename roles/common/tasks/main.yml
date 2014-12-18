@@ -32,6 +32,13 @@
     - vim-nox
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: remove packages
+  apt: pkg={{ item }} state=absent
+  with_items:
+    - locate
+    - mlocate
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 - name: install packages
   yum: name={{ item }}
   with_items:
