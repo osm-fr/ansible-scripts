@@ -27,10 +27,6 @@
     - results
     - tmp
 
-- name: link to results
-  file: src=/data/work/osmose/results/ dest=/var/www/osmose state=link
-        owner=osmose group=osmose
-
 - name: add sudoers to access osmose user
   copy: src=sudoers dest=/etc/sudoers.d/osmose-backend mode=0440 owner=root group=root validate='visudo -cf %s'
 
