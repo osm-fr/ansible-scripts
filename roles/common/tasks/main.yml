@@ -89,6 +89,9 @@
 - include: ../../../shared/account.yml user=fred uid=1205
   when: "'fred' in {{ group_names }}"
 
+- include: ../../../shared/account.yml user=jben uid=1206
+  when: "'jben' in {{ group_names }}"
+
 - include: ../../../shared/account.yml user=jgcailton uid=1207
   when: "'jgcailton' in {{ group_names }}"
 
