@@ -5,6 +5,7 @@
     - python-imposm-parser
     - python-lockfile
     - python-polib
+    - python-poster
     - python-psycopg2
     - python-shapely
     - postgresql-9.1
