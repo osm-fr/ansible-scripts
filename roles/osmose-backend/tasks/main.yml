@@ -92,3 +92,4 @@
   command: chdir=/data/project/osmose/backend/ git branch osmose-fr
   sudo: yes
   sudo_user: osmose
+  ignore_errors: True

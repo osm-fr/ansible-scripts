@@ -4,10 +4,13 @@
     - python-psycopg2
     - python-matplotlib
     - python-imaging
+    - python-requests
+    - python-beaker
     - librsvg2-bin
     - apache2
     - gettext
     - libapache2-mod-wsgi
+    - make
     - postgresql-9.1
     - postgresql-contrib-9.1
 
@@ -59,8 +62,8 @@
   lineinfile: dest="/data/project/osmose/frontend/tools/utils.py" regexp="^website *="
               line="website           = \"{{ osmose_frontend_site }}\""
 
-- name: make po
-  command: chdir=/data/project/osmose/frontend/po/ make 
+- name: make mo
+  command: chdir=/data/project/osmose/frontend/po/ make mo
   sudo: yes
   sudo_user: osmose
 
@@ -92,6 +95,8 @@
   with_items:
     - expires.load
     - rewrite.load
+    - wsgi.conf
+    - wsgi.load
 
 - name: enable apache site
   file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}" state=link
