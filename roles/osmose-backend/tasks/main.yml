@@ -1,3 +1,17 @@
+- name: set postgresql_version = 9.1
+  set_fact:
+    postgresql_version: 9.1
+    postgis_version: 1.5
+    postgis_suffix:
+  when: ansible_distribution_release == "wheezy"
+
+- name: set postgresql_version = 9.4
+  set_fact:
+    postgresql_version: 9.4
+    postgis_version: 2.1
+    postgis_suffix: -2.1
+  when: ansible_distribution_release == "jessie"
+
 - name: install packages
   apt: pkg={{ item }}
   with_items:
@@ -8,9 +22,9 @@
     - python-poster
     - python-psycopg2
     - python-shapely
-    - postgresql-9.1
-    - postgresql-9.1-postgis
-    - postgresql-contrib-9.1
+    - postgresql-{{ postgresql_version }}
+    - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
+    - postgresql-contrib-{{ postgresql_version }}
     - openjdk-6-jre-headless
 
 - name: ensure postgresql server is running
@@ -59,13 +73,24 @@
     - unaccent
 
 - name: psql extension postgis
+  command: psql -d osmose -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
+  register: psql_res
+  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
+  sudo: yes
+  sudo_user: postgres
+  with_items:
+    - postgis
+  when: postgresql_version == 9.4
+
+- name: psql extension postgis
   command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
   when: createdb_osmose.changed
   sudo: yes
   sudo_user: postgres
+  when: postgresql_version == 9.1
 
 - name: psql extension postgis - spatial_ref_sys
-  command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+  command: psql -d osmose -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
   when: createdb_osmose.changed
   sudo: yes
   sudo_user: postgres

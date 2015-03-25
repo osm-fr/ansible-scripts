@@ -11,8 +11,8 @@
     - gettext
     - libapache2-mod-wsgi
     - make
-    - postgresql-9.1
-    - postgresql-contrib-9.1
+    - postgresql-9.4
+    - postgresql-contrib-9.4
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
