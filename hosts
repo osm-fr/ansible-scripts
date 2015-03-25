@@ -30,6 +30,7 @@ osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm113.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm120.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 osm121.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -80,6 +81,7 @@ osm202.openstreetmap.fr
 
 [osmose-frontend]
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
+osm117.openstreetmap.fr	osmose_frontend_site=osmose.openstreetmap.fr
 
 [osmbin]
 osm108.openstreetmap.fr
