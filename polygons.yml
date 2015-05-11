@@ -1,0 +1,5 @@
+- name: polygons configuration
+  hosts: polygons
+  sudo: yes
+  roles:
+    - polygons
