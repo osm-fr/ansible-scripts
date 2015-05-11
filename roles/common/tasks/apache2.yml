@@ -1,21 +1,18 @@
 - name: init https keys directory
   file: path=/etc/apache2/ssl/ state=directory owner=root group=root mode=0600 force=no
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: install https keys
-  copy: src="ssl/{{ item }}" dest="//etc/apache2/ssl/{{ item }}" owner=root group=root mode=0600
+  copy: src="ssl/{{ item }}" dest="/etc/apache2/ssl/{{ item }}" owner=root group=root mode=0600
   notify: restart apache
   with_items:
     - wildcard.cert.pem
     - wildcard.chain.pem
     - wildcard.key.pem
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: check name of default-ssl
   command: /usr/bin/test -e /etc/apache2/sites-available/default-ssl.conf
   ignore_errors: True
   register: apache_default_ssl_conf
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: set apache_default_ssl to default-ssl.conf
   set_fact: apache_default_ssl=default-ssl.conf
