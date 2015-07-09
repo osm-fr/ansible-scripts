@@ -104,7 +104,7 @@
     - spatial_ref_sys
 
 - name: checkout git repository
-  git: repo=https://git.gitorious.org/osmose/backend.git dest=/data/project/osmose/backend/ force=no update=no
+  git: repo=https://github.com/osm-fr/osmose-backend.git dest=/data/project/osmose/backend/ force=no update=no
   sudo: yes
   sudo_user: osmose
 
