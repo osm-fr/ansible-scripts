@@ -1,7 +1,7 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
-    - openjdk-6-jre-headless
+    - openjdk-7-jre-headless
 
 - include: ../../../shared/project-account.yml user=jenkins
 

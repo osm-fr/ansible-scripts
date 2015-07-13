@@ -25,7 +25,7 @@
     - postgresql-{{ postgresql_version }}
     - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
     - postgresql-contrib-{{ postgresql_version }}
-    - openjdk-6-jre-headless
+    - openjdk-7-jre-headless
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
