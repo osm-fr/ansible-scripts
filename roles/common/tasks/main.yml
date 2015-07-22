@@ -96,6 +96,9 @@
 - include: ../../../shared/account.yml user=jgcailton uid=1207
   when: "'jgcailton' in {{ group_names }}"
 
+- include: ../../../shared/account.yml user=panieravide uid=1230
+  when: "'panieravide' in {{ group_names }}"
+
 - include: ../../../shared/account.yml user=redfox uid=1209
   when: "'redfox' in {{ group_names }}"
 
