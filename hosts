@@ -12,6 +12,7 @@ osm16.openstreetmap.fr
 osm17.openstreetmap.fr
 osm18.openstreetmap.fr
 osm20.openstreetmap.fr
+osm21.openstreetmap.fr
 
 [vm]
 osm5
@@ -36,6 +37,9 @@ osm121.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
+osm205.openstreetmap.fr vm_host=osm21.openstreetmap.fr
+osm206.openstreetmap.fr vm_host=osm21.openstreetmap.fr
+osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 
 # services
 [backuppc-server]
@@ -50,9 +54,13 @@ osm108.openstreetmap.fr
 osm110.openstreetmap.fr
 osm120.openstreetmap.fr
 osm20.openstreetmap.fr
+osm21.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
 osm202.openstreetmap.fr
+osm205.openstreetmap.fr
+osm206.openstreetmap.fr
+osm207.openstreetmap.fr
 
 [layers.openstreetmap.fr]
 osm121.openstreetmap.fr
@@ -78,6 +86,9 @@ osm120.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
 osm202.openstreetmap.fr
+osm205.openstreetmap.fr
+osm206.openstreetmap.fr
+osm207.openstreetmap.fr
 
 [osmose-frontend]
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
