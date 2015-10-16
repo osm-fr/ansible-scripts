@@ -74,6 +74,7 @@ osm1.openstreetmap.fr
 osm3.openstreetmap.fr
 osm7.openstreetmap.fr
 osm105.openstreetmap.fr
+osm110.openstreetmap.fr
 
 [osmose-backend]
 osm3.openstreetmap.fr
@@ -119,6 +120,7 @@ osm3.openstreetmap.fr
 [cgiquello]
 osm101.openstreetmap.fr
 osm102.openstreetmap.fr
+osm113.openstreetmap.fr
 
 [fred]
 osm3.openstreetmap.fr
@@ -127,8 +129,11 @@ osm16.openstreetmap.fr
 osm104.openstreetmap.fr
 osm106.openstreetmap.fr
 osm110.openstreetmap.fr
+osm111.openstreetmap.fr
 osm112.openstreetmap.fr
 osm117.openstreetmap.fr
+osm118.openstreetmap.fr
+osm120.openstreetmap.fr
 osm20.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
