@@ -1,0 +1,30 @@
+<VirtualHost *:80 *:443>
+
+        ServerAdmin jjaubert@openstreetmap.fr
+
+        ServerName rawedit.openstreetmap.fr
+
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+
+        DocumentRoot /data/project/rawedit/rawedit/
+        <Directory /data/project/rawedit/rawedit/>
+                AddDefaultCharset UTF-8
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+
+                SetHandler mod_python
+                PythonHandler rawedit
+                PythonDebug On
+
+        </Directory>
+
+        ErrorLog /var/log/apache2/rawedit-error.log
+        LogLevel warn
+        CustomLog /var/log/apache2/rawedit-access.log combined
+        ServerSignature On
+
+</VirtualHost>
+
