@@ -7,6 +7,10 @@
     - openjdk-6-jre-headless  # for osmosis
 
     # for osm2pgsql compilation
+    - libboost-dev
+    - libboost-system-dev
+    - libboost-filesystem-dev
+    - libboost-thread-dev
     - libxml2-dev
     - libgeos-dev
     - libgeos++-dev
@@ -15,8 +19,8 @@
     - libproj-dev
     - protobuf-c-compiler
     - libprotobuf-c0-dev
-    - lua5.1
-    - liblua5.1-0-dev
+    - lua5.2
+    - liblua5.2-dev
     - autoconf
     - automake
     - libtool
