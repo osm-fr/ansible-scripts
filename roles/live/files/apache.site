@@ -12,6 +12,7 @@
                 Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
                 AddHandler cgi-script .py
                 AllowOverride None
+                Require all granted
         </Directory>
 
         ErrorLog /var/log/apache2/live-error.log
