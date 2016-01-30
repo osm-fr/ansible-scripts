@@ -10,7 +10,7 @@
   copy: src=sudoers dest=/etc/sudoers.d/live mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - name: checkout git repository
-  git: repo="https://github.com/cstenac/osm-livechanges.git" dest="/data/project/live/osm-livechanges" force=no update=no
+  git: repo="https://github.com/osm-fr/osm-livechanges.git" dest="/data/project/live/osm-livechanges" force=no update=no
   sudo: yes
   sudo_user: live
 
