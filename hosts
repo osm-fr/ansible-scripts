@@ -1,6 +1,5 @@
 osm1.openstreetmap.fr
 osm2.openstreetmap.fr
-osm3.openstreetmap.fr
 osm7.openstreetmap.fr
 osm8.openstreetmap.fr
 osm11.openstreetmap.fr
@@ -50,7 +49,6 @@ osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 
 # services
 [backuppc-server]
-osm3.openstreetmap.fr
 
 [buildbot-master]
 osm124.openstreetmap.fr
@@ -70,7 +68,6 @@ osm206.openstreetmap.fr
 osm207.openstreetmap.fr
 
 [jenkins-slave]
-osm3.openstreetmap.fr
 osm5
 osm6
 osm8.openstreetmap.fr
@@ -108,13 +105,11 @@ osm12.openstreetmap.fr
 osm1.openstreetmap.fr
 
 [osm2pgsql]
-osm3.openstreetmap.fr
 osm7.openstreetmap.fr
 osm105.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [osmose-backend]
-osm3.openstreetmap.fr
 osm5
 osm6
 osm7.openstreetmap.fr
@@ -148,10 +143,9 @@ osm110.openstreetmap.fr
 osm108.openstreetmap.fr
 
 [taginfo]
-osm3.openstreetmap.fr
+osm118.openstreetmap.fr
 
 [live]
-osm3.openstreetmap.fr
 osm119.openstreetmap.fr
 
 [rawedit]
@@ -165,7 +159,6 @@ osm102.openstreetmap.fr
 osm113.openstreetmap.fr
 
 [fred]
-osm3.openstreetmap.fr
 osm7.openstreetmap.fr
 osm16.openstreetmap.fr
 osm104.openstreetmap.fr
@@ -203,7 +196,6 @@ osm101.openstreetmap.fr
 
 [ssh-tunnel]
 osm2.openstreetmap.fr
-osm3.openstreetmap.fr
 osm5
 osm6
 osm7.openstreetmap.fr
