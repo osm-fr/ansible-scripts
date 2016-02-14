@@ -23,6 +23,7 @@
     - python-psycopg2
     - python-regex
     - python-shapely
+    - python-regex
     - postgresql-{{ postgresql_version }}
     - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
     - postgresql-contrib-{{ postgresql_version }}
