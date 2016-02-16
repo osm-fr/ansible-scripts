@@ -72,6 +72,6 @@
         "cxxflags": "-I../../osmium/include/ -I../../OSM-binary/include",
         // Node location store. For really large OSM files (whole planet or large continent)
         // this should be "Mmap", otherwise "SparseTable".
-        "geodistribution": "SparseTable"
+        "geodistribution": "SparseMemArray"
     }
 }

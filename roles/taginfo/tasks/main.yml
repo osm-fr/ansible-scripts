@@ -1,17 +1,20 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
+    - build-essential
     - curl
     - libapache2-mod-passenger
     - sqlite3
+    - openjdk-6-jre-headless
 
-    - ruby1.9.1
-    - ruby1.9.1-dev
+    - ruby2.1
+    - ruby2.1-dev
     - ruby-passenger
     - ruby-sqlite3
 
     # for osmium library
     - libboost-dev
+    - libbz2-dev
     - libshp-dev
     - libgd2-xpm-dev
     - libgdal1-dev
@@ -22,12 +25,15 @@
     - protobuf-compiler
     - libosmpbf-dev
 
+
 - include: ../../../shared/project-account.yml user=taginfo
 
 - name: init /data/work/taginfo paths
   file: path={{ item }} state=directory owner=taginfo group=taginfo
   with_items:
+    - /data/work/taginfo/data
     - /data/work/taginfo/download
+    - /data/work/taginfo/osmosis
 
 - name: add sudoers to access taginfo user
   copy: src=sudoers dest=/etc/sudoers.d/taginfo mode=0440 owner=root group=root validate='visudo -cf %s'
@@ -65,7 +71,7 @@
   sudo_user: taginfo
   with_items:
     - { repo: "https://github.com/joto/taginfo.git",   path: "taginfo" }
-    - { repo: "https://github.com/joto/osmium.git",    path: "osmium" }
+    - { repo: "https://github.com/osmcode/libosmium.git",    path: "osmium" }
     - { repo: "https://github.com/scrosby/OSM-binary", path: "OSM-binary" }
 
 - name: add taginfo files
