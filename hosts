@@ -33,10 +33,12 @@ osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm113.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-osm118.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm118.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm119.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm120.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 osm121.openstreetmap.fr vm_host=osm17.openstreetmap.fr
+osm122.openstreetmap.fr vm_host=osm22.openstreetmap.fr
+osm123.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -56,6 +58,7 @@ osm8.openstreetmap.fr
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
 osm120.openstreetmap.fr
+osm123.openstreetmap.fr
 osm20.openstreetmap.fr
 osm21.openstreetmap.fr
 osm200.openstreetmap.fr
@@ -87,6 +90,7 @@ osm106.openstreetmap.fr
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
 osm120.openstreetmap.fr
+osm123.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
 osm202.openstreetmap.fr
