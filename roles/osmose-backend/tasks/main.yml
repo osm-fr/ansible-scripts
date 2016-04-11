@@ -21,6 +21,7 @@
     - python-polib
     - python-poster
     - python-psycopg2
+    - python-regex
     - python-shapely
     - postgresql-{{ postgresql_version }}
     - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
