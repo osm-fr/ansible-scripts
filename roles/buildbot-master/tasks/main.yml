@@ -1,0 +1,15 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - buildbot
+
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/buildbot.conf"
+  notify: restart apache
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/buildbot.conf" dest="/etc/apache2/sites-enabled/buildbot.conf" state=link
+  notify: restart apache
+
+# TODO: add configuration of buildbot

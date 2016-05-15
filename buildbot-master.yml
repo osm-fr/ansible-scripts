@@ -1,0 +1,5 @@
+- name: buildbot-master configuration
+  hosts: buildbot-master
+  sudo: yes
+  roles:
+    - buildbot-master

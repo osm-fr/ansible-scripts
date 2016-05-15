@@ -1,0 +1,2 @@
+- name: restart buildslave
+  service: name=buildslave state=restarted

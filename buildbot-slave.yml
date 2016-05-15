@@ -1,0 +1,5 @@
+- name: buildbot-slave configuration
+  hosts: buildbot-slave
+  sudo: yes
+  roles:
+    - buildbot-slave

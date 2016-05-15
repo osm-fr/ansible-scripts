@@ -1,0 +1,21 @@
+<VirtualHost *:80 *:443>
+
+        ServerAdmin jjaubert@openstreetmap.fr
+
+        ServerName buildbot.osmose.openstreetmap.fr
+
+        ProxyPass / http://localhost:8010/
+        ProxyPassReverse / http://localhost:8010/
+        ProxyPreserveHost On
+        ProxyTimeout 600
+
+
+        ErrorLog /var/log/apache2/buildbot-error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/munin-access.log combined
+
+</VirtualHost>
