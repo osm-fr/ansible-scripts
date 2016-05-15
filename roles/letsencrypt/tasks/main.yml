@@ -1,0 +1,124 @@
+- include: ../../../shared/project-account.yml user=letsencrypt
+
+- name: checkout acme-tiny repo
+  git: repo=https://github.com/diafygi/acme-tiny.git
+       dest=/data/project/letsencrypt/acme-tiny
+       version=7a5a2558c8d6e5ab2a59b9fec9633d9e63127971  # on 2016-03-26
+  sudo: yes
+  sudo_user: letsencrypt
+
+- name: init paths
+  file: path={{ item }} state=directory owner=root group=root force=no mode="0640"
+  with_items:
+    - /etc/ssl/letsencrypt
+
+- name: init paths
+  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no
+  with_items:
+    - /data/project/letsencrypt/challenges
+
+- name: init paths
+  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no mode="0700"
+  with_items:
+    - /data/project/letsencrypt/keys
+
+- name: generate account key
+  sudo: yes
+  sudo_user: letsencrypt
+  shell:
+    creates="/data/project/letsencrypt/keys/account.key" chdir="/data/project/letsencrypt/keys"
+    openssl genrsa 4096 > account.key
+
+- name: generate domain key
+  sudo: yes
+  sudo_user: letsencrypt
+  shell:
+    creates="/data/project/letsencrypt/keys/domain.key" chdir="/data/project/letsencrypt/keys"
+    openssl genrsa 4096 > domain.key
+
+- name: generate domain key
+  sudo: yes
+  sudo_user: letsencrypt
+  shell:
+    creates="/data/project/letsencrypt/keys/domain.csr" chdir="/data/project/letsencrypt/keys"
+    executable="/bin/bash"
+    openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName={{ letsencrypt_hosts }}")) > domain.csr
+
+- name: copy apache config
+  copy: src=apache-challenge.site dest="/etc/apache2/sites-available/letsencrypt-challenge.conf"
+  register: copy_apache_challenge
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/letsencrypt-challenge.conf" dest="/etc/apache2/sites-enabled/001-letsencrypt-challenge.conf" state=link
+
+- name: add apache mods
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  register: add_apache_mods
+  with_items:
+    - rewrite.load
+
+- name: reload apache
+  service: name=apache2 state=reloaded
+  when: copy_apache_challenge.changed and not add_apache_mods.changed
+
+- name: restart apache
+  service: name=apache2 state=restarted
+  when: add_apache_mods.changed
+
+- name: copy launch-acme-tiny.sh config
+  copy: src=launch-acme-tiny.sh dest="/data/project/letsencrypt/keys/launch-acme-tiny.sh"
+    owner=letsencrypt group=letsencrypt mode="0700"
+
+- name: launch acme-tiny
+  sudo: yes
+  sudo_user: letsencrypt
+  notify: reload apache
+  command:
+    creates="/data/project/letsencrypt/keys/signed.crt" chdir="/data/project/letsencrypt/keys"
+    ./launch-acme-tiny.sh
+
+- name: download intermediate certificate
+  notify: reload apache
+  get_url: >
+    url="https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
+    dest="/data/project/letsencrypt/keys/intermediate.pem"
+    sha256sum="e446c5e9dbef9d09ac9f7027c034602492437a05ff6c40011d7235fca639c79a"
+
+- name: fix permission for intermediate certificate
+  file: path="/data/project/letsencrypt/keys/intermediate.pem" owner=letsencrypt
+
+- name: link generated keys
+  file: src="/data/project/letsencrypt/keys/{{ item }}" dest="/etc/ssl/letsencrypt/{{ item }}" state=link
+  with_items:
+    - intermediate.pem
+    - signed.crt
+    - domain.key
+
+
+- name: check name of default-ssl
+  command: /usr/bin/test -e /etc/apache2/sites-available/default-ssl.conf
+  ignore_errors: True
+  register: apache_default_ssl_conf
+
+- name: set apache_default_ssl to default-ssl.conf
+  set_fact: apache_default_ssl=default-ssl.conf
+  when: apache_default_ssl_conf.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+- name: set apache_default_ssl to default-ssl
+  set_fact: apache_default_ssl=default-ssl
+  when: apache_default_ssl_conf.rc != 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+- name: configure https keys
+  lineinfile: dest="/etc/apache2/sites-available/{{ apache_default_ssl }}" regexp="{{ item.regexp }}" line="{{ item.line }}" insertbefore="{{ item.before }}"
+  notify: reload apache
+  with_items:
+    - {regexp: "^[ 	]*SSLCertificateFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateFile	/etc/ssl/letsencrypt/signed.crt"}
+    - {regexp: "^[ 	]*SSLCertificateKeyFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateKeyFile	/etc/ssl/letsencrypt/domain.key"}
+    - {regexp: "^[ 	]*SSLCertificateChainFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateChainFile	/etc/ssl/letsencrypt/intermediate.pem"}
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'

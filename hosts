@@ -89,6 +89,13 @@ osm207.openstreetmap.fr
 [layers.openstreetmap.fr]
 osm121.openstreetmap.fr
 
+[letsencrypt]
+# Warning: only ipv4-accessible IPs are possible
+osm101.openstreetmap.fr letsencrypt_hosts=DNS:osm101.openstreetmap.fr,DNS:docs.openstreetmap.fr,DNS:forum.openstreetmap.fr,DNS:trac.openstreetmap.fr,DNS:adherents.openstreetmap.fr,DNS:listes.openstreetmap.fr,DNS:openstreetmap.fr,DNS:www.openstreetmap.fr
+osm104.openstreetmap.fr letsencrypt_hosts=DNS:osm104.openstreetmap.fr,DNS:bano.openstreetmap.fr,DNS:cadastre.openstreetmap.fr,DNS:imagery.openstreetmap.fr,DNS:tms.cadastre.openstreetmap.fr
+osm110.openstreetmap.fr letsencrypt_hosts=DNS:osm110.openstreetmap.fr,DNS:ae.openstreetmap.fr,DNS:dev.osmose.openstreetmap.fr
+osm117.openstreetmap.fr letsencrypt_hosts=DNS:osmose.openstreetmap.fr,DNS:beta.osmose.openstreetmap.fr
+
 [munin-server]
 osm1.openstreetmap.fr
 

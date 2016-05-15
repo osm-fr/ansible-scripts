@@ -1,0 +1,7 @@
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+        SSLCertificateChainFile /etc/ssl/letsencrypt/intermediate.pem
+        SSLCertificateFile      /etc/ssl/letsencrypt/signed.crt
+        SSLCertificateKeyFile   /etc/ssl/letsencrypt/domain.key
+    </VirtualHost>
+</IfModule>

@@ -1,0 +1,5 @@
+- name: letsencrypt configuration
+  hosts: letsencrypt
+  sudo: yes
+  roles:
+    - letsencrypt

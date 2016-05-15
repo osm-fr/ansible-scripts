@@ -1,0 +1,14 @@
+Alias "/.well-known/acme-challenge/" "/data/project/letsencrypt/challenges/"
+
+<Directory "/data/project/letsencrypt/challenges/">
+    Options None
+    AllowOverride None
+    ForceType text/plain
+#    RedirectMatch 404 "^(?!/\.well-known/acme-challenge/[\w-]{43}$)"
+    Satisfy any
+    Require all granted
+</Directory>
+
+#Redirect before other rewrite rules
+RewriteCond %{REQUEST_URI} /\.well\-known/acme\-challenge/
+RewriteRule (.*) /.well-known/acme-challenge/$1 [L,QSA]
