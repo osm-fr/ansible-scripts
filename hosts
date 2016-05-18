@@ -99,6 +99,9 @@ osm110.openstreetmap.fr letsencrypt_hosts=DNS:osm110.openstreetmap.fr,DNS:ae.ope
 osm113.openstreetmap.fr letsencrypt_hosts=DNS:owncloud.openstreetmap.fr
 osm117.openstreetmap.fr letsencrypt_hosts=DNS:osmose.openstreetmap.fr,DNS:beta.osmose.openstreetmap.fr
 
+[letsencrypt-proxy]
+osm12.openstreetmap.fr
+
 [munin-server]
 osm1.openstreetmap.fr
 

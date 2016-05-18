@@ -1,0 +1,5 @@
+- name: letsencrypt-proxy configuration
+  hosts: letsencrypt-proxy
+  sudo: yes
+  roles:
+    - letsencrypt-proxy
