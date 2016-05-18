@@ -96,6 +96,7 @@ osm102.openstreetmap.fr letsencrypt_hosts=DNS:osm102.openstreetmap.fr,DNS:umap.o
 osm104.openstreetmap.fr letsencrypt_hosts=DNS:osm104.openstreetmap.fr,DNS:bano.openstreetmap.fr,DNS:cadastre.openstreetmap.fr,DNS:imagery.openstreetmap.fr,DNS:tms.cadastre.openstreetmap.fr
 osm108.openstreetmap.fr letsencrypt_hosts=DNS:download.openstreetmap.fr,DNS:polygons.openstreetmap.fr,DNS:rawedit.openstreetmap.fr
 osm110.openstreetmap.fr letsencrypt_hosts=DNS:osm110.openstreetmap.fr,DNS:ae.openstreetmap.fr,DNS:dev.osmose.openstreetmap.fr
+osm113.openstreetmap.fr letsencrypt_hosts=DNS:owncloud.openstreetmap.fr
 osm117.openstreetmap.fr letsencrypt_hosts=DNS:osmose.openstreetmap.fr,DNS:beta.osmose.openstreetmap.fr
 
 [munin-server]
