@@ -5,7 +5,7 @@
   changed_when: "user_exist.rc != 0"
 
 - name: init user ${user}
-  user: name={{ user }} home=/data/project/{{ user }}/ shell=/bin/bash generate_ssh_key={{ generate_ssh_key | default(no) }}
+  user: name={{ user }} home=/data/project/{{ user }}/ shell=/bin/bash generate_ssh_key={{ generate_ssh_key | default("no") }}
   when: user_exist.changed
 
 - name: init group ${user}
