@@ -49,6 +49,7 @@ osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 
 # services
 [backuppc-server]
+osm122.openstreetmap.fr
 
 [buildbot-master]
 osm124.openstreetmap.fr

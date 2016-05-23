@@ -16,12 +16,6 @@
               line="        SSLRequireSSL"
   notify: restart apache
 
-- name: add apache ssl site
-  file: src="/etc/apache2/sites-available/{{ item }}" dest="/etc/apache2/sites-enabled/{{ item }}" state=link
-  notify: restart apache
-  with_items:
-    - default-ssl
-
 - name: add apache mods
   file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
   notify: restart apache
@@ -30,5 +24,38 @@
     - ssl.load
 
 - name: enable apache config
-  file: src="/etc/backuppc/apache.conf" dest="/etc/apache2/conf.d/backuppc" state=link
+  file: src="/etc/backuppc/apache.conf" dest="/etc/apache2/conf-enabled/backuppc.conf" state=link
   notify: restart apache
+
+- name: generate a ssh key
+  user: name=backuppc generate_ssh_key=yes
+
+- name: fetch generated public ssh key
+  fetch: src=/home/backuppc/.ssh/id_rsa.pub dest=public_keys/backuppc-{{ inventory_hostname }} flat=yes
+
+- name: create hosts
+  lineinfile:
+    dest=/etc/backuppc/hosts
+    line="{{ item }} 0"
+  with_items: "{{ groups['all'] }}"
+  notify:
+    - restart backuppc
+
+- name: create hosts configuration
+  template:
+    dest="/etc/backuppc/{{ item }}.pl"
+    src="backuppc-linux-rsync.j2"
+    owner=backuppc
+    group=www-data
+    mode=0640
+  with_items: "{{ groups['all'] }}"
+  notify:
+    - restart backuppc
+
+- name: update ssh known_hosts
+  known_hosts: name='{{ item | basename }}'
+               key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - "{{ lookup('env','PWD') }}/public_keys/servers/*"
+  sudo: yes
+  sudo_user: backuppc

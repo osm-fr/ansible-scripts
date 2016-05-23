@@ -141,6 +141,11 @@
 - name: add authorized_keys for user backuppc
   copy: src=backuppc.authorized_keys dest=/home/backuppc/.ssh/authorized_keys mode=0600 owner=backuppc group=backuppc force=yes
 
+- name: add ssh key to user backuppc
+  authorized_key: user=backuppc key="{{ lookup('file',item) }}"
+  with_fileglob:
+    - "{{ lookup('env','PWD') }}/public_keys/backuppc-*"
+
 - name: update hosts.allow
   lineinfile: dest=/etc/hosts.allow regexp='^{{ item }}$' line='{{ item }}'
   with_items:
