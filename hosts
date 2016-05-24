@@ -40,6 +40,7 @@ osm122.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm123.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm124.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm125.openstreetmap.fr vm_host=osm22.openstreetmap.fr
+osm126.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -175,6 +176,9 @@ osm20.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
 osm202.openstreetmap.fr
+
+[hamlet]
+osm126.openstreetmap.fr
 
 [etienne]
 osm105.openstreetmap.fr
