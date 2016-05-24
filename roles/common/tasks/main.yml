@@ -69,7 +69,7 @@
     - lm-sensors   # for sensors's munin plugin
   notify:
     - detect sensors
-  when:  not 'vm' in {{ group_names }} and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  when: "{{ not 'vm' in group_names and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') }}"
 
 - name: init /data/ paths
   file: path={{ item }} state=directory owner=root group=root force=no
@@ -83,37 +83,40 @@
 - include: ../../../shared/account.yml user=sly     uid=1209
 
 - include: ../../../shared/account.yml user=cgiquello uid=1212
-  when: "'cgiquello' in {{ group_names }}"
+  when: "{{ 'cgiquello' in group_names }}"
 
 - include: ../../../shared/account.yml user=etienne uid=1213
-  when: "'etienne' in {{ group_names }}"
+  when: "{{ 'etienne' in group_names }}"
 
 - include: ../../../shared/account.yml user=fred uid=1205
-  when: "'fred' in {{ group_names }}"
+  when: "{{ 'fred' in group_names }}"
+
+- include: ../../../shared/account.yml user=hamlet uid=1305
+  when: "{{ 'hamlet' in group_names }}"
 
 - include: ../../../shared/account.yml user=jben uid=1206
-  when: "'jben' in {{ group_names }}"
+  when: "{{ 'jben' in group_names }}"
 
 - include: ../../../shared/account.yml user=jgcailton uid=1207
-  when: "'jgcailton' in {{ group_names }}"
+  when: "{{ 'jgcailton' in group_names }}"
 
 - include: ../../../shared/account.yml user=panieravide uid=1230
-  when: "'panieravide' in {{ group_names }}"
+  when: "{{ 'panieravide' in group_names }}"
 
 - include: ../../../shared/account.yml user=redfox uid=1209
-  when: "'redfox' in {{ group_names }}"
+  when: "{{ 'redfox' in group_names }}"
 
 - include: ../../../shared/account.yml user=rodolphe uid=1208
-  when: "'rodolphe' in {{ group_names }}"
+  when: "{{ 'rodolphe' in group_names }}"
 
 - include: ../../../shared/account.yml user=tyndare uid=1212
-  when: "'tyndare' in {{ group_names }}"
+  when: "{{ 'tyndare' in group_names }}"
 
 - include: ../../../shared/account.yml user=vdct uid=1217
-  when: "'vdct' in {{ group_names }}"
+  when: "{{ 'vdct' in group_names }}"
 
 - include: ../../../shared/account.yml user=ybon uid=1223
-  when: "'ybon' in {{ group_names }}"
+  when: "{{ 'ybon' in group_names }}"
 
 - name: add default sudoers
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
@@ -177,7 +180,7 @@
   when: "'{{ ansible_distribution }}' == 'Ubuntu'"
 
 - include: ssh-tunnel.yml user=ssh-tunnel uid=1104
-  when: "'ssh-tunnel' in {{ group_names }}"
+  when: "{{ 'ssh-tunnel' in group_names }}"
 
 - include: apache2.yml
 
@@ -186,4 +189,4 @@
 - include: munin-node.yml
 
 - include: ntp.yml
-  when: "not 'vm' in {{ group_names }}"
+  when: "{{ not 'vm' in group_names }}"

@@ -31,4 +31,4 @@
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_fan}
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_temp}
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_volt}
-  when: "not 'vm' in {{ group_names }}"
+  when: "{{ not 'vm' in group_names }}"
