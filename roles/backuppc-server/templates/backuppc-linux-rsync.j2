@@ -1,0 +1,23 @@
+#
+# {{ item }} backup of everything as user backuppc
+#
+$Conf{XferMethod} = 'rsync';
+
+$Conf{RsyncShareName} = [
+  '/etc',
+  '/data/project',
+  '/home',
+  '/var/backups',
+  '/var/spool',
+  '/var/www'
+];
+
+$Conf{RsyncClientCmd} = '$sshPath -q -x -l backuppc $host sudo $rsyncPath $argList+';
+
+$Conf{RsyncClientRestoreCmd} = '$sshPath -q -x -l backuppc sudo $host $rsyncPath $argList+';
+
+# VM are often not accessible with ping or netbios, so disable these commands
+$Conf{PingCmd} = '';
+$Conf{NmbLookupCmd} = '';
+$Conf{NmbLookupFindHostCmd} = '';
+
