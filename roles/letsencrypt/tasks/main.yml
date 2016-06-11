@@ -129,3 +129,11 @@
        before: "^[ 	]*SSLCertificateFile",
        line:   "	SSLCertificateChainFile	/etc/ssl/letsencrypt/intermediate.pem"}
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: configure sudoers to reload apache/nginx
+  copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt mode=0440 owner=root group=root validate='visudo -cf %s'
+
+- name: configure crontab
+  cron: name="letsencrypt" hour="{{ 4 | random }}" minute="{{ 59 | random }}" day="{{ 28 | random(start=1) }}" month="*/2" job="(cd keys && ./launch-acme-tiny.sh)"
+  sudo: yes
+  sudo_user: letsencrypt
