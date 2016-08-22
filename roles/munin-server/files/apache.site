@@ -9,7 +9,7 @@
 		Options None
 		AllowOverride None
 		Order allow,deny
-		Allow from all
+		Require all granted
 
 		<IfModule mod_expires.c>
 			ExpiresActive On
@@ -20,7 +20,7 @@
 	ScriptAlias /munin-cgi/munin-cgi-graph /usr/lib/munin/cgi/munin-cgi-graph
 	<Location /munin-cgi/munin-cgi-graph>
 		Order allow,deny
-		Allow from all
+		Require all granted
 
 		<IfModule mod_fastcgi.c>
 			SetHandler fastcgi-script
@@ -30,7 +30,7 @@
 	ScriptAlias /munin-cgi/munin-cgi-html /usr/lib/munin/cgi/munin-cgi-html
 	<Location /munin-cgi/munin-cgi-html>
 		Order allow,deny
-		Allow from all
+		Require all granted
 
 		<IfModule mod_fastcgi.c>
 			SetHandler fastcgi-script
