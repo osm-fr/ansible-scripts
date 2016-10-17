@@ -15,26 +15,27 @@ server {
 	# ipv6
 	listen			[::]:80 default_server;
 
+
 	# limitation des requêtes
 	limit_req          zone=hit_per_ip_bdortho burst=40;
 	limit_req_status   509;
 
 	access_log      /var/log/nginx/bdortho.log cache buffer=64k flush=1s;
 
-	valid_referers *.openstreetmap.org/id opensolarmap.org www.mapcontrib.xyz www.cartes.xyz ;
-	if ($http_user_agent ~ JOSM.*Java) {
-		set $valid 1;
-	}
-  if ($invalid_referer = "") {
-		set $valid 1;
-	}
-	if ($valid != 1) {
-		return 403;
-	}
-
 	rewrite ^/bdortho/(.*)/(.*)/(.*).jpg$ /kylmjz83kwrziwogye7jmq8h/wmts/?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX=$1&TILEROW=$3&TILECOL=$2&FORMAT=image%2Fjpeg break;
 
   location /kylmjz83kwrziwogye7jmq8h {
+    valid_referers *.openstreetmap.org/id opensolarmap.org www.mapcontrib.xyz www.cartes.xyz ;
+  	if ($http_user_agent ~ JOSM.*Java) {
+  		set $valid 1;
+  	}
+    if ($invalid_referer = "") {
+  		set $valid 1;
+  	}
+  	if ($valid != 1) {
+  		return 403;
+  	}
+
 		proxy_pass			http://wxs.ign.fr ;
 		proxy_set_header		Host wxs.ign.fr;
 		proxy_pass_request_headers	off;
