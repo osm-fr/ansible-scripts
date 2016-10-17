@@ -4,3 +4,10 @@
 scp {{ host }}:/data/project/letsencrypt/keys/chained.pem /data/project/letsencrypt/keys/{{ host }}.chained.pem
 scp {{ host }}:/data/project/letsencrypt/keys/domain.key /data/project/letsencrypt/keys/{{ host }}.domain.key
 {% endfor %}
+
+if [ -e /etc/init.d/apache2 ]; then
+  sudo /etc/init.d/apache2 reload
+fi
+if [ -e /etc/init.d/nginx ]; then
+  sudo /etc/init.d/nginx reload
+fi
