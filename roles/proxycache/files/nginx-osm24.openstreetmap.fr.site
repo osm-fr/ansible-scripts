@@ -1,0 +1,73 @@
+proxy_cache_path /var/cache/bdortho levels=1:2 keys_zone=bdortho:10m inactive=30d  max_size=8g;
+
+log_format cache '$remote_addr - - [$time_local] "$request" $status '
+                 '$body_bytes_sent "$http_referer" "$http_user_agent" '
+                 'rt=$request_time ut=$upstream_response_time '
+                 'cs=$upstream_cache_status';
+
+limit_req_zone  $binary_remote_addr zone=hit_per_ip_bdortho:10m rate=20r/s;
+
+server {
+	server_name proxy-ign.openstreetmap.fr;
+
+	# ipv4
+	listen			80 default_server fastopen=256;
+	# ipv6
+	listen			[::]:80 default_server;
+
+	# limitation des requêtes
+	limit_req          zone=hit_per_ip_bdortho burst=40;
+	limit_req_status   509;
+
+	access_log      /var/log/nginx/bdortho.log cache buffer=64k flush=1s;
+
+	valid_referers *.openstreetmap.org/id opensolarmap.org www.mapcontrib.xyz www.cartes.xyz ;
+	if ($http_user_agent ~ JOSM.*Java) {
+		set $valid 1;
+	}
+  if ($invalid_referer = "") {
+		set $valid 1;
+	}
+	if ($valid != 1) {
+		return 403;
+	}
+
+	rewrite ^/bdortho/(.*)/(.*)/(.*).jpg$ /kylmjz83kwrziwogye7jmq8h/wmts/?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX=$1&TILEROW=$3&TILECOL=$2&FORMAT=image%2Fjpeg break;
+
+  location /kylmjz83kwrziwogye7jmq8h {
+		proxy_pass			http://wxs.ign.fr ;
+		proxy_set_header		Host wxs.ign.fr;
+		proxy_pass_request_headers	off;
+		proxy_cache			bdortho;
+		proxy_cache_valid		any 30d;
+		proxy_cache_revalidate		off;
+		proxy_ignore_headers		Cache-Control;
+
+		add_header			X-Copyright "BD Ortho (C) IGN - usage restricted to OSM edits, no other use authorized";
+		add_header			X-Cache-Status $upstream_cache_status;
+
+		# passe le last-modified original au client
+		sub_filter_last_modified	on;
+		add_header 'Date' "";
+
+		# si upstream down, on envoie la copie qu'on a en cache
+		proxy_cache_use_stale		error timeout http_500 http_502 http_503 http_504;
+
+		# time out settings
+		proxy_connect_timeout		159s;
+		proxy_send_timeout		600;
+		proxy_read_timeout		600;
+		proxy_buffer_size		64k;
+		proxy_buffers			16 32k;
+		proxy_busy_buffers_size		64k;
+		proxy_temp_file_write_size	64k;
+  }
+
+
+  # pour letsencrypt
+  location /.well-known/acme-challenge/ {
+          alias /data/project/letsencrypt/challenges/;
+          try_files $uri =404;
+  }
+
+}

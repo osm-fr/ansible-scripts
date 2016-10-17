@@ -1,0 +1,9 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - nginx
+    - logrotate
+
+- name: copy nginx config
+  copy: src=nginx-{{ inventory_hostname }}.site dest="/etc/nginx/conf.d/nginx-{{ inventory_hostname }}.conf"
+  notify: reload nginx
