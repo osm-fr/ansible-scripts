@@ -13,6 +13,8 @@ osm18.openstreetmap.fr
 osm20.openstreetmap.fr
 osm21.openstreetmap.fr
 osm22.openstreetmap.fr
+osm23.openstreetmap.fr
+osm24.openstreetmap.fr
 
 [vm]
 osm5
@@ -101,6 +103,7 @@ osm110.openstreetmap.fr letsencrypt_hosts=DNS:osm110.openstreetmap.fr,DNS:ae.ope
 osm113.openstreetmap.fr letsencrypt_hosts=DNS:owncloud.openstreetmap.fr
 osm117.openstreetmap.fr letsencrypt_hosts=DNS:osmose.openstreetmap.fr,DNS:beta.osmose.openstreetmap.fr,DNS:osmose.openstreetmap.lu
 osm124.openstreetmap.fr letsencrypt_hosts=DNS:buildbot.osmose.openstreetmap.fr
+osm24.openstreetmap.fr letsencrypt_hosts=DNS:proxy-ign.openstreetmap.fr
 
 [letsencrypt-proxy]
 osm12.openstreetmap.fr
@@ -155,6 +158,9 @@ osm119.openstreetmap.fr
 [rawedit]
 osm108.openstreetmap.fr
 
+[proxycache]
+osm23.openstreetmap.fr
+osm24.openstreetmap.fr
 
 # user creation
 [cgiquello]
