@@ -2,13 +2,12 @@
 
 	ServerAdmin jjaubert@openstreetmap.fr
 
-	ServerName dev.munin.openstreetmap.fr
+	ServerName munin.openstreetmap.fr
+	ServerAlias dev.munin.openstreetmap.fr
 	
-	DocumentRoot /var/cache/munin/www
-	<Directory /var/cache/munin/www>
+	DocumentRoot /var/cache/munin/www/
+	<Directory /var/cache/munin/www/>
 		Options None
-		AllowOverride None
-		Order allow,deny
 		Require all granted
 
 		<IfModule mod_expires.c>
@@ -19,7 +18,6 @@
 
 	ScriptAlias /munin-cgi/munin-cgi-graph /usr/lib/munin/cgi/munin-cgi-graph
 	<Location /munin-cgi/munin-cgi-graph>
-		Order allow,deny
 		Require all granted
 
 		<IfModule mod_fastcgi.c>
@@ -29,7 +27,6 @@
 
 	ScriptAlias /munin-cgi/munin-cgi-html /usr/lib/munin/cgi/munin-cgi-html
 	<Location /munin-cgi/munin-cgi-html>
-		Order allow,deny
 		Require all granted
 
 		<IfModule mod_fastcgi.c>
