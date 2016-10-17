@@ -27,6 +27,7 @@
     - mc # Midnight Commander
     - monit
     - munin-node
+    - nano
     - screen
     - sudo
     - time
@@ -56,6 +57,7 @@
     - mc # Midnight Commander
     - monit
     - munin-node
+    - nano
     - screen
     - sudo
     - time
