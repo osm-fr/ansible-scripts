@@ -22,6 +22,13 @@
   with_items:
     - /data/project/letsencrypt/keys
 
+- name: generate dhparams
+  sudo: yes
+  sudo_user: letsencrypt
+  shell:
+    creates="/data/project/letsencrypt/keys/dhparams.pem" chdir="/data/project/letsencrypt/keys"
+    openssl dhparam -out dhparams.pem 2048
+
 - name: generate account key
   sudo: yes
   sudo_user: letsencrypt
