@@ -1,12 +1,7 @@
-osm1.openstreetmap.fr
-osm2.openstreetmap.fr
-osm7.openstreetmap.fr
-osm8.openstreetmap.fr
 osm11.openstreetmap.fr
 osm12.openstreetmap.fr
 osm13.openstreetmap.fr
 osm14.openstreetmap.fr
-osm15.openstreetmap.fr
 osm16.openstreetmap.fr
 osm17.openstreetmap.fr
 osm18.openstreetmap.fr
@@ -40,7 +35,6 @@ osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm118.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm119.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-osm120.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 osm121.openstreetmap.fr vm_host=osm17.openstreetmap.fr
 osm122.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm123.openstreetmap.fr vm_host=osm22.openstreetmap.fr
@@ -67,7 +61,6 @@ osm5
 osm6
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
-osm120.openstreetmap.fr
 osm123.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
@@ -79,10 +72,8 @@ osm207.openstreetmap.fr
 [jenkins-slave]
 osm5
 osm6
-osm8.openstreetmap.fr
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
-osm120.openstreetmap.fr
 osm123.openstreetmap.fr
 osm20.openstreetmap.fr
 osm21.openstreetmap.fr
@@ -116,19 +107,14 @@ osm12.openstreetmap.fr
 osm127.openstreetmap.fr
 
 [osm2pgsql]
-osm7.openstreetmap.fr
 osm105.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [osmose-backend]
 osm5
 osm6
-osm7.openstreetmap.fr
-osm104.openstreetmap.fr
-osm106.openstreetmap.fr
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
-osm120.openstreetmap.fr
 osm123.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
@@ -146,7 +132,6 @@ osm108.openstreetmap.fr
 osm16.openstreetmap.fr
 
 [osmosis]
-osm7.openstreetmap.fr
 osm16.openstreetmap.fr
 osm110.openstreetmap.fr
 
@@ -173,7 +158,6 @@ osm102.openstreetmap.fr
 osm113.openstreetmap.fr
 
 [fred]
-osm7.openstreetmap.fr
 osm16.openstreetmap.fr
 osm104.openstreetmap.fr
 osm106.openstreetmap.fr
@@ -182,7 +166,6 @@ osm111.openstreetmap.fr
 osm112.openstreetmap.fr
 osm117.openstreetmap.fr
 osm118.openstreetmap.fr
-osm120.openstreetmap.fr
 osm20.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
@@ -212,10 +195,8 @@ osm105.openstreetmap.fr
 osm101.openstreetmap.fr
 
 [ssh-tunnel]
-osm2.openstreetmap.fr
 osm5
 osm6
-osm7.openstreetmap.fr
 osm13.openstreetmap.fr
 osm101.openstreetmap.fr
 osm105.openstreetmap.fr
