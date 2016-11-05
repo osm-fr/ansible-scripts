@@ -1,0 +1,11 @@
+# for proxycache
+proxy:
+  -
+    logname: "taginfo"
+    websites: "taginfo.openstreetmap.fr dev.taginfo.openstreetmap.fr"
+    target: "10.1.0.118"
+  -
+    logname: "osmma"
+    websites: "tile.openstreetmap.ma dev.tile.openstreetmap.ma osmma.openstreetmap.fr"
+    target: "10.1.0.125"
+

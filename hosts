@@ -49,6 +49,12 @@ osm205.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 osm206.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 
+[cluster-ovh]
+osm26.openstreetmap.fr
+osm27.openstreetmap.fr
+osm28.openstreetmap.fr
+
+
 # services
 [backuppc-server]
 osm122.openstreetmap.fr
@@ -150,6 +156,9 @@ osm108.openstreetmap.fr
 [proxycache]
 osm23.openstreetmap.fr
 osm24.openstreetmap.fr
+osm26.openstreetmap.fr
+osm27.openstreetmap.fr
+osm28.openstreetmap.fr
 
 # user creation
 [cgiquello]
