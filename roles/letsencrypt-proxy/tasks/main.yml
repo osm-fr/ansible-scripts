@@ -35,6 +35,9 @@
   file: src="/data/project/letsencrypt/keys/{{ item }}.domain.key" dest="/etc/ssl/letsencrypt/{{ item }}.domain.key" state=link
   with_items: letsencrypt_proxy
 
+- name: add sudoers to reload nginx/apache
+  copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt-proxy mode=0440 owner=root group=root validate='visudo -cf %s'
+
 - name: launch script
   command: /data/project/letsencrypt/letsencrypt-proxy.sh
   sudo: yes
