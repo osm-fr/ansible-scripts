@@ -1,0 +1,6 @@
+- name: munin-server configuration
+  hosts: munin-server
+  gather_facts: no
+  sudo: yes
+  roles:
+    - munin-server
