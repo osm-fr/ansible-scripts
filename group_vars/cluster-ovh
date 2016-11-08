@@ -8,4 +8,8 @@ proxy:
     logname: "osmma"
     websites: "tile.openstreetmap.ma dev.tile.openstreetmap.ma osmma.openstreetmap.fr"
     target: "10.1.0.125"
+  -
+    logname: "opendata.osmose"
+    websites: "opendata.osmose.openstreetmap.fr"
+    target: "10.1.0.128"
 
