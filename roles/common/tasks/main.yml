@@ -6,6 +6,9 @@
   raw: apt-get -y install python-apt
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- set_fact: install_apache=false
+  when: install_apache is undefined
+
 #- apt: update_cache=yes
 - name: install packages
   apt: pkg={{ item }} update_cache=yes
@@ -13,7 +16,6 @@
     - python
     - python-apt
 
-    - apache2
     - atop
     - bash-completion
     - etckeeper
@@ -22,7 +24,6 @@
     - htop
     - lftp
     - libdbd-pg-perl  # for postgresql's munin plugin
-    - libwww-perl  # for apache's munin plugin
     - logrotate
     - mc # Midnight Commander
     - monit
@@ -34,6 +35,13 @@
     - vim-nox
     - wget
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: install packages for apache2
+  apt: pkg={{ item }} update_cache=yes
+  with_items:
+    - apache2
+    - libwww-perl  # for apache's munin plugin
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and install_apache
 
 - name: remove packages
   apt: pkg={{ item }} state=absent
@@ -185,6 +193,7 @@
   when: "{{ 'ssh-tunnel' in group_names }}"
 
 - include: apache2.yml
+  when: install_apache
 
 - include: monit.yml
 
