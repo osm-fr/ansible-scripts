@@ -49,7 +49,7 @@
     - hstore
 
 - name: checkout git repository
-  git: repo=https://git.gitorious.org/osmose/frontend.git dest=/data/project/osmose/frontend/ force=no update=no
+  git: repo=https://github.com/osm-fr/osmose-frontend.git dest=/data/project/osmose/frontend/ force=no update=no
   sudo: yes
   sudo_user: osmose
 
@@ -73,15 +73,15 @@
   sudo_user: osmose
 
 - name: psql init
-  command: chdir=/data/project/osmose/frontend/ psql -f tools/database/schema.sql
+  command: chdir=/data/project/osmose/frontend/ psql -d osmose_frontend -f tools/database/schema.sql
   sudo: yes
   sudo_user: osmose
 
 - name: copy apache config
-  command: creates="/etc/apache2/sites-available/{{ osmose_frontend_site }}" cp /data/project/osmose/frontend/apache-site "/etc/apache2/sites-available/{{ osmose_frontend_site }}"
+  command: creates="/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf" cp /data/project/osmose/frontend/apache-site "/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf"
 
 - name: configure apache website
-  lineinfile: dest="/etc/apache2/sites-available/{{ osmose_frontend_site }}" regexp="{{ item.regexp }}"
+  lineinfile: dest="/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf" regexp="{{ item.regexp }}"
               line="{{ item.line }}"
   notify: restart apache
   with_items:
@@ -99,7 +99,7 @@
     - wsgi.load
 
 - name: enable apache site
-  file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}" state=link
+  file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}.conf" state=link
   notify: restart apache
 
 - name: initialize daily crontab
