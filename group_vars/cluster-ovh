@@ -16,4 +16,11 @@ proxy:
     logname: "munin"
     websites: "munin.openstreetmap.fr"
     target: "10.1.0.127"
-
+  -
+    logname: "osem"
+    websites: "osem.openstreetmap.fr"
+    target: "10.1.0.129"
+  -
+    logname: "maposmatic"
+    websites: "maposmatic.openstreetmap.fr"
+    target: "10.1.0.130"

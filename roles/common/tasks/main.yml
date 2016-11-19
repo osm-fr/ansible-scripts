@@ -24,6 +24,7 @@
     - htop
     - lftp
     - libdbd-pg-perl  # for postgresql's munin plugin
+    - locales
     - logrotate
     - mc # Midnight Commander
     - monit
@@ -35,6 +36,12 @@
     - vim-nox
     - wget
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: install packages
+  apt: pkg={{ item }} update_cache=no
+  with_items:
+    - language-pack-en-base
+  when: ansible_distribution == 'Ubuntu'
 
 - name: install packages for apache2
   apt: pkg={{ item }} update_cache=yes
@@ -97,6 +104,9 @@
 
 - include: ../../../shared/account.yml user=etienne uid=1213
   when: "{{ 'etienne' in group_names }}"
+
+- include: ../../../shared/account.yml user=eloks uid=1214
+  when: "{{ 'eloks' in group_names }}"
 
 - include: ../../../shared/account.yml user=fred uid=1205
   when: "{{ 'fred' in group_names }}"
@@ -178,6 +188,15 @@
     - en_US.UTF-8 UTF-8
     - fr_FR.UTF-8 UTF-8
   when: "'{{ ansible_distribution }}' == 'Debian'"
+
+
+- name: create locales
+  copy:
+    content: ""
+    dest: /var/lib/locales/supported.d/local
+    force: no
+    owner: root
+  when: "'{{ ansible_distribution }}' == 'Ubuntu'"
 
 - name: configure locales
   lineinfile: dest=/var/lib/locales/supported.d/local regexp="{{ item }}" line="{{ item }} "

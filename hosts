@@ -43,6 +43,8 @@ osm125.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm126.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm127.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm128.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm129.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm130.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -177,6 +179,8 @@ osm111.openstreetmap.fr
 osm112.openstreetmap.fr
 osm117.openstreetmap.fr
 osm118.openstreetmap.fr
+osm26.openstreetmap.fr
+osm129.openstreetmap.fr
 osm20.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
@@ -188,6 +192,10 @@ osm126.openstreetmap.fr
 [etienne]
 osm105.openstreetmap.fr
 osm121.openstreetmap.fr
+
+[eloks]
+osm26.openstreetmap.fr
+osm130.openstreetmap.fr
 
 [jben]
 osm116.openstreetmap.fr
@@ -217,6 +225,8 @@ osm104.openstreetmap.fr
 
 [vdct]
 osm104.openstreetmap.fr
+osm26.openstreetmap.fr
+osm129.openstreetmap.fr
 
 [ybon]
 osm104.openstreetmap.fr
