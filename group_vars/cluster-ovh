@@ -24,3 +24,7 @@ proxy:
     logname: "maposmatic"
     websites: "maposmatic.openstreetmap.fr"
     target: "10.1.0.130"
+  -
+    logname: "live"
+    websites: "live.openstreetmap.fr"
+    target: "10.1.0.132"

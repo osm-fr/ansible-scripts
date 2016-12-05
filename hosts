@@ -45,6 +45,9 @@ osm127.openstreetmap.fr vm_host=osm22.openstreetmap.fr
 osm128.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm129.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm130.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+osm131.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm132.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+osm133.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -153,6 +156,7 @@ osm118.openstreetmap.fr
 
 [live]
 osm119.openstreetmap.fr
+osm132.openstreetmap.fr
 
 [rawedit]
 osm108.openstreetmap.fr
