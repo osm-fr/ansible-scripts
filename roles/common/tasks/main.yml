@@ -1,10 +1,43 @@
+- name: create VM
+  local_action:
+    module: proxmox
+    api_host: "{{ proxmox_var.host }}"
+    api_user: "ansible@pve"
+    cpus: "{{ proxmox_var.cpus }}"
+    disk: "{{ proxmox_var.disk }}"
+    hostname: "{{ inventory_hostname }}"
+    netif: "{{ proxmox_var.netif }}"
+    memory: "{{ proxmox_var.memory }}"
+    node: "{{ vm_host.split('.')[0] }}"
+    onboot: yes
+    ostemplate: "local:vztmpl/{{ proxmox_var.ostemplate }}"
+    password: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
+    state: present
+    storage: "{{ proxmox_var.storage }}"
+    swap: "{{ proxmox_var.swap }}"
+    vmid: "{{ proxmox_var.vmid }}"
+  when: proxmox_var is defined and vm_host is defined
+  sudo: no
+
+- name: start VM
+  local_action:
+    module: proxmox
+    api_host: "{{ proxmox_var.host }}"
+    api_user: "ansible@pve"
+    state: started
+    vmid: "{{ proxmox_var.vmid }}"
+  when: proxmox_var is defined and vm_host is defined
+  sudo: no
+
+
 - name: apt-get update
-  raw: apt-get update
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  raw: "[ -e /usr/bin/apt-get ] && apt-get update"
 
 - name: bootstrap python-apt package
-  raw: apt-get -y install python-apt
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  raw: "[ -e /usr/bin/apt-get ] && apt-get -y install python-apt"
+
+- name: Gathering facts
+  setup:
 
 - set_fact: install_apache=false
   when: install_apache is undefined

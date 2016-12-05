@@ -17,6 +17,11 @@ Then, a few variables are needed to launch ansible easily.
 
     source init.sh
 
+To install VM through proxmox, python promoxer module is necessary, It can be
+installed with:
+
+    sudo pip install promoxer
+
 
 Using ansible scripts
 ---------------------
