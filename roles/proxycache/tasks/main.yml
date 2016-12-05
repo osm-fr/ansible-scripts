@@ -17,12 +17,12 @@
 - name: generate nginx config
   template: src="nginx-site.j2" dest="/etc/nginx/sites-available/{{ item.logname }}"
     owner=root group=www-data
-  with_items: proxy
+  with_items: "{{ proxy }}"
   when: proxy is defined
   notify: reload nginx
 
 - name: enable nginx site
   file: src="/etc/nginx/sites-available/{{ item.logname }}" dest="/etc/nginx/sites-enabled/{{ item.logname }}" state=link
-  with_items: proxy
+  with_items: "{{ proxy }}"
   when: proxy is defined
   notify: reload nginx
