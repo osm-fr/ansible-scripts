@@ -28,3 +28,7 @@ proxy:
     logname: "live"
     websites: "live.openstreetmap.fr"
     target: "10.1.0.132"
+  -
+    logname: "wms"
+    websites: "wms.openstreetmap.fr"
+    target: "10.1.0.133"
