@@ -32,3 +32,7 @@ proxy:
     logname: "wms"
     websites: "wms.openstreetmap.fr"
     target: "10.1.0.133"
+  -
+    logname: "osm134"
+    websites: "osm134.openstreetmap.fr"
+    target: "10.1.0.134"

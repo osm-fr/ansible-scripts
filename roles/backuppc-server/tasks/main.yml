@@ -20,6 +20,11 @@
   file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
   notify: restart apache
   with_items:
+    - mime.conf
+    - mime.load
+    - socache_shmcb.load
+    - setenvif.conf
+    - setenvif.load
     - ssl.conf
     - ssl.load
 

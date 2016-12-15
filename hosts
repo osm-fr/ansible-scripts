@@ -48,6 +48,7 @@ osm130.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm131.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm132.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm133.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+osm134.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -64,6 +65,7 @@ osm28.openstreetmap.fr
 # services
 [backuppc-server]
 osm122.openstreetmap.fr
+osm134.openstreetmap.fr
 
 [buildbot-master]
 osm124.openstreetmap.fr
