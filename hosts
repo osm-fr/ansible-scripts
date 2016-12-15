@@ -55,6 +55,9 @@ osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm205.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 osm206.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
+osm208.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm209.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 
 [cluster-ovh]
 osm26.openstreetmap.fr
@@ -82,6 +85,9 @@ osm202.openstreetmap.fr
 osm205.openstreetmap.fr
 osm206.openstreetmap.fr
 osm207.openstreetmap.fr
+osm208.openstreetmap.fr
+osm209.openstreetmap.fr
+osm210.openstreetmap.fr
 
 [jenkins-slave]
 osm5
@@ -136,6 +142,9 @@ osm202.openstreetmap.fr
 osm205.openstreetmap.fr
 osm206.openstreetmap.fr
 osm207.openstreetmap.fr
+osm208.openstreetmap.fr
+osm209.openstreetmap.fr
+osm210.openstreetmap.fr
 
 [osmose-frontend]
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr

@@ -22,9 +22,9 @@
   lineinfile: dest=/etc/default/buildslave regexp="{{ item.regexp }}" line="{{ item.line }}"
   with_items:
     - {regexp: "SLAVE_ENABLED.1.=",   line: "SLAVE_ENABLED[1]=1"}
-    - {regexp: "SLAVE_NAME.1.=",      line: 'SLAVE_NAME[1]=\"buildslave #1\"'}
-    - {regexp: "SLAVE_USER.1.=",      line: 'SLAVE_USER[1]=\"buildbot\"'}
-    - {regexp: "SLAVE_BASEDIR.1.=",   line: 'SLAVE_BASEDIR[1]=\"/data/work/buildbot-slave\"'}
-    - {regexp: "SLAVE_OPTIONS.1.=",   line: 'SLAVE_OPTIONS[1]=\"\"'}
-    - {regexp: "SLAVE_PREFIXCMD.1.=", line: 'SLAVE_PREFIXCMD[1]=\"\"'}
+    - {regexp: "SLAVE_NAME.1.=",      line: 'SLAVE_NAME[1]="buildslave #1"'}
+    - {regexp: "SLAVE_USER.1.=",      line: 'SLAVE_USER[1]="buildbot"'}
+    - {regexp: "SLAVE_BASEDIR.1.=",   line: 'SLAVE_BASEDIR[1]="/data/work/buildbot-slave"'}
+    - {regexp: "SLAVE_OPTIONS.1.=",   line: 'SLAVE_OPTIONS[1]=""'}
+    - {regexp: "SLAVE_PREFIXCMD.1.=", line: 'SLAVE_PREFIXCMD[1]=""'}
   notify: restart buildslave
