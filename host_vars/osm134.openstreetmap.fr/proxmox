@@ -1,0 +1,11 @@
+proxmox_var:
+  host: osm26.openstreetmap.fr
+  cpus: 1
+  disk: 10
+  netif: {"0": "name=eth0,bridge=vmbr0,ip=10.1.0.134/24,gw=10.0.0.28"}
+  memory: 2048
+#  mounts: {"mp0": "/media/sdd1/fs/134/data,mp=/data,size=0"}  # should be added manually to config
+  ostemplate: debian-8.0-standard_8.4-1_amd64.tar.gz
+  storage: "hdd-sdd"
+  swap: 2048
+  vmid: 134
