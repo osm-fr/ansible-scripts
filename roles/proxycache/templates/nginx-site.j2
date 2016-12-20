@@ -2,6 +2,8 @@ server {
     listen       80;
     server_name  {{ item.websites }};
 
+    include /etc/nginx/global.d/*.conf;
+
     #charset koi8-r;
     access_log  "/var/log/nginx/{{ item.logname }}.access.log";
 
