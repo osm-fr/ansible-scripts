@@ -36,3 +36,7 @@ proxy:
     logname: "osm134"
     websites: "osm134.openstreetmap.fr"
     target: "10.1.0.134"
+  -
+    logname: "osm135"
+    websites: "bato.openstreetmap.fr"
+    target: "10.1.0.135"

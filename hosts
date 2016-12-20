@@ -49,6 +49,7 @@ osm131.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm132.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm133.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm134.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm135.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -220,6 +221,10 @@ osm104.openstreetmap.fr
 osm107.openstreetmap.fr
 osm26.openstreetmap.fr
 osm133.openstreetmap.fr
+
+[nlehuby]
+osm26.openstreetmap.fr
+osm135.openstreetmap.fr
 
 [panieravide]
 osm110.openstreetmap.fr
