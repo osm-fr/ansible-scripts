@@ -9,9 +9,11 @@ scripts are used with [ansible][http://www.ansibleworks.com/].
 Configuring ansible
 -------------------
 
-A version of ansible >= 1.4 is sufficient, and is available in Debian testing,
-or from git repository https://github.com/ansible/ansible.git
+A version of ansible >= 2.2 is sufficient, and is available in Debian,
+or from git repository https://github.com/ansible/ansible.git. To install all
+dependency on Debian, use:
 
+    apt-get install ansible python-jmespath
 
 Then, a few variables are needed to launch ansible easily.
 

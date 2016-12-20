@@ -43,13 +43,23 @@
     creates="/data/project/letsencrypt/keys/domain.key" chdir="/data/project/letsencrypt/keys"
     openssl genrsa 4096 > domain.key
 
-- name: generate domain key
+- name: set letsencrypt_hosts
+  set_fact:
+    letsencrypt_hosts: "{{ proxy | json_query('[*].websites') | join(' ') }}"
+  when: letsencrypt_hosts is not defined and proxy is defined
+
+- name: dump list of hosts
+  template: src="letsencrypt-hosts-list" dest="/data/project/letsencrypt/keys/hosts-list" owner=letsencrypt group=letsencrypt
+  register: hosts_list
+
+- name: generate domain csr
   sudo: yes
   sudo_user: letsencrypt
   shell:
-    creates="/data/project/letsencrypt/keys/domain.csr" chdir="/data/project/letsencrypt/keys"
+    chdir="/data/project/letsencrypt/keys"
     executable="/bin/bash"
-    openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName={{ letsencrypt_hosts }}")) > domain.csr
+    openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$(cat hosts-list)")) > domain.csr
+  when: hosts_list.changed
 
 - name: check if using apache
   command: /usr/bin/test -e /etc/apache2/
@@ -86,6 +96,16 @@
 - name: restart apache
   service: name=apache2 state=restarted
   when: using_apache.changed and add_apache_mods.changed
+
+- name: copy nginx challenge config
+  copy: src=nginx-letsencrypt-challenge.conf dest="/etc/nginx/global.d/letsencrypt-challenge.conf"
+  register: copy_nginx_challenge
+  when: using_nginx.changed
+
+- name: reload nginx
+  service: name=nginx state=reloaded
+  when: using_nginx.changed and copy_nginx_challenge.changed
+
 
 - name: copy launch-acme-tiny.sh config
   copy: src=launch-acme-tiny.sh dest="/data/project/letsencrypt/keys/launch-acme-tiny.sh"
@@ -151,8 +171,12 @@
     - {regexp: "^[ 	]*SSLCertificateChainFile.*",
        before: "^[ 	]*SSLCertificateFile",
        line:   "	SSLCertificateChainFile	/etc/ssl/letsencrypt/intermediate.pem"}
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-  when: using_apache.changed
+  when: using_apache.changed and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+- name: copy nginx ssl config
+  copy: src=nginx-letsencrypt-ssl.conf dest="/etc/nginx/global.d/letsencrypt-ssl.conf"
+  notify: reload nginx
+  when: using_nginx.changed
 
 - name: configure sudoers to reload apache/nginx
   copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt mode=0440 owner=root group=root validate='visudo -cf %s'
