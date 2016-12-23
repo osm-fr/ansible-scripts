@@ -40,3 +40,7 @@ proxy:
     logname: "bato"
     websites: "bato.openstreetmap.fr"
     target: "10.1.0.135"
+  -
+    logname: "layers"
+    websites: "layers.openstreetmap.fr"
+    target: "10.1.0.136"

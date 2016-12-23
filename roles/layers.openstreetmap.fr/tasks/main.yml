@@ -14,7 +14,7 @@
 
 
 - name: copy apache config
-  copy: src=apache dest=/etc/apache2/sites-available/layers.openstreetmap.fr
+  copy: src=apache dest=/etc/apache2/sites-available/layers.conf
   notify: restart apache
 
 - name: add apache mods
@@ -27,6 +27,6 @@
     - rewrite.load
 
 - name: enable apache site
-  file: src="/etc/apache2/sites-available/layers.openstreetmap.fr" dest="/etc/apache2/sites-enabled/layers.openstreetmap.fr" state=link
+  file: src="/etc/apache2/sites-available/layers.conf" dest="/etc/apache2/sites-enabled/layers.conf" state=link
   notify: restart apache
 

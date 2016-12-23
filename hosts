@@ -50,6 +50,7 @@ osm132.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm133.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm134.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm135.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+osm136.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -107,6 +108,7 @@ osm207.openstreetmap.fr
 
 [layers.openstreetmap.fr]
 osm121.openstreetmap.fr
+osm136.openstreetmap.fr
 
 [letsencrypt]
 # Warning: only ipv4-accessible IPs are possible

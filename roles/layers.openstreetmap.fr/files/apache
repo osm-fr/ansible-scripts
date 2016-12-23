@@ -5,6 +5,7 @@
         DocumentRoot /data/project/layers.openstreetmap.fr/web
         <Directory /data/project/layers.openstreetmap.fr/web>
                 AllowOverride all 
+                Require all granted
         </Directory>
 
         ErrorLog /var/log/apache2/layers.openstreetmap.fr-error.log   
