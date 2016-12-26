@@ -1,6 +1,7 @@
 - name: create VM
   local_action:
     module: proxmox
+    timeout: 60
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
     cpus: "{{ proxmox_var.cpus }}"
