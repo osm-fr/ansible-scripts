@@ -1,0 +1,1 @@
+DNS:{{ letsencrypt_hosts | replace (","," ") | replace(" ", ",DNS:") }}

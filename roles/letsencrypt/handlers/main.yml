@@ -5,3 +5,7 @@
 - name: reload nginx
   service: name=nginx state=reloaded
   when: using_nginx.changed
+
+- name: restart apache
+  service: name=apache2 state=restarted
+  when: using_apache.changed

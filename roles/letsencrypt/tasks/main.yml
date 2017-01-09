@@ -173,6 +173,16 @@
        line:   "	SSLCertificateChainFile	/etc/ssl/letsencrypt/intermediate.pem"}
   when: using_apache.changed and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
+- name: enable apache ssl site
+  file: src="/etc/apache2/sites-available/{{ apache_default_ssl }}" dest="/etc/apache2/sites-enabled/{{ apache_default_ssl }}" state=link
+  notify: reload apache
+  when: using_apache.changed and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
+- name: add apache ssl module
+  command: a2enmod ssl
+  notify: restart apache
+  when: using_apache.changed and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+
 - name: copy nginx ssl config
   copy: src=nginx-letsencrypt-ssl.conf dest="/etc/nginx/global.d/letsencrypt-ssl.conf"
   notify: reload nginx
