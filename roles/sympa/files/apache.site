@@ -1,0 +1,24 @@
+<VirtualHost *:80 *:443>
+    ServerName listes.openstreetmap.fr
+    ServerAlias dev.listes.openstreetmap.fr
+
+    Redirect /index.html /wws/lists
+    DocumentRoot /var/www/vh-listes
+
+    # copied from /etc/sympa/apache -- GA
+    Alias /static-sympa /data/project/sympa/static_content
+    ScriptAlias /wws /usr/lib/cgi-bin/sympa/wwsympa-wrapper.fcgi
+
+    <Directory /data/project/sympa/static_content>
+        Require all granted
+    </Directory>
+
+    # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+    LogLevel warn
+    ErrorLog /var/log/apache2/listes-error.log
+    CustomLog /var/log/apache2/listes-access.log combined
+
+    Options FollowSymlinks
+
+</VirtualHost>
+

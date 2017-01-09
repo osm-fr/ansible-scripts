@@ -1,0 +1,52 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - sympa
+    - wwsympa
+
+- name: create /data/project/sympa
+  file:
+    path: /data/project/sympa
+    state: directory
+    owner: sympa
+    group: sympa
+  notify: restart sympa
+
+- name: configure sympa
+  lineinfile:
+    dest: /etc/sympa/sympa.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: "^home	",           line: "home	/data/project/sympa"}
+    - {regexp: "^static_content_path	",   line: "static_content_path	/data/project/sympa/static_content"}
+    - {regexp: "^domain	",           line: "domain	listes.openstreetmap.fr"}
+    - {regexp: "^listmaster	",   line: "listmaster	listmaster@listes.openstreetmap.fr"}
+    - {regexp: "^wwsympa_url	",   line: "wwsympa_url	http://listes.openstreetmap.fr/wws"}
+    - {regexp: "^http_host	",   line: "http_host	http://listes.openstreetmap.fr"}
+    - {regexp: "^listmaster	",   line: "listmaster	listmaster@listes.openstreetmap.fr,liste2@letuffe.org,jocelyn.jaubert@gmail.com"}
+  notify: restart sympa
+
+- name: configure wwsympa
+  lineinfile:
+    dest: /etc/sympa/wwsympa.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: "^use_fast_cgi	",           line: "use_fast_cgi	1"}
+    - {regexp: "^arc_path	",           line: "arc_path	/data/project/sympa/wwsarchive"}
+  notify: restart sympa
+
+- name: create /var/www/vh-listes
+  file:
+    path: /var/www/vh-listes
+    state: directory
+
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/sympa.conf"
+  notify: restart apache
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/sympa.conf" dest="/etc/apache2/sites-enabled/sympa.conf" state=link
+  notify: restart apache

@@ -44,3 +44,7 @@ proxy:
     logname: "layers"
     websites: "layers.openstreetmap.fr"
     target: "10.1.0.136"
+  -
+    logname: "listes"
+    websites: "listes.openstreetmap.fr dev.listes.openstreetmap.fr"
+    target: "10.1.0.138"

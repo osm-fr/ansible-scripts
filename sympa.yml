@@ -1,0 +1,5 @@
+- name: sympa configuration
+  hosts: sympa
+  sudo: yes
+  roles:
+    - sympa
