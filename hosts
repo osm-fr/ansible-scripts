@@ -53,6 +53,7 @@ osm135.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm136.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm137.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm138.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+osm139.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -93,6 +94,8 @@ osm208.openstreetmap.fr
 osm209.openstreetmap.fr
 osm210.openstreetmap.fr
 
+[forum]
+osm139.openstreetmap.fr
 
 [layers.openstreetmap.fr]
 osm121.openstreetmap.fr
@@ -110,6 +113,7 @@ osm113.openstreetmap.fr letsencrypt_hosts=owncloud.openstreetmap.fr
 osm117.openstreetmap.fr letsencrypt_hosts=osmose.openstreetmap.fr,beta.osmose.openstreetmap.fr,osmose.openstreetmap.lu
 osm124.openstreetmap.fr letsencrypt_hosts=buildbot.osmose.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=dev.listes.openstreetmap.fr
+osm139.openstreetmap.fr letsencrypt_hosts=dev.forum.openstreetmap.fr
 osm24.openstreetmap.fr letsencrypt_hosts=proxy-ign.openstreetmap.fr
 osm26.openstreetmap.fr
 
