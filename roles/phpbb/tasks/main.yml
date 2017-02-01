@@ -1,0 +1,28 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - mysql-server
+
+- include: ../../../shared/project-account.yml user=forum
+
+
+# install phpBB3 manually in /data/project/forum/phpBB3
+- name: check if phpBB3 was installed
+  stat:
+    path: /data/project/forum/phpBB3
+  register: p
+
+- fail:
+    msg: "Please install phpBB3 by decompressing a .zip from https://www.phpbb.com/downloads/ in /data/project/forum/"
+  when: not (p.stat.isdir is defined and p.stat.isdir)
+
+
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/forum.conf"
+  notify: restart apache
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/forum.conf" dest="/etc/apache2/sites-enabled/forum.conf" state=link
+  notify: restart apache
+
