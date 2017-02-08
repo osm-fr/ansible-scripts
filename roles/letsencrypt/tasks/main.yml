@@ -13,14 +13,21 @@
     - /etc/ssl/letsencrypt
 
 - name: init paths
-  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no
+  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no follow=yes
   with_items:
     - /data/project/letsencrypt/challenges
 
+- name: check if /data/project/letsencrypt/keys already exists
+  command: /usr/bin/test -e /data/project/letsencrypt/keys
+  ignore_errors: True
+  register: keys_created
+  changed_when: "keys_created.rc != 0"
+
 - name: init paths
-  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no mode="0700"
+  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no mode="0700" follow=yes
   with_items:
     - /data/project/letsencrypt/keys
+  when: keys_created.changed
 
 - name: generate dhparams
   sudo: yes
@@ -49,6 +56,8 @@
   when: letsencrypt_hosts is not defined and proxy is defined
 
 - name: dump list of hosts
+  sudo: yes
+  sudo_user: letsencrypt
   template: src="letsencrypt-hosts-list" dest="/data/project/letsencrypt/keys/hosts-list" owner=letsencrypt group=letsencrypt
   register: hosts_list
 
@@ -59,7 +68,6 @@
     chdir="/data/project/letsencrypt/keys"
     executable="/bin/bash"
     openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$(cat hosts-list)")) > domain.csr
-  when: hosts_list.changed
 
 - name: check if using apache
   command: /usr/bin/test -e /etc/apache2/
@@ -108,6 +116,8 @@
 
 
 - name: copy launch-acme-tiny.sh config
+  sudo: yes
+  sudo_user: letsencrypt
   copy: src=launch-acme-tiny.sh dest="/data/project/letsencrypt/keys/launch-acme-tiny.sh"
     owner=letsencrypt group=letsencrypt mode="0700"
 
@@ -120,6 +130,8 @@
     ./launch-acme-tiny.sh
 
 - name: download intermediate certificate
+  sudo: yes
+  sudo_user: letsencrypt
   notify: reload apache
   get_url: >
     url="https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
@@ -127,6 +139,8 @@
     sha256sum="e446c5e9dbef9d09ac9f7027c034602492437a05ff6c40011d7235fca639c79a"
 
 - name: fix permission for intermediate certificate
+  sudo: yes
+  sudo_user: letsencrypt
   file: path="/data/project/letsencrypt/keys/intermediate.pem" owner=letsencrypt
 
 - name: generate chained.pem
