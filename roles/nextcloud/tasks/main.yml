@@ -1,0 +1,72 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - mariadb-server
+    # TODO: upgrade to php7 as soon as new debian stable is out
+    - libapache2-mod-php5
+    - php5-apcu
+    - php5-curl
+    - php5-gd
+    - php5-json
+    - php5-imagick
+    - php5-intl
+    - php5-mcrypt
+    - php5-mysql
+    - php5-tidy
+    - php-xml-parser
+#    - php5-mbstring
+#    - php5-zip
+
+- include: ../../../shared/project-account.yml user=nextcloud
+
+
+# install phpBB3 manually in /data/project/nextcloud/nextcloud/
+- name: check if nextcloud was installed
+  stat:
+    path: /data/project/nextcloud/nextcloud/
+  register: p
+
+- fail:
+    msg: "Please install nextcloud by decompressing a .tar.bz2 from https://nextcloud.com/install/ in /data/project/nextcloud/"
+  when: not (p.stat.isdir is defined and p.stat.isdir)
+
+- name: fix permissions to www-data
+  file: recurse=yes owner=www-data state=directory path={{ item }}
+  with_items:
+    - /data/project/nextcloud/nextcloud/apps/
+    - /data/project/nextcloud/nextcloud/config/
+    - /data/project/nextcloud/nextcloud/data/
+    - /data/project/nextcloud/nextcloud/themes/
+    - /data/project/nextcloud/nextcloud/updater/
+
+- name: fix permissions to www-data
+  file: owner=nextcloud group=www-data state=file path={{ item }}
+  with_items:
+    - /data/project/nextcloud/nextcloud/.htaccess
+#    - /data/project/nextcloud/nextcloud/data/.htaccess
+
+
+- name: add apache mods
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  notify: restart apache
+  with_items:
+    - dir.conf
+    - dir.load
+    - headers.load
+    - mime.conf
+    - mime.load
+    - rewrite.load
+
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/nextcloud.conf"
+  notify: restart apache
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/nextcloud.conf" dest="/etc/apache2/sites-enabled/nextcloud.conf" state=link
+  notify: restart apache
+
+- name: initialize crontab
+  cron: name="nextcloud cron" hour=* minute=*/15 job="php /data/project/nextcloud/nextcloud/cron.php"
+  sudo: yes
+  sudo_user: www-data

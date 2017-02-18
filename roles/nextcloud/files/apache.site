@@ -1,0 +1,29 @@
+<VirtualHost *:80 *:443>
+	ServerAdmin webmaster@localhost
+
+	ServerName nextcloud.openstreetmap.fr
+
+	DocumentRoot /data/project/nextcloud/nextcloud/
+	<Directory /data/project/nextcloud/nextcloud>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Require all granted
+	</Directory>
+
+	SetEnv HOME /data/project/nextcloud/nextcloud/
+	SetEnv HTTP_HOME /data/project/nextcloud/nextcloud/
+
+	<IfModule mod_dav.c>
+		Dav off
+	</IfModule>
+
+	<IfModule mod_headers.c>
+		Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains; preload"
+	</IfModule>
+
+	AccessFileName .htaccess
+
+	LogLevel warn
+	ErrorLog /var/log/apache2/nextcloud-error.log
+	CustomLog /var/log/apache2/nextcloud-access.log combined
+</VirtualHost>
