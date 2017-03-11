@@ -19,6 +19,9 @@
 
 - include: ../../../shared/project-account.yml user=osmose
 
+- name: init /data/work/osmose/results/
+  file: path=/data/work/osmose/results/ state=directory owner=osmose group=osmose
+
 - name: add sudoers to access osmose user
   copy: src=sudoers dest=/etc/sudoers.d/osmose-frontend mode=0440 owner=root group=root validate='visudo -cf %s'
 
