@@ -55,6 +55,7 @@ osm137.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm138.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm139.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm141.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm142.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -255,6 +256,7 @@ osm104.openstreetmap.fr
 osm104.openstreetmap.fr
 osm26.openstreetmap.fr
 osm129.openstreetmap.fr
+osm142.openstreetmap.fr
 
 [ybon]
 osm104.openstreetmap.fr

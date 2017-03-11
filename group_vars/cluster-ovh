@@ -40,3 +40,7 @@ proxy:
     logname: "nextcloud"
     websites: "nextcloud.openstreetmap.fr"
     target: "10.1.0.141"
+  -
+    logname: "vtile"
+    websites: "vtile.openstreetmap.fr"
+    target: "10.1.0.142"
