@@ -12,6 +12,12 @@ $Conf{RsyncShareName} = [
   '/var/www'
 ];
 
+$Conf{BackupFilesExclude} = {
+  '/etc' => [
+    '/.git'
+  ]
+};
+
 $Conf{RsyncClientCmd} = '$sshPath -q -x -l backuppc $host sudo $rsyncPath $argList+';
 
 $Conf{RsyncClientRestoreCmd} = '$sshPath -q -x -l backuppc sudo $host $rsyncPath $argList+';
