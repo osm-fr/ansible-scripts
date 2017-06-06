@@ -194,6 +194,14 @@ osm113.openstreetmap.fr
 osm26.openstreetmap.fr
 osm125.openstreetmap.fr
 
+[etienne]
+osm105.openstreetmap.fr
+osm121.openstreetmap.fr
+
+[eloks]
+osm26.openstreetmap.fr
+osm130.openstreetmap.fr
+
 [fred]
 osm16.openstreetmap.fr
 osm104.openstreetmap.fr
@@ -216,14 +224,6 @@ osm210.openstreetmap.fr
 
 [hamlet]
 osm126.openstreetmap.fr
-
-[etienne]
-osm105.openstreetmap.fr
-osm121.openstreetmap.fr
-
-[eloks]
-osm26.openstreetmap.fr
-osm130.openstreetmap.fr
 
 [jben]
 osm116.openstreetmap.fr
