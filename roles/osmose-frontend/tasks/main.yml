@@ -4,6 +4,7 @@
     - python-psycopg2
     - python-matplotlib
     - python-imaging
+    - python-polib
     - python-requests
     - python-beaker
     - librsvg2-bin
