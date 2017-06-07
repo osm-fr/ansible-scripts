@@ -1,0 +1,67 @@
+- include: ../../../shared/project-account.yml user="{{ overpass_user }}"
+
+- name: set overpass_database_dir
+  set_fact:
+    overpass_database_dir: "{{ ssd_dir|default(work_dir) }}/database"
+
+- name: set overpass_webroot_dir
+  set_fact:
+    overpass_webroot_dir: "{{ work_dir }}/www"
+
+- name: create overpass_database_dir and overpass_webroot_dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ overpass_user }}"
+    group: "{{ overpass_user }}"
+  with_items:
+    - "{{ overpass_database_dir }}"
+    - "{{ overpass_webroot_dir }}"
+
+- name: install overpass-dispatcher.service
+  template:
+    src: templates/overpass-dispatcher.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-dispatcher.service
+  systemd:
+    name: overpass-dispatcher.service
+    enabled: yes
+    daemon_reload: yes
+
+- name: install overpass-updater.service
+  template:
+    src: templates/overpass-updater.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-updater.service
+  systemd:
+    name: overpass-updater.service
+    enabled: yes
+    daemon_reload: yes
+
+- name: install overpass-areas-dispatcher.service
+  template:
+    src: templates/overpass-areas-dispatcher.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-areas-dispatcher.service
+  systemd:
+    name: overpass-areas-dispatcher.service
+    enabled: yes
+    daemon_reload: yes
+
+- name: install overpass-areas-builder.service
+  template:
+    src: templates/overpass-areas-builder.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-areas-builder.service
+  systemd:
+    name: overpass-areas-builder.service
+    enabled: yes
+    daemon_reload: yes
+
+- include: compile.yml
+- include: set_up_database.yml
+- include: web.yml

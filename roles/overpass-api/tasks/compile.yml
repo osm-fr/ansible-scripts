@@ -1,0 +1,54 @@
+- name: install packages
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - autoconf
+    - automake1.11
+    - expat
+    - git
+    - g++
+    - libtool
+    - libexpat1-dev
+    - make
+    - zlib1g-dev
+    - bzip2
+    - wget
+    - liblz4-1
+    - liblz4-dev
+
+- name: download {{ overpass_version }} release of overpass-api
+  unarchive:
+    src: "http://dev.overpass-api.de/releases/osm-3s_{{ overpass_version }}.tar.gz"
+    dest: "{{ project_dir }}"
+    remote_src: true
+  become: yes
+  become_user: "{{ overpass_user }}"
+
+- name: compile overpass-api
+  shell: |
+    ./configure --enable-lz4 CXXFLAGS="-O2" &&
+    make -j $(nproc --all)
+  args:
+    chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
+    creates: bin/dispatcher
+  become: yes
+  become_user: "{{ overpass_user }}"
+
+- name: install overpass-api executables
+  shell: make install
+  args:
+    chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
+
+- name: install overpass-api cgi-bin
+  command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/cgi-bin/ {{ overpass_webroot_dir }}/
+
+- name: install rules for areas
+  command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/rules {{ overpass_database_dir }}/
+
+- name: change delay to fetch diff
+  replace:
+    path: /usr/local/bin/fetch_osc_and_apply.sh
+    regexp: "    sleep 10 #Wait for the diff to be available"
+    replace: "    sleep 3600 #Wait for the diff to be available"
+  when:
+    - overpass_replication_interval == "day"

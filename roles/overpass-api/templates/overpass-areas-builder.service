@@ -1,0 +1,15 @@
+[Unit]
+Description=Overpass areas builder
+Requires=overpass-dispatcher.service overpass-areas-dispatcher.service
+AssertPathExists={{ overpass_database_dir }}/replicate_id
+
+[Service]
+Type=simple
+User={{ overpass_user }}
+ExecStart=/usr/local/bin/rules_loop.sh {{ overpass_database_dir }}
+Nice=19
+Restart=always
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target

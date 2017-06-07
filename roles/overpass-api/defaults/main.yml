@@ -1,0 +1,7 @@
+---
+overpass_user: overpass
+overpass_version: skip
+overpass_pbf_region: planet
+overpass_pbf_root_url: https://planet.osm.org/pbf
+overpass_replication_url: https://planet.osm.org/replication/minute
+overpass_replication_interval: minute
