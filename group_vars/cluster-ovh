@@ -44,3 +44,7 @@ proxy:
     logname: "vtile"
     websites: "vtile.openstreetmap.fr"
     target: "10.1.0.142"
+  -
+    logname: "fr.osm.social"
+    websites: "fr.osm.social"
+    target: "10.1.0.143"
