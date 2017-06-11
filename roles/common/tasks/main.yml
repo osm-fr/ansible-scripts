@@ -173,6 +173,9 @@
 - include: ../../../shared/account.yml user=rodolphe uid=1208
   when: "{{ 'rodolphe' in group_names }}"
 
+- include: ../../../shared/account.yml user=thrrp uid=1310
+  when: "{{ 'thrrp' in group_names }}"
+
 - include: ../../../shared/account.yml user=tyndare uid=1212
   when: "{{ 'tyndare' in group_names }}"
 
