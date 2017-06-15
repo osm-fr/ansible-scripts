@@ -48,3 +48,7 @@ proxy:
     logname: "fr.osm.social"
     websites: "fr.osm.social"
     target: "10.1.0.143"
+  -
+    logname: "umap"
+    websites: "dev.umap.openstreetmap.fr"
+    target: "10.1.0.144"
