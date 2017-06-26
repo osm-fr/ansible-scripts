@@ -60,6 +60,7 @@ osm143.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm144.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm145.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm146.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm147.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -269,6 +270,7 @@ osm105.openstreetmap.fr
 
 [thrrp] # Rodolphe P-P
 osm103.openstreetmap.fr
+osm147.openstreetmap.fr
 
 [tyndare]
 osm104.openstreetmap.fr
