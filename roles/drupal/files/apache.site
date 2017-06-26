@@ -1,0 +1,24 @@
+<VirtualHost *:80 *:443>
+	ServerAdmin webmaster@localhost
+
+	ServerName www.openstreetmap.fr
+	ServerAlias dev.www.openstreetmap.fr
+
+	DocumentRoot /data/project/www/website/
+	<Directory /data/project/www/website>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Require all granted
+	</Directory>
+
+	AccessFileName .htaccess
+
+	LogLevel warn
+	ErrorLog /var/log/apache2/www-error.log
+	CustomLog /var/log/apache2/www-access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+       ServerName planet.openstreetmap.fr
+       Redirect / http://openstreetmap.fr/planet
+</VirtualHost>

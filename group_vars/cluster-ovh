@@ -52,3 +52,7 @@ proxy:
     logname: "umap"
     websites: "dev.umap.openstreetmap.fr"
     target: "10.1.0.144"
+  -
+    logname: "www"
+    websites: "dev.www.openstreetmap.fr"
+    target: "10.1.0.146"
