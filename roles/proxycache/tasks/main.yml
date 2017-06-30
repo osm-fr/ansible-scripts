@@ -6,7 +6,7 @@
 
 - name: check if nginx config exists
   local_action: stat path="roles/proxycache/files/nginx-{{ inventory_hostname }}.site"
-  sudo: no
+  become: no
   register: nginx_site
 
 - name: copy nginx config

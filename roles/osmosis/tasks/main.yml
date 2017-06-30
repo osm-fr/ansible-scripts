@@ -23,20 +23,20 @@
 - name: init database
   postgresql_db: name=osm encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
   register: createdb_osm
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: init database user
   postgresql_user: name=osmosis password=xu4wY5KQK4 db=osm priv=ALL
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql extension hstore
   command: psql -d osm -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
   register: psql_res
   changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - fuzzystrmatch
     - hstore
@@ -44,19 +44,19 @@
 - name: psql extension postgis
   command: psql -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
   when: createdb_osm.changed
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql extension postgis - spatial_ref_sys
   command: psql -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
   when: createdb_osm.changed
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql access to tables
   postgresql_privs: database=osm type=table objs={{ item }} roles=osmosis privs=SELECT,INSERT,UPDATE,DELETE
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - geometry_columns
     - spatial_ref_sys
@@ -65,34 +65,34 @@
   command: psql -t -d osm -c "SELECT EXISTS(SELECT 1 FROM pg_namespace WHERE nspname = 'osmosis');"
   register: check_schema
   changed_when: "'f' in '{{ check_schema.stdout }}'"
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql schema osmosis
   command: psql -d osm -c "CREATE SCHEMA osmosis; ALTER USER osmosis SET search_path TO osmosis, public;"
   when: check_schema.changed
-  sudo: yes
-  sudo_user: osmosis
+  become: yes
+  become_user: osmosis
 
 - name: psql grant access to schema osmosis to all
   postgresql_privs: database=osm type=schema objs=osmosis roles=PUBLIC privs=USAGE
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql grant access to tables of schema osmosis
   postgresql_privs: database=osm schema=osmosis type=table objs=ALL_IN_SCHEMA roles=PUBLIC privs=SELECT
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: checkout git repository
   git: repo=https://github.com/jocelynj/osm.git dest=/data/project/osmosis/osm force=no update=no
-  sudo: yes
-  sudo_user: osmosis
+  become: yes
+  become_user: osmosis
 
 - name: download osmosis
   get_url: url=http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-0.43.1.tgz dest=/data/project/osmosis/osmosis-0.43.1.tgz sha256sum=68df488db3643499cbc3d56fd4bd8bcabb9d67e821f9ba365b7e2eed6bda426a
-  sudo: yes
-  sudo_user: osmosis
+  become: yes
+  become_user: osmosis
 
 - include: ../../../shared/osmosis.yml user=osmosis version=0.43.1
 

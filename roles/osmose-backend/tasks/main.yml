@@ -55,20 +55,20 @@
 - name: init database
   postgresql_db: name=osmose encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'
   register: createdb_osmose
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: init database user
   postgresql_user: name=osmose password=-osmose- db=osmose priv=ALL
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql extensions
   command: psql -d osmose -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
   register: psql_res
   changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - fuzzystrmatch
     - hstore
@@ -78,8 +78,8 @@
   command: psql -d osmose -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
   register: psql_res
   changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - postgis
   when: postgresql_version == 9.4
@@ -87,36 +87,36 @@
 - name: psql extension postgis
   command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
   when: createdb_osmose.changed
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   when: postgresql_version == 9.1
 
 - name: psql extension postgis - spatial_ref_sys
   command: psql -d osmose -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
   when: createdb_osmose.changed
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql access to tables
   postgresql_privs: database=osmose type=table objs={{ item }} roles=osmose privs=SELECT,INSERT,UPDATE,DELETE
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - geometry_columns
     - spatial_ref_sys
 
 - name: checkout git repository
   git: repo=https://github.com/osm-fr/osmose-backend.git dest=/data/project/osmose/backend/ force=no update=no
-  sudo: yes
-  sudo_user: osmose
+  become: yes
+  become_user: osmose
 
 - name: git config receive.denyCurrentBranch refuse
   command: chdir=/data/project/osmose/backend/ git config receive.denyCurrentBranch ignore
-  sudo: yes
-  sudo_user: osmose
+  become: yes
+  become_user: osmose
 
 - name: create branch osmose-fr
   command: chdir=/data/project/osmose/backend/ git branch osmose-fr
-  sudo: yes
-  sudo_user: osmose
+  become: yes
+  become_user: osmose
   ignore_errors: True

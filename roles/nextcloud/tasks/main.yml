@@ -68,5 +68,5 @@
 
 - name: initialize crontab
   cron: name="nextcloud cron" hour=* minute=*/15 job="php /data/project/nextcloud/nextcloud/cron.php"
-  sudo: yes
-  sudo_user: www-data
+  become: yes
+  become_user: www-data

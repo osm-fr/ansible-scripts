@@ -4,8 +4,8 @@
   git: repo=https://github.com/diafygi/acme-tiny.git
        dest=/data/project/letsencrypt/acme-tiny
        version=daba51d37efd7c1f205f9da383b9b09968e30d29  # on 2016-10-17
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
 
 - name: init paths
   file: path={{ item }} state=directory owner=root group=root force=no mode="0640"
@@ -30,22 +30,22 @@
   when: keys_created.changed
 
 - name: generate dhparams
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   shell:
     creates="/data/project/letsencrypt/keys/dhparams.pem" chdir="/data/project/letsencrypt/keys"
     openssl dhparam -out dhparams.pem 2048
 
 - name: generate account key
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   shell:
     creates="/data/project/letsencrypt/keys/account.key" chdir="/data/project/letsencrypt/keys"
     openssl genrsa 4096 > account.key
 
 - name: generate domain key
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   shell:
     creates="/data/project/letsencrypt/keys/domain.key" chdir="/data/project/letsencrypt/keys"
     openssl genrsa 4096 > domain.key
@@ -56,14 +56,14 @@
   when: letsencrypt_hosts is not defined and proxy is defined
 
 - name: dump list of hosts
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   template: src="letsencrypt-hosts-list" dest="/data/project/letsencrypt/keys/hosts-list" owner=letsencrypt group=letsencrypt
   register: hosts_list
 
 - name: generate domain csr
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   shell:
     chdir="/data/project/letsencrypt/keys"
     executable="/bin/bash"
@@ -116,22 +116,22 @@
 
 
 - name: copy launch-acme-tiny.sh config
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   copy: src=launch-acme-tiny.sh dest="/data/project/letsencrypt/keys/launch-acme-tiny.sh"
     owner=letsencrypt group=letsencrypt mode="0700"
 
 - name: launch acme-tiny
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   notify: reload apache
   command:
     creates="/data/project/letsencrypt/keys/signed.crt" chdir="/data/project/letsencrypt/keys"
     ./launch-acme-tiny.sh
 
 - name: download intermediate certificate
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   notify: reload apache
   get_url: >
     url="https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
@@ -139,13 +139,13 @@
     sha256sum="e446c5e9dbef9d09ac9f7027c034602492437a05ff6c40011d7235fca639c79a"
 
 - name: fix permission for intermediate certificate
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   file: path="/data/project/letsencrypt/keys/intermediate.pem" owner=letsencrypt
 
 - name: generate chained.pem
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   shell: chdir="/data/project/letsencrypt/keys"
     cat signed.crt intermediate.pem > chained.pem
 
@@ -207,5 +207,5 @@
 
 - name: configure crontab
   cron: name="letsencrypt" hour="{{ 4 | random }}" minute="{{ 59 | random }}" day="{{ 28 | random(start=1) }}" month="*/2" job="(cd keys && ./launch-acme-tiny.sh)"
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt

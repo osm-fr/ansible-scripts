@@ -23,8 +23,8 @@
 
 - name: launch script
   command: /data/project/letsencrypt/letsencrypt-proxy.sh
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   notify: reload nginx
 
 - name: link chained.pem
@@ -40,11 +40,11 @@
 
 - name: launch script
   command: /data/project/letsencrypt/letsencrypt-proxy.sh
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt
   notify: reload nginx
 
 - name: configure crontab
   cron: name="letsencrypt" hour="{{ 4 | random }}" minute="{{ 59 | random }}" day="*/7" job="/data/project/letsencrypt/letsencrypt-proxy.sh"
-  sudo: yes
-  sudo_user: letsencrypt
+  become: yes
+  become_user: letsencrypt

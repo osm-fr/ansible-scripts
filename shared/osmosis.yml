@@ -1,9 +1,9 @@
 - name: download osmosis
   file: path="/data/project/{{ user }}/osmosis-{{ version }}" state=directory
-  sudo: yes
-  sudo_user: "{{ user }}"
+  become: yes
+  become_user: "{{ user }}"
 
 - name: decompress osmosis
   command: creates="/data/project/{{ user }}/osmosis-{{ version }}/bin/osmosis" tar -xf "/data/project/{{ user }}/osmosis-{{ version }}.tgz" -C "/data/project/{{ user }}/osmosis-{{ version }}"
-  sudo: yes
-  sudo_user: "{{ user }}"
+  become: yes
+  become_user: "{{ user }}"

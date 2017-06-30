@@ -1,6 +1,6 @@
 - name: osm2pgsql configuration
   hosts: osm2pgsql
   gather_facts: no
-  sudo: yes
+  become: yes
   roles:
     - osm2pgsql

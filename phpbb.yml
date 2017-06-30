@@ -1,5 +1,5 @@
 - name: phpbb configuration
   hosts: phpbb
-  sudo: yes
+  become: yes
   roles:
     - phpbb

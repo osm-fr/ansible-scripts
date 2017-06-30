@@ -1,5 +1,5 @@
 - name: proxycache configuration
   hosts: proxycache
-  sudo: yes
+  become: yes
   roles:
     - proxycache

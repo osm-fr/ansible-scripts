@@ -12,18 +12,18 @@
 
 - name: checkout git repository
   git: repo="https://github.com/osm-fr/osm-livechanges.git" dest="/data/project/live/osm-livechanges" force=no update=no
-  sudo: yes
-  sudo_user: live
+  become: yes
+  become_user: live
 
 - name: init sqlite database
   shell: creates="/data/work/live/changesets.db" chdir="/data/project/live/osm-livechanges/backend" echo ".exit" | sqlite3 -init schema /data/work/live/changesets.db
-  sudo: yes
-  sudo_user: live
+  become: yes
+  become_user: live
 
 - name: add link to sqlite database
   file: src="/data/work/live/changesets.db" dest="/data/project/live/osm-livechanges/backend/changesets.db" state=link
-  sudo: yes
-  sudo_user: live
+  become: yes
+  become_user: live
  
 - name: copy apache config
   copy: src=apache.site dest="/etc/apache2/sites-available/live.conf"
@@ -42,5 +42,5 @@
 
 - name: initialize minute crontab
   cron: name="update live" job="(cd /data/project/live/osm-livechanges/backend && ./cron-dl.sh) > /dev/null"
-  sudo: yes
-  sudo_user: live
+  become: yes
+  become_user: live

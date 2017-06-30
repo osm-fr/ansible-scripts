@@ -20,8 +20,8 @@
 
 - name: get slave.jar
   get_url: url=http://jenkins.osmose.openstreetmap.fr/jnlpJars/slave.jar dest=/data/project/jenkins/slave.jar
-  sudo: yes
-  sudo_user: jenkins
+  become: yes
+  become_user: jenkins
 
 - name: get run.sh
   copy: src=run.sh dest=/data/project/jenkins/run.sh mode=0760 owner=jenkins group=jenkins

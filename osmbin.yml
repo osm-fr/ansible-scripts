@@ -1,6 +1,6 @@
 - name: osmbin configuration
   hosts: osmbin
   gather_facts: no
-  sudo: yes
+  become: yes
   roles:
     - osmbin

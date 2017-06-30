@@ -1,5 +1,5 @@
 - name: osmose-backend configuration
   hosts: osmose-backend
-  sudo: yes
+  become: yes
   roles:
     - osmose-backend

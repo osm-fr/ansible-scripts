@@ -1,5 +1,5 @@
 - name: backuppc-server configuration
   hosts: backuppc-server
-  sudo: yes
+  become: yes
   roles:
     - backuppc-server
