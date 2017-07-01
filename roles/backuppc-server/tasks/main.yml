@@ -63,5 +63,5 @@
                key="{{ lookup('file', item) }}"
   with_fileglob:
     - "{{ lookup('env','PWD') }}/public_keys/servers/*"
-  sudo: yes
-  sudo_user: backuppc
+  become: yes
+  become_user: backuppc

@@ -1,6 +1,6 @@
 - name: layers.openstreetmap.fr OL website configuration
   hosts: layers.openstreetmap.fr
   gather_facts: no
-  sudo: yes
+  become: yes
   roles:
     - layers.openstreetmap.fr

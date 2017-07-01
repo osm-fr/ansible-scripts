@@ -18,7 +18,7 @@
     swap: "{{ proxmox_var.swap }}"
     vmid: "{{ proxmox_var.vmid }}"
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
-  sudo: no
+  become: no
 
 - name: start VM
   local_action:
@@ -28,7 +28,7 @@
     state: started
     vmid: "{{ proxmox_var.vmid }}"
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
-  sudo: no
+  become: no
 
 
 - name: apt-get update

@@ -7,8 +7,8 @@
 
 - name: checkout git repository
   git: repo={{ item.repo }} dest={{ item.dir }} force=no update=no
-  sudo: yes
-  sudo_user: layers.openstreetmap.fr
+  become: yes
+  become_user: layers.openstreetmap.fr
   with_items:
     - {repo: "https://github.com/osm-fr/presentoir-carte.git", dir: "/data/project/layers.openstreetmap.fr/web"}
 

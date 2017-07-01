@@ -1,6 +1,6 @@
 - name: default configuration
   hosts: all
   gather_facts: no
-  sudo: yes
+  become: yes
   roles:
     - common

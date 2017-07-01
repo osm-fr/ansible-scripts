@@ -29,25 +29,25 @@
 - name: init database
   postgresql_db: name=rawedit encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'
   register: createdb_rawedit
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: init database user
   postgresql_user: name=rawedit password=rawedit00 db=rawedit priv=ALL
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: checkout git repository
   git: repo={{ item.repo }} dest={{ item.dir }} force=no update=no
-  sudo: yes
-  sudo_user: rawedit
+  become: yes
+  become_user: rawedit
   with_items:
     - {repo: "https://github.com/osm-fr/rawedit.git", dir: "/data/project/rawedit/rawedit"}
 
 - name: psql init
   command: psql -d rawedit -f /data/project/rawedit/rawedit/schema.sql
-  sudo: yes
-  sudo_user: rawedit
+  become: yes
+  become_user: rawedit
 
 - name: copy apache config
   copy: src=apache.site dest=/etc/apache2/sites-available/rawedit.conf

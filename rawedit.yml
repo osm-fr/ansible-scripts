@@ -1,5 +1,5 @@
 - name: rawedit configuration
   hosts: rawedit
-  sudo: yes
+  become: yes
   roles:
     - rawedit

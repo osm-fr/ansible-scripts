@@ -31,20 +31,20 @@
 - name: init database
   postgresql_db: name=polygons encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'
   register: createdb_polygons
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: init database user
   postgresql_user: name=polygons password=-polygons- db=polygons priv=ALL
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql extensions
   command: psql -d polygons -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
   register: psql_res
   changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - hstore
 
@@ -52,8 +52,8 @@
   command: psql -d polygons -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
   register: psql_res
   changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - postgis
   when: postgresql_version == 9.4
@@ -61,33 +61,33 @@
 - name: psql extension postgis
   command: psql -d polygons -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
   when: createdb_polygons.changed
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   when: postgresql_version == 9.1
 
 - name: psql extension postgis - spatial_ref_sys
   command: psql -d polygons -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
   when: createdb_polygons.changed
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: psql access to tables
   postgresql_privs: database=polygons type=table objs={{ item }} roles=polygons privs=SELECT,INSERT,UPDATE,DELETE
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   with_items:
     - geometry_columns
     - spatial_ref_sys
 
 - name: checkout git repository
   git: repo=https://github.com/jocelynj/osm-polygons-generation.git dest=/data/project/polygons/polygons-generation force=no update=no
-  sudo: yes
-  sudo_user: polygons
+  become: yes
+  become_user: polygons
 
 - name: psql init
   command: psql -d polygons -f /data/project/polygons/polygons-generation/init.sql
-  sudo: yes
-  sudo_user: polygons
+  become: yes
+  become_user: polygons
 
 - name: copy apache config
   copy: src=apache.site dest="/etc/apache2/sites-available/polygons.conf"
@@ -99,7 +99,7 @@
 
 - name: link state file
   file: src="diffs/planet/minute/state.txt" dest="/data/work/osmbin/replication/state.txt" state=link
-  sudo: yes
-  sudo_user: osmbin
+  become: yes
+  become_user: osmbin
 
 

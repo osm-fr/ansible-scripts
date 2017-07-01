@@ -40,8 +40,8 @@
 
 - name: install gems
   gem: user_install=yes name="{{ item }}" state=present
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
   with_items:
     - rack
     - rack-contrib
@@ -67,8 +67,8 @@
 
 - name: checkout git repository
   git: repo="{{ item.repo }}" dest="/data/project/taginfo/{{ item.path }}" force=no update=no
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
   with_items:
     - { repo: "https://github.com/joto/taginfo.git",   path: "taginfo" }
     - { repo: "https://github.com/osmcode/libosmium.git",    path: "osmium" }
@@ -76,8 +76,8 @@
 
 - name: add taginfo files
   copy: src="{{ item }}" dest="/data/project/taginfo/{{ item }}"
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
   with_items:
     - taginfo-config.json
     - 10_download.sh
@@ -87,45 +87,45 @@
 
 - name: add taginfo france.png file
   copy: src="france.png" dest="/data/project/taginfo/taginfo/web/public/img/france.png"
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
  
 - name: compile OSM-binary
   command: chdir=/data/project/taginfo/OSM-binary/src make
   register: make
   changed_when: "not 'make: Nothing to be done for ' in \"\"\"{{ make.stdout }}\"\"\""
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
 
 - name: compile tagstats
   command: chdir=/data/project/taginfo/taginfo/tagstats make
   register: make
   changed_when: "not 'make: Nothing to be done for ' in \"\"\"{{ make.stdout }}\"\"\""
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
 
 - name: copy compiled tagstats
   command: cp /data/project/taginfo/taginfo/tagstats/tagstats /data/project/taginfo/taginfo/sources/db/tagstats
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
 
 - name: add links to /data/work/taginfo
   file: src="/data/work/taginfo/{{ item }}" dest="/data/project/taginfo/{{ item }}" state=link
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
   with_items:
     - data
     - download
 
 - name: initialize daily crontab
   cron: name="update taginfo" hour=0 minute=5 job="(./10_download.sh && ./20_update.sh && ./30_restart_webserver.sh)"
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
 
 - name: initialize reboot crontab
   cron: name="start taginfo" special_time=reboot job="./30_restart_webserver.sh"
-  sudo: yes
-  sudo_user: taginfo
+  become: yes
+  become_user: taginfo
 
 # To finish installation, run:
 # - ./10_download.sh

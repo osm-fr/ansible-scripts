@@ -11,12 +11,12 @@
 
 - name: checkout git repository
   git: repo=https://github.com/jocelynj/osm.git dest=/data/project/osmbin/osm force=no update=no
-  sudo: yes
-  sudo_user: osmbin
+  become: yes
+  become_user: osmbin
 
 - name: init OsmBin
   command: chdir=/data/project/osmbin/osm/osc_modif/modules
            creates=/data/work/osmbin/data/node.crd
            ./OsmBin.py --init /data/work/osmbin/data
-  sudo: yes
-  sudo_user: osmbin
+  become: yes
+  become_user: osmbin
