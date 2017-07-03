@@ -9,7 +9,15 @@
   with_items:
     - cron
     - openssh-server
-  when: (ansible_distribution == 'Debian' and ansible_distribution_release != 'squeeze') or ansible_distribution == 'Ubuntu'
+  when: (ansible_distribution == 'Debian' and ansible_distribution_release == 'jessie') or ansible_distribution == 'Ubuntu'
+
+- name: add monit modules
+  file: src="/etc/monit/conf-available/{{ item }}" dest="/etc/monit/conf-enabled/{{ item }}" state=link
+  notify: restart monit
+  with_items:
+    - cron
+    - openssh-server
+  when: (ansible_distribution == 'Debian' and ansible_distribution_release == 'stretch')
 
 # apache
 - name: add monit module for apache
