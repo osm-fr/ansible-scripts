@@ -53,6 +53,10 @@ proxy:
     websites: "dev.umap.openstreetmap.fr"
     target: "10.1.0.144"
   -
+    logname: "api-pic4carto"
+    websites: "api-pic4carto.openstreetmap.fr"
+    target: "10.1.0.145"
+  -
     logname: "www"
     websites: "dev.www.openstreetmap.fr"
     target: "10.1.0.146"
