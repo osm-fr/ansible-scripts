@@ -1,4 +1,3 @@
 letsencrypt_proxy:
-  - osm113.openstreetmap.fr
   - osm117.openstreetmap.fr
   - osm124.openstreetmap.fr
