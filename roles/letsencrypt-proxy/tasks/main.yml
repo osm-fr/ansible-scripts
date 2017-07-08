@@ -19,7 +19,8 @@
 - name: init ssh key
   authorized_key: user=letsencrypt key="{{ lookup('file', inventory_dir + '/public_keys/ansible/letsencrypt-' + ansible_hostname) }}" key_options='no-pty,no-X11-forwarding,permitopen="localhost:*"'
   delegate_to: "{{ item }}"
-  with_items: letsencrypt_proxy
+  with_items:
+    - "{{ letsencrypt_proxy }}"
 
 - name: launch script
   command: /data/project/letsencrypt/letsencrypt-proxy.sh
@@ -29,11 +30,13 @@
 
 - name: link chained.pem
   file: src="/data/project/letsencrypt/keys/{{ item }}.chained.pem" dest="/etc/ssl/letsencrypt/{{ item }}.chained.pem" state=link
-  with_items: letsencrypt_proxy
+  with_items:
+    - "{{ letsencrypt_proxy }}"
 
 - name: link domain.key
   file: src="/data/project/letsencrypt/keys/{{ item }}.domain.key" dest="/etc/ssl/letsencrypt/{{ item }}.domain.key" state=link
-  with_items: letsencrypt_proxy
+  with_items:
+    - "{{ letsencrypt_proxy }}"
 
 - name: add sudoers to reload nginx/apache
   copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt-proxy mode=0440 owner=root group=root validate='visudo -cf %s'
