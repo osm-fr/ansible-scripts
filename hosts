@@ -113,7 +113,7 @@ osm136.openstreetmap.fr
 
 [letsencrypt]
 # Warning: only ipv4-accessible IPs are possible
-osm101.openstreetmap.fr letsencrypt_hosts=osm101.openstreetmap.fr,docs.openstreetmap.fr,trac.openstreetmap.fr,adherents.openstreetmap.fr,listes.openstreetmap.fr,openstreetmap.fr,www.openstreetmap.fr
+osm101.openstreetmap.fr letsencrypt_hosts=osm101.openstreetmap.fr,docs.openstreetmap.fr,trac.openstreetmap.fr,adherents.openstreetmap.fr,listes.openstreetmap.fr
 osm102.openstreetmap.fr letsencrypt_hosts=osm102.openstreetmap.fr,umap.openstreetmap.fr,nomino.openstreetmap.fr
 osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.openstreetmap.fr,api.openstreetmap.fr,garmin.openstreetmap.fr
 osm104.openstreetmap.fr letsencrypt_hosts=osm104.openstreetmap.fr,bano.openstreetmap.fr,cadastre.openstreetmap.fr,imagery.openstreetmap.fr,tms.cadastre.openstreetmap.fr
@@ -124,6 +124,7 @@ osm117.openstreetmap.fr letsencrypt_hosts=osmose.openstreetmap.fr,beta.osmose.op
 osm124.openstreetmap.fr letsencrypt_hosts=buildbot.osmose.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=dev.listes.openstreetmap.fr
 osm139.openstreetmap.fr letsencrypt_hosts=dev.forum.openstreetmap.fr
+osm146.openstreetmap.fr letsencrypt_hosts=www.openstreetmap.fr,openstreetmap.fr
 osm24.openstreetmap.fr letsencrypt_hosts=proxy-ign.openstreetmap.fr
 osm26.openstreetmap.fr
 
