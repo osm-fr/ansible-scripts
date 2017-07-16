@@ -1,5 +1,5 @@
 - name: install unattended-upgrades
-  apt: pkg=unattended-upgrades state=present
+  apt: pkg=unattended-upgrades state=present update_cache=yes
 
 - name: create APT auto-upgrades configuration
   copy: >
