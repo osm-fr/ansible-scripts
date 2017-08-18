@@ -1,0 +1,15 @@
+[Unit]
+Description=Setup overpass database on firstboot
+ConditionPathExists=!{{ overpass_database_dir }}/replicate_id
+
+[Service]
+Type=oneshot
+User={{ overpass_user }}
+ExecStart=/usr/local/bin/overpass-setup.py
+ExecStart=+/bin/systemctl start overpass-dispatcher.service
+ExecStart=+/bin/systemctl start overpass-updater.service
+ExecStart=+/bin/systemctl start overpass-areas-dispatcher.service
+ExecStart=+/bin/systemctl start overpass-areas-builder.service
+
+[Install]
+WantedBy=multi-user.target

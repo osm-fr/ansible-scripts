@@ -1,0 +1,21 @@
+- name: install packages
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - nginx
+    - fcgiwrap
+
+- name: configure api endpoint
+  template:
+    src: templates/default.conf
+    dest: /etc/nginx/sites-available/default
+
+- name: install index.html
+  template:
+    src: templates/index.html
+    dest: "{{ overpass_webroot_dir }}"
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted

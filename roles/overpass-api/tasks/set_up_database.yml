@@ -1,0 +1,32 @@
+- name: install packages
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - osmctools
+    - python3-requests
+    - python3-systemd
+
+- name: create {{ project_dir }}/bin/
+  file:
+    path: "{{ project_dir }}/bin/"
+    state: directory
+
+- name: install overpass-setup.py
+  template:
+    src: templates/overpass-setup.py
+    dest: "/usr/local/bin/"
+    owner: "{{ overpass_user }}"
+    mode: 0744
+
+- name: install overpass-setup.service
+  template:
+    src: templates/overpass-setup.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-setup.service
+  systemd:
+    name: overpass-setup.service
+    state: started
+    enabled: yes
+    daemon_reload: yes
+    no_block: yes

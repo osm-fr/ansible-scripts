@@ -1,0 +1,14 @@
+[Unit]
+Description=Overpass diff updater
+Requires=overpass-dispatcher.service
+AssertPathExists={{ overpass_database_dir }}/replicate_id
+
+[Service]
+Type=simple
+User={{ overpass_user }}
+ExecStart=/usr/local/bin/fetch_osc_and_apply.sh {{ overpass_replication_url }} --meta=yes
+Restart=always
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target

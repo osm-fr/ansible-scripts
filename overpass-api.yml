@@ -1,0 +1,8 @@
+- name: overpass-api.yml
+  hosts: overpass-api
+  roles:
+    - role: overpass-api
+      when:
+        - overpass_version != "skip"
+        - ansible_distribution_release == "stretch"
+      become: yes

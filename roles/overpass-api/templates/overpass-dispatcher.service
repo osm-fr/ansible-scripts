@@ -1,0 +1,16 @@
+[Unit]
+Description=Overpass dispatcher
+AssertPathExists={{ overpass_database_dir }}/replicate_id
+
+[Service]
+Type=simple
+User={{ overpass_user }}
+ExecStartPre=-/bin/rm {{ overpass_database_dir }}/osm3s_{{ overpass_version }}_osm_base
+ExecStartPre=-/bin/rm /dev/shm/osm3s_{{ overpass_version }}_osm_base
+ExecStart=/usr/local/bin/dispatcher --osm-base --db-dir={{ overpass_database_dir }} --meta
+ExecStop=/usr/local/bin/dispatcher --osm-base --terminate
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
