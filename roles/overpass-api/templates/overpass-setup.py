@@ -2,6 +2,7 @@
 
 import hashlib
 import logging
+import os
 import re
 import subprocess
 import sys
@@ -96,6 +97,9 @@ except:
     log.critical('install database failed')
     sys.exit(2)
 
+
+log.info('delete pbf')
+os.remove(pbf_dest)
 
 log.info('write replicate_id')
 with open('{{ overpass_database_dir }}/replicate_id', 'w') as fd:
