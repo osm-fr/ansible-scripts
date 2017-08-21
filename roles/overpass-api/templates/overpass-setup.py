@@ -77,9 +77,9 @@ while diff_datetime > timedelta(minutes=max_interval) or diff_datetime < timedel
 
 log.info('download pbf')
 pbf_url = '{{ overpass_pbf_root_url }}/{{ overpass_pbf_region }}-{}.osm.pbf'.format(pbf_datetime.strftime('%y%m%d'))
-pbf_dest = '{{ work_dir }}/{{ overpass_pbf_region }}-{}.osm.pbf'.format(pbf_datetime.strftime('%y%m%d'))
-urlretrieve(pbf_url, pbf_dest)
+pbf_dest = '{{ overpass_database_dir }}/{{ overpass_pbf_region }}-{}.osm.pbf'.format(pbf_datetime.strftime('%y%m%d'))
 
+urlretrieve(pbf_url, pbf_dest)
 resp = requests.get(pbf_url + '.md5')
 md5_osm = resp.text.split()[0]
 if md5(pbf_dest) != md5_osm:
