@@ -164,6 +164,9 @@
 - include: ../../../shared/account.yml user=lcombe uid=1215
   when: "{{ 'lcombe' in group_names }}"
 
+- include: ../../../shared/account.yml user=marc_marc uid=1216
+  when: "{{ 'marc_marc' in group_names }}"
+
 - include: ../../../shared/account.yml user=nlehuby uid=1220
   when: "{{ 'nlehuby' in group_names }}"
 
