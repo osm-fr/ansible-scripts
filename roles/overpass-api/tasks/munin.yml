@@ -1,0 +1,11 @@
+---
+- name: install munin plugins
+  template:
+    src: templates/munin/osm_db_lag
+    dest: /etc/munin/plugins
+    mode: 0755
+
+- name: reload munin-node
+  systemd:
+    name: munin-node
+    state: restarted

@@ -65,3 +65,4 @@
 - include: compile.yml
 - include: set_up_database.yml
 - include: web.yml
+- include: munin.yml
