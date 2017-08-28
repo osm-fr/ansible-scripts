@@ -10,10 +10,13 @@
     src: templates/default.conf
     dest: /etc/nginx/sites-available/default
 
-- name: install index.html
+- name: install html page
   template:
-    src: templates/index.html
+    src: "templates/{{ item }}"
     dest: "{{ overpass_webroot_dir }}"
+  with_items:
+    - index.html
+    - api.html
 
 - name: restart nginx
   systemd:
