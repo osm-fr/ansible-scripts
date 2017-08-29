@@ -10,6 +10,11 @@
     src: templates/default.conf
     dest: /etc/nginx/sites-available/default
 
+- name: add limit_req_zone
+  copy:
+    src: files/rate_limit.conf
+    dest: /etc/nginx/conf.d
+
 - name: install html page
   template:
     src: "templates/{{ item }}"
