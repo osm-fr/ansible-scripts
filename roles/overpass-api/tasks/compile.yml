@@ -40,7 +40,7 @@
     chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
 
 - name: install overpass-api cgi-bin
-  command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/cgi-bin/ {{ overpass_webroot_dir }}/
+  command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/cgi-bin/ {{ overpass_webroot_dir }}/api
 
 - name: install rules for areas
   command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/rules {{ overpass_database_dir }}/
