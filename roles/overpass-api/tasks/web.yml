@@ -21,4 +21,4 @@
 - name: restart nginx
   systemd:
     name: nginx
-    state: restarted
+    state: reloaded
