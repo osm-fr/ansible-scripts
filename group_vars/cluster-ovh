@@ -57,6 +57,6 @@ proxy:
     websites: "api-pic4carto.openstreetmap.fr"
     target: "10.1.0.145"
   -
-    logname: "www"
-    websites: "dev.www.openstreetmap.fr"
-    target: "10.1.0.146"
+    logname: "overpass-api"
+    websites: "api.openstreetmap.fr overpass.openstreetmap.fr"
+    target: "10.1.0.147"
