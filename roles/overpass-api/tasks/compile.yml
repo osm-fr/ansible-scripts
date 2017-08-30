@@ -39,8 +39,25 @@
   args:
     chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
 
-- name: install overpass-api cgi-bin
-  command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/cgi-bin/ {{ overpass_webroot_dir }}/api
+- name: create {{ overpass_webroot_dir }}/api dir
+  file:
+    path: "{{ overpass_webroot_dir }}/api"
+    state: directory
+
+- name: copy usefull overpass-api cgi-bin
+  copy:
+    remote_src: true
+    src: "{{ project_dir }}/osm-3s_{{ overpass_version }}/cgi-bin/{{ item }}"
+    dest: "{{ overpass_webroot_dir }}/api"
+    mode: 0750
+    owner: "www-data"
+    group: "www-data"
+  with_items:
+    - interpreter
+    - kill_my_queries
+    - convert
+    - map
+    - status
 
 - name: install rules for areas
   command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/rules {{ overpass_database_dir }}/
