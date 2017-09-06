@@ -15,7 +15,7 @@
   notify: reload nginx
 
 - name: generate nginx config
-  template: src="nginx-site.j2" dest="/etc/nginx/sites-available/{{ item.logname }}"
+  template: src="{{ item.config_src | default('nginx-site.j2') }}" dest="/etc/nginx/sites-available/{{ item.logname }}"
     owner=root group=www-data
   with_items: "{{ proxy }}"
   when: proxy is defined
