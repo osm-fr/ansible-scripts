@@ -1,0 +1,8 @@
+---
+- name: install munin plugins
+  template:
+    src: templates/munin/osm_db_lag
+    dest: /etc/munin/plugins
+    mode: 0755
+  notify:
+    - restart munin-node

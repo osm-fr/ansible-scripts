@@ -9,13 +9,22 @@
   template:
     src: templates/default.conf
     dest: /etc/nginx/sites-available/default
+  notify:
+    - reload nginx
 
-- name: install index.html
+- name: add limit_req_zone
+  copy:
+    src: files/rate_limit.conf
+    dest: /etc/nginx/conf.d
+  notify:
+    - reload nginx
+
+- name: install html page
   template:
-    src: templates/index.html
+    src: "templates/{{ item }}"
     dest: "{{ overpass_webroot_dir }}"
-
-- name: restart nginx
-  systemd:
-    name: nginx
-    state: restarted
+  with_items:
+    - index.html
+    - api.html
+  notify:
+    - reload nginx

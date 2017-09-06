@@ -1,0 +1,10 @@
+---
+- name: restart munin-node
+  service:
+    name: munin-node
+    state: restarted
+
+- name: reload nginx
+  service:
+    name: nginx
+    state: reloaded

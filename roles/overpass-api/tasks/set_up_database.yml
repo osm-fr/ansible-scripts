@@ -22,6 +22,7 @@
   template:
     src: templates/overpass-setup.service
     dest: /etc/systemd/system
+  register: service
 
 - name: enable overpass-setup.service
   systemd:
@@ -30,3 +31,4 @@
     enabled: yes
     daemon_reload: yes
     no_block: yes
+  when: service.changed
