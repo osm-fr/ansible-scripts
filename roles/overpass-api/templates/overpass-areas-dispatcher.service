@@ -1,5 +1,7 @@
 [Unit]
 Description=Overpass areas dispatcher
+Requires=overpass-dispatcher.service
+After=overpass-dispatcher.service
 AssertPathExists={{ overpass_database_dir }}/replicate_id
 
 [Service]
@@ -8,7 +10,7 @@ User={{ overpass_user }}
 ExecStart=/usr/local/bin/dispatcher --areas --db-dir={{ overpass_database_dir }}
 ExecStop=/usr/local/bin/dispatcher --areas --terminate
 Restart=always
-RestartSec=5s
+RestartSec=30s
 
 [Install]
 WantedBy=multi-user.target
