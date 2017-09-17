@@ -29,6 +29,9 @@
 - name: init group ${user}
   group: name={{ user }}
 
+- name: init /data path
+  file: path=/data state=directory
+
 - name: init /data/work/ path for ${user}
   file: path={{ work_dir }} state=directory owner={{ user }} group={{ user }}
 
