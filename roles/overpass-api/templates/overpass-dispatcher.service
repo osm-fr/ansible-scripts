@@ -8,7 +8,7 @@ User={{ overpass_user }}
 ExecStart=/usr/local/bin/dispatcher --osm-base --db-dir={{ overpass_database_dir }} --meta
 ExecStop=/usr/local/bin/dispatcher --osm-base --terminate
 Restart=always
-RestartSec=5s
+RestartSec=30s
 
 [Install]
 WantedBy=multi-user.target

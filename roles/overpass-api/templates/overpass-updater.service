@@ -1,6 +1,7 @@
 [Unit]
 Description=Overpass diff updater
 Requires=overpass-dispatcher.service
+After=overpass-dispatcher.service
 AssertPathExists={{ overpass_database_dir }}/replicate_id
 
 [Service]

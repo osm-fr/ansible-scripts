@@ -5,6 +5,13 @@
     - nginx
     - fcgiwrap
 
+- name: set number of fcgiwrap instances
+  copy:
+    src: files/fcgiwrap
+    dest: /etc/default/fcgiwrap
+  notify:
+    - restart fcgiwrap
+
 - name: configure api endpoint
   template:
     src: templates/default.conf
