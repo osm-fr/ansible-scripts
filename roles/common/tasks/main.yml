@@ -40,6 +40,14 @@
 - name: Gathering facts
   setup:
 
+# disabling atopacct, as it breaks apt-get install atop
+- name: Disable atopacct on Debian 9
+  file:
+    state: link
+    src: "/dev/null"
+    path: "/etc/systemd/system/atopacct.service"
+  when: ansible_distribution == 'Debian' and ansible_distribution_major_version == '9'
+
 - set_fact: install_apache=false
   when: install_apache is undefined
 
