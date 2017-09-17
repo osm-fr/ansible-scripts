@@ -61,6 +61,7 @@ osm144.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm145.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm146.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm147.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm148.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -195,6 +196,7 @@ osm28.openstreetmap.fr
 
 [overpass-api]
 osm147.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
+osm148.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
 
 # user creation
 [cgiquello]
@@ -262,6 +264,7 @@ osm142.openstreetmap.fr
 osm103.openstreetmap.fr  # old overpass api
 osm117.openstreetmap.fr  # osmose frontend
 osm147.openstreetmap.fr  # new overpass api
+osm148.openstreetmap.fr
 
 [panieravide]
 osm110.openstreetmap.fr
@@ -284,6 +287,7 @@ osm105.openstreetmap.fr
 [thrrp] # Rodolphe P-P
 osm103.openstreetmap.fr
 osm147.openstreetmap.fr
+osm148.openstreetmap.fr
 
 [tyndare]
 osm104.openstreetmap.fr
