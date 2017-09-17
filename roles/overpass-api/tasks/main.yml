@@ -4,7 +4,7 @@
       - "ansible_version.full | version_compare('2.3', '>=')"
     msg: "ansible version must be >= 2.3, please update ansible."
 
-- include: ../../../shared/project-account.yml user="{{ overpass_user }}"
+- include: ../../../shared/project-account.yml user="{{ overpass_user }}" user_system="yes"
 
 
 - name: set overpass_database_dir
