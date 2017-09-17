@@ -58,6 +58,7 @@
     - python
     - python-apt
 
+    - acl
     - atop
     - bash-completion
     - ca-certificates
