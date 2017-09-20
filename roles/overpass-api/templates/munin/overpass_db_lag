@@ -4,10 +4,10 @@ if [[ "$1" = "config" ]]; then
 {
   echo 'graph_title Lag to OSM main database'
   echo 'graph_vlabel secondes'
-  echo 'graph_category osm'
-  echo "osm_db_lag.label osm_base"
-  echo "osm_db_lag.warning 300"
-  echo "osm_db_lag.critical 3600"
+  echo 'graph_category overpass-api'
+  echo "overpass_db_lag.label database lag"
+  echo "overpass_db_lag.warning 300"
+  echo "overpass_db_lag.critical 3600"
   exit 0
 }; fi
 
@@ -15,5 +15,5 @@ DB_DATE=$(date +%s --utc -d "$(cat /{{ overpass_database_dir }}/osm_base_version
 CUR_DATE=$(date -u +%s)
 LAG=$(($CUR_DATE - $DB_DATE))
 
-echo "osm_db_lag.value $LAG"
+echo "overpass_db_lag.value $LAG"
 exit 0

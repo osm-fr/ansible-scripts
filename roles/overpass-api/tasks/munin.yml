@@ -4,10 +4,9 @@
     path: /etc/munin/plugins
   register: stat_result
 
-
 - name: install munin plugins
   template:
-    src: templates/munin/osm_db_lag
+    src: templates/munin/overpass_db_lag
     dest: /etc/munin/plugins
     mode: 0755
   notify:
