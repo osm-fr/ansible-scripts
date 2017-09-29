@@ -1,0 +1,44 @@
+---
+- name: install overpass-dispatcher.service
+  template:
+    src: templates/overpass-dispatcher.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-dispatcher.service
+  systemd:
+    name: overpass-dispatcher.service
+    enabled: yes
+    daemon_reload: yes
+
+- name: install overpass-updater.service
+  template:
+    src: templates/overpass-updater.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-updater.service
+  systemd:
+    name: overpass-updater.service
+    enabled: yes
+    daemon_reload: yes
+
+- name: install overpass-areas-dispatcher.service
+  template:
+    src: templates/overpass-areas-dispatcher.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-areas-dispatcher.service
+  systemd:
+    name: overpass-areas-dispatcher.service
+    enabled: yes
+    daemon_reload: yes
+
+- name: install overpass-areas-builder.service
+  template:
+    src: templates/overpass-areas-builder.service
+    dest: /etc/systemd/system
+
+- name: enable overpass-areas-builder.service
+  systemd:
+    name: overpass-areas-builder.service
+    enabled: yes
+    daemon_reload: yes
