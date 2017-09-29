@@ -74,8 +74,8 @@
 
 - name: change delay to fetch diff
   replace:
-    path: /usr/local/bin/fetch_osc_and_apply.sh
-    regexp: "    sleep 10 #Wait for the diff to be available"
-    replace: "    sleep 3600 #Wait for the diff to be available"
+    path: /usr/local/bin/fetch_osc.sh
+    regexp: "SLEEP_BETWEEN_DLS=15 # .*"
+    replace: "SLEEP_BETWEEN_DLS=900"
   when:
     - overpass_replication_interval == "day"

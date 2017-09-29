@@ -1,44 +1,37 @@
 ---
-- name: install overpass-dispatcher.service
-  template:
-    src: templates/overpass-dispatcher.service
-    dest: /etc/systemd/system
-
-- name: enable overpass-dispatcher.service
-  systemd:
-    name: overpass-dispatcher.service
-    enabled: yes
-    daemon_reload: yes
-
-- name: install overpass-updater.service
-  template:
-    src: templates/overpass-updater.service
-    dest: /etc/systemd/system
-
-- name: enable overpass-updater.service
+- name: disable overpass-updater.service
   systemd:
     name: overpass-updater.service
-    enabled: yes
-    daemon_reload: yes
+    enabled: no
+    state: stopped
+  ignore_errors: yes
 
-- name: install overpass-areas-dispatcher.service
+- name: remove overpass-updater.service
+  file:
+    path: /etc/systemd/system/overpass-updater.service
+    state: absent
+
+- name: install systemd services
   template:
-    src: templates/overpass-areas-dispatcher.service
+    src: "templates/{{ item }}"
     dest: /etc/systemd/system
+  with_items:
+    - overpass-dispatcher.service
+    - overpass-copy-id.service
+    - overpass-diff-downloader.service
+    - overpass-diff-applier.service
+    - overpass-areas-dispatcher.service
+    - overpass-areas-builder.service
 
-- name: enable overpass-areas-dispatcher.service
+- name: enable systemd services
   systemd:
-    name: overpass-areas-dispatcher.service
+    name: "{{ item }}"
     enabled: yes
     daemon_reload: yes
-
-- name: install overpass-areas-builder.service
-  template:
-    src: templates/overpass-areas-builder.service
-    dest: /etc/systemd/system
-
-- name: enable overpass-areas-builder.service
-  systemd:
-    name: overpass-areas-builder.service
-    enabled: yes
-    daemon_reload: yes
+  with_items:
+    - overpass-dispatcher.service
+    - overpass-copy-id.service
+    - overpass-diff-downloader.service
+    - overpass-diff-applier.service
+    - overpass-areas-dispatcher.service
+    - overpass-areas-builder.service

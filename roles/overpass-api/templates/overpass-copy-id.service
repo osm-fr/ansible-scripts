@@ -1,0 +1,11 @@
+[Unit]
+Description=Overpass dirty hack for copying replicate_id
+AssertPathExists={{ overpass_database_dir }}/replicate_id
+
+[Service]
+Type=simple
+User={{ overpass_user }}
+ExecStart=/usr/local/bin/overpass-copy-id.py
+
+[Install]
+WantedBy=multi-user.target
