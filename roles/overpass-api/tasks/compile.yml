@@ -16,11 +16,21 @@
     - liblz4-1
     - liblz4-dev
 
+- name: create osm-3s_{{ overpass_version }} dest dir
+  file:
+    path: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
+    state: directory
+  become: yes
+  become_user: "{{ overpass_user }}"
+
+
 - name: download {{ overpass_version }} release of overpass-api
   unarchive:
     src: "http://dev.overpass-api.de/releases/osm-3s_{{ overpass_version }}.tar.gz"
-    dest: "{{ project_dir }}"
+    dest: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
     remote_src: true
+    creates: "{{ project_dir }}/osm-3s_{{ overpass_version }}/Makefile.am"
+    extra_opts: "--strip-components=1"
   become: yes
   become_user: "{{ overpass_user }}"
 
