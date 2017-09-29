@@ -1,0 +1,19 @@
+---
+- name: restart services when overpass version changed
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  with_items:
+    - overpass-dispatcher.service
+    - overpass-copy-id.service
+    - overpass-diff-downloader.service
+    - overpass-diff-applier.service
+    - overpass-areas-dispatcher.service
+    - overpass-areas-builder.service
+  notify:
+    - restart fcgiwrap
+    - reload nginx
+  when:
+    - overpass_tar.changed

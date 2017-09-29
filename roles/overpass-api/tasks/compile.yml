@@ -33,6 +33,7 @@
     extra_opts: "--strip-components=1"
   become: yes
   become_user: "{{ overpass_user }}"
+  register: overpass_tar
 
 - name: compile overpass-api
   shell: |
@@ -43,6 +44,8 @@
     creates: bin/dispatcher
   become: yes
   become_user: "{{ overpass_user }}"
+  when:
+    - overpass_tar.changed
 
 - name: install overpass-api executables
   shell: make install
