@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime, timedelta
 from urllib.request import urlretrieve
 
@@ -99,6 +100,10 @@ except:
     log.critical('install database failed')
     sys.exit(2)
 
+time.sleep(1)
+log.info('wait update_database')
+while not subprocess.call(['/bin/pidof', 'update_database']):
+    time.sleep(1)
 
 log.info('delete pbf')
 os.remove(pbf_dest)
