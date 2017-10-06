@@ -113,7 +113,6 @@ osm121.openstreetmap.fr
 osm136.openstreetmap.fr
 
 [letsencrypt]
-# Warning: only ipv4-accessible IPs are possible
 osm101.openstreetmap.fr letsencrypt_hosts=osm101.openstreetmap.fr,docs.openstreetmap.fr,trac.openstreetmap.fr,adherents.openstreetmap.fr
 osm102.openstreetmap.fr letsencrypt_hosts=osm102.openstreetmap.fr,umap.openstreetmap.fr,nomino.openstreetmap.fr
 osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.openstreetmap.fr,api.openstreetmap.fr,garmin.openstreetmap.fr
@@ -123,6 +122,7 @@ osm110.openstreetmap.fr letsencrypt_hosts=osm110.openstreetmap.fr,ae.openstreetm
 osm113.openstreetmap.fr letsencrypt_hosts=owncloud.openstreetmap.fr
 osm117.openstreetmap.fr letsencrypt_hosts=osmose.openstreetmap.fr,beta.osmose.openstreetmap.fr,osmose.openstreetmap.lu
 osm124.openstreetmap.fr letsencrypt_hosts=buildbot.osmose.openstreetmap.fr
+osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
 osm139.openstreetmap.fr letsencrypt_hosts=dev.forum.openstreetmap.fr
 osm146.openstreetmap.fr letsencrypt_hosts=www.openstreetmap.fr,openstreetmap.fr
