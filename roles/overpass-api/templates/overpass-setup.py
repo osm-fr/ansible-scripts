@@ -111,3 +111,6 @@ os.remove(pbf_dest)
 log.info('write replicate_id')
 with open('{{ overpass_database_dir }}/replicate_id', 'w') as fd:
     fd.write(repl_seq)
+
+log.info('set rate limit to 32')
+subprocess.call(['/usr/local/bin/interpreter', '--rate-limit=32'])
