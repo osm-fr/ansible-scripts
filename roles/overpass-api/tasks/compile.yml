@@ -47,6 +47,15 @@
   when:
     - overpass_tar.changed
 
+# FIXME: to remove asap
+- name: patch shell script to log to stdout
+  patch:
+    src: files/log-to-stdout.patch
+    basedir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
+    strip: 1
+  become: yes
+  become_user: "{{ overpass_user }}"
+
 - name: install overpass-api executables
   shell: make install
   args:
