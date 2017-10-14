@@ -41,10 +41,6 @@ proxy:
     websites: "nextcloud.openstreetmap.fr"
     target: "10.1.0.141"
   -
-    logname: "vtile"
-    websites: "vtile.openstreetmap.fr"
-    target: "10.1.0.142"
-  -
     logname: "mastodon"
     websites: "fr.osm.social"
     target: "10.1.0.143"
