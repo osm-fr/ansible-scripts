@@ -1,0 +1,3 @@
+[submodule "galaxy/ansible-role-storyteller"]
+	path = galaxy/ansible-role-storyteller
+	url = https://github.com/osm-fr/ansible-role-storyteller.git

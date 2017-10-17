@@ -1,0 +1,5 @@
+storyteller_hostname: "next.openstreetmap.fr"
+storyteller_wp_path: "/data/project/wordpress/"
+storyteller_wp_user: "wordpress"
+storyteller_wp_file: "wordpress-4.8.2.tar.gz"
+storyteller_wp_sha256sum: "c2c65d156e1f3f1d81bbb61a4bb7267b108a09130d46d33b9b9c6b2e93e16752"

@@ -1,0 +1,6 @@
+- name: wordpress configuration
+  hosts: wordpress
+  become: yes
+  roles:
+    - role: ansible-role-storyteller
+

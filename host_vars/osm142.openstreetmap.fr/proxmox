@@ -4,7 +4,7 @@ proxmox_var:
   disk: 50
   netif: {"net0": "name=eth0,bridge=vmbr0,ip=10.1.0.142/24,gw=10.0.0.28,ip6=2001:41d0:1008:2c6b:1::142/80,gw6=2001:41d0:1008:2c6b:1::28"}
   memory: 2048
-  ostemplate: debian-8.0-standard_8.4-1_amd64.tar.gz
+  ostemplate: debian-9.0-standard_9.0-2_amd64.tar.gz
   storage: "local"
   swap: 2048
   vmid: 142
