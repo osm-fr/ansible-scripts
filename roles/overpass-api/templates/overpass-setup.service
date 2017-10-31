@@ -7,6 +7,7 @@ Type=oneshot
 User={{ overpass_user }}
 ExecStart=/usr/local/bin/overpass-setup.py
 ExecStart=+/bin/systemctl restart overpass-dispatcher.service
+ExecStart=/usr/local/bin/dispatcher --rate-limit=32
 ExecStart=+/bin/systemctl restart overpass-diff-applier.service
 ExecStart=+/bin/systemctl restart overpass-areas-dispatcher.service
 ExecStart=+/bin/systemctl restart overpass-areas-builder.service
