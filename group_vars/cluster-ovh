@@ -60,4 +60,4 @@ proxy:
   -
     logname: "overpass-api"
     websites: "api.openstreetmap.fr overpass.openstreetmap.fr"
-    target: "10.1.0.147"
+    target: "10.1.0.148"
