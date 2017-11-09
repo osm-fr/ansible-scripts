@@ -61,3 +61,7 @@ proxy:
     logname: "overpass-api"
     websites: "api.openstreetmap.fr overpass.openstreetmap.fr"
     target: "10.1.0.148"
+  -
+    logname: "status"
+    websites: "status.openstreetmap.fr"
+    target: "10.1.0.149"
