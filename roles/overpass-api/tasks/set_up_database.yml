@@ -32,3 +32,10 @@
     daemon_reload: yes
     no_block: yes
   when: service.changed
+
+- name: install overpass-copy-id.py
+  template:
+    src: templates/overpass-copy-id.py
+    dest: "/usr/local/bin/"
+    owner: "{{ overpass_user }}"
+    mode: 0744

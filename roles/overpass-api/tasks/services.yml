@@ -1,0 +1,37 @@
+---
+- name: disable overpass-updater.service
+  systemd:
+    name: overpass-updater.service
+    enabled: no
+    state: stopped
+  ignore_errors: yes
+
+- name: remove overpass-updater.service
+  file:
+    path: /etc/systemd/system/overpass-updater.service
+    state: absent
+
+- name: install systemd services
+  template:
+    src: "templates/{{ item }}"
+    dest: /etc/systemd/system
+  with_items:
+    - overpass-dispatcher.service
+    - overpass-copy-id.service
+    - overpass-diff-downloader.service
+    - overpass-diff-applier.service
+    - overpass-areas-dispatcher.service
+    - overpass-areas-builder.service
+
+- name: enable systemd services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    daemon_reload: yes
+  with_items:
+    - overpass-dispatcher.service
+    - overpass-copy-id.service
+    - overpass-diff-downloader.service
+    - overpass-diff-applier.service
+    - overpass-areas-dispatcher.service
+    - overpass-areas-builder.service

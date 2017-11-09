@@ -1,0 +1,14 @@
+[Unit]
+Description=Overpass diff downloader
+Requires=overpass-dispatcher.service overpass-copy-id.service
+After=overpass-dispatcher.service overpass-copy-id.service
+AssertPathExists={{ overpass_database_dir }}/first_replicate_id
+
+[Service]
+Type=simple
+User={{ overpass_user }}
+EnvironmentFile={{ overpass_database_dir }}/first_replicate_id
+ExecStart=/usr/local/bin/fetch_osc.sh ${ID} {{ overpass_replication_url }} "/tmp/overpass_diffs/"
+
+[Install]
+WantedBy=multi-user.target

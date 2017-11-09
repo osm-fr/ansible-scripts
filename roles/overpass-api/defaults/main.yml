@@ -5,3 +5,9 @@ overpass_pbf_region: planet
 overpass_pbf_root_url: https://planet.osm.org/pbf
 overpass_replication_url: https://planet.osm.org/replication/minute
 overpass_replication_interval: minute
+overpass_cgi_scripts:
+  - interpreter
+  - kill_my_queries
+  - convert
+  - timestamp
+  - map

@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
 
-if [[ "$1" = "config" ]]; then
-{
-  echo 'graph_title Lag to OSM main database'
-  echo 'graph_vlabel secondes'
-  echo 'graph_category overpass-api'
-  echo "overpass_db_lag.label database lag"
-  echo "overpass_db_lag.warning 300"
-  echo "overpass_db_lag.critical 3600"
-  exit 0
-}; fi
+VERSION={{ overpass_database_dir }}/osm_base_version
 
-DB_DATE=$(date +%s --utc -d "$(cat /{{ overpass_database_dir }}/osm_base_version|sed s/\\\\//g)")
-CUR_DATE=$(date -u +%s)
-LAG=$(($CUR_DATE - $DB_DATE))
+if [[ "$1" == "config" ]]; then
+  {
+    echo 'graph_title Lag to OSM main database'
+    echo 'graph_vlabel secondes'
+    echo 'graph_category overpass-api'
+    echo "overpass_db_lag.label database lag"
+    echo "overpass_db_lag.warning 300"
+    echo "overpass_db_lag.critical 3600"
+    exit 0
+  }
+fi
+
+if [ -s $VERSION ]; then
+  {
+    DB_DATE=$(date +%s --utc -d "$(cat $VERSION | sed s/\\\\//g)")
+    CUR_DATE=$(date -u +%s)
+    LAG=$(($CUR_DATE - $DB_DATE))
+  }
+fi
 
 echo "overpass_db_lag.value $LAG"
 exit 0

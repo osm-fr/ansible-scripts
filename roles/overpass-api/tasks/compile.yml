@@ -16,13 +16,24 @@
     - liblz4-1
     - liblz4-dev
 
+- name: create osm-3s_{{ overpass_version }} dest dir
+  file:
+    path: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
+    state: directory
+  become: yes
+  become_user: "{{ overpass_user }}"
+
+
 - name: download {{ overpass_version }} release of overpass-api
   unarchive:
     src: "http://dev.overpass-api.de/releases/osm-3s_{{ overpass_version }}.tar.gz"
-    dest: "{{ project_dir }}"
+    dest: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
     remote_src: true
+    creates: "{{ project_dir }}/osm-3s_{{ overpass_version }}/Makefile.am"
+    extra_opts: "--strip-components=1"
   become: yes
   become_user: "{{ overpass_user }}"
+  register: overpass_tar
 
 - name: compile overpass-api
   shell: |
@@ -31,6 +42,17 @@
   args:
     chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
     creates: bin/dispatcher
+  become: yes
+  become_user: "{{ overpass_user }}"
+  when:
+    - overpass_tar.changed
+
+# FIXME: to remove asap
+- name: patch shell script to log to stdout
+  patch:
+    src: files/log-to-stdout.patch
+    basedir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
+    strip: 1
   become: yes
   become_user: "{{ overpass_user }}"
 
@@ -44,7 +66,7 @@
     path: "{{ overpass_webroot_dir }}/api"
     state: directory
 
-- name: copy usefull overpass-api cgi-bin
+- name: copy used cgi-bin scripts
   copy:
     remote_src: true
     src: "{{ project_dir }}/osm-3s_{{ overpass_version }}/cgi-bin/{{ item }}"
@@ -52,20 +74,15 @@
     mode: 0750
     owner: "www-data"
     group: "www-data"
-  with_items:
-    - interpreter
-    - kill_my_queries
-    - convert
-    - map
-    - status
+  with_items: "{{ overpass_cgi_scripts }}"
 
 - name: install rules for areas
   command: cp -r {{ project_dir }}/osm-3s_{{ overpass_version }}/rules {{ overpass_database_dir }}/
 
 - name: change delay to fetch diff
   replace:
-    path: /usr/local/bin/fetch_osc_and_apply.sh
-    regexp: "    sleep 10 #Wait for the diff to be available"
-    replace: "    sleep 3600 #Wait for the diff to be available"
+    path: /usr/local/bin/fetch_osc.sh
+    regexp: "SLEEP_BETWEEN_DLS=15 # .*"
+    replace: "SLEEP_BETWEEN_DLS=900"
   when:
     - overpass_replication_interval == "day"

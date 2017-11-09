@@ -1,0 +1,603 @@
+diff --git a/bin/apply_osc_to_db.sh b/bin/apply_osc_to_db.sh
+index c1a5696..6ff0624 100644
+--- a/bin/apply_osc_to_db.sh
++++ b/bin/apply_osc_to_db.sh
+@@ -17,25 +17,28 @@
+ # You should have received a copy of the GNU Affero General Public License
+ # along with Overpass_API.  If not, see <http://www.gnu.org/licenses/>.
+ 
+-if [[ -z $3  ]]; then
+-{
+-  echo "Usage: $0 replicate_dir start_id --meta=(attic|yes|no)"
+-  exit 0
+-}; fi
++if [[ -z $3 ]]; then
++  {
++    echo "Usage: $0 replicate_dir start_id --meta=(attic|yes|no)"
++    exit 0
++  }
++fi
+ 
+-EXEC_DIR="`dirname $0`/"
++EXEC_DIR="$(dirname $0)/"
+ if [[ ! ${EXEC_DIR:0:1} == "/" ]]; then
+-{
+-  EXEC_DIR="`pwd`/$EXEC_DIR"
+-}; fi
++  {
++    EXEC_DIR="$(pwd)/$EXEC_DIR"
++  }
++fi
+ 
+-DB_DIR=`$EXEC_DIR/dispatcher --show-dir`
++DB_DIR=$($EXEC_DIR/dispatcher --show-dir)
+ 
+ REPLICATE_DIR="$1"
+ if [[ ! ${REPLICATE_DIR:0:1} == "/" ]]; then
+-{
+-  REPLICATE_DIR="`pwd`/$REPLICATE_DIR"
+-}; fi
++  {
++    REPLICATE_DIR="$(pwd)/$REPLICATE_DIR"
++  }
++fi
+ 
+ START=$2
+ META=
+@@ -47,15 +50,15 @@ elif [[ $3 == "--meta=yes" || $3 == "--meta" ]]; then
+ elif [[ $3 == "--meta=no" ]]; then
+   META=
+ else
+-{
+-  echo "You must specify --meta=yes or --meta=no"
+-  exit 0
+-}; fi
++  {
++    echo "You must specify --meta=yes or --meta=no"
++    exit 0
++  }
++fi
+ 
+ PRODUCE_DIFF=
+ 
+-get_replicate_filename()
+-{
++get_replicate_filename() {
+   printf -v TDIGIT3 %03u $(($1 % 1000))
+   ARG=$(($1 / 1000))
+   printf -v TDIGIT2 %03u $(($ARG % 1000))
+@@ -63,59 +66,49 @@ get_replicate_filename()
+   printf -v TDIGIT1 %03u $ARG
+   REPLICATE_TRUNK_DIR=$TDIGIT1/$TDIGIT2/
+   REPLICATE_FILENAME=$TDIGIT1/$TDIGIT2/$TDIGIT3
+-};
+-
++}
+ 
+-collect_minute_diffs()
+-{
++collect_minute_diffs() {
+   TEMP_DIR=$1
+   TARGET=$(($START + 1))
+ 
+   get_replicate_filename $TARGET
+ 
+-  while [[ ( -s $REPLICATE_DIR/$REPLICATE_FILENAME.state.txt ) && ( $(($START + 1440)) -ge $(($TARGET)) ) && ( `du -m $TEMP_DIR | awk '{ print $1; }'` -le 512 ) ]];
+-  do
+-  {
+-    printf -v TARGET_FILE %09u $TARGET
+-    gunzip <$REPLICATE_DIR/$REPLICATE_FILENAME.osc.gz >$TEMP_DIR/$TARGET_FILE.osc
+-    TARGET=$(($TARGET + 1))
+-    get_replicate_filename $TARGET
+-  };
++  while [[ (-s $REPLICATE_DIR/$REPLICATE_FILENAME.state.txt) && ($(($START + 1440)) -ge $(($TARGET))) && ($(du -m $TEMP_DIR | awk '{ print $1; }') -le 512) ]]; do
++    {
++      printf -v TARGET_FILE %09u $TARGET
++      gunzip <$REPLICATE_DIR/$REPLICATE_FILENAME.osc.gz >$TEMP_DIR/$TARGET_FILE.osc
++      TARGET=$(($TARGET + 1))
++      get_replicate_filename $TARGET
++    }
+   done
+   TARGET=$(($TARGET - 1))
+-};
++}
+ 
+-
+-apply_minute_diffs()
+-{
++apply_minute_diffs() {
+   ./update_from_dir --osc-dir=$1 --version=$DATA_VERSION $META --flush-size=0
+   EXITCODE=$?
+-  while [[ $EXITCODE -ne 0 ]];
+-  do
+-  {
+-    sleep 60
+-    ./update_from_dir --osc-dir=$1 --version=$DATA_VERSION $META --flush-size=0
+-    EXITCODE=$?
+-  };
++  while [[ $EXITCODE -ne 0 ]]; do
++    {
++      sleep 60
++      ./update_from_dir --osc-dir=$1 --version=$DATA_VERSION $META --flush-size=0
++      EXITCODE=$?
++    }
+   done
+   DIFF_COUNT=$(($DIFF_COUNT + 1))
+-};
+-
++}
+ 
+-update_state()
+-{
++update_state() {
+   get_replicate_filename $TARGET
+-  TIMESTAMP_LINE=`grep "^timestamp" <$REPLICATE_DIR/$REPLICATE_FILENAME.state.txt`
++  TIMESTAMP_LINE=$(grep "^timestamp" <$REPLICATE_DIR/$REPLICATE_FILENAME.state.txt)
+   while [[ -z $TIMESTAMP_LINE ]]; do
+-  {
+-    sleep 5
+-    TIMESTAMP_LINE=`grep "^timestamp" <$REPLICATE_DIR/$REPLICATE_FILENAME.state.txt`
+-  }; done
++    {
++      sleep 5
++      TIMESTAMP_LINE=$(grep "^timestamp" <$REPLICATE_DIR/$REPLICATE_FILENAME.state.txt)
++    }
++  done
+   DATA_VERSION=${TIMESTAMP_LINE:10}
+-};
+-
+-
+-echo >>$DB_DIR/apply_osc_to_db.log
++}
+ 
+ mkdir -p $DB_DIR/augmented_diffs/
+ DIFF_COUNT=0
+@@ -125,34 +118,37 @@ DIFF_COUNT=0
+ pushd "$EXEC_DIR"
+ 
+ while [[ true ]]; do
+-{
+-  if [[ $START == "auto" ]]; then
+-  {
+-    START=`cat $DB_DIR/replicate_id`
+-  }; fi
+-
+-  echo "`date -u '+%F %T'`: updating from $START" >>$DB_DIR/apply_osc_to_db.log
+-
+-  TEMP_DIR=`mktemp -d /tmp/osm-3s_update_XXXXXX`
+-  collect_minute_diffs $TEMP_DIR
+-
+-  if [[ $TARGET -gt $START ]]; then
+   {
+-    echo "`date -u '+%F %T'`: updating to $TARGET" >>$DB_DIR/apply_osc_to_db.log
+-
+-    update_state
+-    apply_minute_diffs $TEMP_DIR
+-    echo "$TARGET" >$DB_DIR/replicate_id
+-
+-    echo "`date -u '+%F %T'`: update complete" $TARGET >>$DB_DIR/apply_osc_to_db.log
+-  };
+-  else
+-  {
+-    sleep 5
+-  }; fi
+-
+-  rm -f $TEMP_DIR/*
+-  rmdir $TEMP_DIR
+-
+-  START=$TARGET
+-}; done
++    if [[ $START == "auto" ]]; then
++      {
++        START=$(cat $DB_DIR/replicate_id)
++      }
++    fi
++
++    echo "updating from $START"
++
++    TEMP_DIR=$(mktemp -d /tmp/osm-3s_update_XXXXXX)
++    collect_minute_diffs $TEMP_DIR
++
++    if [[ $TARGET -gt $START ]]; then
++      {
++        echo "updating to $TARGET"
++
++        update_state
++        apply_minute_diffs $TEMP_DIR
++        echo "$TARGET" >$DB_DIR/replicate_id
++
++        echo "update complete" $TARGET
++      }
++    else
++      {
++        sleep 5
++      }
++    fi
++
++    rm -f $TEMP_DIR/*
++    rmdir $TEMP_DIR
++
++    START=$TARGET
++  }
++done
+diff --git a/bin/fetch_osc.sh b/bin/fetch_osc.sh
+index d81156d..95337bd 100644
+--- a/bin/fetch_osc.sh
++++ b/bin/fetch_osc.sh
+@@ -17,36 +17,33 @@
+ # You should have received a copy of the GNU Affero General Public License
+ # along with Overpass_API.  If not, see <http://www.gnu.org/licenses/>.
+ 
+-if [[ -z $1  ]]; then
+-{
+-  echo Usage: $0 Replicate_id Source_dir Local_dir [Sleep]
+-  exit 0
+-};
++if [[ -z $1 ]]; then
++  {
++    echo Usage: $0 Replicate_id Source_dir Local_dir [Sleep]
++    exit 0
++  }
+ fi
+ 
+ REPLICATE_ID=$1
+ SOURCE_DIR=$2
+ LOCAL_DIR=$3
+-SLEEP_BETWEEN_DLS=15 # How long to sleep between download attempts (sec). Default: 15. See also FAIL_COUNTER_ALERT
++SLEEP_BETWEEN_DLS=15  # How long to sleep between download attempts (sec). Default: 15. See also FAIL_COUNTER_ALERT
+ FAIL_COUNTER_ALERT=20 # After how many sleep cycles do we get nervous
+ FAIL_COUNTER=0
+ FILE_PANIC=
+ 
+-if [[ ! -d $LOCAL_DIR ]];
+-  then {
+-    mkdir $LOCAL_DIR
+-};
++if [[ ! -d $LOCAL_DIR ]]; then {
++  mkdir $LOCAL_DIR
++}
+ fi
+ 
+ # $1 - remote source
+ # $2 - local destination
+-fetch_file()
+-{
++fetch_file() {
+   wget -nv -O "$2" "$1"
+-};
++}
+ 
+-retry_fetch_file()
+-{
++retry_fetch_file() {
+   FILE_PANIC=
+   FAIL_COUNTER=0
+   if [[ ! -s "$2" ]]; then {
+@@ -59,7 +56,7 @@ retry_fetch_file()
+     }; fi
+   }; fi
+   until [[ -s "$2" || $FAIL_COUNTER -ge $FAIL_COUNTER_ALERT ]]; do {
+-    FAIL_COUNTER=$(($FAIL_COUNTER+1))
++    FAIL_COUNTER=$(($FAIL_COUNTER + 1))
+     sleep $SLEEP_BETWEEN_DLS
+     fetch_file "$1" "$2"
+     if [[ "$3" == "gzip" ]]; then {
+@@ -72,19 +69,18 @@ retry_fetch_file()
+   if [[ $FAIL_COUNTER -ge $FAIL_COUNTER_ALERT ]]; then
+     FILE_PANIC="true"
+   fi
+-};
++}
+ 
+-file_panic()
+-{
+-  echo "fetch_osc()@"`date -u "+%F %T"`": upstream_delay $REPLICATE_ID" >>$LOCAL_DIR/fetch_osc.log
++file_panic() {
++  echo "upstream_delay $REPLICATE_ID"
+   REPLICATE_ID=$(($REPLICATE_ID - 1))
+-  
++
+   printf -v TDIGIT3 %03u $(($REPLICATE_ID % 1000))
+   ARG=$(($REPLICATE_ID / 1000))
+   printf -v TDIGIT2 %03u $(($ARG % 1000))
+   ARG=$(($ARG / 1000))
+   printf -v TDIGIT1 %03u $ARG
+-  
++
+   FILE_PANIC="true"
+   until [[ ! -n $FILE_PANIC ]]; do {
+     retry_fetch_file "$REMOTE_PATH/$TDIGIT3.osc.gz" "$LOCAL_PATH/$TDIGIT3.new.osc.gz" "gzip"
+@@ -93,28 +89,27 @@ file_panic()
+   until [[ ! -n $FILE_PANIC ]]; do {
+     retry_fetch_file "$REMOTE_PATH/$TDIGIT3.state.txt" "$LOCAL_PATH/$TDIGIT3.new.state.txt" "text"
+   }; done
+-  
+-  RES_GZIP=`diff -q "$LOCAL_PATH/$TDIGIT3.osc.gz" "$LOCAL_PATH/$TDIGIT3.new.osc.gz"`
+-  RES_TEXT=`diff -q "$LOCAL_PATH/$TDIGIT3.state.txt" "$LOCAL_PATH/$TDIGIT3.new.state.txt"`
++
++  RES_GZIP=$(diff -q "$LOCAL_PATH/$TDIGIT3.osc.gz" "$LOCAL_PATH/$TDIGIT3.new.osc.gz")
++  RES_TEXT=$(diff -q "$LOCAL_PATH/$TDIGIT3.state.txt" "$LOCAL_PATH/$TDIGIT3.new.state.txt")
+   if [[ -n $RES_GZIP || -n $RES_TEXT ]]; then
+-    echo "fetch_osc()@"`date -u "+%F %T"`": file_panic $REPLICATE_ID" >>$LOCAL_DIR/fetch_osc.log
+-    echo "fetch_osc()@"`date -u "+%F %T"`": $RES_GZIP" >>$LOCAL_DIR/fetch_osc.log
+-    echo "fetch_osc()@"`date -u "+%F %T"`": $RES_TEXT" >>$LOCAL_DIR/fetch_osc.log
++    echo "file_panic $REPLICATE_ID"
++    echo "$RES_GZIP"
++    echo "$RES_TEXT"
+     exit 1
+   fi
+-  
++
+   rm "$LOCAL_PATH/$TDIGIT3.new.osc.gz"
+   rm "$LOCAL_PATH/$TDIGIT3.new.state.txt"
+-};
++}
+ 
+-fetch_minute_diff()
+-{
++fetch_minute_diff() {
+   printf -v TDIGIT3 %03u $(($REPLICATE_ID % 1000))
+   ARG=$(($REPLICATE_ID / 1000))
+   printf -v TDIGIT2 %03u $(($ARG % 1000))
+   ARG=$(($ARG / 1000))
+   printf -v TDIGIT1 %03u $ARG
+-  
++
+   LOCAL_PATH="$LOCAL_DIR/$TDIGIT1/$TDIGIT2"
+   REMOTE_PATH="$SOURCE_DIR/$TDIGIT1/$TDIGIT2"
+   mkdir -p "$LOCAL_DIR/$TDIGIT1/$TDIGIT2"
+@@ -128,16 +123,15 @@ fetch_minute_diff()
+     file_panic
+   fi
+ 
+-  TIMESTAMP_LINE=`grep timestamp $LOCAL_DIR/$TDIGIT1/$TDIGIT2/$TDIGIT3.state.txt`
++  TIMESTAMP_LINE=$(grep timestamp $LOCAL_DIR/$TDIGIT1/$TDIGIT2/$TDIGIT3.state.txt)
+   TIMESTAMP=${TIMESTAMP_LINE:10}
+-};
+-
+-while [[ true ]];
+-do
+-{
+-  REPLICATE_ID=$(($REPLICATE_ID + 1))
+-  fetch_minute_diff
+-  echo "fetch_osc()@"`date -u "+%F %T"`": new_replicate_diff $REPLICATE_ID $TIMESTAMP" >>$LOCAL_DIR/fetch_osc.log
+-  sleep 1
+-};
++}
++
++while [[ true ]]; do
++  {
++    REPLICATE_ID=$(($REPLICATE_ID + 1))
++    fetch_minute_diff
++    echo "new_replicate_diff $REPLICATE_ID $TIMESTAMP"
++    sleep 1
++  }
+ done
+diff --git a/bin/fetch_osc_and_apply.sh b/bin/fetch_osc_and_apply.sh
+index f769da8..56d341f 100644
+--- a/bin/fetch_osc_and_apply.sh
++++ b/bin/fetch_osc_and_apply.sh
+@@ -17,23 +17,24 @@
+ # You should have received a copy of the GNU Affero General Public License
+ # along with Overpass_API.  If not, see <http://www.gnu.org/licenses/>.
+ 
+-if [[ -z $1  ]]; then
+-{
+-  echo "Usage: $0 diff_url --meta=(yes|no)"
+-  echo "Error : Set the URL to get diffs from (like http://planet.osm.org/replication/minute )"
+-  exit 0
+-};
++if [[ -z $1 ]]; then
++  {
++    echo "Usage: $0 diff_url --meta=(yes|no)"
++    echo "Error : Set the URL to get diffs from (like http://planet.osm.org/replication/minute )"
++    exit 0
++  }
+ fi
+ 
+ SOURCE_DIR="$1"
+ 
+-EXEC_DIR="`dirname $0`/"
++EXEC_DIR="$(dirname $0)/"
+ if [[ ! ${EXEC_DIR:0:1} == "/" ]]; then
+-{
+-  EXEC_DIR="`pwd`/$EXEC_DIR"
+-}; fi
++  {
++    EXEC_DIR="$(pwd)/$EXEC_DIR"
++  }
++fi
+ 
+-DB_DIR=`$EXEC_DIR/dispatcher --show-dir`
++DB_DIR=$($EXEC_DIR/dispatcher --show-dir)
+ 
+ META=
+ 
+@@ -44,14 +45,13 @@ elif [[ $2 == "--meta=yes" || $3 == "--meta" ]]; then
+ elif [[ $2 == "--meta=no" ]]; then
+   META=
+ else
+-{
+-  echo "You must specify --meta=yes or --meta=no"
+-  exit 0
+-}; fi
+-
++  {
++    echo "You must specify --meta=yes or --meta=no"
++    exit 0
++  }
++fi
+ 
+-get_replicate_filename()
+-{
++get_replicate_filename() {
+   printf -v TDIGIT3 %03u $(($1 % 1000))
+   ARG=$(($1 / 1000))
+   printf -v TDIGIT2 %03u $(($ARG % 1000))
+@@ -59,70 +59,57 @@ get_replicate_filename()
+   printf -v TDIGIT1 %03u $ARG
+   REPLICATE_TRUNK_DIR=$TDIGIT1/$TDIGIT2/
+   REPLICATE_FILENAME=$TDIGIT1/$TDIGIT2/$TDIGIT3
+-};
+-
++}
+ 
+-fetch_file()
+-{
++fetch_file() {
+   wget -nv -O "$2" "$1"
+-};
++}
+ 
+-
+-collect_minute_diffs()
+-{
++collect_minute_diffs() {
+   TEMP_SOURCE_DIR=$1
+   TEMP_TARGET_DIR=$2
+   TARGET=$(($START + 1))
+ 
+   get_replicate_filename $TARGET
+   printf -v TARGET_FILE %09u $TARGET
+-  
++
+   fetch_file "$SOURCE_DIR/$REPLICATE_FILENAME.state.txt" "$TEMP_SOURCE_DIR/$TARGET_FILE.state.txt"
+   fetch_file "$SOURCE_DIR/$REPLICATE_FILENAME.osc.gz" "$TEMP_SOURCE_DIR/$TARGET_FILE.osc.gz"
+ 
+-  while [[ ( -s "$TEMP_SOURCE_DIR/$TARGET_FILE.state.txt" ) && ( $(($START + 1440)) -ge $(($TARGET)) ) && ( `du -m "$TEMP_TARGET_DIR" | awk '{ print $1; }'` -le 64 ) ]];
+-  do
+-  {
+-    gunzip <"$TEMP_SOURCE_DIR/$TARGET_FILE.osc.gz" >"$TEMP_TARGET_DIR/$TARGET_FILE.osc"
+-    
+-    TARGET=$(($TARGET + 1))
+-    get_replicate_filename $TARGET
+-    printf -v TARGET_FILE %09u $TARGET
+-    
+-    fetch_file "$SOURCE_DIR/$REPLICATE_FILENAME.state.txt" "$TEMP_SOURCE_DIR/$TARGET_FILE.state.txt"
+-    fetch_file "$SOURCE_DIR/$REPLICATE_FILENAME.osc.gz" "$TEMP_SOURCE_DIR/$TARGET_FILE.osc.gz"
+-  };
++  while [[ (-s "$TEMP_SOURCE_DIR/$TARGET_FILE.state.txt") && ($(($START + 1440)) -ge $(($TARGET))) && ($(du -m "$TEMP_TARGET_DIR" | awk '{ print $1; }') -le 64) ]]; do
++    {
++      gunzip <"$TEMP_SOURCE_DIR/$TARGET_FILE.osc.gz" >"$TEMP_TARGET_DIR/$TARGET_FILE.osc"
++
++      TARGET=$(($TARGET + 1))
++      get_replicate_filename $TARGET
++      printf -v TARGET_FILE %09u $TARGET
++
++      fetch_file "$SOURCE_DIR/$REPLICATE_FILENAME.state.txt" "$TEMP_SOURCE_DIR/$TARGET_FILE.state.txt"
++      fetch_file "$SOURCE_DIR/$REPLICATE_FILENAME.osc.gz" "$TEMP_SOURCE_DIR/$TARGET_FILE.osc.gz"
++    }
+   done
+   TARGET=$(($TARGET - 1))
+-};
+-
++}
+ 
+-apply_minute_diffs()
+-{
++apply_minute_diffs() {
+   ./update_from_dir --osc-dir=$1 --version=$DATA_VERSION $META --flush-size=0
+   EXITCODE=$?
+-  while [[ $EXITCODE -ne 0 ]];
+-  do
+-  {
+-    sleep 60
+-    ./update_from_dir --osc-dir=$1 --version=$DATA_VERSION $META --flush-size=0
+-    EXITCODE=$?
+-  };
++  while [[ $EXITCODE -ne 0 ]]; do
++    {
++      sleep 60
++      ./update_from_dir --osc-dir=$1 --version=$DATA_VERSION $META --flush-size=0
++      EXITCODE=$?
++    }
+   done
+   DIFF_COUNT=$(($DIFF_COUNT + 1))
+-};
+-
++}
+ 
+-update_state()
+-{
++update_state() {
+   get_replicate_filename $TARGET
+   printf -v TARGET_FILE %09u $TARGET
+-  TIMESTAMP_LINE=`grep "^timestamp" <"$TEMP_SOURCE_DIR/$TARGET_FILE.state.txt"`
++  TIMESTAMP_LINE=$(grep "^timestamp" <"$TEMP_SOURCE_DIR/$TARGET_FILE.state.txt")
+   DATA_VERSION=${TIMESTAMP_LINE:10}
+-};
+-
+-
+-echo >>$DB_DIR/fetch_osc_and_apply.log
++}
+ 
+ mkdir -p $DB_DIR/augmented_diffs/
+ DIFF_COUNT=0
+@@ -130,36 +117,37 @@ DIFF_COUNT=0
+ # update_state
+ 
+ pushd "$EXEC_DIR"
+-START=`cat $DB_DIR/replicate_id`
++START=$(cat $DB_DIR/replicate_id)
+ 
+ while [[ true ]]; do
+-{
+-  echo "`date -u '+%F %T'`: updating from $START" >>$DB_DIR/fetch_osc_and_apply.log
+-
+-  TEMP_SOURCE_DIR=`mktemp -d /tmp/osm-3s_update_XXXXXX`
+-  TEMP_TARGET_DIR=`mktemp -d /tmp/osm-3s_update_XXXXXX`
+-  collect_minute_diffs $TEMP_SOURCE_DIR $TEMP_TARGET_DIR
+-
+-  if [[ $TARGET -gt $START ]]; then
+   {
+-    echo "`date -u '+%F %T'`: updating to $TARGET" >>$DB_DIR/fetch_osc_and_apply.log
+-
+-    update_state
+-    apply_minute_diffs $TEMP_TARGET_DIR
+-    echo "$TARGET" >$DB_DIR/replicate_id
+-
+-    echo "`date -u '+%F %T'`: update complete" $TARGET >>$DB_DIR/fetch_osc_and_apply.log
+-  };
+-  else
+-  {
+-    sleep 10
+-  }; fi
+-
+-  rm -f $TEMP_TARGET_DIR/*
+-  rmdir $TEMP_TARGET_DIR
+-  rm -f $TEMP_SOURCE_DIR/*
+-  rmdir $TEMP_SOURCE_DIR
+-
+-  START=$TARGET
+-}; done
+-
++    echo "updating from $START"
++
++    TEMP_SOURCE_DIR=$(mktemp -d /tmp/osm-3s_update_XXXXXX)
++    TEMP_TARGET_DIR=$(mktemp -d /tmp/osm-3s_update_XXXXXX)
++    collect_minute_diffs $TEMP_SOURCE_DIR $TEMP_TARGET_DIR
++
++    if [[ $TARGET -gt $START ]]; then
++      {
++        echo "updating to $TARGET"
++
++        update_state
++        apply_minute_diffs $TEMP_TARGET_DIR
++        echo "$TARGET" >$DB_DIR/replicate_id
++
++        echo "update complete $TARGET"
++      }
++    else
++      {
++        sleep 10
++      }
++    fi
++
++    rm -f $TEMP_TARGET_DIR/*
++    rmdir $TEMP_TARGET_DIR
++    rm -f $TEMP_SOURCE_DIR/*
++    rmdir $TEMP_SOURCE_DIR
++
++    START=$TARGET
++  }
++done

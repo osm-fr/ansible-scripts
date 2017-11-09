@@ -6,10 +6,11 @@ ConditionPathExists=!{{ overpass_database_dir }}/replicate_id
 Type=oneshot
 User={{ overpass_user }}
 ExecStart=/usr/local/bin/overpass-setup.py
-ExecStart=+/bin/systemctl start overpass-dispatcher.service
-ExecStart=+/bin/systemctl start overpass-updater.service
-ExecStart=+/bin/systemctl start overpass-areas-dispatcher.service
-ExecStart=+/bin/systemctl start overpass-areas-builder.service
+ExecStart=+/bin/systemctl restart overpass-dispatcher.service
+ExecStart=/usr/local/bin/dispatcher --rate-limit=32
+ExecStart=+/bin/systemctl restart overpass-diff-applier.service
+ExecStart=+/bin/systemctl restart overpass-areas-dispatcher.service
+ExecStart=+/bin/systemctl restart overpass-areas-builder.service
 
 [Install]
 WantedBy=multi-user.target
