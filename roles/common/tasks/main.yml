@@ -204,6 +204,11 @@
 - name: add default sudoers
   copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
 
+- name: add sudoers for users
+  template: src=sudoers-users dest=/etc/sudoers.d/ansible-common-users mode=0440 owner=root group=root validate='visudo -cf %s'
+  when: users_root is defined
+
+
 - name: add alias for ll
   lineinfile: dest=/etc/bash.bashrc regexp='alias ll="ls -l"' line='alias ll="ls -l"'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
