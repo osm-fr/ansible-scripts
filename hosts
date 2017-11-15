@@ -268,6 +268,7 @@ osm135.openstreetmap.fr
 [marc_marc]
 osm103.openstreetmap.fr  # old overpass api
 osm117.openstreetmap.fr  # osmose frontend
+osm138.openstreetmap.fr
 osm147.openstreetmap.fr  # new overpass api
 osm148.openstreetmap.fr
 
