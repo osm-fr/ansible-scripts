@@ -206,6 +206,6 @@
   copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - name: configure crontab
-  cron: name="letsencrypt" hour="{{ 4 | random }}" minute="{{ 59 | random }}" day="{{ 28 | random(start=1) }}" month="*/2" job="(cd keys && ./launch-acme-tiny.sh)"
+  cron: name="letsencrypt" hour="{{ 4 | random }}" minute="{{ 59 | random }}" day="*" weekday="{{ 6 | random }}" month="*" job="(cd keys && ./launch-acme-tiny.sh)"
   become: yes
   become_user: letsencrypt
