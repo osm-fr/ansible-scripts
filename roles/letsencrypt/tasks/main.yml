@@ -68,6 +68,7 @@
     chdir="/data/project/letsencrypt/keys"
     executable="/bin/bash"
     openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$(cat hosts-list)")) > domain.csr
+  when: hosts_list.changed
 
 - name: check if using apache
   command: /usr/bin/test -e /etc/apache2/
@@ -124,9 +125,8 @@
 - name: launch acme-tiny
   become: yes
   become_user: letsencrypt
-  notify: reload apache
   command:
-    creates="/data/project/letsencrypt/keys/signed.crt" chdir="/data/project/letsencrypt/keys"
+    chdir="/data/project/letsencrypt/keys"
     ./launch-acme-tiny.sh
 
 - name: download intermediate certificate
@@ -193,7 +193,9 @@
   when: using_apache.changed and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
 - name: add apache ssl module
-  command: a2enmod ssl
+  apache2_module:
+    state: present
+    name: ssl
   notify: restart apache
   when: using_apache.changed and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
