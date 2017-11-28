@@ -1,0 +1,5 @@
+- name: galette configuration
+  hosts: galette
+  become: yes
+  roles:
+    - galette

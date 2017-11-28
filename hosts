@@ -62,6 +62,7 @@ osm146.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm147.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm148.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm150.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -107,6 +108,9 @@ osm146.openstreetmap.fr  # for www.openstreetmap.fr
 
 [phpbb]
 osm139.openstreetmap.fr  # for forum.openstreetmap.fr
+
+[galette]
+osm150.openstreetmap.fr
 
 [layers.openstreetmap.fr]
 osm121.openstreetmap.fr

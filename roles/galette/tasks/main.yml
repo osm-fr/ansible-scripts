@@ -1,0 +1,80 @@
+- name: set galette version
+  set_fact:
+    galette_version: 0.8.3.4
+
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - libapache2-mod-php
+    - mysql-server
+    - php-curl
+    - php-db
+    - php-gd
+    - php-gettext
+    - php-mysql
+    - php-tidy
+    - python-mysqldb  # for ansible module mysql_user
+
+- include: ../../../shared/project-account.yml user=galette
+
+
+# install galette manually in /data/project/galette/galette
+- name: check if galette was installed
+  stat:
+    path: /data/project/galette/galette
+  register: p
+
+- name: download galette
+  get_url:
+    url: http://download.tuxfamily.org/galette/galette-{{ galette_version }}.tar.bz2
+    dest: /data/project/galette/galette-{{ galette_version }}.tar.bz2
+    sha256sum: 9ae19ada7f20584d67121eca8c294ba5543abd377349b4b2268c9bf57340e94e
+  become: yes
+  become_user: galette
+  when: not (p.stat.isdir is defined and p.stat.isdir)
+
+- name: extract galette
+  unarchive:
+    creates: /data/project/galette/galette-{{ galette_version }}
+    src: /data/project/galette/galette-{{ galette_version }}.tar.bz2
+    dest: /data/project/galette/
+    remote_src: yes
+  become: yes
+  become_user: galette
+
+- name: change ownership
+  file:
+    path: /data/project/galette/galette-{{ galette_version }}/galette/{{ item }}
+    owner: www-data
+    group: www-data
+    state: directory
+    recurse: yes
+  with_items:
+    - config
+    - data
+
+- name: create mysql user
+  mysql_user:
+    name: galette
+    password: "{{ lookup('password', 'credentials/galette/' + inventory_hostname) }}"
+    priv: "galette.*:ALL"
+
+- name: create mysql db
+  mysql_db:
+    name: galette
+    state: present
+
+- name: copy apache config
+  template:
+    src: apache.site
+    dest: "/etc/apache2/sites-available/galette.conf"
+  notify: restart apache
+
+- name: enable apache site
+  file:
+    src: "/etc/apache2/sites-available/galette.conf"
+    dest: "/etc/apache2/sites-enabled/galette.conf"
+    state: link
+  notify: restart apache
+
