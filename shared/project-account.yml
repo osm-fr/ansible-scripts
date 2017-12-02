@@ -34,8 +34,16 @@
 - name: init group ${user}
   group: name={{ user }}
 
+- name: check if /data exists
+  stat:
+    path: /data
+  register: data_exists
+
 - name: init /data path
-  file: path=/data state=directory
+  file:
+    path: /data
+    state: directory
+  when: not data_exists.stat.exists
 
 - name: init /data/work/ path for ${user}
   file: path={{ work_dir }} state=directory owner={{ user }} group={{ user }}
