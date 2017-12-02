@@ -3,7 +3,7 @@
 - name: checkout acme-tiny repo
   git: repo=https://github.com/diafygi/acme-tiny.git
        dest=/data/project/letsencrypt/acme-tiny
-       version=daba51d37efd7c1f205f9da383b9b09968e30d29  # on 2016-10-17
+       version=4ed13950c0a9cf61f1ca81ff1874cde1cf48ab32  # on 2017-12-02
   become: yes
   become_user: letsencrypt
 
