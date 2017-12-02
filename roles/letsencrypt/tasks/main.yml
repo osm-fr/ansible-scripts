@@ -111,6 +111,12 @@
   service: name=apache2 state=restarted
   when: using_apache.changed and add_apache_mods.changed
 
+- name: init /etc/nginx/global.d/ path
+  file:
+    path: /etc/nginx/global.d/
+    state: directory
+  when: using_nginx.changed
+
 - name: copy nginx challenge config
   copy: src=nginx-letsencrypt-challenge.conf dest="/etc/nginx/global.d/letsencrypt-challenge.conf"
   register: copy_nginx_challenge
