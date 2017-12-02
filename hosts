@@ -130,6 +130,7 @@ osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.ope
 osm146.openstreetmap.fr letsencrypt_hosts=www.openstreetmap.fr,openstreetmap.fr
 osm149.openstreetmap.fr letsencrypt_hosts=osm149.openstreetmap.fr
 osm24.openstreetmap.fr letsencrypt_hosts=proxy-ign.openstreetmap.fr
+osm25.openstreetmap.fr
 osm26.openstreetmap.fr
 
 [letsencrypt-proxy]
@@ -193,6 +194,7 @@ osm138.openstreetmap.fr
 [proxycache]
 osm23.openstreetmap.fr
 osm24.openstreetmap.fr
+osm25.openstreetmap.fr
 osm26.openstreetmap.fr
 osm27.openstreetmap.fr
 osm28.openstreetmap.fr

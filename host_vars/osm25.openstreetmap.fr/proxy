@@ -1,0 +1,5 @@
+proxy:
+  -
+    logname: "teol.openstreetmap.bzh"
+    websites: "teol.openstreetmap.bzh"
+    target: "10.1.0.202"
