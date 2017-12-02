@@ -52,6 +52,11 @@
 
 - name: set letsencrypt_hosts
   set_fact:
+    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ proxy | json_query('[*].websites') | join(' ') }}"
+  when: letsencrypt_hosts is defined and proxy is defined
+
+- name: set letsencrypt_hosts
+  set_fact:
     letsencrypt_hosts: "{{ proxy | json_query('[*].websites') | join(' ') }}"
   when: letsencrypt_hosts is not defined and proxy is defined
 
