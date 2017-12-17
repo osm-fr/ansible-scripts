@@ -1,5 +1,5 @@
 proxy:
   -
-    logname: "teol.openstreetmap.bzh"
-    websites: "teol.openstreetmap.bzh"
+    logname: "openstreetmap.bzh"
+    websites: "teol.openstreetmap.bzh tile.openstreetmap.bzh api.openstreetmap.bzh stats.openstreetmap.bzh"
     target: "10.1.0.202"
