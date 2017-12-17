@@ -144,6 +144,9 @@
 - include: ../../../shared/account.yml user=jocelyn uid=1203
 - include: ../../../shared/account.yml user=sly     uid=1209
 
+- include: ../../../shared/account.yml user=apavie uid=1211
+  when: "'apavie' in group_names"
+
 - include: ../../../shared/account.yml user=cgiquello uid=1212
   when: "'cgiquello' in group_names"
 
