@@ -1,0 +1,24 @@
+#! /bin/bash
+
+cd /srv/gis/styles
+
+#git clone https://github.com/cquest/osmfr-cartocss.git
+cd osmfr-cartocss
+#git checkout v2.8.0
+
+#./get-shapefiles.sh
+ln -s /usr/share/openstreetmap-carto-common/data
+./get-layers.sh
+
+sed '/"name":/d' < project.mml > osm.mml
+carto -a 3.0.9 osm.mml > osm.xml
+
+cat <<EOF >> /srv/gis/styles/ocitysmap.styledefs
+[osmfr]
+name: French
+description: French OSM style
+path: /srv/gis/styles/osmfr-cartocss/osm.xml
+
+EOF
+
+echo "  osmfr," >> /srv/gis/styles/available.styles
