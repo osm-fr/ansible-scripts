@@ -1,0 +1,10 @@
+proxmox_var:
+  host: osm26.openstreetmap.fr
+  cpus: 2
+  disk: 50
+  netif: {"net0": "name=eth0,bridge=vmbr0,ip=10.1.0.151/24,gw=10.0.0.27,ip6=2001:41d0:1008:1f84:1::151/80,gw6=2001:41d0:1008:1f84:1::27"}
+  memory: 8192
+  ostemplate: debian-9.0-standard_9.3-1_amd64.tar.gz
+  storage: "local"
+  swap: 16384
+  vmid: 151

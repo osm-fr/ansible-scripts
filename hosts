@@ -63,6 +63,7 @@ osm147.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm148.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm150.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -265,6 +266,7 @@ osm133.openstreetmap.fr
 
 [lcombe]
 osm130.openstreetmap.fr
+osm151.openstreetmap.fr
 
 [nlehuby]
 osm110.openstreetmap.fr
