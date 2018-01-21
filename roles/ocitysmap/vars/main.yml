@@ -15,7 +15,7 @@ debian_python_required_packages:
   #Ce module ne gere pas les extensions Cairo, on va l'installer manuellement plus loin
   - python-mapnik
   - python-psycopg2
-  - python3-psycopg2
+  # python3-psycopg2 (on n'est pas encore en python3)
   #utile pour le rendu osmfr (import de osmfr.yml)
   - python-yaml
   #python-gdal amene le module ogr
@@ -57,15 +57,16 @@ db_owner_account: gis
 db_owner_password: mdpa
 #init ou no_init
 db_init: init
-#update ou no_update
-src_python_mapnik: update
-application_user_account: gis
+#
+application_user_account: maposmatic
+application_base: /data/project
+application_dir: "{{ application_base }}/{{ application_user_account }}"
 
-#2 regions disponibles
+# regions disponibles
 #osm_region: alsace
 osm_region: midi-pyrenees
 
-osm_initial_dest_datadir:  /srv/data
+osm_initial_dest_datadir:  /data/work
 osm_initial_dest_datafile: "{{ osm_initial_dest_datadir }}/data.osm.pbf"
 
 osmid_example_ribeauville:  69618
