@@ -15,6 +15,7 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
+    - bzr  # for josm translations
     - python-dateutil
     - python-imposm-parser
     - python-lockfile
@@ -120,3 +121,18 @@
   become: yes
   become_user: osmose
   ignore_errors: True
+
+- name: init /data/project/osmose/backend/po/josm/ path
+  file:
+    path: /data/project/osmose/backend/po/josm/
+    state: directory
+    owner: osmose
+    group: osmose
+
+- name: checkout bzr repository for josm translation
+  command: bzr checkout --lightweight lp:~openstreetmap/josm/josm_trans
+  args:
+    creates: /data/project/osmose/backend/po/josm/josm_trans
+    chdir: /data/project/osmose/backend/po/josm/
+  become: yes
+  become_user: osmose
