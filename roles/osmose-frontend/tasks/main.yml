@@ -1,6 +1,7 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
+    - apt-transport-https
     - python-psycopg2
     - python-matplotlib
     - python-imaging
