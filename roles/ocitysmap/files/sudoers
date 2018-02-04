@@ -1,0 +1,4 @@
+jocelyn ALL=(maposmatic) NOPASSWD: ALL
+jocelyn ALL=(postgres) NOPASSWD: ALL
+lcombe ALL=(maposmatic) NOPASSWD: ALL
+lcombe ALL=(postgres) NOPASSWD: ALL
