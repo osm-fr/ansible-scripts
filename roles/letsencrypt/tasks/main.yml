@@ -128,8 +128,6 @@
 
 
 - name: copy launch-acme-tiny.sh config
-  become: yes
-  become_user: letsencrypt
   copy: src=launch-acme-tiny.sh dest="/data/project/letsencrypt/keys/launch-acme-tiny.sh"
     owner=letsencrypt group=letsencrypt mode="0700"
 
