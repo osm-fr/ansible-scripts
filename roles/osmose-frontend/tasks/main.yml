@@ -1,20 +1,24 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
-    - apt-transport-https
-    - python-psycopg2
-    - python-matplotlib
-    - python-imaging
-    - python-polib
-    - python-requests
-    - python-beaker
-    - librsvg2-bin
     - apache2
+    - bzip2
+    - gcc
     - gettext
+    - git
     - libapache2-mod-wsgi
+    - libfreetype6-dev
+    - libjpeg-dev
+    - libpng-dev
+    - librsvg2-bin
     - make
-    - postgresql-9.4
-    - postgresql-contrib-9.4
+    - pkg-config
+    - postgresql
+    - postgresql-contrib
+    - python
+    - python-dev
+    - python-pip
+    - virtualenv
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
@@ -63,6 +67,35 @@
   become: yes
   become_user: osmose
 
+# Configure nodejs
+- name: get nodejs apt key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+
+- name: add nodejs apt repository
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_9.x "{{ ansible_distribution_release }}" main
+    state: present
+    filename: nodesource
+
+- name: install nodejs packages
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - nodejs
+
+- name: npm install
+  command: chdir=/data/project/osmose/frontend/ npm install
+  become: yes
+  become_user: osmose
+
+- name: npm run build
+  command: chdir=/data/project/osmose/frontend/ npm run build
+  become: yes
+  become_user: osmose
+
 - name: configure osmose website
   lineinfile: dest="/data/project/osmose/frontend/tools/utils.py" regexp="^website *="
               line="website           = \"{{ osmose_frontend_site }}\""
@@ -72,8 +105,11 @@
   become: yes
   become_user: osmose
 
-- name: git submodule
-  command: chdir=/data/project/osmose/frontend/ git submodule update --init
+- name: python virtualenv
+  pip:
+    chdir: /data/project/osmose/frontend/
+    requirements: requirements.txt
+    virtualenv: /data/project/osmose/frontend/osmose-frontend-venv
   become: yes
   become_user: osmose
 
@@ -102,6 +138,9 @@
     - rewrite.load
     - wsgi.conf
     - wsgi.load
+    - cache.load
+    - cache_disk.conf
+    - cache_disk.load
 
 - name: enable apache site
   file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}.conf" state=link
