@@ -65,6 +65,7 @@ osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm150.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -170,6 +171,7 @@ osm210.openstreetmap.fr
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
 osm117.openstreetmap.fr	osmose_frontend_site=osmose.openstreetmap.fr
 osm128.openstreetmap.fr	osmose_frontend_site=opendata.osmose.openstreetmap.fr
+osm153.openstreetmap.fr	osmose_frontend_site=osmose.openstreetmap.fr
 
 [osmbin]
 osm108.openstreetmap.fr
@@ -244,6 +246,7 @@ osm124.openstreetmap.fr
 osm26.openstreetmap.fr
 osm128.openstreetmap.fr
 osm129.openstreetmap.fr
+osm153.openstreetmap.fr
 osm20.openstreetmap.fr
 osm200.openstreetmap.fr
 osm201.openstreetmap.fr
@@ -283,6 +286,7 @@ osm117.openstreetmap.fr  # osmose frontend
 osm138.openstreetmap.fr
 osm147.openstreetmap.fr  # new overpass api
 osm148.openstreetmap.fr
+osm153.openstreetmap.fr
 
 [panieravide]
 osm110.openstreetmap.fr
