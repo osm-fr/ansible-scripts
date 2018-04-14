@@ -65,3 +65,7 @@ proxy:
     logname: "monitor"
     websites: "monitor.openstreetmap.fr"
     target: "10.1.0.149"
+  -
+    logname: "osmose"
+    websites: "osmose.openstreetmap.fr"
+    target: "10.1.0.153"
