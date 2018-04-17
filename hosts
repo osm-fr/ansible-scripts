@@ -66,6 +66,7 @@ osm150.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm154.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -269,6 +270,9 @@ osm104.openstreetmap.fr
 osm107.openstreetmap.fr
 osm26.openstreetmap.fr
 osm133.openstreetmap.fr
+
+[juliep]
+osm154.openstreetmap.fr
 
 [lcombe]
 osm130.openstreetmap.fr

@@ -69,3 +69,7 @@ proxy:
     logname: "osmose"
     websites: "osmose.openstreetmap.fr"
     target: "10.1.0.153"
+  -
+    logname: "sotm2018"
+    websites: "sotm2018.openstreetmap.fr"
+    target: "10.1.0.154"
