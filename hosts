@@ -16,8 +16,6 @@ osm27.openstreetmap.fr
 osm28.openstreetmap.fr
 
 [vm]
-osm5
-osm6
 osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm102.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm103.openstreetmap.fr vm_host=osm11.openstreetmap.fr
