@@ -19,6 +19,11 @@
     - cgi.load
     - expires.load
 
+- name: copy robots.txt
+  copy:
+    src: robots.txt
+    dest: /var/cache/munin/www/robots.txt
+
 - name: configure munin hosts
   template: src=hosts.conf.j2 dest=/etc/munin/munin-conf.d/hosts.conf owner=root group=root mode=644
 
