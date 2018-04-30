@@ -54,6 +54,7 @@ osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm154.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true
+osm155.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -158,6 +159,9 @@ osm108.openstreetmap.fr
 
 [osmosis]
 osm110.openstreetmap.fr
+
+[peertube]
+osm155.openstreetmap.fr
 
 [polygons]
 osm108.openstreetmap.fr

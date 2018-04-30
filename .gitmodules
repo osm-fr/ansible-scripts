@@ -1,3 +1,9 @@
 [submodule "galaxy/ansible-role-storyteller"]
 	path = galaxy/ansible-role-storyteller
 	url = https://github.com/osm-fr/ansible-role-storyteller.git
+[submodule "galaxy/yedit"]
+	path = galaxy/yedit
+	url = https://github.com/kwoodson/yedit.git
+[submodule "galaxy/ansible-peertube"]
+	path = galaxy/ansible-peertube
+	url = https://github.com/osm-fr/ansible-peertube.git
