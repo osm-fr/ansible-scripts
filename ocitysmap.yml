@@ -1,0 +1,7 @@
+- name: ocitysmap.yml
+  hosts: ocitysmap
+  roles:
+    - role: ocitysmap
+      when:
+        - ansible_distribution_release == "stretch"
+      become: yes

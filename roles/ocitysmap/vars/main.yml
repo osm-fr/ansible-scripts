@@ -1,0 +1,73 @@
+locale_list:
+  - 'fr_FR ISO-8859-1'
+  - 'fr_FR.UTF-8 UTF-8'
+  - 'fr_FR@euro ISO-8859-15'
+  - 'de_DE ISO-8859-1'
+  - 'de_DE.UTF-8 UTF-8'
+  - 'de_DE@euro ISO-8859-15'
+  - 'en_GB ISO-8859-1'
+  - 'en_GB.ISO-8859-15 ISO-8859-15'
+  - 'en_GB.UTF-8 UTF-8'
+  - 'en_US ISO-8859-1'
+  - 'en_US.ISO-8859-15 ISO-8859-15'
+  - 'en_US.UTF-8 UTF-8'
+debian_python_required_packages:
+  #Ce module ne gere pas les extensions Cairo, on va l'installer manuellement plus loin
+  - python-mapnik
+  - python-psycopg2
+  # python3-psycopg2 (on n'est pas encore en python3)
+  #utile pour le rendu osmfr (import de osmfr.yml)
+  - python-yaml
+  #python-gdal amene le module ogr
+  - python-gdal
+  #python gtk2 apporte le module pango ?
+  - python-gtk2
+  - python-shapely
+  - python-rsvg
+debian_postgresql_required_packages:
+  - postgresql-9.6-postgis-2.3
+  - osm2pgsql
+  - libmapnik3.0
+debian_font_required_packages:
+  #https://ircama.github.io/osm-carto-tutorials/kosmtik-ubuntu-setup/
+  #fonts needed by openstreetmap-carto fonts-noto-cjk fonts-noto-hinted fonts-noto-unhinted fonts-hanazono ttf-unifont
+  - fonts-noto-cjk
+  - fonts-noto-hinted
+  - fonts-noto-unhinted
+  - fonts-hanazono
+  - ttf-unifont
+debian_other_required_packages:
+  #required for the carto binary (but too old ...)
+  #- node-carto
+  #pour compiler une locale, il faut
+  - gettext
+  - git
+  #pour le build de python-mapnik, il faut 
+  #- libmapnik-dev
+  #- python-cairo-dev
+  #- python-setuptools
+  #- libboost-python-dev
+  #pour le style osmfr
+  #- npm (indispo sur stretch !!)
+  - openstreetmap-carto
+  - build-essential
+
+db_name: gis
+db_owner_account: gis
+db_owner_password: mdpa
+#init ou no_init
+db_init: init
+#
+application_user_account: maposmatic
+application_base: /data/project
+application_dir: "{{ application_base }}/{{ application_user_account }}"
+
+# regions disponibles
+#osm_region: alsace
+osm_region: midi-pyrenees
+
+osm_initial_dest_datadir:  /data/work
+osm_initial_dest_datafile: "{{ osm_initial_dest_datadir }}/data.osm.pbf"
+
+osmid_example_ribeauville:  69618
+osmid_example_bouloc:      151884

@@ -1,0 +1,311 @@
+#gestion des locales
+- name: select default locale
+  debconf:
+    name: locales
+    question: locales/default_environment_locale
+    value: fr_FR.UTF-8
+    vtype: select
+- name: /etc/locale.gen
+  lineinfile:
+    dest: /etc/locale.gen
+    regexp: ^#? ?{{ item }}
+    line: "{{ item }}"
+    state: present
+  register: liste_locale
+  with_items: "{{ locale_list }}"
+- name: rebuild locales database
+  command: "{{ item }}"
+#  when: liste_locale.changed
+  with_items:
+    - dpkg-reconfigure locales -f noninteractive
+    - /usr/sbin/locale-gen
+
+#ajouts des paquets nécessaires
+- name: Mise à jour de la liste des paquets disponibles
+  apt:
+    update_cache: yes
+- name: déploiement des modules python
+  apt: state=installed pkg={{ item }}
+  with_items: "{{ debian_python_required_packages }}"
+- name: déploiement des modules postgresql
+  apt: state=installed pkg={{ item }}
+  with_items: "{{ debian_postgresql_required_packages }}"
+- name: déploiement des modules liés aux polices de caractère
+  apt: state=installed pkg={{ item }}
+  with_items: "{{ debian_font_required_packages }}"
+- name: déploiement des autres modules
+  apt: state=installed pkg={{ item }}
+  with_items: "{{ debian_other_required_packages }}"
+
+- name: add sudoers to access regular application user
+  copy: 
+    src: sudoers
+    dest: /etc/sudoers.d/ocitysmap
+    mode: 0440
+    owner: root
+    group: root
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: création de l'utilsateur gis (dans la base postgresql)
+  postgresql_user:
+    name: "{{ db_owner_account }}"
+    password: "{{ db_owner_password }}"
+    role_attr_flags: NOCREATEROLE,NOCREATEDB,NOSUPERUSER
+  become: yes
+  become_user: postgres
+
+- name: création de la base gis
+  postgresql_db:
+    name: "{{ db_name }}"
+    encoding: UTF-8
+    lc_collate: en_US.UTF-8
+    lc_ctype: en_US.UTF-8
+    owner: "{{ db_owner_account }}"
+    template: template0
+  register: createdb_{{ db_name }}
+  become: yes
+  become_user: postgres
+
+- name: ajout de l'extension postgis
+  postgresql_ext:
+    name: postgis
+    db: "{{ db_name }}"
+  become: yes
+  become_user: postgres
+
+- name: ajout de l'extension hstore
+  postgresql_ext:
+    name: hstore
+    db: "{{ db_name }}"
+  become: yes
+  become_user: postgres
+
+- name: récupération des shapefile nécessaires au style
+  command: ./get-shapefiles.sh
+  args:
+    chdir: /usr/share/openstreetmap-carto-common
+    creates: /usr/share/openstreetmap-carto-common/data
+
+- name: Création du répertoire d'accueil de l'application
+  file:
+    path: "{{ application_base }}"
+    state: directory
+    mode: 0775
+
+- name: Création de l'utilisateur {{ application_user_account }}
+  user:
+    name: "{{ application_user_account }}"
+    home: "{{ application_dir }}"
+    shell: /bin/bash
+
+- name: Création du répertoire d'accueil des data osm
+  file:
+    path: "{{ osm_initial_dest_datadir }}"
+    state: directory
+    owner: "{{ application_user_account }}"
+    group: "{{ application_user_account }}"
+    mode: 0775
+
+- name: Date du dernier import
+  find:
+    paths: "{{ osm_initial_dest_datadir }}"
+    patterns: 'data.osm.pbf'
+    age: -1w
+  register: find_data
+
+- name: téléchargement des données geofabrik
+  get_url:
+    url: http://download.geofabrik.de/europe/france/{{osm_region}}-latest.osm.pbf
+    dest: "{{ osm_initial_dest_datafile }}"
+    force: yes
+    mode: 0644
+  when: find_data.matched == 0
+
+- name: import des données en base
+  environment:
+    PGPASSWORD: "{{ db_owner_password }}"
+  when: find_data.matched == 0
+  shell: osm2pgsql --create -d {{ db_name }} -U {{ db_owner_account }} -E 3857 -H localhost -k -s {{ osm_initial_dest_datafile }}
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+#installation de ocitysmap à partir des sources
+- name: Nettoyage des sources ocitysmap
+  file:
+    path: "{{ application_dir }}/ocitysmap"
+    state: absent
+
+- name: Rapatriement des sources ocitysmap
+  shell: git clone -b mapnik3 https://git.savannah.gnu.org/git/maposmatic/ocitysmap.git
+  args:
+    chdir: "{{ application_dir }}"
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+- name: Installation du Fichier de configuration de ocitysmap
+  template :
+    src: ocitysmap.conf.j2
+    dest: "{{ application_dir }}/.ocitysmap.conf"
+    owner: "{{ application_user_account }}"
+  become: yes
+
+#Création du répertoire d'accueuil des styles
+- name: Création du répertoire d'accueil des styles
+  file:
+    path: "{{ application_dir}}/styles"
+    state: directory
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+- name: Création du répertoire d'accueil des data communes aux styles
+  file:
+    path: "{{ application_dir }}/styles-commons/osmfr-layers"
+    state: directory
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+#Style osmfr
+- name: Nettoyage des sources osmfr
+  file:
+    path: "{{ application_dir }}/styles/osmfr-cartocss"
+    state: absent
+
+- name: Récupération du style osmfr
+  shell: git clone https://github.com/cquest/osmfr-cartocss.git
+  args:
+    chdir: "{{ application_dir }}/styles"
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+- name: Date import layers osmfr
+  find:
+    paths: "{{ application_dir }}/styles-commons/osmfr-layers"
+    patterns: 'z7.tif'
+    age: -1d
+  register: find_layers
+
+- name: Téléchargement des données layers osmfr
+  get_url:
+    url: http://osm13.openstreetmap.fr/~cquest/z7.tif
+    dest: "{{ application_dir }}/styles-commons/osmfr-layers"
+    force: yes
+    mode: 0644
+  when: find_layers.matched == 0
+
+- name: Lien pour acces au fichier z7.tif
+  file: 
+    path: "{{ application_dir }}/styles/osmfr-cartocss/layers"
+    src: "{{ application_dir }}/styles-commons/osmfr-layers"
+    state: link 
+    force: yes
+- name: lien pour acces aux donnees de base cartographiques
+  file: 
+    path: "{{ application_dir }}/styles/osmfr-cartocss/data"
+    src: /usr/share/openstreetmap-carto-common/data
+    state: link 
+    force: yes
+
+#2# psql -f additions.sql
+#3# psql -f functions.sql (bug PARALLEL SAFE)
+#psql -f support/setup-maposmatic-admin.sql
+- name: complements a la base postgresql
+  command: /usr/bin/psql -U {{ db_owner_account }} -h localhost -f {{ item }}
+  with_items:
+    - additions.sql
+    - functions.sql
+  environment:
+    PGPASSWORD: "{{ db_owner_password }}"
+  args:
+    chdir: "{{ application_dir }}/styles/osmfr-cartocss"
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+#4a# dans osmfr.yml remplacer par gis et mdpa
+- name: edition de osmfr.yml id
+  lineinfile:
+    dest: "{{ application_dir }}/styles/osmfr-cartocss/osmfr.yml"
+    regexp: "^\\s+user: fr"
+    line: "    user: {{ db_owner_account }}"
+    state: present
+
+- name: edition de osmfr.yml pwd
+  lineinfile:
+    dest: "{{ application_dir }}/styles/osmfr-cartocss/osmfr.yml"
+    regexp: "^\\s+password: .+$"
+    line: "    password: {{ db_owner_password }}"
+    state: present
+
+- name: edition de osmfr.yml dbname
+  lineinfile:
+    dest: "{{ application_dir }}/styles/osmfr-cartocss/osmfr.yml"
+    regexp: "^\\s+dbname: \".+\"$"
+    line: "    dbname: {{ db_name }}"
+    state: present
+
+#4b# python -c 'import sys, yaml, json; json.dump(yaml.safe_load(sys.stdin), sys.stdout, indent=4, separators=(",", ": "))' < osmfr.yml > project.json.mml
+- name: utilisation du fichier osmfr.yml
+  shell: "python -c \"import sys, yaml, json; json.dump(yaml.safe_load(sys.stdin), sys.stdout, indent=4, separators=(',', ': '))\" < osmfr.yml > project.json.mml"
+  args:
+    chdir: "{{ application_dir }}/styles/osmfr-cartocss"
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+#5# curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -  (installation de nodejs et npm depuis un depot particulier)
+#old: apt-get install nodejs 
+#old: sudo apt-get install -y npm
+#old: sudo ln -s /usr/bin/nodejs /usr/bin/node
+#npm install -g @mapbox/carto
+#npm install -g millstone
+- name: installation de nodejs, npm, carto et millstone
+  shell: "{{ item }}"
+  with_items:
+    - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+    - apt-get install -y nodejs
+    - /usr/bin/npm install -g @mapbox/carto
+    - /usr/bin/npm install -g millstone
+
+#nodejs /usr/bin/carto -a "3.0.0" project.json.mml > mapnik.xml          
+#carto -a "3.0.0" project.json.mml > mapnik.xml    
+- name: configuration du rendu osmfr pour mapnik
+  shell: "nodejs /usr/bin/carto -a '3.0.0' project.json.mml > mapnik.xml"
+  args:
+    chdir: "{{ application_dir }}/styles/osmfr-cartocss"
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+#psql -f support/setup-maposmatic-admin.sql
+- name: complements a la base postgresql
+  command: /usr/bin/psql -U {{ db_owner_account }} -h localhost -f support/setup-maposmatic-admin.sql
+  environment:
+    PGPASSWORD: "{{ db_owner_password }}"
+  args:
+    chdir: "{{ application_dir }}/ocitysmap"
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+#gestion des locales
+#./i18n.py --make-pot
+#inutile# cd locale
+#inutile# cp -r fr fr_FR.UTF-8
+#./i18n.py --make-po
+#./i18n.py --compile-mo  
+- name: gestion des locales
+  command: "{{ item }}"
+  with_items:
+    - ./i18n.py --make-pot
+    - ./i18n.py --make-po
+    - ./i18n.py --compile-mo
+  args:
+    chdir: "{{ application_dir }}/ocitysmap"
+  become: yes
+  become_user: "{{ application_user_account }}"
+
+#generation d'un exemple
+#./render.py -t "Bouloc city!" --osmid=-151884
+#./render.py -t "Bouloc city!" --osmid=-151884 -s osmfr -L fr_FR
+- name: generation d'un exemple
+  command: ./render.py -t "Bouloc city!" --osmid=-151884 -s osmfr -L fr_FR.UTF-8
+  args:
+    chdir: "{{ application_dir }}/ocitysmap"
+  become: yes
+  become_user: "{{ application_user_account }}"

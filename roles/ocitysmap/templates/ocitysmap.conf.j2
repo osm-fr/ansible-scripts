@@ -1,0 +1,19 @@
+[datasource]
+host=localhost
+user={{db_owner_account}}
+password={{db_owner_password}}
+dbname={{db_name}}
+
+[rendering]
+available_stylesheets=stylesheet_osm1, French
+
+[stylesheet_osm1]
+name=Default
+description=The default OSM style
+path=/usr/share/openstreetmap-carto/style.xml
+shade_alpha = 0.3
+
+[French]
+name=osmfr
+description=French OSM style
+path={{application_dir}}/styles/osmfr-cartocss/mapnik.xml
