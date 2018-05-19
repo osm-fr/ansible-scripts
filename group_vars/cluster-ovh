@@ -77,3 +77,4 @@ proxy:
     logname: "peertube"
     websites: "peertube.openstreetmap.fr"
     target: "10.1.0.155"
+    config_src: "nginx-site-peertube.j2"
