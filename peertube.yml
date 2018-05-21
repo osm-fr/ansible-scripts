@@ -1,0 +1,7 @@
+- name: peertube configuration
+  hosts: peertube
+  become: yes
+  roles:
+    - lib_yaml_editor
+    - ansible-peertube
+
