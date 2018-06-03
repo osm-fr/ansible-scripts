@@ -53,6 +53,7 @@ osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm154.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true
 osm155.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm157.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -199,6 +200,7 @@ osm110.openstreetmap.fr
 [cgiquello]
 osm101.openstreetmap.fr
 osm102.openstreetmap.fr
+osm157.openstreetmap.fr
 
 [driss]
 osm26.openstreetmap.fr
