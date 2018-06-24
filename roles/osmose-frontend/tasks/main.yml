@@ -142,6 +142,21 @@
     - cache_disk.conf
     - cache_disk.load
 
+- name: configure apache mpm_event
+  lineinfile:
+    dest: "/etc/apache2/mods-available/mpm_event.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  notify: restart apache
+  with_items:
+    - {regexp: "StartServers",           line: "	StartServers		1"}
+    - {regexp: "MinSpareThreads",        line: "	MinSpareThreads		1"}
+    - {regexp: "MaxSpareThreads",        line: "	MaxSpareThreads		7"}
+    - {regexp: "ThreadsPerChild",        line: "	ThreadsPerChild		8"}
+    - {regexp: "MaxRequestWorkers",      line: "	MaxRequestWorkers	40"}
+    - {regexp: "MaxConnectionsPerChild", line: "	MaxConnectionsPerChild	100"}
+    - {regexp: "ServerLimit",            line: "	ServerLimit		40"}
+
 - name: enable apache site
   file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}.conf" state=link
   notify: restart apache
