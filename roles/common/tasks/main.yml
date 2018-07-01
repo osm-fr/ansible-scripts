@@ -210,7 +210,7 @@
 
 - name: add sudoers for users
   template: src=sudoers-users dest=/etc/sudoers.d/ansible-common-users mode=0440 owner=root group=root validate='visudo -cf %s'
-  when: users_root is defined
+  when: users_root is defined or group_users_root is defined
 
 
 - name: add alias for ll
