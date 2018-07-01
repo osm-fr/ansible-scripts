@@ -1,2 +1,4 @@
 peertube_tld: peertube.openstreetmap.fr
+peertube_proxy_handle_https: 'yes'
+peertube_proxy_ips: [10.0.0.26, 10.0.0.27, 10.0.0.28]
 peertube_user_path: /data/project/peertube

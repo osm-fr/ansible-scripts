@@ -2,6 +2,6 @@
   hosts: peertube
   become: yes
   roles:
-    - lib_yaml_editor
+    - yedit
     - ansible-peertube
 
