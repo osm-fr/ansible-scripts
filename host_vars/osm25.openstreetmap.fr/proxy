@@ -3,3 +3,9 @@ proxy:
     logname: "openstreetmap.bzh"
     websites: "teol.openstreetmap.bzh tile.openstreetmap.bzh api.openstreetmap.bzh stats.openstreetmap.bzh"
     target: "10.1.0.202"
+  -
+    logname: "monit.openstreetmap.bzh"
+    websites: "monit.openstreetmap.bzh"
+    target: "10.1.0.202"
+    target_port: "2812"
+    config_src: "nginx-site-port.j2"
