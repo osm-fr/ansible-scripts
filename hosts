@@ -63,6 +63,10 @@ osm208.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm209.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 
+# temporary VMs
+osm300.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+
+
 [cluster-ovh]
 osm26.openstreetmap.fr
 osm27.openstreetmap.fr
@@ -201,6 +205,9 @@ osm110.openstreetmap.fr
 osm101.openstreetmap.fr
 osm102.openstreetmap.fr
 osm157.openstreetmap.fr
+
+[don-vip]
+osm300.openstreetmap.fr
 
 [driss]
 osm26.openstreetmap.fr
