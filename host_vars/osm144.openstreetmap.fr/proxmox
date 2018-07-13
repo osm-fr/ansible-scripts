@@ -4,7 +4,7 @@ proxmox_var:
   disk: 300
   netif: {"net0": "name=eth0,bridge=vmbr0,ip=10.1.0.144/24,gw=10.0.0.26,ip6=2001:41d0:1008:1f65:1::144/80,gw6=2001:41d0:1008:1f65:1::26"}
   memory: 4096
-  ostemplate: ubuntu-17.10-standard_17.10-1_amd64.tar.gz
+  ostemplate: ubuntu-18.04-standard_18.04-1_amd64.tar.gz
   storage: "hdd-sdd"
   swap: 2048
   vmid: 144

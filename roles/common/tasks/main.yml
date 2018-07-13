@@ -47,7 +47,8 @@
     src: "/dev/null"
     path: "/etc/systemd/system/atopacct.service"
   when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17'))
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
 
 - set_fact: install_apache=false
   when: install_apache is undefined
