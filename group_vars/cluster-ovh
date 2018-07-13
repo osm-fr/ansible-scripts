@@ -45,6 +45,10 @@ proxy:
     websites: "next.openstreetmap.fr"
     target: "10.1.0.142"
   -
+    logname: "www-old"
+    websites: "www.openstreetmap.fr"
+    target: "10.1.0.146"
+  -
     logname: "mastodon"
     websites: "fr.osm.social"
     target: "10.1.0.143"
