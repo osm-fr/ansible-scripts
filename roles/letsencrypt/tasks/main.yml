@@ -76,7 +76,7 @@
   when: hosts_list.changed
 
 - name: check if using apache
-  command: /usr/bin/test -e /etc/apache2/
+  command: /usr/bin/test -e /etc/apache2/sites-enabled/
   ignore_errors: True
   register: using_apache
   changed_when: "using_apache.rc == 0"
