@@ -1,6 +1,6 @@
 - name: osmose-frontend configuration
   hosts: osmose-frontend
-  gather_facts: no
+  gather_facts: yes
   become: yes
   roles:
     - osmose-frontend

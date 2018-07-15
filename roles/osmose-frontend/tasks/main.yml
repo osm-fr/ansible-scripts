@@ -2,6 +2,7 @@
   apt: pkg={{ item }}
   with_items:
     - apache2
+    - apt-transport-https
     - bzip2
     - gcc
     - gettext
