@@ -19,6 +19,7 @@
     swap: "{{ proxmox_var.swap }}"
     vmid: "{{ proxmox_var.vmid }}"
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
+  register: create_vm
   become: no
 
 - name: start VM
@@ -31,6 +32,21 @@
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
   become: no
 
+- name: configure ipv6 on host interfaces
+  interfaces_file:
+    iface: vmbr0
+    address_family: inet6
+    option: "post-up"
+    value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
+  delegate_to: "{{ vm_host }}"
+  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
+  become: yes
+
+- name: configure ipv6 on host
+  raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
+  delegate_to: "{{ vm_host }}"
+  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
+  become: yes
 
 - name: apt-get update
   raw: "[ -e /usr/bin/apt-get ] && apt-get update"
