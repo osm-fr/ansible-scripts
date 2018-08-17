@@ -48,6 +48,15 @@
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
   become: yes
 
+- name: add VM to local /etc/hosts
+  local_action:
+    module: lineinfile
+    path: /etc/hosts
+    regexp: "{{ inventory_hostname }}"
+    line: '{{ proxmox_var.ipv6 }} {{ inventory_hostname }}'
+  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
+  become: yes
+
 - name: apt-get update
   raw: "[ -e /usr/bin/apt-get ] && apt-get update"
 
