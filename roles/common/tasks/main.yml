@@ -13,6 +13,7 @@
     onboot: yes
     ostemplate: "local:vztmpl/{{ proxmox_var.ostemplate }}"
     password: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
+    pubkey: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
     state: present
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
