@@ -23,6 +23,15 @@ installed with:
 
 ## Using ansible scripts
 
+### Installation and configuration of a new VM with proxmox
+
+1. launch `./tools/add-vm.py` to update file `hosts` and create proxmox configuration. Command line options are available to change parameters like number of cpus or size of disk.
+1. set shell variables `PROXMOX_PASSWORD` and `PROXMOX_SSHPUBKEY`
+1. launch following command to create VM, configure network on host for ipv6 access, and update local `/etc/hosts` to access VM before DNS update:
+    ```shell
+    ansible-playbook -u root -l <hostname> common.yml
+    ```
+
 ### Configuration of a new machine with default configuration
 
 1. add the machine to file `hosts`, in section `[vm]` if it is a virtual machine, at the top otherwise.
