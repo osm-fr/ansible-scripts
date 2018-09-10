@@ -42,11 +42,11 @@ proxy:
     target: "10.1.0.141"
   -
     logname: "www"
-    websites: "next.openstreetmap.fr"
+    websites: "next.openstreetmap.fr www.openstreetmap.fr openstreetmap.fr"
     target: "10.1.0.142"
   -
     logname: "www-old"
-    websites: "www.openstreetmap.fr openstreetmap.fr"
+    websites: "prev.openstreetmap.fr"
     target: "10.1.0.146"
   -
     logname: "mastodon"
