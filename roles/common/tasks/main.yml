@@ -211,6 +211,9 @@
 - include: ../../../shared/account.yml user=lcombe uid=1215
   when: "'lcombe' in group_names"
 
+- include: ../../../shared/account.yml user=mael uid=1218
+  when: "'mael' in group_names"
+
 - include: ../../../shared/account.yml user=nlehuby uid=1220
   when: "'nlehuby' in group_names"
 
