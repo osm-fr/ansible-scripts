@@ -55,6 +55,7 @@ osm155.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm157.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm160.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm200.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm201.openstreetmap.fr vm_host=osm20.openstreetmap.fr
 osm202.openstreetmap.fr vm_host=osm20.openstreetmap.fr
@@ -270,6 +271,9 @@ osm151.openstreetmap.fr
 osm110.openstreetmap.fr
 osm26.openstreetmap.fr
 osm135.openstreetmap.fr
+
+[mael]
+osm160.openstreetmap.fr
 
 [marc_marc]
 osm24.openstreetmap.fr
