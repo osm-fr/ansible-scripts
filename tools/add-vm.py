@@ -113,7 +113,7 @@ def expand_args(args):
 
   if args.vmid > 255:
     raise Exception("vmid > 255 not supported for ipv4 calculation")
-  args.ipv4 = "10.0.0.%d" % args.vmid
+  args.ipv4 = "10.1.0.%d" % args.vmid
 
   args.ipv6 = ":".join(host_config[args.host]["ipv6"].split(":")[:-1]) + ":%d" % args.vmid
 
