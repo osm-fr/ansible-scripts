@@ -3,6 +3,7 @@
     postgresql_version: 9.1
     postgis_version: 1.5
     postgis_suffix:
+    openjdk_version: 7
   when: ansible_distribution_release == "wheezy"
 
 - name: set postgresql_version = 9.4
@@ -10,7 +11,16 @@
     postgresql_version: 9.4
     postgis_version: 2.1
     postgis_suffix: -2.1
+    openjdk_version: 7
   when: ansible_distribution_release == "jessie"
+
+- name: set postgresql_version = 9.6
+  set_fact:
+    postgresql_version: 9.6
+    postgis_version: 2.3
+    postgis_suffix: -2.3
+    openjdk_version: 8
+  when: ansible_distribution_release == "stretch"
 
 - name: install packages
   apt: pkg={{ item }}
@@ -28,7 +38,7 @@
     - postgresql-{{ postgresql_version }}
     - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
     - postgresql-contrib-{{ postgresql_version }}
-    - openjdk-7-jre-headless
+    - openjdk-{{ openjdk_version }}-jre-headless
 
 - name: init /root/packages/
   file:
@@ -102,7 +112,7 @@
   become_user: postgres
   with_items:
     - postgis
-  when: postgresql_version == 9.4
+  when: postgresql_version >= 9.4
 
 - name: psql extension postgis
   command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
