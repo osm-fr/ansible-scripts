@@ -33,6 +33,7 @@
     - python-poster
     - python-psycopg2
     - python-regex
+    - python-requests
     - python-shapely
     - python-regex
     - postgresql-{{ postgresql_version }}
