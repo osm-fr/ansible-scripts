@@ -66,6 +66,11 @@
 - name: Gathering facts
   setup:
 
+- name: Configure hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+  when: inventory_hostname is match(".*\.openstreetmap\.fr")
+
 # disabling atopacct, as it breaks apt-get install atop
 - name: Disable atopacct on Debian 9
   file:
