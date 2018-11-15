@@ -14,6 +14,14 @@
     openjdk_version: 7
   when: ansible_distribution_release == "jessie"
 
+- name: set postgresql_version = 9.5
+  set_fact:
+    postgresql_version: 9.5
+    postgis_version: 2.2
+    postgis_suffix: -2.2
+    openjdk_version: 8
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "16.04"
+
 - name: set postgresql_version = 9.6
   set_fact:
     postgresql_version: 9.6
