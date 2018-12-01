@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+set mailserver localhost
+set mail-format { from: monit@{{ inventory_hostname }} }
+
+# to store events if mailserver is not available
+set eventqueue
+    basedir /var/spool/monit  # set the base directory where events will be stored
+    slots 10                  # limit the queue size
+
+set alert admin-notification@listes.openstreetmap.fr # not on { instance, action }
