@@ -1,5 +1,5 @@
 - name: configure monit webserver
-  copy: src=monit-webserver dest=/etc/monit/conf.d/webserver mode=0600 owner=root group=root force=yes
+  template: src=monit-webserver dest=/etc/monit/conf.d/webserver mode=0600 owner=root group=root force=yes
   notify: restart monit
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
