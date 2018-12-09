@@ -58,6 +58,9 @@
     - 9.1
     - 9.2
     - 9.3
+    - 9.6
+    - 10
+    - 11
   ignore_errors: True
   register: postgresql_installed
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
