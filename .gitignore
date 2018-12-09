@@ -1,2 +1,5 @@
 *.retry
 .vscode/tags
+ansible_cache/
+credentials/
+public_keys/
