@@ -68,7 +68,7 @@
 - name: set postgresql_version
   set_fact: postgresql_version="{{ item.stdout }}"
   when: item.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
-  with_items: postgresql_installed.results
+  with_items: "{{ postgresql_installed.results }}"
   ignore_errors: True
 
 - name: add monit module for postgresql
