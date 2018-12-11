@@ -58,6 +58,9 @@
     - 9.1
     - 9.2
     - 9.3
+    - 9.6
+    - 10
+    - 11
   ignore_errors: True
   register: postgresql_installed
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
@@ -65,7 +68,7 @@
 - name: set postgresql_version
   set_fact: postgresql_version="{{ item.stdout }}"
   when: item.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
-  with_items: postgresql_installed.results
+  with_items: "{{ postgresql_installed.results }}"
   ignore_errors: True
 
 - name: add monit module for postgresql
