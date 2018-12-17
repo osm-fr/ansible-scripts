@@ -66,6 +66,9 @@ osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 osm208.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm209.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osmose-hivane1.openstreetmap.fr
+osmose-hivane2.openstreetmap.fr
+osmose-aquilenet.openstreetmap.fr
 
 # temporary VMs
 osm300.openstreetmap.fr vm_host=osm27.openstreetmap.fr
@@ -97,6 +100,9 @@ osm207.openstreetmap.fr
 osm208.openstreetmap.fr
 osm209.openstreetmap.fr
 osm210.openstreetmap.fr
+osmose-hivane1.openstreetmap.fr
+osmose-hivane2.openstreetmap.fr
+osmose-aquilenet.openstreetmap.fr
 
 [drupal]
 osm146.openstreetmap.fr  # for www.openstreetmap.fr
@@ -154,6 +160,9 @@ osm207.openstreetmap.fr
 osm208.openstreetmap.fr
 osm209.openstreetmap.fr
 osm210.openstreetmap.fr
+osmose-hivane1.openstreetmap.fr
+osmose-hivane2.openstreetmap.fr
+osmose-aquilenet.openstreetmap.fr
 
 [osmose-frontend]
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
@@ -247,6 +256,9 @@ osm207.openstreetmap.fr
 osm208.openstreetmap.fr
 osm209.openstreetmap.fr
 osm210.openstreetmap.fr
+osmose-hivane1.openstreetmap.fr
+osmose-hivane2.openstreetmap.fr
+osmose-aquilenet.openstreetmap.fr
 
 [guillaumeamat]
 osm26.openstreetmap.fr
