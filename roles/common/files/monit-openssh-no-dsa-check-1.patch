@@ -1,0 +1,16 @@
+Patch is adapted from following Debian modification:
+https://salsa.debian.org/sk-guest/monit/commit/ac71b49a08b7f6aa23c185183ab87a64cae4e913
+--- etc/monit/conf-available/openssh-server
++++ etc/monit/conf-available/openssh-server
+@@ -22,11 +22,7 @@
+  check file sshd_rsa_key with path /etc/ssh/ssh_host_rsa_key
+    group sshd
+    include /etc/monit/templates/rootstrict
+ 
+- check file sshd_dsa_key with path /etc/ssh/ssh_host_dsa_key
+-   group sshd
+-   include /etc/monit/templates/rootstrict
+-
+  check file sshd_rc with path /etc/ssh/sshd_config
+    group sshd
+    include /etc/monit/templates/rootrc

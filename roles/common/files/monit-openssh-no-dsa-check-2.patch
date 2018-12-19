@@ -1,0 +1,11 @@
+--- etc/monit/conf-available/openssh-server
++++ etc/monit/conf-available/openssh-server
+@@ -9,7 +9,6 @@
+    depend on sftp_bin
+    depend on sshd_rc
+    depend on sshd_rsa_key
+-   depend on sshd_dsa_key
+ 
+  check file sshd_bin with path /usr/sbin/sshd
+    group sshd
+

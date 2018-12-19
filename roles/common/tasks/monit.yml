@@ -8,6 +8,18 @@
   notify: restart monit
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: Fix openssh module to remove dsa key check (patch 1)
+  patch:
+    src: monit-openssh-no-dsa-check-1.patch
+    dest: /etc/monit/conf-available/openssh-server
+#  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Fix openssh module to remove dsa key check (patch 2)
+  patch:
+    src: monit-openssh-no-dsa-check-2.patch
+    dest: /etc/monit/conf-available/openssh-server
+#  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 - name: add monit modules
   file: src="/etc/monit/monitrc.d/{{ item }}" dest="/etc/monit/conf.d/{{ item }}" state=link
   notify: restart monit
