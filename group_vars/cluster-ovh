@@ -82,6 +82,10 @@ proxy:
     websites: "sotm2018.openstreetmap.fr"
     target: "10.1.0.154"
   -
+    logname: "sotm2019"
+    websites: "sotm2019.openstreetmap.fr"
+    target: "10.1.0.154"
+  -
     logname: "peertube"
     websites: "peertube.openstreetmap.fr"
     target: "10.1.0.155"
