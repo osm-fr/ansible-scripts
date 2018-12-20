@@ -65,3 +65,28 @@
     - "{{ lookup('env','PWD') }}/public_keys/servers/*"
   become: yes
   become_user: backuppc
+
+- name: test if /etc/munin/plugins exists
+  stat:
+    path: /etc/munin/plugins
+  register: stat_result
+
+- name: install munin config
+  copy:
+    src: munin-config-backuppc
+    dest: /etc/munin/plugin-conf.d/backuppc
+    mode: 0644
+  notify:
+    - restart munin-node
+  when:
+    - stat_result.stat.exists == True
+
+- name: install munin plugin
+  copy:
+    src: munin-plugin-backuppc
+    dest: /etc/munin/plugins/backuppc
+    mode: 0755
+  notify:
+    - restart munin-node
+  when:
+    - stat_result.stat.exists == True

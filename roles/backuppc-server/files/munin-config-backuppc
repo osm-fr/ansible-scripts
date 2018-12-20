@@ -1,0 +1,3 @@
+[backuppc]
+user backuppc
+env.pcdir /data/backuppc/pc
