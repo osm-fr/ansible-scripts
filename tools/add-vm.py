@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 import sys
 
 host_config = {
@@ -70,9 +71,11 @@ def find_vmid(vmid=None):
   existing_names = set()
 
   with open("hosts") as f:
+    re_osm = re.compile("osm([0-9]+)\.")
     for line in f:
-      if line.startswith("osm"):
-        name = int(line.split(".")[0].split("m")[1])
+      m = re_osm.match(line)
+      if m:
+        name = int(m.group(1))
         existing_names.add(name)
 
   if vmid is None:
