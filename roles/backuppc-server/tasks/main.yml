@@ -90,3 +90,10 @@
     - restart munin-node
   when:
     - stat_result.stat.exists == True
+
+# Monit
+- name: add monit module for backuppc
+  copy: src="monit-backuppc" dest="/etc/monit/conf.d/backuppc" owner=root group=root mode=0644
+  notify: restart monit
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+

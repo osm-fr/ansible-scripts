@@ -100,7 +100,6 @@
   notify: restart monit
   when: sympa_installed.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
-
 # apache configuration to access monit
 - include: apache2-monit.yml
   when: install_apache
