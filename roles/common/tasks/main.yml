@@ -1,9 +1,15 @@
+- name: set proxmox password
+  set_fact:
+    proxmox_password: "{{ lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) }}"
+  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0])
+
 - name: create VM
   local_action:
     module: proxmox
     timeout: 60
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
     cpus: "{{ proxmox_var.cpus }}"
     disk: "{{ proxmox_var.disk }}"
     hostname: "{{ inventory_hostname }}"
@@ -18,7 +24,7 @@
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
+  when: proxmox_password is defined
   register: create_vm
   become: no
 
@@ -27,9 +33,10 @@
     module: proxmox
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
     state: started
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
+  when: proxmox_password is defined
   become: no
 
 - name: configure ipv6 on host interfaces
