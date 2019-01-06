@@ -30,6 +30,22 @@ host_config = {
     "ipv6": "2001:41d0:1008:2c6b:1::%d",
     "default_storage": "hdd-sdd",
   },
+  "osm29": {
+    "hostname": "osm29.openstreetmap.fr",
+    "gw4":  "10.42.109.1",
+    "ipv4": "10.42.109.%d",
+    "gw6":  "2a00:1788:100:109::1",
+    "ipv6": "2a00:1788:100:109::%d",
+    "default_storage": "local-zfs",
+  },
+  "osm30": {
+    "hostname": "osm30.openstreetmap.fr",
+    "gw4":  "10.42.109.1",
+    "ipv4": "10.42.109.%d",
+    "gw6":  "2a00:1788:100:109::1",
+    "ipv6": "2a00:1788:100:109::%d",
+    "default_storage": "local-zfs",
+  },
 }
 
 templates = [
