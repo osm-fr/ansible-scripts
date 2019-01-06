@@ -185,6 +185,7 @@ def configure_ansible(args):
   hosts_tmp = "hosts.tmp"
 
   with open("hosts", "rt") as f_h:
+    re_osm = re.compile("osm([0-9]+)\.")
     with open(hosts_tmp, "xt") as f:
       add_vm = False
       for line in f_h:
@@ -193,9 +194,11 @@ def configure_ansible(args):
         elif line.startswith("["):
           add_vm = False
 
-        if add_vm and line.startswith("osm"):
-          name = int(line.split(".")[0].split("m")[1])
-          if name > args.vmid:
+        elif add_vm:
+          m = re_osm.match(line)
+          if m:
+            name = int(m.group(1))
+          if not m or name > args.vmid:
             f.write("%s vm_host=%s\n" % (args.dns_name, host_config[args.host]["hostname"]))
             add_vm = False
 
