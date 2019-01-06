@@ -1,9 +1,15 @@
+- name: set proxmox password
+  set_fact:
+    proxmox_password: "{{ lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) }}"
+  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0])
+
 - name: create VM
   local_action:
     module: proxmox
     timeout: 60
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
     cpus: "{{ proxmox_var.cpus }}"
     disk: "{{ proxmox_var.disk }}"
     hostname: "{{ inventory_hostname }}"
@@ -18,7 +24,7 @@
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
+  when: proxmox_password is defined
   register: create_vm
   become: no
 
@@ -27,9 +33,10 @@
     module: proxmox
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
     state: started
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD')
+  when: proxmox_password is defined
   become: no
 
 - name: configure ipv6 on host interfaces
@@ -39,23 +46,25 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
+  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[678].openstreetmap.fr')
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
+  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[678].openstreetmap.fr')
   become: yes
 
-- name: add VM to local /etc/hosts
+- name: add VM to .ssh/config
   local_action:
-    module: lineinfile
-    path: /etc/hosts
-    regexp: "{{ inventory_hostname }}"
-    line: '{{ proxmox_var.ipv6 }} {{ inventory_hostname }}'
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
-  become: yes
+    module: blockinfile
+    path: "~/.ssh/config"
+    backup: yes
+    block: |
+      Host {{ inventory_hostname }}
+        Hostname {{ proxmox_var.ipv6 }}
+  when: proxmox_password is defined and create_vm.changed
+  become: no
 
 - name: apt-get update
   raw: "[ -e /usr/bin/apt-get ] && apt-get update"
