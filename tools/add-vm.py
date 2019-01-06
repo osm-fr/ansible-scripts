@@ -8,18 +8,24 @@ import sys
 host_config = {
   "osm26": {
     "hostname": "osm26.openstreetmap.fr",
-    "ipv4": "10.0.0.26",
-    "ipv6": "2001:41d0:1008:1f65:1::26",
+    "gw4":  "10.0.0.26",
+    "ipv4": "10.1.0.%d",
+    "gw6": "2001:41d0:1008:1f65:1::26",
+    "ipv6": "2001:41d0:1008:1f65:1::%d",
   },
   "osm27": {
     "hostname": "osm27.openstreetmap.fr",
-    "ipv4": "10.0.0.27",
-    "ipv6": "2001:41d0:1008:1f84:1::27",
+    "gw4":  "10.0.0.27",
+    "ipv4": "10.1.0.%d",
+    "gw6":  "2001:41d0:1008:1f84:1::27",
+    "ipv6": "2001:41d0:1008:1f84:1::%d",
   },
   "osm28": {
     "hostname": "osm28.openstreetmap.fr",
-    "ipv4": "10.0.0.28",
-    "ipv6": "2001:41d0:1008:2c6b:1::28",
+    "gw4":  "10.0.0.28",
+    "ipv4": "10.1.0.%d",
+    "gw6":  "2001:41d0:1008:2c6b:1::28",
+    "ipv6": "2001:41d0:1008:2c6b:1::%d",
   },
 }
 
@@ -114,13 +120,15 @@ def get_host(host=None):
 
 def expand_args(args):
 
+  cfg_host = host_config[args.host]
+
   if args.vmid > 255:
     raise Exception("vmid > 255 not supported for ipv4 calculation")
-  args.ipv4 = "10.1.0.%d" % args.vmid
 
-  args.ipv6 = ":".join(host_config[args.host]["ipv6"].split(":")[:-1]) + ":%d" % args.vmid
+  args.ipv4 = cfg_host["ipv4"] % args.vmid
+  args.ipv6 = cfg_host["ipv6"] % args.vmid
 
-  args.netif = '{"net0": "name=eth0,bridge=vmbr0,ip=%(ipv4)s/24,gw=%(ipv4_h)s,ip6=%(ipv6)s/80,gw6=%(ipv6_h)s"}' % {"ipv4": args.ipv4, "ipv4_h": host_config[args.host]["ipv4"], "ipv6": args.ipv6, "ipv6_h": host_config[args.host]["ipv6"]}
+  args.netif = '{"net0": "name=eth0,bridge=vmbr0,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/80,gw6=%(gw6)s"}' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
   args.swap = "2048"
 
