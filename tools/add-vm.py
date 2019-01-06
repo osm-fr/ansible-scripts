@@ -12,6 +12,7 @@ host_config = {
     "ipv4": "10.1.0.%d",
     "gw6": "2001:41d0:1008:1f65:1::26",
     "ipv6": "2001:41d0:1008:1f65:1::%d",
+    "default_storage": "hdd-sdd",
   },
   "osm27": {
     "hostname": "osm27.openstreetmap.fr",
@@ -19,6 +20,7 @@ host_config = {
     "ipv4": "10.1.0.%d",
     "gw6":  "2001:41d0:1008:1f84:1::27",
     "ipv6": "2001:41d0:1008:1f84:1::%d",
+    "default_storage": "hdd-sdd",
   },
   "osm28": {
     "hostname": "osm28.openstreetmap.fr",
@@ -26,6 +28,7 @@ host_config = {
     "ipv4": "10.1.0.%d",
     "gw6":  "2001:41d0:1008:2c6b:1::28",
     "ipv6": "2001:41d0:1008:2c6b:1::%d",
+    "default_storage": "hdd-sdd",
   },
 }
 
@@ -44,7 +47,6 @@ default_template = templates[0]
 default_cpus = 1
 default_memory = 1024
 default_disk = 10
-default_storage = storages[0]
 
 def parse_args():
 
@@ -62,7 +64,7 @@ def parse_args():
                       help="default: %(default)s Mio")
   parser.add_argument('--disk',    action='store', type=int, default=default_disk,
                       help="default: %(default)s Gio")
-  parser.add_argument('--storage', action='store', choices=storages, default=default_storage,
+  parser.add_argument('--storage', action='store', choices=storages,
                       help="default: %(default)s")
 
   parser.add_argument('--force', action='store_true', help="Force creation of VM without confirmation")
@@ -133,6 +135,9 @@ def expand_args(args):
   args.swap = "2048"
 
   args.dns_name = "osm%s.openstreetmap.fr" % args.vmid
+
+  if not args.storage:
+    args.storage = host_config[args.host]["default_storage"]
 
   return args
 
