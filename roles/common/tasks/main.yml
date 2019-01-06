@@ -55,14 +55,16 @@
   when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[678].openstreetmap.fr')
   become: yes
 
-- name: add VM to local /etc/hosts
+- name: add VM to .ssh/config
   local_action:
-    module: lineinfile
-    path: /etc/hosts
-    regexp: "{{ inventory_hostname }}"
-    line: '{{ proxmox_var.ipv6 }} {{ inventory_hostname }}'
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD') and create_vm.changed
-  become: yes
+    module: blockinfile
+    path: "~/.ssh/config"
+    backup: yes
+    block: |
+      Host {{ inventory_hostname }}
+        Hostname {{ proxmox_var.ipv6 }}
+  when: proxmox_password is defined and create_vm.changed
+  become: no
 
 - name: apt-get update
   raw: "[ -e /usr/bin/apt-get ] && apt-get update"
