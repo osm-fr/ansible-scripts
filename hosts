@@ -68,6 +68,7 @@ osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 osm208.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm209.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
@@ -261,6 +262,10 @@ osm210.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
+
+[gileri]
+osm112.openstreetmap.fr
+osm312.openstreetmap.fr
 
 [guillaumeamat]
 osm26.openstreetmap.fr

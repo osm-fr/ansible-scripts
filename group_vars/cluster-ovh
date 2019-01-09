@@ -106,3 +106,7 @@ proxy:
     logname: "dev.bano"
     websites: "dev.bano.openstreetmap.fr"
     target: "10.1.0.162"
+  -
+    logname: "dev.comcommaker"
+    websites: "dev.comcommaker.openstreetmap.fr"
+    target: "10.1.1.56"
