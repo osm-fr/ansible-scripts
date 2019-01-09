@@ -60,6 +60,7 @@
     module: blockinfile
     path: "~/.ssh/config"
     backup: yes
+    marker: "# {mark} ANSIBLE MANAGED for vm {{ inventory_hostname }}"
     block: |
       Host {{ inventory_hostname }}
         Hostname {{ proxmox_var.ipv6 }}
