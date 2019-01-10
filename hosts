@@ -86,7 +86,8 @@ osmose-aquilenet.openstreetmap.fr
 
 # temporary VMs
 osm300.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-
+osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 
 [cluster-ovh]
 osm26.openstreetmap.fr
@@ -257,6 +258,11 @@ osm101.openstreetmap.fr
 osm102.openstreetmap.fr
 osm157.openstreetmap.fr
 
+[cormoran]
+osm26.openstreetmap.fr
+osm103.openstreetmap.fr
+osm303.openstreetmap.fr
+
 [don-vip]
 osm26.openstreetmap.fr
 osm300.openstreetmap.fr
@@ -297,6 +303,11 @@ osm210.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
+
+[gileri]
+osm26.openstreetmap.fr
+osm112.openstreetmap.fr
+osm312.openstreetmap.fr
 
 [guillaumeamat]
 osm26.openstreetmap.fr
