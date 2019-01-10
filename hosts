@@ -68,15 +68,14 @@ osm207.openstreetmap.fr vm_host=osm21.openstreetmap.fr
 osm208.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm209.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 
 # temporary VMs
 osm300.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-
+osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 
 [cluster-ovh]
 osm26.openstreetmap.fr
