@@ -60,6 +60,13 @@
   notify: restart apache
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: Copy favicon
+  copy: src=favicon.ico dest=/var/www/favicon.ico owner=www-data group=www-data mode=0644
+
+- name: Install favicon
+  copy: src=favicon.conf dest=/etc/apache2/conf.d/ owner=root group=root mode=0644
+  notify: restart apache    
+
 - name: check apache configuration
   command: apache2ctl configtest
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
