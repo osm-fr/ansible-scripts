@@ -57,6 +57,7 @@ storages = [
   "hdd-sdd",
   "ceph",
   "local",
+  "local-zfs",
 ]
 
 default_template = templates[0]
