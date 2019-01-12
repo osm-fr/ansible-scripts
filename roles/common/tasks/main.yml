@@ -23,6 +23,7 @@
     state: present
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
+    timeout: 240
     vmid: "{{ proxmox_var.vmid }}"
   when: proxmox_password is defined
   register: create_vm
@@ -56,14 +57,26 @@
   become: yes
 
 - name: add VM to .ssh/config
+  run_once: true
   local_action:
     module: blockinfile
     path: "~/.ssh/config"
     backup: yes
-    marker: "# {mark} ANSIBLE MANAGED for vm {{ inventory_hostname }}"
+    marker: "# {mark} ANSIBLE MANAGED for vm {{ item }}"
     block: |
-      Host {{ inventory_hostname }}
-        Hostname {{ proxmox_var.ipv6 }}
+      Host {{ item }}
+        Hostname {{ hostvars[item].proxmox_var.ipv6 }}
+  with_items: '{{play_hosts}}'
+  when: proxmox_password is defined and create_vm.changed
+  become: no
+
+- name: add ssh key to known_hosts
+  run_once: true
+  local_action:
+    module: known_hosts
+    name: "{{ hostvars[item].proxmox_var.ipv6 }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
+  with_items: '{{play_hosts}}'
   when: proxmox_password is defined and create_vm.changed
   become: no
 
