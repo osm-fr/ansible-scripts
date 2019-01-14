@@ -362,6 +362,7 @@ osm133.openstreetmap.fr
 osm154.openstreetmap.fr
 
 [lcombe]
+osm27.openstreetmap.fr
 osm130.openstreetmap.fr
 osm151.openstreetmap.fr
 
@@ -391,6 +392,11 @@ osm145.openstreetmap.fr
 
 [rodolphe]
 osm105.openstreetmap.fr
+
+[rvoirin]
+osm27.openstreetmap.fr
+osm130.openstreetmap.fr
+osm151.openstreetmap.fr
 
 [redfox]
 osm101.openstreetmap.fr
