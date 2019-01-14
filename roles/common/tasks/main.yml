@@ -89,6 +89,36 @@
 - name: Gathering facts
   setup:
 
+
+
+# systemd-hostnamed fails to mount some dirs
+# https://github.com/osm-fr/ansible-scripts/issues/22
+- name: Create override directory for systemd-hostnamed
+  file:
+    path: /etc/systemd/system/systemd-hostnamed.service.d
+    state: directory
+  when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
+- name: Disable PrivateDevices from systemd-hostnamed
+  copy:
+    dest: /etc/systemd/system/systemd-hostnamed.service.d/50-lxc.conf
+    content: |
+      [Service]
+      PrivateSystem=no
+      PrivateNetwork=no
+  when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
+- name: Reload systemd-hostnamed configuration
+  systemd:
+    daemon_reload: yes
+    name: systemd-hostnamed
+    state: restarted
+  when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
+
 - name: Configure hostname
   hostname:
     name: "{{ inventory_hostname }}"
