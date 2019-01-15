@@ -1,0 +1,22 @@
+ check process backuppc with pidfile /var/run/backuppc/BackupPC.pid
+   group backuppc
+   start program = "/etc/init.d/backuppc start"
+   stop program  = "/etc/init.d/backuppc stop"
+   depend backuppc_auth
+   depend backuppc_bin
+   depend backuppc_rc
+ 
+ check host backuppc_auth with address 127.0.0.1
+   group backuppc
+   if failed host localhost port 443 with protocol https and request "/backuppc" and status = 401 then alert
+
+ check file backuppc_bin with path /usr/lib/backuppc/cgi-bin/index.cgi
+   group backuppc
+   if failed checksum then alert 
+   if failed uid backuppc then alert
+   if failed gid www-data then alert
+   if failed permission 4750 then alert
+
+ check file backuppc_rc with path /etc/init.d/backuppc
+   group backuppc
+   include /etc/monit/templates/rootbin
