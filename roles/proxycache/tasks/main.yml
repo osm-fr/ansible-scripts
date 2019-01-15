@@ -14,6 +14,16 @@
   when: nginx_site.stat.exists
   notify: reload nginx
 
+ name: check if nginx config template exists
+  local_action: stat path="roles/proxycache/templates/nginx-{{ inventory_hostname }}.site"
+  become: no
+  register: nginx_site
+
+- name: copy nginx config
+  template: src=nginx-{{ inventory_hostname }}.site dest="/etc/nginx/conf.d/nginx-{{ inventory_hostname }}.conf"
+  when: nginx_site.stat.exists
+  notify: reload nginx
+
 - name: generate nginx config
   template: src="{{ item.config_src | default('nginx-site.j2') }}" dest="/etc/nginx/sites-available/{{ item.logname }}"
     owner=root group=www-data
