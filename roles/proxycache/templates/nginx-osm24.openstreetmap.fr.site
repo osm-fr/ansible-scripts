@@ -54,7 +54,7 @@ server {
 	rewrite ^/bdortho/(.*)/(.*)/(.*).jpg$ /{{ proxy_ign_key }}/wmts/?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX=$1&TILEROW=$3&TILECOL=$2&FORMAT=image%2Fjpeg break;
 
 	location ~ /{{ proxy_ign_key }} {
-		valid_referers *.openstreetmap.org/id www.openstreetmap.org/id preview.ideditor.com opensolarmap.org www.mapcontrib.xyz www.cartes.xyz ;
+		valid_referers *.openstreetmap.org/id www.openstreetmap.org/id preview.ideditor.com opensolarmap.org www.mapcontrib.xyz www.cartes.xyz cadastre.openstreetmap.fr;
 		if ($http_user_agent ~ JOSM.*Java) {
 			set $valid 1;
 		}
