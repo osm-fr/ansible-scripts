@@ -14,3 +14,9 @@
   shell: /usr/sbin/sensors-detect < /dev/null
 
 - include: munin-node.yml
+
+- name: restart systemd-hostnamed
+  systemd:
+    daemon_reload: yes
+    name: systemd-hostnamed
+    state: restarted

@@ -89,7 +89,13 @@
 - name: Gathering facts
   setup:
 
-
+# If this command fails, or doesn't return 3, systemd-hostnamed is not present
+- name: Check whether systemd-hostnamed is used
+  shell: systemctl status systemd-hostnamed
+  register: systemd_hostnamed_status
+  changed_when: False
+  failed_when: systemd_hostnamed_status.rc != 3
+  ignore_errors: yes
 
 # systemd-hostnamed fails to mount some dirs
 # https://github.com/osm-fr/ansible-scripts/issues/22
@@ -97,27 +103,14 @@
   file:
     path: /etc/systemd/system/systemd-hostnamed.service.d
     state: directory
-  when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
+  when: not systemd_hostnamed_status.failed
+
 - name: Disable PrivateDevices from systemd-hostnamed
-  copy:
-    dest: /etc/systemd/system/systemd-hostnamed.service.d/50-lxc.conf
-    content: |
-      [Service]
-      PrivateSystem=no
-      PrivateNetwork=no
-  when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
-- name: Reload systemd-hostnamed configuration
-  systemd:
-    daemon_reload: yes
-    name: systemd-hostnamed
-    state: restarted
-  when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
+  template:
+    src: systemd-hostnamed-no-private-mounts.j2
+    dest: /etc/systemd/system/systemd-hostnamed.service.d/50-no-private-mounts.conf
+  when: not systemd_hostnamed_status.failed
+  notify: restart systemd-hostnamed
 
 - name: Configure hostname
   hostname:
