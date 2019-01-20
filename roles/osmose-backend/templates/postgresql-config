@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+ssl = false
+autovacuum = off
+fsync = off
+full_page_writes = off
