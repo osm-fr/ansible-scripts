@@ -350,6 +350,16 @@
     - fr_FR.UTF-8 UTF-8
   when: ansible_distribution == 'Ubuntu'
 
+- name: select default locale
+  debconf:
+    name: locales
+    question: locales/default_environment_locale
+    value: en_US.UTF-8
+    vtype: select
+  notify:
+    - generate locales
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 - include: ssh-tunnel.yml user=ssh-tunnel uid=1104
   when: "'ssh-tunnel' in group_names"
 
