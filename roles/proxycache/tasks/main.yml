@@ -14,7 +14,7 @@
   when: nginx_site.stat.exists
   notify: reload nginx
 
- name: check if nginx config template exists
+- name: check if nginx config template exists
   local_action: stat path="roles/proxycache/templates/nginx-{{ inventory_hostname }}.site"
   become: no
   register: nginx_site
