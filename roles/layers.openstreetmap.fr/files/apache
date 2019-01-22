@@ -2,8 +2,8 @@
 <VirtualHost *:80 *:443>
         ServerName layers.openstreetmap.fr
 
-        DocumentRoot /data/project/layers.openstreetmap.fr/web
-        <Directory /data/project/layers.openstreetmap.fr/web>
+        DocumentRoot /data/project/layers.openstreetmap.fr/web/www
+        <Directory /data/project/layers.openstreetmap.fr/web/www>
                 AllowOverride all 
                 Require all granted
         </Directory>
