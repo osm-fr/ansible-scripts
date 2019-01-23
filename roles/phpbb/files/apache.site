@@ -1,4 +1,12 @@
-<VirtualHost *:80 *:443>
+<VirtualHost *:80>
+   ServerName forum.openstreetmap.fr
+   ServerAlias dev.forum.openstreetmap.fr
+
+   Redirect / https://forum.openstreetmap.fr
+  
+</VirtualHost>
+
+<VirtualHost *:443>
 	ServerAdmin webmaster@localhost
 
 	ServerName forum.openstreetmap.fr
