@@ -64,7 +64,7 @@
 
 # postgresql
 - name: find version of postgresql
-  shell: '/usr/bin/test -e /var/run/postgresql/{{ item }}-main.pid && echo "{{ item }}"'
+  shell: '/usr/bin/test -e /etc/postgresql/{{ item }}/main && echo "{{ item }}"'
   with_items:
     - 8.4
     - 9.1
