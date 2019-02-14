@@ -198,7 +198,6 @@
 - include: ../../../shared/account.yml user=cquest  uid=1202
 - include: ../../../shared/account.yml user=jocelyn uid=1203
 - include: ../../../shared/account.yml user=marc_marc uid=1216
-- include: ../../../shared/account.yml user=sly     uid=1209
 
 - include: ../../../shared/account.yml user=apavie uid=1211
   when: "'apavie' in group_names"
@@ -262,6 +261,9 @@
 
 - include: ../../../shared/account.yml user=rvoirin uid=1308
   when: "'rvoirin' in group_names"
+
+- include: ../../../shared/account.yml user=sly     uid=1209
+  when: "'sly' in group_names"
 
 - include: ../../../shared/account.yml user=thrrp uid=1310
   when: "'thrrp' in group_names"
