@@ -9,7 +9,7 @@ host_config = {
   "osm26": {
     "hostname": "osm26.openstreetmap.fr",
     "gw4":  "10.0.0.26",
-    "ipv4": "10.1.0.%d",
+    "ipv4": "10.1.%d.%d",
     "gw6": "2001:41d0:1008:1f65:1::26",
     "ipv6": "2001:41d0:1008:1f65:1::%d",
     "default_storage": "hdd-sdd",
@@ -17,7 +17,7 @@ host_config = {
   "osm27": {
     "hostname": "osm27.openstreetmap.fr",
     "gw4":  "10.0.0.27",
-    "ipv4": "10.1.0.%d",
+    "ipv4": "10.1.%d.%d",
     "gw6":  "2001:41d0:1008:1f84:1::27",
     "ipv6": "2001:41d0:1008:1f84:1::%d",
     "default_storage": "hdd-sdd",
@@ -25,7 +25,7 @@ host_config = {
   "osm28": {
     "hostname": "osm28.openstreetmap.fr",
     "gw4":  "10.0.0.28",
-    "ipv4": "10.1.0.%d",
+    "ipv4": "10.1.%d.%d",
     "gw6":  "2001:41d0:1008:2c6b:1::28",
     "ipv6": "2001:41d0:1008:2c6b:1::%d",
     "default_storage": "hdd-sdd",
@@ -141,10 +141,15 @@ def expand_args(args):
 
   cfg_host = host_config[args.host]
 
-  if args.vmid > 255:
+  if cfg_host["ipv4"].count("%d") == 1 and args.vmid > 255:
     raise Exception("vmid > 255 not supported for ipv4 calculation")
+  elif args.vmid > 9999:
+    raise Exception("vmid > 9999 not supported for ipv6 calculation")
 
-  args.ipv4 = cfg_host["ipv4"] % args.vmid
+  if cfg_host["ipv4"].count("%d") == 1:
+    args.ipv4 = cfg_host["ipv4"] % args.vmid
+  else:
+    args.ipv4 = cfg_host["ipv4"] % (args.vmid // 256, args.vmid % 256)
   args.ipv6 = cfg_host["ipv6"] % args.vmid
 
   args.netif = '{"net0": "name=eth0,bridge=vmbr0,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/80,gw6=%(gw6)s"}' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
