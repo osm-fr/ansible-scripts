@@ -49,7 +49,7 @@ host_config = {
 }
 
 templates = [
-  "debian-9.0-standard_9.5-1_amd64.tar.gz",
+  "debian-9.0-standard_9.7-1_amd64.tar.gz",
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
 ]
 
