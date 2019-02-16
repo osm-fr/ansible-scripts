@@ -3,10 +3,51 @@
     proxmox_password: "{{ lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) }}"
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0])
 
+- name: init cache/templates/
+  local_action:
+    module: file
+    path: "cache/templates/"
+    state: directory
+    force: no
+  when: proxmox_password is defined
+  become: no
+
+- name: download proxmox template
+  local_action:
+    module: get_url
+    dest: "cache/templates/{{ item }}"
+    url: "http://download.proxmox.com/images/system/{{ item }}"
+  with_items:
+    - "{{ proxmox_var.ostemplate }}"
+    - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
+  when: proxmox_password is defined
+  register: download_template
+  become: no
+
+- name: check template sha512sum
+  local_action:
+    module: shell
+    _raw_params: "sha512sum 'cache/templates/{{ proxmox_var.ostemplate | quote }}' | grep $(grep sha512sum: 'cache/templates/{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' | quote }}' | cut -d' ' -f2)"
+  when: proxmox_password is defined and download_template.changed
+  become: no
+
+- name: send proxmox template
+  local_action:
+    module: proxmox_template
+    timeout: 60
+    api_host: "{{ proxmox_var.host }}"
+    api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
+    node: "{{ vm_host.split('.')[0] }}"
+    src: "cache/templates/{{ proxmox_var.ostemplate }}"
+    storage: "local"
+  when: proxmox_password is defined
+  become: no
+
 - name: create VM
   local_action:
     module: proxmox
-    timeout: 60
+    timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
     api_password: "{{ proxmox_password }}"
@@ -23,7 +64,6 @@
     state: present
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
-    timeout: 240
     vmid: "{{ proxmox_var.vmid }}"
   when: proxmox_password is defined
   register: create_vm
