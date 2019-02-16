@@ -296,7 +296,6 @@ osm130.openstreetmap.fr
 
 [fred]
 osm104.openstreetmap.fr
-osm110.openstreetmap.fr
 osm111.openstreetmap.fr
 osm112.openstreetmap.fr
 osm117.openstreetmap.fr
@@ -305,12 +304,9 @@ osm124.openstreetmap.fr
 osm26.openstreetmap.fr
 osm128.openstreetmap.fr
 osm153.openstreetmap.fr
-osm208.openstreetmap.fr
-osm209.openstreetmap.fr
-osm210.openstreetmap.fr
-osmose-hivane1.openstreetmap.fr
-osmose-hivane2.openstreetmap.fr
-osmose-aquilenet.openstreetmap.fr
+
+[fred:children]
+osmose-backend
 
 [gileri]
 osm26.openstreetmap.fr
