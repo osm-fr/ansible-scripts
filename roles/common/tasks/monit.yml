@@ -35,7 +35,7 @@
   with_items:
     - cron
     - openssh-server
-  when: ((ansible_distribution == 'Debian' and ansible_distribution_release == 'stretch') or
+  when: ((ansible_distribution == 'Debian' and ansible_distribution_major_version >= 9) or
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == 17))
 
 # apache
