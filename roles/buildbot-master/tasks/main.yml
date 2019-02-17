@@ -4,12 +4,85 @@
     - apache2
     - buildbot
 
+- name: install packages
+  apt:
+    pkg:
+      - python-pkg-resources
+      - python3-pip
+      - python3-setuptools
+  when: buildbot_nine is defined
+
+- name: install buildbot-www
+  pip:
+    name: "{{ item }}"
+    executable: pip3
+  with_items:
+    - buildbot-www
+    - buildbot-grid-view
+  notify: restart buildbot
+  when: buildbot_nine is defined
+
+- name: add apache proxy module
+  file:
+    src: "/etc/apache2/mods-available/{{ item }}"
+    dest: "/etc/apache2/mods-enabled/{{ item }}"
+    state: link
+  notify: restart apache
+  with_items:
+    - proxy.conf
+    - proxy_http.load
+    - proxy.load
+
 - name: copy apache config
-  copy: src=apache.site dest="/etc/apache2/sites-available/buildbot.conf"
+  template:
+    src: apache.site
+    dest: "/etc/apache2/sites-available/buildbot.conf"
   notify: restart apache
 
 - name: enable apache site
-  file: src="/etc/apache2/sites-available/buildbot.conf" dest="/etc/apache2/sites-enabled/buildbot.conf" state=link
+  file:
+    src: "/etc/apache2/sites-available/buildbot.conf"
+    dest: "/etc/apache2/sites-enabled/buildbot.conf"
+    state: link
   notify: restart apache
 
 # TODO: add configuration of buildbot
+
+- name: init paths
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: buildbot
+    group: buildbot
+    force: no
+  with_items:
+    - /data/work/buildbot-master
+
+- name: configure buildbot directory
+  become: yes
+  become_user: buildbot
+  command:
+    creates="/data/work/buildbot-master/buildbot.tac" chdir="/data/work/buildbot-master/"
+    /usr/bin/buildbot create-master .
+
+- name: enable buildbot
+  lineinfile: dest=/etc/default/buildbot regexp="{{ item.regexp }}" line="{{ item.line }}"
+  with_items:
+    - {regexp: "MASTER_ENABLED.1.=",   line: "MASTER_ENABLED[1]=1"}
+    - {regexp: "MASTER_NAME.1.=",      line: 'MASTER_NAME[1]="{{ buildbot_site }}"'}
+    - {regexp: "MASTER_USER.1.=",      line: 'MASTER_USER[1]="buildbot"'}
+    - {regexp: "MASTER_BASEDIR.1.=",   line: 'MASTER_BASEDIR[1]="/data/work/buildbot-master"'}
+    - {regexp: "MASTER_OPTIONS.1.=",   line: 'MASTER_OPTIONS[1]=""'}
+    - {regexp: "MASTER_PREFIXCMD.1.=", line: 'MASTER_PREFIXCMD[1]=""'}
+  notify: restart buildbot
+
+- name: enable buildbot in systemd
+  systemd:
+    name: buildbot
+    masked: no
+
+- name: enable buildbot in systemd
+  systemd:
+    name: buildbot
+    enabled: yes
+    state: started

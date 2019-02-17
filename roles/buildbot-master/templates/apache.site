@@ -2,7 +2,7 @@
 
         ServerAdmin jjaubert@openstreetmap.fr
 
-        ServerName buildbot.osmose.openstreetmap.fr
+        ServerName {{ buildbot_site }}
 
         ProxyPass / http://localhost:8010/
         ProxyPassReverse / http://localhost:8010/

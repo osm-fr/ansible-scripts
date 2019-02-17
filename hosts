@@ -105,7 +105,7 @@ osm109.openstreetmap.fr
 osm134.openstreetmap.fr
 
 [buildbot-master]
-osm124.openstreetmap.fr
+osm124.openstreetmap.fr buildbot_site=buildbot.osmose.openstreetmap.fr
 
 [buildbot-slave]
 osm108.openstreetmap.fr
