@@ -64,6 +64,7 @@ osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm235.openstreetmap.fr vm_host=osm31.openstreetmap.fr
+osm324.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
@@ -86,6 +87,7 @@ osm134.openstreetmap.fr
 
 [buildbot-master]
 osm124.openstreetmap.fr buildbot_site=buildbot.osmose.openstreetmap.fr
+osm324.openstreetmap.fr buildbot_site=dev.buildbot.osmose.openstreetmap.fr buildbot_nine=yes
 
 [buildbot-slave]
 osm108.openstreetmap.fr
