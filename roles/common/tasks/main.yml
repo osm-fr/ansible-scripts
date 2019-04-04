@@ -51,6 +51,7 @@
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
     api_password: "{{ proxmox_password }}"
+    cores: "{{ proxmox_var.cpus }}"
     cpus: "{{ proxmox_var.cpus }}"
     disk: "{{ proxmox_var.disk }}"
     hostname: "{{ inventory_hostname }}"
