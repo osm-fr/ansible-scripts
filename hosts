@@ -9,6 +9,7 @@ osm27.openstreetmap.fr
 osm28.openstreetmap.fr
 osm29.openstreetmap.fr
 osm30.openstreetmap.fr
+osm31.openstreetmap.fr
 
 [vm]
 osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
@@ -62,6 +63,7 @@ osm209.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
+osm235.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
@@ -149,6 +151,7 @@ osm209.openstreetmap.fr
 osm210.openstreetmap.fr
 osm211.openstreetmap.fr
 osm212.openstreetmap.fr
+osm235.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr

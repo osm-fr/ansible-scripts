@@ -46,6 +46,14 @@ host_config = {
     "ipv6": "2a00:1788:100:109::%d",
     "default_storage": "local-zfs",
   },
+  "osm31": {
+    "hostname": "osm31.openstreetmap.fr",
+    "gw4":  "10.42.109.1",
+    "ipv4": "10.42.109.%d",
+    "gw6":  "2a00:1788:100:109::1",
+    "ipv6": "2a00:1788:100:109::%d",
+    "default_storage": "local-zfs",
+  },
 }
 
 templates = [
