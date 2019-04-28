@@ -60,15 +60,15 @@
     src: "{{ item }}"
     dest: "/root/packages/{{ item }}"
   with_items:
-    - python-lark-parser_0.6.4-1_all.deb
-    - python-backports.csv_1.0.6-1_all.deb
+    - python-lark-parser_0.6.7-1_all.deb
+    - python-backports.csv_1.0.7-1_all.deb
    
 - name: install additional local packages
   apt:
     deb: /root/packages/{{ item }}
   with_items:
-    - python-lark-parser_0.6.4-1_all.deb
-    - python-backports.csv_1.0.6-1_all.deb
+    - python-lark-parser_0.6.7-1_all.deb
+    - python-backports.csv_1.0.7-1_all.deb
   
 
 - name: ensure postgresql server is running
