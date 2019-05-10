@@ -188,6 +188,9 @@ osm108.openstreetmap.fr
 [sympa]
 osm138.openstreetmap.fr
 
+[proxmox-mail-gateway]
+osm158.openstreetmap.fr
+
 [proxycache]
 osm23.openstreetmap.fr
 osm24.openstreetmap.fr
