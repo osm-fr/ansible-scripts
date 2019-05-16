@@ -49,6 +49,19 @@
     - postgresql-contrib-{{ postgresql_version }}
     - postgis
     - openjdk-{{ openjdk_version }}-jre-headless
+    # to run with python3
+    - python3-dateutil
+    - python3-polib
+    - python3-psycopg2
+    - python3-shapely
+    - python3-regex
+    - python3-requests
+    # to compile osm_pbf_parser
+    - g++
+    - libboost-python-dev
+    - libosmpbf-dev
+    - make
+    - pkg-config
 
 - name: init /root/packages/
   file:
@@ -62,6 +75,8 @@
   with_items:
     - python-lark-parser_0.6.7-1_all.deb
     - python-backports.csv_1.0.7-1_all.deb
+    - python3-lark-parser_0.6.7-1_all.deb
+    - python3-backports.csv_1.0.7-1_all.deb
    
 - name: install additional local packages
   apt:
@@ -69,6 +84,8 @@
   with_items:
     - python-lark-parser_0.6.7-1_all.deb
     - python-backports.csv_1.0.7-1_all.deb
+    - python3-lark-parser_0.6.7-1_all.deb
+    - python3-backports.csv_1.0.7-1_all.deb
   
 
 - name: ensure postgresql server is running
@@ -186,6 +203,13 @@
   become: yes
   become_user: osmose
   ignore_errors: True
+
+- name: compile osm_pbf_parser for python3
+  make:
+    chdir: /data/project/osmose/backend/modules/osm_pbf_parser/
+    target: py3
+  become: yes
+  become_user: osmose
 
 - name: init /data/project/osmose/backend/po/josm/ path
   file:
