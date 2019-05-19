@@ -1,5 +1,11 @@
 - name: restart apache
   service: name=apache2 state=restarted
 
+- name: restart nginx
+  systemd: name=nginx state=restarted
+
 - name: restart buildbot
   service: name=buildbot state=restarted
+
+- name: restart buildbot_nine
+  systemd: name=buildbot@osmose state=restarted

@@ -3,10 +3,18 @@
   with_items:
     - apache2
     - buildbot
+  when: buildbot_nine is not defined
 
-- name: install packages
+- name: install packages for buildbot 0.9
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+  when: buildbot_nine is not defined
+
+- name: install packages for buildbot > 0.9
   apt:
     pkg:
+      - nginx
       - python-pkg-resources
       - python3-pip
       - python3-setuptools
@@ -32,12 +40,14 @@
     - proxy.conf
     - proxy_http.load
     - proxy.load
+  when: buildbot_nine is not defined
 
 - name: copy apache config
   template:
     src: apache.site
     dest: "/etc/apache2/sites-available/buildbot.conf"
   notify: restart apache
+  when: buildbot_nine is not defined
 
 - name: enable apache site
   file:
@@ -45,6 +55,33 @@
     dest: "/etc/apache2/sites-enabled/buildbot.conf"
     state: link
   notify: restart apache
+  when: buildbot_nine is not defined
+
+- name: copy nginx config
+  template:
+    src: nginx.site
+    dest: "/etc/nginx/sites-available/buildbot.conf"
+  notify: restart nginx
+  when: buildbot_nine is defined
+
+# default site is removed, because buildbot.conf needs to be used for default
+# site and buildbot site, as reverse proxy for /ws will directly use IP to
+# connect.
+- name: remove default nginx site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+  notify: restart nginx
+  when: buildbot_nine is defined
+
+- name: enable nginx site
+  file:
+    src: "/etc/nginx/sites-available/buildbot.conf"
+    dest: "/etc/nginx/sites-enabled/buildbot.conf"
+    state: link
+  notify: restart nginx
+  when: buildbot_nine is defined
+
 
 # TODO: add configuration of buildbot
 
@@ -56,6 +93,7 @@
     group: buildbot
     force: no
   with_items:
+    - /data/project/buildbot-master
     - /data/work/buildbot-master
 
 - name: configure buildbot directory
@@ -74,15 +112,35 @@
     - {regexp: "MASTER_BASEDIR.1.=",   line: 'MASTER_BASEDIR[1]="/data/work/buildbot-master"'}
     - {regexp: "MASTER_OPTIONS.1.=",   line: 'MASTER_OPTIONS[1]=""'}
     - {regexp: "MASTER_PREFIXCMD.1.=", line: 'MASTER_PREFIXCMD[1]=""'}
+  when: buildbot_nine is not defined
   notify: restart buildbot
 
-- name: enable buildbot in systemd
-  systemd:
-    name: buildbot
-    masked: no
+- name: copy systemd service
+  copy:
+    src: /lib/systemd/system/buildbot@.service
+    dest: /etc/systemd/system/buildbot@osmose.service
+    remote_src: yes
+    force: no
+  when: buildbot_nine is defined
+  notify: restart buildbot_nine
+
+- name: modify systemd service
+  lineinfile:
+    dest: /etc/systemd/system/buildbot@osmose.service
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: "ConditionDirectoryNotEmpty=",   line: "ConditionDirectoryNotEmpty=/data/work/buildbot-master"}
+    - {regexp: "ConditionFileNotEmpty=.*buildbot.tac",   line: "ConditionFileNotEmpty=/data/work/buildbot-master/buildbot.tac"}
+    - {regexp: "ConditionFileNotEmpty=.*master.cfg",   line: "ConditionFileNotEmpty=/data/work/buildbot-master/master.cfg"}
+    - {regexp: "WorkingDirectory=",   line: "WorkingDirectory=/data/work/buildbot-master"}
+  when: buildbot_nine is defined
+  notify: restart buildbot_nine
 
 - name: enable buildbot in systemd
   systemd:
-    name: buildbot
+    name: buildbot@osmose
+    masked: no
     enabled: yes
-    state: started
+  notify: restart buildbot_nine
+  when: buildbot_nine is defined
