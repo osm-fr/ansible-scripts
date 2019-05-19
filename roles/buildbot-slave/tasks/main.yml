@@ -1,3 +1,12 @@
+- name: set name to buildslave
+  set_fact:
+    buildbot_name: buildslave
+
+- name: set name to buildbot-worker
+  set_fact:
+    buildbot_name: buildbot-worker
+  when: ansible_distribution_version == "buster/sid"
+
 - name: install packages
   apt: pkg={{ item }}
   with_items:
@@ -17,6 +26,16 @@
   command:
     creates="/data/work/buildbot-slave/buildbot.tac" chdir="/data/work/buildbot-slave/"
     /usr/bin/buildslave create-slave . buildbot.osmose.openstreetmap.fr:8127 {{ inventory_hostname.split(".") | first }} "{{ lookup('password', 'credentials/' + inventory_hostname + '/buildbot-slave-password length=15 chars=ascii_letters,digits') }}"
+  when: buildbot_name == "buildslave"
+
+- name: configure buildbot directory
+  become: yes
+  become_user: buildbot
+  command:
+    creates="/data/work/buildbot-slave/buildbot.tac" chdir="/data/work/buildbot-slave/"
+    /usr/bin/buildbot-worker create-worker . buildbot.osmose.openstreetmap.fr:8127 {{ inventory_hostname.split(".") | first }} "{{ lookup('password', 'credentials/' + inventory_hostname + '/buildbot-slave-password length=15 chars=ascii_letters,digits') }}"
+  when: buildbot_name == "buildbot-worker"
+
 
 - name: enable buildslave
   lineinfile: dest=/etc/default/buildslave regexp="{{ item.regexp }}" line="{{ item.line }}"
@@ -27,4 +46,37 @@
     - {regexp: "SLAVE_BASEDIR.1.=",   line: 'SLAVE_BASEDIR[1]="/data/work/buildbot-slave"'}
     - {regexp: "SLAVE_OPTIONS.1.=",   line: 'SLAVE_OPTIONS[1]=""'}
     - {regexp: "SLAVE_PREFIXCMD.1.=", line: 'SLAVE_PREFIXCMD[1]=""'}
+  when: buildbot_name == "buildslave"
   notify: restart buildslave
+
+- name: copy systemd service
+  copy:
+    src: /lib/systemd/system/buildbot-worker@.service
+    dest: /etc/systemd/system/buildbot-worker@osmose.service
+    remote_src: yes
+    force: no
+  when: buildbot_name == "buildbot-worker"
+  notify: restart buildbot-worker
+
+- name: modify systemd service
+  lineinfile:
+    dest: /etc/systemd/system/buildbot-worker@osmose.service
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: "ConditionDirectoryNotEmpty=",   line: "ConditionDirectoryNotEmpty=/data/work/buildbot-slave"}
+    - {regexp: "ConditionFileNotEmpty=",   line: "ConditionFileNotEmpty=/data/work/buildbot-slave/buildbot.tac"}
+    - {regexp: "WorkingDirectory=",   line: "WorkingDirectory=/data/work/buildbot-slave"}
+  when: buildbot_name == "buildbot-worker"
+  notify: restart buildbot-worker
+
+- name: enable systemd service
+  systemd:
+    name: "{{ item }}"
+    masked: no
+    enabled: yes
+    daemon_reload: yes
+  with_items:
+    - buildbot-worker@osmose.service
+  when: buildbot_name == "buildbot-worker"
+  notify: restart buildbot-worker

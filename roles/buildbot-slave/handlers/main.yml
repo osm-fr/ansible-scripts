@@ -1,2 +1,5 @@
 - name: restart buildslave
   service: name=buildslave state=restarted
+
+- name: restart buildbot-worker
+  systemd: name=buildbot-worker@osmose state=restarted
