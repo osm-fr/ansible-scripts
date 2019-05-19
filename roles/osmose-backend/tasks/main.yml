@@ -30,6 +30,14 @@
     openjdk_version: 8
   when: ansible_distribution_release == "stretch"
 
+- name: set postgresql_version = 11
+  set_fact:
+    postgresql_version: 11
+    postgis_version: 2.5
+    postgis_suffix: -2.5
+    openjdk_version: 11
+  when: ansible_distribution_version == "buster/sid"
+
 - name: install packages
   apt: pkg={{ item }}
   with_items:
