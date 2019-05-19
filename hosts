@@ -88,7 +88,7 @@ osm134.openstreetmap.fr
 
 [buildbot-master]
 osm124.openstreetmap.fr buildbot_site=buildbot.osmose.openstreetmap.fr
-osm324.openstreetmap.fr buildbot_site=dev.buildbot.osmose.openstreetmap.fr buildbot_nine=yes
+osm324.openstreetmap.fr buildbot_site=buildbot2.osmose.openstreetmap.fr buildbot_nine=yes
 
 [buildbot-slave]
 osm108.openstreetmap.fr
