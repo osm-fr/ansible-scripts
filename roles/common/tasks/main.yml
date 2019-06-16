@@ -453,6 +453,14 @@
     - generate locales
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+# necessary to run a lot of containers, each which systemd launching several inotify
+- name: increase fs.inotify.max_user_instances on host
+  sysctl:
+    name: fs.inotify.max_user_instances
+    value: 1024
+    sysctl_file: /etc/sysctl.d/ansible.conf
+  when: "not 'vm' in group_names"
+
 - include: ssh-tunnel.yml user=ssh-tunnel uid=1104
   when: "'ssh-tunnel' in group_names"
 
