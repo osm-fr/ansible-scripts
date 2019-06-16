@@ -227,7 +227,12 @@
   when: not 'vm' in group_names and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
 
 - name: init /data/ paths
-  file: path={{ item }} state=directory owner=root group=root force=no
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    force: no
   with_items:
     - /data
     - /data/project
@@ -322,15 +327,30 @@
   when: "'ybon' in group_names"
 
 - name: add default sudoers
-  copy: src=sudoers dest=/etc/sudoers.d/ansible-common mode=0440 owner=root group=root validate='visudo -cf %s'
+  copy:
+    src: sudoers
+    dest: /etc/sudoers.d/ansible-common
+    mode: 0440
+    owner: root
+    group: root
+    validate: 'visudo -cf %s'
 
 - name: add sudoers for users
-  template: src=sudoers-users dest=/etc/sudoers.d/ansible-common-users mode=0440 owner=root group=root validate='visudo -cf %s'
+  template:
+    src: sudoers-users
+    dest: /etc/sudoers.d/ansible-common-users
+    mode: 0440
+    owner: root
+    group: root
+    validate: 'visudo -cf %s'
   when: users_root is defined or group_users_root is defined
 
 
 - name: add alias for ll
-  lineinfile: dest=/etc/bash.bashrc regexp='alias ll="ls -l"' line='alias ll="ls -l"'
+  lineinfile:
+    dest: /etc/bash.bashrc
+    regexp: 'alias ll="ls -l"'
+    line: 'alias ll="ls -l"'
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Check if user backuppc exists
@@ -340,25 +360,45 @@
   changed_when: "user_exist.rc != 0"
 
 - name: add user backuppc
-  user: name=backuppc home=/home/backuppc system=yes
+  user:
+    name: backuppc
+    home: /home/backuppc
+    system: yes
   when: user_exist.changed
 
 - name: init group backuppc
-  group: name=backuppc
+  group:
+    name: backuppc
 
 - name: init backuppc ssh
-  file: path=/home/backuppc/.ssh state=directory mode=0700 owner=backuppc group=backuppc
+  file:
+    path: /home/backuppc/.ssh
+    state: directory
+    mode: 0700
+    owner: backuppc
+    group: backuppc
 
 - name: add authorized_keys for user backuppc
-  copy: src=backuppc.authorized_keys dest=/home/backuppc/.ssh/authorized_keys mode=0600 owner=backuppc group=backuppc force=yes
+  copy:
+    src: backuppc.authorized_keys
+    dest: /home/backuppc/.ssh/authorized_keys
+    mode: 0600
+    owner: backuppc
+    group: backuppc
+    force: yes
 
 - name: add ssh key to user backuppc
-  authorized_key: user=backuppc key="{{ lookup('file',item) }}"
+  authorized_key:
+    user: backuppc
+    key: "{{ lookup('file',item) }}"
   with_fileglob:
     - "{{ lookup('env','PWD') }}/public_keys/backuppc-*"
 
 - name: update hosts.allow
-  lineinfile: dest=/etc/hosts.allow regexp='^{{ item }}$' line='{{ item }}'
+  lineinfile:
+    dest: /etc/hosts.allow
+    regexp: '^{{ item }}$'
+    line: '{{ item }}'
   with_items:
     - 'sshd: 127.0.0.1'
     - 'sshd: 78.238.28.132'      # Jocelyn
@@ -368,7 +408,10 @@
     - 'sshd: .openstreetmap.fr'  # other machines
 
 - name: configure locales
-  lineinfile: dest=/etc/locale.gen regexp="{{ item }}" line="{{ item }} "
+  lineinfile:
+    dest: /etc/locale.gen
+    regexp: "{{ item }}"
+    line: "{{ item }} "
   notify:
     - generate locales
   with_items:
@@ -387,7 +430,10 @@
   when: ansible_distribution == 'Ubuntu'
 
 - name: configure locales
-  lineinfile: dest=/var/lib/locales/supported.d/local regexp="{{ item }}" line="{{ item }} "
+  lineinfile:
+    dest: /var/lib/locales/supported.d/local
+    regexp: "{{ item }}"
+    line: "{{ item }} "
   notify:
     - generate locales
   with_items:
