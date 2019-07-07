@@ -1,0 +1,38 @@
+--- /var/lib/pmg/templates/master.cf.in	2019-07-07 19:03:17.957141351 +0000
++++ templates/master.cf.in	2019-07-07 19:04:42.573314160 +0000
+@@ -83,6 +83,7 @@
+   -o smtpd_helo_restrictions=
+   -o smtpd_client_restrictions=
+   -o smtpd_sender_restrictions=
++  -o smtpd_milters=unix:/var/run/opendkim/signer.sock
+ 
+ [% pmg.mail.ext_port %]       inet  n -       -       -       1 postscreen
+ 
+@@ -91,6 +92,27 @@
+   -o receive_override_options=no_address_mappings
+   -o smtpd_discard_ehlo_keywords=silent-discard,dsn
+   -o mynetworks=127.0.0.0/8,[% postfix.int_ip %]
++  -o smtpd_milters=unix:/var/run/opendkim/verifier.sock,unix:/var/run/opendmarc/opendmarc.sock
++
++submission       inet  n -       -       -       100      smtpd
++  -o content_filter=scan:127.0.0.1:10023
++  -o smtpd_enforce_tls=yes
++  -o smtpd_sasl_auth_enable=yes
++  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
++  -o smtpd_recipient_restrictions=reject_unknown_recipient_domain
++  -o smtpd_sender_restrictions=
++  -o smtpd_helo_restrictions=
++  -o smtpd_milters=unix:/var/run/opendkim/signer.sock
++
++smtps        inet  n -       -       -       100      smtpd
++  -o content_filter=scan:127.0.0.1:10023
++  -o smtpd_tls_wrappermode=yes
++  -o smtpd_sasl_auth_enable=yes
++  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
++  -o smtpd_recipient_restrictions=reject_unknown_recipient_domain
++  -o smtpd_sender_restrictions=
++  -o smtpd_helo_restrictions=
++  -o smtpd_milters=unix:/var/run/opendkim/signer.sock
+ 
+ 127.0.0.1:10025 inet  n       -       n       -       -      smtpd
+   -o content_filter=

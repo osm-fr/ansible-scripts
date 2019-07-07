@@ -1,3 +1,11 @@
+# See https://www.virtualease.fr/postfix-creer-son-propre-smtp-mail-relay/ for sasl configuration
+# See https://wiki.fws.fr/tuto/linux_divers/dkim_dmarc_onpmg  for dkim/dmarc configuration
+
+# Configuration to add to DNS:
+# - DKIM key through /etc/opendkim/keys/default/default.txt
+# - DMARC with: _dmarc	TXT	"v=DMARC1; p=none"
+# - SPF   with: @	TXT	"v=spf1 a mx ... a:mail.openstreetmap.fr ?all"
+
 - name: download proxmox apt key
   get_url:
     url: http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg
@@ -16,5 +24,187 @@
   apt: pkg={{ item }}
   with_items:
     - proxmox-mailgateway
+    # local DNS resolver
+    - dnsmasq
+    # for smtp authentication
     - sasl2-bin
     - libsasl2-modules
+    # for dkim
+    - opendkim
+    - opendkim-tools
+    # for dmarc
+    - opendmarc
+
+
+# configure sasl for authenfication on SMTP server
+- name: add postfix user to group sasl
+  user:
+    name: postfix
+    groups: sasl
+    append: yes
+ 
+- name: add mount point for /var/spool/postfix/var/run/saslauthd
+  mount:
+    path: "/var/spool/postfix/var/run/saslauthd"
+    src: "/var/run/saslauthd"
+    fstype: "bind"
+    opts: "defaults,nodev,auto,bind"
+    state: mounted
+
+- name: configure saslauthd
+  lineinfile:
+    path: "/etc/default/saslauthd"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: "^MECHANISMS=", line: "MECHANISMS=\"sasldb\""}
+    - {regexp: "^START=", line: "START=yes"}
+  notify: reload sasl
+
+- name: configure postfix for sasl
+  copy:
+    src: postfix-sasl-smtpd.conf
+    dest: /etc/postfix/sasl/smtpd.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload postfix
+
+# users can be added through this command:
+# $ saslpasswd2 -u openstreetmap.fr <user>
+
+
+# configure dkim to sign emails
+- name: add postfix user to group opendkim
+  user:
+    name: postfix
+    groups: opendkim
+    append: yes
+
+- name: configure opendkim verifier
+  copy:
+    src: opendkim-verifier.conf
+    dest: /etc/opendkim/verifier.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload opendkim-verifier
+
+- name: configure opendkim signingtable
+  copy:
+    src: opendkim-signingtable
+    dest: /etc/opendkim/signingtable
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload opendkim-signer
+
+- name: configure opendkim keytable
+  copy:
+    src: opendkim-keytable
+    dest: /etc/opendkim/keytable
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload opendkim-signer
+
+- name: configure opendkim signer
+  copy:
+    src: opendkim-signer.conf
+    dest: /etc/opendkim/signer.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload opendkim-signer
+
+- name: create keys directory
+  file:
+    path: /etc/opendkim/keys/
+    mode: '0700'
+    owner: opendkim
+    group: root
+
+- name: create keys/default directory
+  file:
+    path: /etc/opendkim/keys/default/
+    mode: '0700'
+    owner: opendkim
+    group: root
+
+# generate keys with the following command:
+# $ opendkim-genkey -D /etc/opendkim/keys/default/ -s dkim
+# then copy /etc/opendkim/keys/default/default.txt to DNS
+
+- name: copy systemd service opendkim-verifier
+  copy:
+    src: systemd-opendkim-verifier.service
+    dest: /etc/systemd/system/opendkim-verifier.service
+    force: no
+  notify: restart opendkim-verifier
+
+- name: copy systemd service opendkim-signer
+  copy:
+    src: systemd-opendkim-signer.service
+    dest: /etc/systemd/system/opendkim-signer.service
+    force: no
+  notify: restart opendkim-signer
+
+- name: enable opendkim-verifier in systemd
+  systemd:
+    name: opendkim-verifier
+    masked: no
+    enabled: yes
+
+- name: enable opendkim-signer in systemd
+  systemd:
+    name: opendkim-signer
+    masked: no
+    enabled: yes
+
+
+# configure dmarc to check input emails again DMARC DNS entry
+- name: add postfix user to group opendmarc
+  user:
+    name: postfix
+    groups: opendmarc
+    append: yes
+
+- name: configure opendmarc
+  lineinfile:
+    path: "/etc/opendmarc.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - {regexp: "^Background ", line: "Background true"}
+    - {regexp: "^IgnoreAuthenticatedClients ", line: "IgnoreAuthenticatedClients true"}
+    - {regexp: "^IgnoreHosts ", line: "IgnoreHosts /etc/pmg/mynetworks"}
+    - {regexp: "^HistoryFile ", line: "HistoryFile /var/run/opendmarc/history.dat"}
+    - {regexp: "^RejectFailures ", line: "RejectFailures true"}
+  notify: reload opendmarc
+
+- name: enable opendmarc in systemd
+  systemd:
+    name: opendmarc
+    masked: no
+    enabled: yes
+
+
+# configure postfix with everything
+- name: create pmg template directory
+  file:
+    path: /etc/pmg/templates
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: copy pmg template for postfix
+  copy:
+    src: /var/lib/pmg/templates/master.cf.in
+    dest: /etc/pmg/templates/master.cf.in
+    remote_src: yes
+    force: no
+
+- name: patch master.cf.in
+  patch:
+    src: pmg-master.cf.in.patch
+    dest: /etc/pmg/templates/master.cf.in

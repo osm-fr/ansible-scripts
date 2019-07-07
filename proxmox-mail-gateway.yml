@@ -1,0 +1,5 @@
+- name: proxmox-mail-gateway configuration
+  hosts: proxmox-mail-gateway
+  become: yes
+  roles:
+    - proxmox-mail-gateway
