@@ -1,0 +1,6 @@
+- name: yeswiki configuration
+  hosts: yeswiki
+  become: yes
+  roles:
+    - yeswiki
+

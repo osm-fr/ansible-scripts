@@ -1,0 +1,19 @@
+<VirtualHost *:80 *:443>
+	ServerAdmin webmaster@localhost
+
+	ServerName educosm.openstreetmap.fr
+
+	DocumentRoot /data/project/yeswiki/yeswiki/
+	<Directory /data/project/yeswiki/yeswiki>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Require all granted
+	</Directory>
+
+	AccessFileName .htaccess
+
+	LogLevel warn
+	ErrorLog /var/log/apache2/yeswiki-error.log
+	CustomLog /var/log/apache2/yeswiki-access.log combined
+</VirtualHost>
+

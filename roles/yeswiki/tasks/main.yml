@@ -1,0 +1,47 @@
+- name: install packages
+  apt: pkg={{ item }}
+  with_items:
+    - apache2
+    - default-mysql-server
+    - php7.0
+    - php7.0-curl
+    - php7.0-mbstring
+    - php7.0-mysql
+    - php7.0-xml
+    - php7.0-zip
+    - python-pymysql
+
+- include: ../../../shared/project-account.yml user=yeswiki
+
+
+# install yeswiki manually in /data/project/yeswiki/yeswiki/
+- name: check if yeswki was installed
+  stat:
+    path: /data/project/yeswiki/yeswiki/
+  register: p
+
+- fail:
+    msg: "Please install yeswiki by decompressing a .zip from https://yeswiki.net/?TelechargementS"
+  when: not (p.stat.isdir is defined and p.stat.isdir)
+
+- name: create mysql db
+  mysql_db:
+    name: yeswiki
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: create mysql user
+  mysql_user:
+    name: yeswiki
+    password: "{{ lookup('password', 'credentials/yeswiki/' + inventory_hostname) }}"
+    priv: "yeswiki.*:ALL"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/yeswiki.conf"
+  notify: restart apache
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/yeswiki.conf" dest="/etc/apache2/sites-enabled/yeswiki.conf" state=link
+  notify: restart apache
+
