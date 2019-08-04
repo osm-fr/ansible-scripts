@@ -36,7 +36,7 @@
     postgis_version: 2.5
     postgis_suffix: -2.5
     openjdk_version: 11
-  when: ansible_distribution_version == "buster/sid"
+  when: ansible_distribution_release == "buster"
 
 - name: install packages
   apt: pkg={{ item }}
