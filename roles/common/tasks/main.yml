@@ -163,6 +163,14 @@
 - set_fact: install_apache=false
   when: install_apache is undefined
 
+- name: add buster-backports for monit
+  apt_repository:
+    filename: 'backports'
+    repo: 'deb http://ftp.debian.org/debian buster-backports backports main'
+    state: present
+    update_cache: yes
+  when: ansible_distribution_release == "buster"
+
 #- apt: update_cache=yes
 - name: install packages
   apt: pkg={{ item }} update_cache=yes
