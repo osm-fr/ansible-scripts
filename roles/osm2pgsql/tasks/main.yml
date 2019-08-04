@@ -1,31 +1,31 @@
-- name: install packages
-  apt: pkg={{ item }}
-  with_items:
-    - postgresql-9.1
-    - postgresql-9.1-postgis
-    - postgresql-contrib-9.1
-    - openjdk-6-jre-headless  # for osmosis
+- name: set postgresql_version = 9.6
+  set_fact:
+    postgresql_version: 9.6
+    postgis_version: 2.3
+    postgis_suffix: -2.3
+    openjdk_version: 8
+  when: ansible_distribution_release == "stretch"
 
-    # for osm2pgsql compilation
-    - libboost-dev
-    - libboost-system-dev
-    - libboost-filesystem-dev
-    - libboost-thread-dev
-    - libxml2-dev
-    - libgeos-dev
-    - libgeos++-dev
-    - libpq-dev
-    - libbz2-dev
-    - libproj-dev
-    - protobuf-c-compiler
-    - libprotobuf-c0-dev
-    - lua5.2
-    - liblua5.2-dev
-    - autoconf
-    - automake
-    - libtool
-    - make
-    - g++
+- name: set postgresql_version = 11
+  set_fact:
+    postgresql_version: 11
+    postgis_version: 2.5
+    postgis_suffix: -2.5
+    openjdk_version: 11
+  when: ansible_distribution_release == "buster"
+
+- name: install packages
+  apt:
+    pkg:
+      - postgresql-{{ postgresql_version }}
+      - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
+      - postgresql-contrib-{{ postgresql_version }}
+      - postgis
+      - openjdk-{{ openjdk_version }}-jre-headless # for osmosis
+      - python-psycopg2
+
+      - osm2pgsql
+      - osmosis
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
@@ -55,18 +55,7 @@
   with_items:
     - fuzzystrmatch
     - hstore
-
-- name: psql extension postgis
-  command: psql -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
-  when: createdb_osm.changed
-  become: yes
-  become_user: postgres
-
-- name: psql extension postgis - spatial_ref_sys
-  command: psql -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
-  when: createdb_osm.changed
-  become: yes
-  become_user: postgres
+    - postgis
 
 - name: psql access to tables
   postgresql_privs: database=osm type=table objs={{ item }} roles=osm2pgsql privs=SELECT,INSERT,UPDATE,DELETE
@@ -101,27 +90,9 @@
   become_user: postgres
 
 - name: checkout git repository
-  git: repo=https://github.com/openstreetmap/osm2pgsql.git dest=/data/project/osm2pgsql/osm2pgsql/ force=no update=no
-  become: yes
-  become_user: osm2pgsql
-
-- name: compile osm2pgsql
-  shell: chdir=/data/project/osm2pgsql/osm2pgsql/ ./autogen.sh && ./configure && make
-  register: make
-  become: yes
-  become_user: osm2pgsql
-
-- name: checkout git repository
   git: repo=https://github.com/osm-fr/osm2pgsql-import-tools.git dest=/data/project/osm2pgsql/import-base-osm force=no update=no
   become: yes
   become_user: osm2pgsql
-
-- name: download osmosis
-  get_url: url=http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-0.43.1.tgz dest=/data/project/osm2pgsql/osmosis-0.43.1.tgz sha256sum=68df488db3643499cbc3d56fd4bd8bcabb9d67e821f9ba365b7e2eed6bda426a
-  become: yes
-  become_user: osm2pgsql
-
-- include: ../../../shared/osmosis.yml user=osm2pgsql version=0.43.1
 
 - name: add munin plugin
   file: src="/data/project/osm2pgsql/import-base-osm/maintenance/munin/osm_replication_lag-osm2pgsql" dest="/etc/munin/plugins/osm_replication_lag-osm2pgsql" state=link
