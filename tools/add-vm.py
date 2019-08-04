@@ -6,8 +6,18 @@ import re
 import sys
 
 host_config = {
+  "osm11": {
+    "hostname": "osm11.openstreetmap.fr",
+    "bridge": "vmbr1",
+    "gw4":  "192.168.0.254",
+    "ipv4": "192.168.%d.%d",
+    "gw6": "2a01:e0d:1:c:58bf:fac1:8000:11",
+    "ipv6": "2a01:e0d:1:c:58bf:fac1:8000:%d",
+    "default_storage": "hdd-zfs",
+  },
   "osm26": {
     "hostname": "osm26.openstreetmap.fr",
+    "bridge": "vmbr0",
     "gw4":  "10.0.0.26",
     "ipv4": "10.1.%d.%d",
     "gw6": "2001:41d0:1008:1f65:1::26",
@@ -16,6 +26,7 @@ host_config = {
   },
   "osm27": {
     "hostname": "osm27.openstreetmap.fr",
+    "bridge": "vmbr0",
     "gw4":  "10.0.0.27",
     "ipv4": "10.1.%d.%d",
     "gw6":  "2001:41d0:1008:1f84:1::27",
@@ -24,6 +35,7 @@ host_config = {
   },
   "osm28": {
     "hostname": "osm28.openstreetmap.fr",
+    "bridge": "vmbr0",
     "gw4":  "10.0.0.28",
     "ipv4": "10.1.%d.%d",
     "gw6":  "2001:41d0:1008:2c6b:1::28",
@@ -32,6 +44,7 @@ host_config = {
   },
   "osm29": {
     "hostname": "osm29.openstreetmap.fr",
+    "bridge": "vmbr0",
     "gw4":  "10.42.109.1",
     "ipv4": "10.42.109.%d",
     "gw6":  "2a00:1788:100:109::1",
@@ -40,6 +53,7 @@ host_config = {
   },
   "osm30": {
     "hostname": "osm30.openstreetmap.fr",
+    "bridge": "vmbr0",
     "gw4":  "10.42.109.1",
     "ipv4": "10.42.109.%d",
     "gw6":  "2a00:1788:100:109::1",
@@ -48,6 +62,7 @@ host_config = {
   },
   "osm31": {
     "hostname": "osm31.openstreetmap.fr",
+    "bridge": "vmbr0",
     "gw4":  "10.42.109.1",
     "ipv4": "10.42.109.%d",
     "gw6":  "2a00:1788:100:109::1",
@@ -57,15 +72,19 @@ host_config = {
 }
 
 templates = [
+  "debian-10.0-standard_10.0-1_amd64.tar.gz",
   "debian-9.0-standard_9.7-1_amd64.tar.gz",
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
 ]
 
 storages = [
   "hdd-sdd",
+  "hdd-zfs",
   "ceph",
   "local",
   "local-zfs",
+  "ssd-nvme",
+  "ssd-sata",
 ]
 
 default_template = templates[0]
@@ -160,7 +179,7 @@ def expand_args(args):
     args.ipv4 = cfg_host["ipv4"] % (args.vmid // 256, args.vmid % 256)
   args.ipv6 = cfg_host["ipv6"] % args.vmid
 
-  args.netif = '{"net0": "name=eth0,bridge=vmbr0,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/80,gw6=%(gw6)s"}' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+  args.netif = '{"net0": "name=eth0,bridge=%(bridge),ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/80,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
   args.swap = "2048"
 
