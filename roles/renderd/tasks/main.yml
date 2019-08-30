@@ -1,0 +1,30 @@
+- name: install packages
+  apt:
+    pkg:
+      - apache2
+      - apache2-dev
+      - autoconf
+      - git
+      - libmapnik3.0
+      - libmapnik-dev
+      - mapnik-utils
+      - python-mapnik
+      - software-properties-common
+      - unifont
+      - unzip
+
+- apt_repository:
+    repo: 'ppa:osmadmins/ppa'
+    codename: bionic
+
+- name: install packages
+  apt:
+    pkg:
+      - libapache2-mod-tile
+
+- include: ../../../shared/project-account.yml user=osmfr-cartocss
+
+- name: checkout git repository
+  git: repo=https://github.com/cquest/osmfr-cartocss.git dest=/data/project/osmfr-cartocss/osmfr-cartocss force=no update=no
+  become: yes
+  become_user: osmfr-cartocss
