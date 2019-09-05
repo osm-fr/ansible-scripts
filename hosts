@@ -61,6 +61,7 @@ osm162.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm164.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm165.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm166.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+osm167.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm208.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm209.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm210.openstreetmap.fr vm_host=osm28.openstreetmap.fr
