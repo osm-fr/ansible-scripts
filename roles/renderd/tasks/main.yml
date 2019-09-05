@@ -4,12 +4,19 @@
       - apache2
       - apache2-dev
       - autoconf
+      - fonts-noto-cjk
+      - fonts-noto-hinted
+      - fonts-noto-unhinted
+      - fonts-hanazono
       - git
       - libmapnik3.0
       - libmapnik-dev
       - mapnik-utils
       - python-mapnik
+      - python3-pip
+      - python3-venv
       - software-properties-common
+      - ttf-unifont
       - unifont
       - unzip
 
