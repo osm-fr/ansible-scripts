@@ -25,6 +25,7 @@
       - python-psycopg2
 
       - osm2pgsql
+      - osmctools
       - osmosis
 
 - name: ensure postgresql server is running
