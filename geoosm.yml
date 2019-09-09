@@ -1,0 +1,5 @@
+- name: geoosm configuration
+  hosts: geoosm
+  become: yes
+  roles:
+    - geoosm

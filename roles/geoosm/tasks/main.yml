@@ -1,0 +1,83 @@
+- name: set postgresql_version = 9.6
+  set_fact:
+    postgresql_version: 9.6
+    postgis_version: 2.3
+    postgis_suffix: -2.3
+    openjdk_version: 8
+  when: ansible_distribution_release == "stretch"
+
+- name: set postgresql_version = 11
+  set_fact:
+    postgresql_version: 11
+    postgis_version: 2.5
+    postgis_suffix: -2.5
+    openjdk_version: 11
+  when: ansible_distribution_release == "buster"
+
+- name: install packages
+  apt:
+    pkg:
+      - apache2
+      - composer
+      - git
+      - nodejs
+      - npm
+      - osm2pgsql
+      - osmctools
+      - postgresql-{{ postgresql_version }}
+      - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
+      - postgresql-contrib-{{ postgresql_version }}
+      - postgis
+      - python-psycopg2
+
+- name: ensure postgresql server is running
+  service: name=postgresql state=started
+
+- include: ../../../shared/project-account.yml user=geoosm
+
+- name: checkout git repository for backend
+  git:
+    repo: https://github.com/GeoOSM/GeoOSM_Backend.git
+    dest: /data/project/geoosm/GeoOSM_Backend
+    force: no
+    update: no
+  become: yes
+  become_user: geoosm
+
+- name: checkout git repository for frontend
+  git:
+    repo: https://github.com/GeoOSM/GeoOSM_Frontend.git
+    dest: /data/project/geoosm/GeoOSM_Frontend
+    force: no
+    update: no
+  become: yes
+  become_user: geoosm
+
+- name: init database
+  postgresql_db: name=geoosm encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
+  become: yes
+  become_user: postgres
+
+- name: init database user
+  postgresql_user: name=geoosm password=0Smawtajbarryak db=geoosm priv=ALL
+  become: yes
+  become_user: postgres
+
+- name: psql extension hstore
+  command: psql -d geoosm -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
+  register: psql_res
+  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
+  become: yes
+  become_user: postgres
+  with_items:
+    - fuzzystrmatch
+    - hstore
+    - postgis
+
+- name: psql access to tables
+  postgresql_privs: database=geoosm type=table objs={{ item }} roles=geoosm privs=SELECT,INSERT,UPDATE,DELETE
+  become: yes
+  become_user: postgres
+  with_items:
+    - geometry_columns
+    - spatial_ref_sys

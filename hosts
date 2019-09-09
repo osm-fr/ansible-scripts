@@ -118,6 +118,9 @@ osm139.openstreetmap.fr  # for forum.openstreetmap.fr
 [galette]
 osm150.openstreetmap.fr
 
+[geoosm]
+osm167.openstreetmap.fr
+
 [layers.openstreetmap.fr]
 osm136.openstreetmap.fr
 
