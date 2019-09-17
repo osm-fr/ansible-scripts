@@ -1,6 +1,7 @@
 How to generate debian packages for pypi packages
 =================================================
 
+# backports-csv
 pypi-download --release=1.0.7 backports-csv
 # need two separate runs because of an issue in generation
 py2dsc-deb --with-python2=True  --with-python3=False backports.csv-1.0.7.tar.gz
@@ -9,6 +10,8 @@ py2dsc-deb --with-python2=False --with-python3=True  backports.csv-1.0.7.tar.gz
 mv deb_dist/python*backports.csv*.deb .
 rm -rf deb_dist
 
+
+# lark-parser
 pypi-download --release=0.6.7 lark-parser
 # fix missing file for tests
 tar -xvf lark-parser-0.6.7.tar.gz
@@ -22,4 +25,11 @@ tar -czf lark-parser-0.6.7.tar.gz lark-parser-0.6.7
 py2dsc-deb --with-python2=True --with-python3=True lark-parser-0.6.7.tar.gz
 
 mv deb_dist/python*lark-parser*.deb .
+rm -rf deb_dist
+
+
+# transporthours
+pypi-download transporthours
+py2dsc-deb --with-python2=True --with-python3=True transporthours-0.0.2.tar.gz
+mv deb_dist/python*-transporthours*.deb .
 rm -rf deb_dist
