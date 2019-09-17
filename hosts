@@ -125,6 +125,7 @@ osm167.openstreetmap.fr
 osm136.openstreetmap.fr
 
 [letsencrypt]
+osm11.openstreetmap.fr letsencrypt_hosts=osm11.openstreetmap.fr
 osm13.openstreetmap.fr letsencrypt_hosts=osm13.openstreetmap.fr,tile.openstreetmap.fr
 osm101.openstreetmap.fr letsencrypt_hosts=osm101.openstreetmap.fr,docs.openstreetmap.fr,trac.openstreetmap.fr,adherents.openstreetmap.fr
 osm102.openstreetmap.fr letsencrypt_hosts=osm102.openstreetmap.fr,umap.openstreetmap.fr,nomino.openstreetmap.fr
