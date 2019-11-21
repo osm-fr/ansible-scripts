@@ -11,6 +11,7 @@
       - git
       - libmapnik3.0
       - libmapnik-dev
+      - libncursesw5-dev
       - mapnik-utils
       - python-mapnik
       - python3-pip
