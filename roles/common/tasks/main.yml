@@ -194,6 +194,7 @@
     - monit
     - munin-node
     - nano
+    - rsync # for backuppc
     - screen
     - sudo
     - time
