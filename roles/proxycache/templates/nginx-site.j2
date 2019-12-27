@@ -3,6 +3,14 @@ server {
     listen       [::]:80;
     server_name  {{ item.websites }};
 
+{% if item.redirect_to_https is defined and item.redirect_to_https %}
+    return 307 https://$host$request_uri;
+}
+
+server {
+    server_name  {{ item.websites }};
+
+{% endif %}
     include /etc/nginx/global.d/*.conf;
 
     #charset koi8-r;
