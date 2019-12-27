@@ -1,8 +1,8 @@
 - name: install packages
-  apt: pkg={{ item }}
-  with_items:
-    - nginx
-    - logrotate
+  apt:
+    pkg:
+      - nginx
+      - logrotate
 
 - name: check if nginx config exists
   local_action: stat path="roles/proxycache/files/nginx-{{ inventory_hostname }}.site"
