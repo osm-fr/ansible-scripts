@@ -66,6 +66,7 @@ osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 osm235.openstreetmap.fr vm_host=osm31.openstreetmap.fr
+osm310.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm324.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
@@ -96,6 +97,7 @@ osm324.openstreetmap.fr buildbot_site=buildbot2.osmose.openstreetmap.fr buildbot
 [buildbot-slave]
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
+osm310.openstreetmap.fr
 osm211.openstreetmap.fr
 osm212.openstreetmap.fr
 osm213.openstreetmap.fr
@@ -156,6 +158,7 @@ osm165.openstreetmap.fr
 [osmose-backend]
 osm108.openstreetmap.fr
 osm110.openstreetmap.fr
+osm310.openstreetmap.fr
 osm211.openstreetmap.fr
 osm212.openstreetmap.fr
 osm213.openstreetmap.fr
@@ -175,6 +178,7 @@ osm108.openstreetmap.fr
 
 [osmosis]
 osm110.openstreetmap.fr
+osm310.openstreetmap.fr
 
 [peertube]
 osm155.openstreetmap.fr
