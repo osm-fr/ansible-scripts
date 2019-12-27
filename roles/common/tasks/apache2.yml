@@ -1,65 +1,45 @@
-- name: init https keys directory
-  file: path=/etc/apache2/ssl/ state=directory owner=root group=root mode=0600 force=no
-
-- name: install https keys
-  copy: src="ssl/{{ item }}" dest="/etc/apache2/ssl/{{ item }}" owner=root group=root mode=0600
-  notify: restart apache
-  with_items:
-    - wildcard.cert.pem
-    - wildcard.chain.pem
-    - wildcard.key.pem
-
-- name: check name of default-ssl
-  command: /usr/bin/test -e /etc/apache2/sites-available/default-ssl.conf
+- name: check if apache installed
+  command: /usr/bin/test -e /etc/apache2/conf-available/ -a -e /etc/apache2/conf-enabled/
   ignore_errors: True
-  register: apache_default_ssl_conf
+  register: apache_installed
 
-- name: set apache_default_ssl to default-ssl.conf
-  set_fact: apache_default_ssl=default-ssl.conf
-  when: apache_default_ssl_conf.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+# change logformat from %h to %a to support reverse proxy
+- name: configure logformat for apache
+  copy:
+    src: "apache-logformat.conf"
+    dest: "/etc/apache2/conf-available/ansible-logformat.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload apache
+  when: apache_installed.rc == 0
 
-- name: set apache_default_ssl to default-ssl
-  set_fact: apache_default_ssl=default-ssl
-  when: apache_default_ssl_conf.rc != 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+- name: enable logformat config for apache
+  file:
+    src:  /etc/apache2/conf-available/ansible-logformat.conf
+    dest: /etc/apache2/conf-enabled/ansible-logformat.conf
+    state: link
+  notify: reload apache
+  when: apache_installed.rc == 0
 
+# enable mod_remoteip for reverse proxy
+- name: configure remoteip
+  template:
+    src: apache-remoteip.conf
+    dest: /etc/apache2/mods-available/remoteip.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload apache
+  when: apache_installed.rc == 0 and vm_host is defined
 
-- name: add apache ssl module
-  command: a2enmod ssl
-  notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: configure https keys
-  lineinfile: dest="/etc/apache2/sites-available/{{ apache_default_ssl }}" regexp="{{ item.regexp }}" line="{{ item.line }}" insertbefore="{{ item.before }}"
+- name: enable mod_remoteip
+  file:
+    src:  "/etc/apache2/mods-available/{{ item }}"
+    dest: "/etc/apache2/mods-enabled/{{ item }}"
+    state: link
   notify: restart apache
   with_items:
-    - {regexp: "^[ 	]*SSLCertificateFile.*",
-       before: "^[ 	]*SSLCertificateFile",
-       line:   "	SSLCertificateFile	/etc/apache2/ssl/wildcard.cert.pem"}
-    - {regexp: "^[ 	]*SSLCertificateKeyFile.*",
-       before: "^[ 	]*SSLCertificateFile",
-       line:   "	SSLCertificateKeyFile	/etc/apache2/ssl/wildcard.key.pem"}
-    - {regexp: "^[ 	]*SSLCertificateChainFile.*",
-       before: "^[ 	]*SSLCertificateFile",
-       line:   "	SSLCertificateChainFile	/etc/apache2/ssl/wildcard.chain.pem"}
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: enable virtualhost on https
-  lineinfile: dest=/etc/apache2/ports.conf regexp="^ *NameVirtualHost \*:443" line="    NameVirtualHost *:443" insertafter="<IfModule mod_ssl.c>"
-  notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: add apache ssl site
-  file: src="/etc/apache2/sites-available/{{ item.a }}" dest="/etc/apache2/sites-enabled/{{ item.b }}" state=link
-  notify: restart apache
-  with_items:
-    - {a: "{{ apache_default_ssl }}", b: "000-{{ apache_default_ssl }}" }
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: delete default-ssl link
-  file: dest="/etc/apache2/sites-enabled/{{ apache_default_ssl }}" state=absent
-  notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: check apache configuration
-  command: apache2ctl configtest
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - remoteip.load
+    - remoteip.conf
+  when: apache_installed.rc == 0 and vm_host is defined

@@ -499,11 +499,7 @@
 - include: ssh-tunnel.yml user=ssh-tunnel uid=1104
   when: "'ssh-tunnel' in group_names"
 
-- name: set apache_default_ssl to default-ssl.conf
-  set_fact: apache_default_ssl=default-ssl.conf
-
 - include: apache2.yml
-  when: install_apache
 
 - include: monit.yml
 
