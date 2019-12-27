@@ -1,11 +1,24 @@
+- name: set postgresql_version = 9.4
+  set_fact:
+    postgresql_version: 9.4
+    postgis_version: 2.1
+  when: ansible_distribution_release == "jessie"
+
+- name: set postgresql_version = 11
+  set_fact:
+    postgresql_version: 11
+    postgis_version: 2.5
+  when: ansible_distribution_release == "buster"
+
 - name: install packages
   apt: pkg={{ item }}
   with_items:
-    - postgresql-9.1
-    - postgresql-9.1-postgis
-    - postgresql-contrib-9.1
+    - osmosis
+    - postgresql
+    - postgis
+    - postgresql-contrib
     - python-psycopg2
-    - openjdk-6-jre-headless
+    - default-jre-headless
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
@@ -40,15 +53,10 @@
   with_items:
     - fuzzystrmatch
     - hstore
-
-- name: psql extension postgis
-  command: psql -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
-  when: createdb_osm.changed
-  become: yes
-  become_user: postgres
+    - postgis
 
 - name: psql extension postgis - spatial_ref_sys
-  command: psql -d osm -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+  command: psql -d osm -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
   when: createdb_osm.changed
   become: yes
   become_user: postgres
@@ -89,12 +97,7 @@
   become: yes
   become_user: osmosis
 
-- name: download osmosis
-  get_url: url=http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-0.43.1.tgz dest=/data/project/osmosis/osmosis-0.43.1.tgz sha256sum=68df488db3643499cbc3d56fd4bd8bcabb9d67e821f9ba365b7e2eed6bda426a
-  become: yes
-  become_user: osmosis
-
-- include: ../../../shared/osmosis.yml user=osmosis version=0.43.1
+- include: ../../../shared/osmosis.yml user=osmosis version=0.47
 
 # To finish installation, run:
 # - (cd /data/work/osmosis/ && wget http://download.openstreetmap.fr/extracts/europe/france.osm.pbf)

@@ -1,4 +1,9 @@
 - name: download osmosis
+  get_url: url=http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-{{ version }}.tgz dest=/data/project/{{ user }}/osmosis-{{ version }}.tgz sha256sum={{ osmosis_sha256sum }}
+  become: yes
+  become_user: osmosis
+
+- name: create osmosis directory
   file: path="/data/project/{{ user }}/osmosis-{{ version }}" state=directory
   become: yes
   become_user: "{{ user }}"
