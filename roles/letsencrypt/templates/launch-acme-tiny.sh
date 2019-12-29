@@ -2,6 +2,8 @@
 
 set -e
 
+echo "Starting launch-acme-tiny.sh"
+
 need_update=0
 
 if [ ! -f "./signed.crt" ]; then
@@ -14,6 +16,7 @@ elif [ "$(find ./signed.crt -mtime +62)" ]; then
 fi
 
 if [ "$need_update" -eq 0 ]; then
+  echo "Update is not necessary"
   exit 0
 fi
 
@@ -25,8 +28,14 @@ if [ -e intermediate.pem ]; then
   cat ./signed.crt intermediate.pem > chained.pem
   if [ -e /etc/init.d/apache2 ]; then
     sudo /etc/init.d/apache2 reload
+    echo "apache2 was reloaded"
   fi
   if [ -e /etc/init.d/nginx ]; then
     sudo /etc/init.d/nginx reload
+{% if inventory_hostname == "osm26.openstreetmap.fr" %}
+    ssh letsencrypt@osm27.openstreetmap.fr sudo /etc/init.d/nginx reload
+    ssh letsencrypt@osm28.openstreetmap.fr sudo /etc/init.d/nginx reload
+{% endif %}
+    echo "nginx was reloaded"
   fi
 fi
