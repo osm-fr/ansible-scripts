@@ -104,10 +104,6 @@ proxy:
     websites: "backup.umap.openstreetmap.fr"
     target: "10.1.0.159"
   -
-    logname: "josm-dev"
-    websites: "josm-dev.openstreetmap.fr"
-    target: "10.1.1.0"
-  -
     logname: "stats"
     websites: "stats.openstreetmap.fr"
     target: "10.1.0.160"

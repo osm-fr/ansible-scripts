@@ -73,7 +73,6 @@ osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 
 # temporary VMs
-osm300.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 
@@ -242,10 +241,6 @@ osm103.openstreetmap.fr
 osm303.openstreetmap.fr
 osm149.openstreetmap.fr
 osm152.openstreetmap.fr
-
-[don-vip]
-osm26.openstreetmap.fr
-osm300.openstreetmap.fr
 
 [driss]
 osm26.openstreetmap.fr
