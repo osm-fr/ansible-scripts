@@ -108,6 +108,10 @@ proxy:
     websites: "josm-dev.openstreetmap.fr"
     target: "10.1.1.0"
   -
+    logname: "stats"
+    websites: "stats.openstreetmap.fr"
+    target: "10.1.0.160"
+  -
     logname: "dev.bano"
     websites: "dev.bano.openstreetmap.fr"
     target: "10.1.0.162"
