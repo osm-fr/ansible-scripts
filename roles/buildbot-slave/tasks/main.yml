@@ -5,12 +5,12 @@
 - name: set name to buildbot-worker
   set_fact:
     buildbot_name: buildbot-worker
-  when: ansible_distribution_version == "buster/sid"
+  when: ansible_distribution == "Debian" and ansible_distribution_major_version == "10"
 
 - name: install packages
-  apt: pkg={{ item }}
-  with_items:
-    - buildbot-slave
+  apt:
+    pkg:
+      - buildbot-slave
 
 - name: init paths
   file: path={{ item }} state=directory owner=buildbot group=buildbot force=no
