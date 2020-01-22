@@ -128,3 +128,9 @@ proxy:
     websites: "buildbot2.osmose.openstreetmap.fr"
     target: "10.1.1.68"
     config_src: "nginx-site-buildbot2.j2"
+  -
+    logname: "id-editor"
+    websites: "id-editor.openstreetmap.fr id.openstreetmap.fr"
+    target: "10.1.0.163"
+    target_port: 8080
+    redirect_to_https: True
