@@ -58,6 +58,7 @@ osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm160.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm162.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm163.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm164.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm165.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm166.openstreetmap.fr vm_host=osm11.openstreetmap.fr
@@ -264,6 +265,7 @@ osm124.openstreetmap.fr
 osm26.openstreetmap.fr
 osm128.openstreetmap.fr
 osm153.openstreetmap.fr
+osm163.openstreetmap.fr
 
 [fred:children]
 osmose-backend
