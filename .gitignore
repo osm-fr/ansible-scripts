@@ -3,3 +3,4 @@
 ansible_cache/
 credentials/
 public_keys/
+cache/
