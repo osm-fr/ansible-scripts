@@ -1,9 +1,7 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
-    - apache2
     - buildbot
-  when: buildbot_nine is not defined
 
 - name: install packages for buildbot 0.9
   apt: pkg={{ item }}
