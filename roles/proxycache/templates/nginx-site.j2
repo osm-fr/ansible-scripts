@@ -24,7 +24,11 @@ server {
     send_timeout          6000;
 
     location / {
+{% if item.target_port is defined %}
+        proxy_pass	http://{{ item.target }}:{{ item.target_port }};
+{% else %}
         proxy_pass	http://{{ item.target }};
+{% endif %}
         proxy_redirect     off;
         proxy_buffering    off;
         proxy_set_header   Host             $host;
