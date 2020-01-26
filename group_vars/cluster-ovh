@@ -107,6 +107,7 @@ proxy:
     logname: "stats"
     websites: "stats.openstreetmap.fr"
     target: "10.1.0.160"
+    redirect_to_https: True
   -
     logname: "dev.bano"
     websites: "dev.bano.openstreetmap.fr"
