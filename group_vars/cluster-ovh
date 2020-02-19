@@ -141,3 +141,8 @@ proxy:
     target: "10.1.0.168"
     target_port: 28113
     redirect_to_https: True
+  -
+    logname: "librenms"
+    websites: "librenms.openstreetmap.fr"
+    target: "10.1.0.170"
+    redirect_to_https: True
