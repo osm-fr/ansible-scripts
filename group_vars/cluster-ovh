@@ -142,6 +142,10 @@ proxy:
     target_port: 28113
     redirect_to_https: True
   -
+    logname: "discourse"
+    websites: "discourse.openstreetmap.fr"
+    target: "10.1.0.169"
+  -
     logname: "librenms"
     websites: "librenms.openstreetmap.fr"
     target: "10.1.0.170"
