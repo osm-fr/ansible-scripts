@@ -12,7 +12,7 @@ osm30.openstreetmap.fr
 osm31.openstreetmap.fr
 
 [vm]
-osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+# osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm102.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm103.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm104.openstreetmap.fr vm_host=osm12.openstreetmap.fr
@@ -233,7 +233,6 @@ osm154.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [cgiquello]
-osm101.openstreetmap.fr
 osm102.openstreetmap.fr
 osm157.openstreetmap.fr
 
@@ -344,12 +343,8 @@ osm27.openstreetmap.fr
 osm130.openstreetmap.fr
 osm151.openstreetmap.fr
 
-[redfox]
-osm101.openstreetmap.fr
-
 [ssh-tunnel]
 osm13.openstreetmap.fr
-osm101.openstreetmap.fr
 osm105.openstreetmap.fr
 
 [thomasl]
