@@ -13,7 +13,7 @@ osm31.openstreetmap.fr
 
 [vm]
 # osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-osm102.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+# osm102.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm103.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm104.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm105.openstreetmap.fr vm_host=osm12.openstreetmap.fr
@@ -233,7 +233,6 @@ osm154.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [cgiquello]
-osm102.openstreetmap.fr
 osm157.openstreetmap.fr
 
 [cormoran]
