@@ -23,7 +23,7 @@ osm110.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
-osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+# osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm118.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm124.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm125.openstreetmap.fr vm_host=osm26.openstreetmap.fr
@@ -133,7 +133,6 @@ osm104.openstreetmap.fr letsencrypt_hosts=osm104.openstreetmap.fr,bano.openstree
 osm105.openstreetmap.fr letsencrypt_hosts=osm105.openstreetmap.fr,a.layers.openstreetmap.fr,b.layers.openstreetmap.fr,c.layers.openstreetmap.fr,osm2pgsql-monde.openstreetmap.fr
 osm108.openstreetmap.fr letsencrypt_hosts=download.openstreetmap.fr,polygons.openstreetmap.fr,rawedit.openstreetmap.fr
 osm110.openstreetmap.fr letsencrypt_hosts=osm110.openstreetmap.fr,ae.openstreetmap.fr,dev.osmose.openstreetmap.fr
-osm117.openstreetmap.fr letsencrypt_hosts=osmose.openstreetmap.fr,beta.osmose.openstreetmap.fr,osmose.openstreetmap.lu
 osm124.openstreetmap.fr letsencrypt_hosts=buildbot.osmose.openstreetmap.fr
 osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
@@ -172,7 +171,6 @@ osmose-aquilenet.openstreetmap.fr
 
 [osmose-frontend]
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
-osm117.openstreetmap.fr	osmose_frontend_site=osmose.openstreetmap.fr
 osm128.openstreetmap.fr	osmose_frontend_site=opendata.osmose.openstreetmap.fr
 osm153.openstreetmap.fr	osmose_frontend_site=osmose.openstreetmap.fr
 
@@ -266,7 +264,6 @@ osm104.openstreetmap.fr
 osm105.openstreetmap.fr
 osm111.openstreetmap.fr
 osm112.openstreetmap.fr
-osm117.openstreetmap.fr
 osm118.openstreetmap.fr
 osm124.openstreetmap.fr
 osm26.openstreetmap.fr
@@ -320,7 +317,6 @@ osm160.openstreetmap.fr
 [marc_marc]
 osm24.openstreetmap.fr
 osm103.openstreetmap.fr  # old overpass api
-osm117.openstreetmap.fr  # osmose frontend
 osm127.openstreetmap.fr
 osm138.openstreetmap.fr
 osm147.openstreetmap.fr  # new overpass api
