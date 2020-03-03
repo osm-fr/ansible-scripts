@@ -109,7 +109,7 @@ osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 
 [drupal]
-osm146.openstreetmap.fr  # for www.openstreetmap.fr
+osm146.openstreetmap.fr  # for prev.openstreetmap.fr
 
 [phpbb]
 osm139.openstreetmap.fr  # for forum.openstreetmap.fr
@@ -126,9 +126,7 @@ osm136.openstreetmap.fr
 [letsencrypt]
 osm11.openstreetmap.fr letsencrypt_hosts=osm11.openstreetmap.fr
 osm13.openstreetmap.fr letsencrypt_hosts=osm13.openstreetmap.fr,tile.openstreetmap.fr
-osm101.openstreetmap.fr letsencrypt_hosts=osm101.openstreetmap.fr,docs.openstreetmap.fr,trac.openstreetmap.fr,adherents.openstreetmap.fr
-osm102.openstreetmap.fr letsencrypt_hosts=osm102.openstreetmap.fr,umap.openstreetmap.fr,nomino.openstreetmap.fr
-osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.openstreetmap.fr,api.openstreetmap.fr,garmin.openstreetmap.fr
+osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.openstreetmap.fr,garmin.openstreetmap.fr
 osm104.openstreetmap.fr letsencrypt_hosts=osm104.openstreetmap.fr,bano.openstreetmap.fr,cadastre.openstreetmap.fr,imagery.openstreetmap.fr,tms.cadastre.openstreetmap.fr
 osm105.openstreetmap.fr letsencrypt_hosts=osm105.openstreetmap.fr,a.layers.openstreetmap.fr,b.layers.openstreetmap.fr,c.layers.openstreetmap.fr,osm2pgsql-monde.openstreetmap.fr
 osm108.openstreetmap.fr letsencrypt_hosts=download.openstreetmap.fr,polygons.openstreetmap.fr,rawedit.openstreetmap.fr
@@ -136,7 +134,6 @@ osm110.openstreetmap.fr letsencrypt_hosts=osm110.openstreetmap.fr,ae.openstreetm
 osm124.openstreetmap.fr letsencrypt_hosts=buildbot.osmose.openstreetmap.fr
 osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
-osm146.openstreetmap.fr letsencrypt_hosts=www.openstreetmap.fr,openstreetmap.fr
 osm149.openstreetmap.fr letsencrypt_hosts=osm149.openstreetmap.fr
 osm158.openstreetmap.fr letsencrypt_hosts=mail.openstreetmap.fr,osm158.openstreetmap.fr
 osm24.openstreetmap.fr letsencrypt_hosts=proxy-ign.openstreetmap.fr
