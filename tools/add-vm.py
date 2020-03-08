@@ -99,6 +99,8 @@ def parse_args():
   parser.add_argument('--host',     action='store', choices=host_config.keys())
   parser.add_argument('--vmid',     action='store', type=int,
                       help="default: automatically guessed from ./hosts")
+  parser.add_argument('--vmname',     action='store', type=str,
+                      help="Name for VM in DNS, will be suffixed by .vm.openstreetmap.fr - default: osmVMID")
   parser.add_argument('--template', action='store', default=default_template,
                       help="default: %(default)s")
 
@@ -118,25 +120,38 @@ def parse_args():
   return args
 
 
-def find_vmid(vmid=None):
+def find_vmid(vmid=None, vmname=None):
 
+  existing_vmid = set()
   existing_names = set()
 
   with open("hosts") as f:
     re_osm = re.compile("osm([0-9]+)\.")
+    re_vm_openstreetmap_fr = re.compile("([0-9a-z_.]+)\.openstreetmap\.fr")
+
     for line in f:
-      m = re_osm.match(line)
-      if m:
-        name = int(m.group(1))
-        existing_names.add(name)
+      ms = re_osm.findall(line)
+      for m in ms:
+        existing_vmid.add(int(m))
+      ms = re_vm_openstreetmap_fr.findall(line)
+      for m in ms:
+        existing_names.add(m)
 
   if vmid is None:
-    vmid = max([vmid for vmid in existing_names if vmid < 200]) + 1
+    vmid = max([vmid for vmid in existing_vmid if vmid < 200]) + 1
 
-  if vmid in existing_names:
+  if vmname is None:
+    vmname = "osm%d" % vmid
+  else:
+    vmname = "%s.vm" % vmname
+
+  if vmid in existing_vmid:
     raise Exception("VMID %s is already present in ./hosts" % vmid)
 
-  return (vmid, existing_names)
+  if vmname in existing_names:
+    raise Exception("VM name %s is already present in ./hosts" % vmname)
+
+  return (vmid, vmname)
 
 
 def get_host(host=None):
@@ -183,7 +198,7 @@ def expand_args(args):
 
   args.swap = "2048"
 
-  args.dns_name = "osm%s.openstreetmap.fr" % args.vmid
+  args.dns_name = "%s.openstreetmap.fr" % args.vmname
 
   if not args.storage:
     args.storage = host_config[args.host]["default_storage"]
@@ -222,6 +237,7 @@ def configure_ansible(args):
     f.write("  host: %s\n" % host_config[args.host]["hostname"])
     f.write("  cpus: %s\n" % args.cpus)
     f.write("  disk: %s\n" % args.disk)
+    f.write("  hostname: %s\n" % args.dns_name)
     f.write("  ipv6: %s\n" % args.ipv6)
     f.write("  netif: %s\n" % args.netif)
     f.write("  memory: %s\n" % args.memory)
@@ -244,11 +260,12 @@ def configure_ansible(args):
           add_vm = False
 
         elif add_vm:
-          m = re_osm.match(line)
-          if m:
-            name = int(m.group(1))
-          if not m or name > args.vmid:
-            f.write("%s vm_host=%s\n" % (args.dns_name, host_config[args.host]["hostname"]))
+          ms = re_osm.findall(line)
+          name = -1
+          for m in ms:
+            name = max(name, int(m))
+          if name == -1 or name > args.vmid:
+            f.write("%s vm_host=%s # osm%d.openstreetmap.fr\n" % (args.dns_name, host_config[args.host]["hostname"], args.vmid))
             add_vm = False
 
         f.write(line)
@@ -258,7 +275,7 @@ def configure_ansible(args):
 
 if __name__ == '__main__':
   args = parse_args()
-  (args.vmid, existing_names) = find_vmid(args.vmid)
+  (args.vmid, args.vmname) = find_vmid(args.vmid, args.vmname)
   args.host = get_host(args.host)
   args = expand_args(args)
   print_config(args)
