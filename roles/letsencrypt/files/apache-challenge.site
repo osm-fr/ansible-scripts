@@ -8,7 +8,3 @@ Alias "/.well-known/acme-challenge/" "/data/project/letsencrypt/challenges/"
     Satisfy any
     Require all granted
 </Directory>
-
-#Redirect before other rewrite rules
-RewriteCond %{REQUEST_URI} /\.well\-known/acme\-challenge/
-RewriteRule (.*) /.well-known/acme-challenge/$1 [L,QSA]
