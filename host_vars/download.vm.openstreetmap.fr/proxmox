@@ -1,0 +1,12 @@
+proxmox_var:
+  host: osm11.openstreetmap.fr
+  cpus: 2
+  disk: 10
+  hostname: download.vm.openstreetmap.fr
+  ipv6: 2a01:e0d:1:c:58bf:fac1:8000:171
+  netif: {"net0": "name=eth0,bridge=vmbr1,ip=192.168.0.171/24,gw=192.168.0.254,ip6=2a01:e0d:1:c:58bf:fac1:8000:171/97,gw6=2a01:e0d:1:c:58bf:fac1:8000:11"}
+  memory: 4096
+  ostemplate: debian-10.0-standard_10.0-1_amd64.tar.gz
+  storage: "hdd-zfs"
+  swap: 2048
+  vmid: 171
