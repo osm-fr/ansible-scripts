@@ -67,6 +67,7 @@ osm168.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm169.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm170.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 download.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm171.openstreetmap.fr
+caresteouvert-bridge.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm172.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -233,6 +234,7 @@ osm154.openstreetmap.fr
 
 [apavie] # Adrien P.
 osm110.openstreetmap.fr
+caresteouvert-bridge.vm.openstreetmap.fr
 
 [cgiquello]
 osm157.openstreetmap.fr
@@ -255,6 +257,9 @@ osm105.openstreetmap.fr
 [eloks]
 osm26.openstreetmap.fr
 osm130.openstreetmap.fr
+
+[francois2] # François de Metz
+caresteouvert-bridge.vm.openstreetmap.fr
 
 [fred]
 osm104.openstreetmap.fr
@@ -375,6 +380,7 @@ osm11.openstreetmap.fr
 osm104.openstreetmap.fr
 osm26.openstreetmap.fr
 osm162.openstreetmap.fr
+caresteouvert-bridge.vm.openstreetmap.fr
 
 [ybon]
 osm28.openstreetmap.fr

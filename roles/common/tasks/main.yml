@@ -293,6 +293,9 @@
 - include: ../../../shared/account.yml user=eloks uid=1214
   when: "'eloks' in group_names"
 
+- include: ../../../shared/account.yml user=francois2 uid=1221
+  when: "'francois2' in group_names"
+
 - include: ../../../shared/account.yml user=fred uid=1205
   when: "'fred' in group_names"
 
