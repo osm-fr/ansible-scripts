@@ -50,15 +50,18 @@
     creates="/data/project/letsencrypt/keys/domain.key" chdir="/data/project/letsencrypt/keys"
     openssl genrsa 4096 > domain.key
 
-- name: set letsencrypt_hosts
+- name: declare letsencrypt_hosts
   set_fact:
-    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ proxy | json_query('[*].websites') | join(' ') }}"
-  when: letsencrypt_hosts is defined and proxy is defined
+    letsencrypt_hosts: ""
+  when: letsencrypt_hosts is not defined
 
-- name: set letsencrypt_hosts
+- name: set letsencrypt_hosts from proxy configuration
   set_fact:
-    letsencrypt_hosts: "{{ proxy | json_query('[*].websites') | join(' ') }}"
-  when: letsencrypt_hosts is not defined and proxy is defined
+    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ proxy | json_query('[?disable_https_cert_generation!=`True`''].websites') | join(' ') }}"
+  when: proxy is defined
+
+- debug:
+    msg: "List of hosts: {{ letsencrypt_hosts }}"
 
 - name: dump list of hosts
   become: yes
