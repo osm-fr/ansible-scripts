@@ -5,6 +5,10 @@ proxy:
     websites: "dev.cadastre.openstreetmap.fr"
     target: "192.168.0.162"
   -
+    logname: "bano"
+    websites: "bano.openstreetmap.fr"
+    target: "192.168.0.162"
+  -
     logname: "tile"
     websites: "dev.tile.openstreetmap.fr dev.a.tile.openstreetmap.fr dev.b.tile.openstreetmap.fr dev.c.tile.openstreetmap.fr a.tile-cyclosm.openstreetmap.fr b.tile-cyclosm.openstreetmap.fr c.tile-cyclosm.openstreetmap.fr"
     target: "192.168.0.166"
