@@ -64,6 +64,7 @@
     - python3-shapely
     - python3-regex
     - python3-requests
+    - python3-unidecode
     # to compile osm_pbf_parser
     - g++
     - libboost-python-dev
