@@ -8,12 +8,13 @@ server {
     #charset koi8-r;
     access_log  "/var/log/nginx/{{ item.logname }}.access.log";
 
-    client_max_body_size 4G;
+    client_max_body_size 8G;
 
     proxy_connect_timeout 6000;
     proxy_send_timeout    6000;
     proxy_read_timeout    6000;
     send_timeout          6000;
+    proxy_next_upstream   off;
 
     location / {
         proxy_pass	http://{{ item.target }};
