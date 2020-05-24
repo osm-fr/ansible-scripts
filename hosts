@@ -72,11 +72,18 @@ osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 osm235.openstreetmap.fr vm_host=osm31.openstreetmap.fr
-osm310.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-osm324.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+osmose-aquilenet.openstreetmap.fr
+osmose-eurecom.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
-osmose-aquilenet.openstreetmap.fr
+osmose1.davintech.ca
+osmose2.davintech.ca
+osmose3.davintech.ca
+osmose4.davintech.ca
+
+# warning : temporary id but prod
+osm310.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non générique france_local_db)
+osm324.openstreetmap.fr vm_host=osm28.openstreetmap.fr # buildbot2
 
 # temporary VMs
 osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
@@ -101,14 +108,18 @@ osm324.openstreetmap.fr buildbot_site=buildbot2.osmose.openstreetmap.fr buildbot
 
 [buildbot-slave]
 osm108.openstreetmap.fr
-osm110.openstreetmap.fr
 osm310.openstreetmap.fr
 osm211.openstreetmap.fr
 osm212.openstreetmap.fr
 osm213.openstreetmap.fr
+osmose-aquilenet.openstreetmap.fr
+osmose-eurecom.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
-osmose-aquilenet.openstreetmap.fr
+osmose1.davintech.ca
+osmose2.davintech.ca
+osmose3.davintech.ca
+osmose4.davintech.ca
 
 [drupal]
 osm146.openstreetmap.fr  # for prev.openstreetmap.fr
@@ -167,6 +178,10 @@ osm235.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
+osmose1.davintech.ca
+osmose2.davintech.ca
+osmose3.davintech.ca
+osmose4.davintech.ca
 
 [osmose-frontend]
 osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
