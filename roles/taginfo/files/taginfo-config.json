@@ -6,7 +6,7 @@
         // URL prefix for the site.
         "url": "http://taginfo.openstreetmap.fr",
         // Used in the title of all HTML pages.
-        "name": "Taginfo - France métropolitaine",
+        "name": "Taginfo - Metropolitan France",
         // Description of this taginfo instance.
         "description": "This is the Taginfo instance for Metropolitan France. It shows only tag information of OSM data within France mainland.",
         // URL path to instance icon in the upper left.
@@ -14,7 +14,7 @@
         // Contact name and email address.
         "contact": "taginfo@openstreetmap.fr",
         // Geographical area this taginfo instance covers.
-        "area": "France métropolitaine"
+        "area": "Metropolitan France"
     },
     // For the geodistribution map. See the wiki documentation about these settings.
     "geodistribution": {
@@ -42,7 +42,7 @@
     },
     "opensearch": {
         // For the OpenSearchDescription. You have to change at least the shortname and the contact for your instance.
-        "shortname": "Taginfo - France métropolitaine",
+        "shortname": "Taginfo - Metropolitan France",
         "contact": "taginfo@openstreetmap.fr",
         "description": "Find metadata about OpenStreetMap tags in Metropolitan France",
         "tags": "osm openstreetmap tag tags taginfo"
