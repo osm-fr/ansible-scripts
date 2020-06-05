@@ -98,8 +98,8 @@
     - remove-source.sh
     - key-source-valide.txt
 
-- name: add taginfo france.png file
-  copy: src="france.png" dest="/data/project/taginfo/taginfo/web/public/img/france.png"
+- name: add taginfo fr-metropolitaine.png file
+  copy: src="fr-metropolitaine.png" dest="/data/project/taginfo/taginfo/web/public/img/logo/fr-metropolitaine.png"
   become: yes
   become_user: taginfo
 
