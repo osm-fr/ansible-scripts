@@ -1,0 +1,12 @@
+<svg width="49" height="49" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <g class="layer">
+  <title>Layer 1</title>
+  <text font-weight="bold" transform="matrix(0.320802, 0, 0, 0.320802, -10.3749, 31.4116)" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_5" y="41.53839" x="108.61913" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">MÉTROPOLE</text>
+  <g id="svg_7">
+   <rect x="0" y="3.52898" id="svg_6" height="33" width="49" stroke-width="0" stroke="#000000" fill="#ffffff"/>
+   <rect x="0" y="3.52898" id="svg_1" height="33" width="16" stroke-width="0" stroke="#000000" fill="#002395"/>
+   <rect y="3.52898" id="svg_4" height="33" width="16" x="33" stroke-width="0" stroke="#000000" fill="#ed2939"/>
+  </g>
+ </g>
+</svg>
