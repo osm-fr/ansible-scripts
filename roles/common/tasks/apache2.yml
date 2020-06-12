@@ -3,6 +3,28 @@
   ignore_errors: True
   register: apache_installed
 
+- name: install packages for apache2
+  apt:
+    pkg: "{{ item }}"
+  with_items:
+    - libwww-perl    # for munin
+    - lynx           # for apache2ctl
+  when: apache_installed.rc == 0
+
+- name: add apache munin plugin links
+  file:
+    state: link
+    src: "{{ item.src }}"
+    dest: "/etc/munin/plugins/{{ item.dest }}"
+    force: no
+  notify:
+    - restart munin-node
+  with_items:
+    - {src: /usr/share/munin/plugins/apache_accesses, dest: apache_accesses}
+    - {src: /usr/share/munin/plugins/apache_processes, dest: apache_processes}
+    - {src: /usr/share/munin/plugins/apache_volume, dest: apache_volume}
+  when: apache_installed.rc == 0
+
 # change logformat from %h to %a to support reverse proxy
 - name: configure logformat for apache
   copy:
