@@ -3,20 +3,21 @@
   with_items:
     - apache2
     - mariadb-server
-    # TODO: upgrade to php7 as soon as new debian stable is out
-    - libapache2-mod-php5
-    - php5-apcu
-    - php5-curl
-    - php5-gd
-    - php5-json
-    - php5-imagick
-    - php5-intl
-    - php5-mcrypt
-    - php5-mysql
-    - php5-tidy
-    - php-xml-parser
-#    - php5-mbstring
-#    - php5-zip
+    - libapache2-mod-php
+    - php-apcu
+    - php-cgi
+    - php-cli
+    - php-curl
+    - php-gd
+    - php-json
+    - php-imagick
+    - php-intl
+    - php-mbstring
+    - php-mcrypt
+    - php-mysql
+    - php-tidy
+    - php-xml
+    - php-zip
 
 - include: ../../../shared/project-account.yml user=nextcloud
 
