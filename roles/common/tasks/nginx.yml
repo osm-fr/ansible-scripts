@@ -1,0 +1,15 @@
+- name: check if nginx installed
+  command: /usr/bin/test -e /etc/nginx/sites-available/ -a -e /etc/nginx/sites-enabled/ -a -e /etc/nginx/conf.d/
+  ignore_errors: True
+  register: nginx_installed
+
+# enable forwarded_ip for reverse proxy
+- name: configure remoteip
+  template:
+    src: nginx-forwarded_ip.conf
+    dest: /etc/nginx/conf.d/forwarded_ip.conf
+    mode: 0644
+    owner: root
+    group: root
+  notify: reload nginx
+  when: nginx_installed.rc == 0 and vm_host is defined

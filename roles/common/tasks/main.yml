@@ -513,6 +513,8 @@
 
 - include: apache2.yml
 
+- include: nginx.yml
+
 - include: monit.yml
 
 - include: munin-node.yml

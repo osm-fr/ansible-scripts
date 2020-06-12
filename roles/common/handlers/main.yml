@@ -6,6 +6,11 @@
 - name: restart apache
   service: name=apache2 state=restarted
 
+- name: reload nginx
+  systemd:
+    name: nginx
+    state: reloaded
+
 - name: restart denyhosts
   service: name=denyhosts state=restarted
 
