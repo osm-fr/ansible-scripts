@@ -18,11 +18,11 @@ osm103.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm104.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm105.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm108.openstreetmap.fr vm_host=osm12.openstreetmap.fr
-osm109.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-osm110.openstreetmap.fr vm_host=osm12.openstreetmap.fr
-osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
-osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
-osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+# osm109.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+# osm110.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+# osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+# osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+# osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm118.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm124.openstreetmap.fr vm_host=osm12.openstreetmap.fr
@@ -33,9 +33,9 @@ osm130.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm132.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm133.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm134.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm135.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+# osm135.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm136.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm137.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+# osm137.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm138.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm139.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm141.openstreetmap.fr vm_host=osm28.openstreetmap.fr
@@ -47,7 +47,7 @@ osm146.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm147.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm148.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm150.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+# osm150.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
@@ -71,7 +71,6 @@ caresteouvert-bridge.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm172
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
-osm235.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 osmose-eurecom.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
@@ -99,7 +98,6 @@ osm11.openstreetmap.fr
 
 # services
 [backuppc-server]
-osm109.openstreetmap.fr
 osm134.openstreetmap.fr
 
 [buildbot-master]
@@ -128,7 +126,6 @@ osm146.openstreetmap.fr  # for prev.openstreetmap.fr
 osm139.openstreetmap.fr  # for forum.openstreetmap.fr
 
 [galette]
-osm150.openstreetmap.fr
 
 [geoosm]
 osm167.openstreetmap.fr
@@ -143,7 +140,6 @@ osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.opens
 osm104.openstreetmap.fr letsencrypt_hosts=osm104.openstreetmap.fr,bano.openstreetmap.fr,cadastre.openstreetmap.fr,imagery.openstreetmap.fr,tms.cadastre.openstreetmap.fr
 osm105.openstreetmap.fr letsencrypt_hosts=osm105.openstreetmap.fr,a.layers.openstreetmap.fr,b.layers.openstreetmap.fr,c.layers.openstreetmap.fr,osm2pgsql-monde.openstreetmap.fr
 osm108.openstreetmap.fr letsencrypt_hosts=download.openstreetmap.fr,polygons.openstreetmap.fr,rawedit.openstreetmap.fr
-osm110.openstreetmap.fr letsencrypt_hosts=osm110.openstreetmap.fr,ae.openstreetmap.fr,dev.osmose.openstreetmap.fr
 osm124.openstreetmap.fr letsencrypt_hosts=buildbot.osmose.openstreetmap.fr
 osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
@@ -164,17 +160,14 @@ osm141.openstreetmap.fr
 
 [osm2pgsql]
 osm105.openstreetmap.fr
-osm110.openstreetmap.fr
 osm165.openstreetmap.fr
 
 [osmose-backend]
 osm108.openstreetmap.fr
-osm110.openstreetmap.fr
 osm310.openstreetmap.fr
 osm211.openstreetmap.fr
 osm212.openstreetmap.fr
 osm213.openstreetmap.fr
-osm235.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
@@ -184,7 +177,6 @@ osmose3.davintech.ca
 osmose4.davintech.ca
 
 [osmose-frontend]
-osm110.openstreetmap.fr	osmose_frontend_site=dev.osmose.openstreetmap.fr
 osm128.openstreetmap.fr	osmose_frontend_site=opendata.osmose.openstreetmap.fr
 osm153.openstreetmap.fr	osmose_frontend_site=osmose.openstreetmap.fr
 
@@ -193,7 +185,6 @@ osm108.openstreetmap.fr
 download.vm.openstreetmap.fr
 
 [osmosis]
-osm110.openstreetmap.fr
 osm310.openstreetmap.fr
 
 [peertube]
@@ -248,7 +239,6 @@ osm164.openstreetmap.fr
 osm154.openstreetmap.fr
 
 [apavie] # Adrien P.
-osm110.openstreetmap.fr
 caresteouvert-bridge.vm.openstreetmap.fr
 
 [cgiquello]
@@ -279,8 +269,6 @@ caresteouvert-bridge.vm.openstreetmap.fr
 [fred]
 osm104.openstreetmap.fr
 osm105.openstreetmap.fr
-osm111.openstreetmap.fr
-osm112.openstreetmap.fr
 osm118.openstreetmap.fr
 osm124.openstreetmap.fr
 osm26.openstreetmap.fr
@@ -293,19 +281,16 @@ osmose-backend
 
 [gileri]
 osm26.openstreetmap.fr
-osm112.openstreetmap.fr
 osm312.openstreetmap.fr
 
 [guillaumeamat]
 osm26.openstreetmap.fr
 
 [gpelloux]
-osm110.openstreetmap.fr
 
 [hamlet]
 
 [jben]
-osm116.openstreetmap.fr
 
 [jgcailton]
 osm104.openstreetmap.fr
@@ -324,9 +309,7 @@ osm130.openstreetmap.fr
 osm151.openstreetmap.fr
 
 [nlehuby]
-osm110.openstreetmap.fr
 osm26.openstreetmap.fr
-osm135.openstreetmap.fr
 
 [mael]
 osm160.openstreetmap.fr
@@ -346,7 +329,6 @@ osm26.openstreetmap.fr
 osm154.openstreetmap.fr
 
 [panieravide]
-osm110.openstreetmap.fr
 osm26.openstreetmap.fr
 osm145.openstreetmap.fr
 osm168.openstreetmap.fr
