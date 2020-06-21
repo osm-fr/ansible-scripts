@@ -1,7 +1,7 @@
 # Munin hosts.
-{% for host in groups['all'] %}
+{% for host in groups['all']|sort %}
 {%   set has_vm = [] %}
-{%   for host2 in groups['all'] %}
+{%   for host2 in groups['all']|sort %}
 {%     if ("vm_host" in hostvars[host2]) and (hostvars[host2]["vm_host"] == host) %}
 {%       if has_vm.append(1) %}
 {%       endif %}
