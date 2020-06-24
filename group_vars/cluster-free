@@ -16,3 +16,8 @@ proxy:
     logname: "geoosm"
     websites: "demo.openstreetmap.fr admin.demo.openstreetmap.fr tiles.demo.openstreetmap.fr service.demo.openstreetmap.fr"
     target: "10.1.0.167"
+  -
+    logname: "mapillary_takeout_web"
+    websites: "mapillary-takeout-web.openstreetmap.fr"
+    target: "192.168.0.173"
+    redirect_to_https: True
