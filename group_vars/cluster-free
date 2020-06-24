@@ -16,3 +16,8 @@ proxy:
     logname: "geoosm"
     websites: "adminf.geocameroun.cm portailf.geocameroun.cm servicef.geocameroun.cm tilesf.geocameroun.cm"
     target: "192.168.0.167"
+  -
+    logname: "mapillary_takeout_web"
+    websites: "mapillary-takeout-web.openstreetmap.fr"
+    target: "192.168.0.173"
+    redirect_to_https: True
