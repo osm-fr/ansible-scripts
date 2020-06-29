@@ -1,3 +1,12 @@
+- set_fact: renderd_osmfr=false
+  when: renderd_osmfr is undefined
+
+- set_fact: renderd_layers=false
+  when: renderd_layers is undefined
+
+- set_fact: renderd_cyclosm=false
+  when: renderd_cyclosm is undefined
+
 - name: install packages
   apt:
     pkg:
@@ -24,15 +33,71 @@
 - apt_repository:
     repo: 'ppa:osmadmins/ppa'
     codename: bionic
+  when: (ansible_distribution == 'Debian' and ansible_distribution_major_version >= 10)
 
 - name: install packages
   apt:
     pkg:
       - libapache2-mod-tile
 
+# style OSM-FR style
 - include: ../../../shared/project-account.yml user=osmfr-cartocss
+  when: renderd_osmfr
 
 - name: checkout git repository
   git: repo=https://github.com/cquest/osmfr-cartocss.git dest=/data/project/osmfr-cartocss/osmfr-cartocss force=no update=no
   become: yes
   become_user: osmfr-cartocss
+  when: renderd_osmfr
+
+# style layers
+# TODO: recompilation de renderd avec XMLCONFIGS_MAX=64
+- include: ../../../shared/project-account.yml user=layers
+  when: renderd_layers
+
+- name: checkout git repository
+  git: repo=https://github.com/osm-fr/layers-mapnik-styles.git dest=/data/project/layers/layers-mapnik-styles force=no update=no
+  become: yes
+  become_user: layers
+  when: renderd_layers
+
+- name: add layers into renderd.conf
+  blockinfile:
+    path: /etc/renderd.conf
+    marker: "## {mark} ANSIBLE MANAGED BLOCK - layers {{ item }}"
+    block: |
+      [{{ item }}]
+      URI=/{{ item }}/
+      XML=/data/project/layers/layers-mapnik-styles/{{ item }}.xml
+      HOST=tile.openstreetmap.fr
+      MAXZOOM=20
+  loop:
+    - noname
+    - nooneway
+    - noref
+    - fixme
+    - note
+    - my_own
+    - admin2
+    - admin3
+    - admin4
+    - admin5
+    - admin6
+    - admin7
+    - admin8
+    - admin9
+    - admin10
+    - boundary_local_authority
+    - boundary_political
+    - boundary_cantons
+    - boundary_election
+    - voirie-cadastre
+    - noref-notertiary
+    - admin_boundary
+    - bano
+    - 4d
+    - cantons2015
+    - sols
+  notify:
+    - restart renderd
+    - reload apache2

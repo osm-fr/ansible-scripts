@@ -1,0 +1,5 @@
+- name: renderd configuration
+  hosts: renderd
+  become: yes
+  roles:
+    - renderd
