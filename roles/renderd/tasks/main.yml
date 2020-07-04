@@ -76,8 +76,6 @@
     - nooneway
     - noref
     - fixme
-    - note
-    - my_own
     - admin2
     - admin3
     - admin4
@@ -92,12 +90,25 @@
     - boundary_cantons
     - boundary_election
     - voirie-cadastre
-    - noref-notertiary
     - admin_boundary
-    - bano
     - 4d
     - cantons2015
     - sols
+  notify:
+    - restart renderd
+    - reload apache2
+
+- name: remove layers from renderd.conf
+  blockinfile:
+    path: /etc/renderd.conf
+    marker: "## {mark} ANSIBLE MANAGED BLOCK - layers {{ item }}"
+    block: |
+      # {{ item }} not activated
+  loop:
+    - bano
+    - noref-notertiary
+    - note
+    - my_own
   notify:
     - restart renderd
     - reload apache2
