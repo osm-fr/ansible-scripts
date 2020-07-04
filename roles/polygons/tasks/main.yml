@@ -1,24 +1,19 @@
-- name: set postgresql_version = 9.1
+- name: set postgresql_version = 11
   set_fact:
-    postgresql_version: 9.1
-    postgis_version: 1.5
-    postgis_suffix:
-  when: ansible_distribution_release == "wheezy"
-
-- name: set postgresql_version = 9.4
-  set_fact:
-    postgresql_version: 9.4
-    postgis_version: 2.1
-    postgis_suffix: -2.1
-  when: ansible_distribution_release == "jessie"
+    postgresql_version: 11
+    postgis_version: 2.5
+    postgis_suffix: -2.5
+    openjdk_version: 11
+  when: ansible_distribution_release == "buster"
 
 - name: install packages
-  apt: pkg={{ item }}
-  with_items:
-    - python-matplotlib
-    - postgresql-{{ postgresql_version }}
-    - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
-    - postgresql-contrib-{{ postgresql_version }}
+  apt:
+    pkg:
+      - apache2
+      - python-matplotlib
+      - postgresql-{{ postgresql_version }}
+      - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
+      - postgresql-contrib-{{ postgresql_version }}
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
@@ -47,23 +42,7 @@
   become_user: postgres
   with_items:
     - hstore
-
-- name: psql extension postgis
-  command: psql -d polygons -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
-  register: psql_res
-  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
-  become: yes
-  become_user: postgres
-  with_items:
     - postgis
-  when: postgresql_version == 9.4
-
-- name: psql extension postgis
-  command: psql -d polygons -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
-  when: createdb_polygons.changed
-  become: yes
-  become_user: postgres
-  when: postgresql_version == 9.1
 
 - name: psql extension postgis - spatial_ref_sys
   command: psql -d polygons -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
@@ -89,6 +68,15 @@
   become: yes
   become_user: polygons
 
+- name: add apache mods
+  file:
+    src: "/etc/apache2/mods-available/{{ item }}"
+    dest: "/etc/apache2/mods-enabled/{{ item }}"
+    state: link
+  notify: restart apache
+  with_items:
+    - cgi.load
+
 - name: copy apache config
   copy: src=apache.site dest="/etc/apache2/sites-available/polygons.conf"
   notify: restart apache
@@ -101,5 +89,3 @@
   file: src="diffs/planet/minute/state.txt" dest="/data/work/osmbin/replication/state.txt" state=link
   become: yes
   become_user: osmbin
-
-
