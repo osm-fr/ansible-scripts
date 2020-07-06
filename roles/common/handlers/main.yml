@@ -25,6 +25,8 @@
 
 - include: munin-node.yml
 
+- include: sysstat.yml
+
 - name: restart systemd-hostnamed
   systemd:
     daemon_reload: yes
