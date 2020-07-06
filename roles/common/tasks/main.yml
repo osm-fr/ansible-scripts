@@ -708,5 +708,8 @@
 
 - include: munin-node.yml
 
+- include: sysstat.yml
+
 - include: ntp.yml
   when: "not 'vm' in group_names"
+
