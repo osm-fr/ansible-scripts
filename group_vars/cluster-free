@@ -14,5 +14,5 @@ proxy:
     target: "192.168.0.166"
   -
     logname: "geoosm"
-    websites: "adminf.geocameroun.cm portailf.geocameroun.cm servicef.geocameroun.cm tilesf.geocameroun.cm"
+    websites: "demo.openstreetmap.fr admin.demo.openstreetmap.fr tiles.demo.openstreetmap.fr service.demo.openstreetmap.fr"
     target: "10.1.0.167"
