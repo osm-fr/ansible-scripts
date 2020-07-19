@@ -19,7 +19,7 @@ osm104.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm105.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm108.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm109.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-# osm110.openstreetmap.fr vm_host=osm12.openstreetmap.fr
+osm110.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non générique france_local_db)
 # osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
@@ -81,7 +81,6 @@ osmose3.davintech.ca
 osmose4.davintech.ca
 
 # warning : temporary id but prod
-osm310.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non générique france_local_db)
 osm324.openstreetmap.fr vm_host=osm28.openstreetmap.fr # buildbot2
 
 # temporary VMs
@@ -107,7 +106,7 @@ osm324.openstreetmap.fr buildbot_site=buildbot2.osmose.openstreetmap.fr buildbot
 
 [buildbot-slave]
 osm108.openstreetmap.fr
-osm310.openstreetmap.fr
+osm110.openstreetmap.fr
 osm211.openstreetmap.fr
 osm212.openstreetmap.fr
 osm213.openstreetmap.fr
@@ -165,7 +164,7 @@ osm165.openstreetmap.fr
 
 [osmose-backend]
 osm108.openstreetmap.fr
-osm310.openstreetmap.fr
+osm110.openstreetmap.fr
 osm211.openstreetmap.fr
 osm212.openstreetmap.fr
 osm213.openstreetmap.fr
@@ -185,7 +184,7 @@ osm108.openstreetmap.fr
 download.vm.openstreetmap.fr
 
 [osmosis]
-osm310.openstreetmap.fr
+osm110.openstreetmap.fr
 
 [peertube]
 osm155.openstreetmap.fr
