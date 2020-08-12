@@ -32,6 +32,13 @@ if [ -e intermediate.pem ]; then
   fi
   if [ -e /etc/init.d/nginx ]; then
     sudo /etc/init.d/nginx reload
+{% if inventory_hostname in groups["cluster-free"] %}
+{%   for node in groups["cluster-free"] %}
+{%     if node != inventory_hostname %}
+    ssh letsencrypt@{{ node }} sudo /etc/init.d/nginx reload
+{%     endif %}
+{%   endfor %}
+{% endif %}
 {% if inventory_hostname == "osm26.openstreetmap.fr" %}
     ssh letsencrypt@osm27.openstreetmap.fr sudo /etc/init.d/nginx reload
     ssh letsencrypt@osm28.openstreetmap.fr sudo /etc/init.d/nginx reload
