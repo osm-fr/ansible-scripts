@@ -87,6 +87,7 @@ osm324.openstreetmap.fr vm_host=osm28.openstreetmap.fr # buildbot2
 # temporary VMs
 osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+osm342.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 
 [cluster-ovh]
 osm26.openstreetmap.fr
@@ -293,6 +294,9 @@ osm26.openstreetmap.fr
 [gpelloux]
 
 [hamlet]
+
+[jacques]
+osm342.openstreetmap.fr
 
 [jben]
 
