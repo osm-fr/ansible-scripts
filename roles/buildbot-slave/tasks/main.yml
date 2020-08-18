@@ -34,7 +34,7 @@
   become_user: buildbot
   command:
     creates="/data/work/buildbot-slave/buildbot.tac" chdir="/data/work/buildbot-slave/"
-    /usr/bin/buildbot-worker create-worker . buildbot2.osmose.openstreetmap.fr:9989 {{ inventory_hostname.split(".") | first }} "{{ lookup('password', 'credentials/' + inventory_hostname + '/buildbot-slave-password length=15 chars=ascii_letters,digits') }}"
+    /usr/bin/buildbot-worker create-worker . buildbot.osmose.openstreetmap.fr:9989 {{ inventory_hostname.split(".") | first }} "{{ lookup('password', 'credentials/' + inventory_hostname + '/buildbot-slave-password length=15 chars=ascii_letters,digits') }}"
   when: buildbot_name == "buildbot-worker"
 
 
