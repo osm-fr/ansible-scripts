@@ -14,8 +14,10 @@
     pkg:
       - libcairo2
       - nginx
+      - postgresql
       - python-pkg-resources
       - python3-pip
+      - python3-psycopg2
       - python3-setuptools
   when: buildbot_nine is defined
 
@@ -141,5 +143,6 @@
     name: buildbot@osmose
     masked: no
     enabled: yes
+    daemon_reload: yes
   notify: restart buildbot_nine
   when: buildbot_nine is defined
