@@ -69,6 +69,7 @@ osm170.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 download.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm171.openstreetmap.fr
 caresteouvert-bridge.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm172.openstreetmap.fr
 osm173.openstreetmap.fr vm_host=osm11.openstreetmap.fr install_apache=true
+buildbot.osmose.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm175.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -105,6 +106,7 @@ osm134.openstreetmap.fr
 [buildbot-master]
 osm124.openstreetmap.fr buildbot_site=buildbot.osmose.openstreetmap.fr
 osm324.openstreetmap.fr buildbot_site=buildbot2.osmose.openstreetmap.fr buildbot_nine=yes
+buildbot.osmose.vm.openstreetmap.fr buildbot_site=buildbot.osmose.openstreetmap.fr buildbot_nine=yes
 
 [buildbot-slave]
 osm108.openstreetmap.fr
