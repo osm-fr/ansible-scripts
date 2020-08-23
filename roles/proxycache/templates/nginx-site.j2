@@ -4,7 +4,16 @@ server {
     server_name  {{ item.websites }};
 
 {% if item.redirect_to_https is defined and item.redirect_to_https %}
-    return 307 https://$host$request_uri;
+    include /etc/nginx/global.d/letsencrypt-challenge.conf;
+
+    location /.well-known/acme-challenge {
+
+    }
+
+    # On redirige tout en HTTPS
+    location / {
+        return 301 https://$host$request_uri;
+    }
 }
 
 server {
