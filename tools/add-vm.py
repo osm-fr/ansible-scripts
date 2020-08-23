@@ -15,6 +15,15 @@ host_config = {
     "ipv6": "2a01:e0d:1:c:58bf:fac1:8000:%d",
     "default_storage": "hdd-zfs",
   },
+  "osm14": {
+    "hostname": "osm14.openstreetmap.fr",
+    "bridge": "vmbr2",
+    "gw4":  "10.0.0.14",
+    "ipv4": "10.1.%d.%d",
+    "gw6": "2a01:e0d:1:c:58bf:fac1:c400:14",
+    "ipv6": "2a01:e0d:1:c:58bf:fac1:c400:%d",
+    "default_storage": "hdd-zfs",
+  },
   "osm26": {
     "hostname": "osm26.openstreetmap.fr",
     "bridge": "vmbr0",
