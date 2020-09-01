@@ -41,6 +41,7 @@ proxy:
     logname: "nextcloud"
     websites: "nextcloud.openstreetmap.fr"
     target: "10.1.0.141"
+    redirect_to_https: True
   -
     logname: "www"
     websites: "next.openstreetmap.fr www.openstreetmap.fr openstreetmap.fr"
