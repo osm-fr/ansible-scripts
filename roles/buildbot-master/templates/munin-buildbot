@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+URL="https://{{ buildbot_site }}/api/v2/"
+
+if [[ "$1" == "config" ]]; then
+  {
+    echo 'graph_title Buildbot jobs'
+    echo 'graph_vlabel Number'
+    echo 'graph_category buildbot'
+    echo "total.label total"
+    echo "pending.label pending"
+    echo "running.label running"
+    exit 0
+  }
+fi
+
+TOTAL=$(  wget -q -O - "$URL/builders?field=builderid" | jq .meta.total)
+PENDING=$(wget -q -O - "$URL/buildrequests?field=complete&complete__eq=false" | jq .meta.total)
+RUNNING=$(wget -q -O - "$URL/builds?&field=complete&complete__eq=false" | jq .meta.total)
+
+echo "total.value $TOTAL"
+echo "pending.value $PENDING"
+echo "running.value $RUNNING"
+exit 0

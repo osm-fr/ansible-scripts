@@ -12,6 +12,7 @@
 - name: install packages for buildbot > 0.9
   apt:
     pkg:
+      - jq   # for munin plugin
       - libcairo2
       - nginx
       - postgresql
@@ -146,3 +147,19 @@
     daemon_reload: yes
   notify: restart buildbot_nine
   when: buildbot_nine is defined
+
+- name: test if /etc/munin/plugins exists
+  stat:
+    path: /etc/munin/plugins
+  register: stat_result
+
+- name: install munin plugin
+  template:
+    src: munin-buildbot
+    dest: /etc/munin/plugins/buildbot
+    mode: 0755
+  notify:
+    - restart munin-node
+  when:
+    - stat_result.stat.exists == True
+

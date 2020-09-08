@@ -9,3 +9,6 @@
 
 - name: restart buildbot_nine
   systemd: name=buildbot@osmose state=restarted
+
+- name: restart munin-node
+  systemd: name=munin-node state=restarted
