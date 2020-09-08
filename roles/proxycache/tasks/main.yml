@@ -4,6 +4,21 @@
       - nginx
       - logrotate
 
+# init letsencrypt
+- name: init /etc/nginx/global.d/ path
+  file:
+    path: /etc/nginx/global.d/
+    state: directory
+
+- name: copy nginx challenge config
+  copy: src=nginx-letsencrypt-challenge.conf dest="/etc/nginx/global.d/letsencrypt-challenge.conf"
+  notify: reload nginx
+
+- name: copy nginx ssl config
+  copy: src=nginx-letsencrypt-ssl.conf dest="/etc/nginx/global.d/letsencrypt-ssl.conf"
+  notify: reload nginx
+
+# recherche config pour ce host
 - name: check if nginx config exists
   local_action: stat path="roles/proxycache/files/nginx-{{ inventory_hostname }}.site"
   become: no
@@ -24,6 +39,7 @@
   when: nginx_site.stat.exists
   notify: reload nginx
 
+# install config des differents paramètres dans "proxy"
 - name: generate nginx config
   template: src="{{ item.config_src | default('nginx-site.j2') }}" dest="/etc/nginx/sites-available/{{ item.logname }}"
     owner=root group=www-data
