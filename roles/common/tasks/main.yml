@@ -12,6 +12,13 @@
   when: proxmox_password is defined
   become: no
 
+- name: check if proxmox template downloaded
+  local_action:
+    module: stat
+    path: "cache/templates/{{ proxmox_var.ostemplate }}"
+  register: template_downloaded
+  become: no
+
 - name: download proxmox template
   local_action:
     module: get_url
@@ -20,7 +27,7 @@
   with_items:
     - "{{ proxmox_var.ostemplate }}"
     - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
-  when: proxmox_password is defined
+  when: proxmox_password is defined and not template_downloaded.stat.exists
   register: download_template
   become: no
 
