@@ -71,6 +71,7 @@ caresteouvert-bridge.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm172
 osm173.openstreetmap.fr vm_host=osm11.openstreetmap.fr install_apache=true
 projetdumois.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm174.openstreetmap.fr
 buildbot.osmose.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm175.openstreetmap.fr
+garmin.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm176.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -301,7 +302,9 @@ osm26.openstreetmap.fr
 [hamlet]
 
 [jacques]
+osm103.openstreetmap.fr
 osm142.openstreetmap.fr
+garmin.vm.openstreetmap.fr
 osm342.openstreetmap.fr
 
 [jben]
