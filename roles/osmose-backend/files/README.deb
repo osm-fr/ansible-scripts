@@ -30,6 +30,6 @@ rm -rf deb_dist
 
 # transporthours
 pypi-download transporthours
-py2dsc-deb --with-python2=True --with-python3=True transporthours-0.0.2.tar.gz
+py2dsc-deb --with-python3=True transporthours-0.0.4.tar.gz
 mv deb_dist/python*-transporthours*.deb .
 rm -rf deb_dist
