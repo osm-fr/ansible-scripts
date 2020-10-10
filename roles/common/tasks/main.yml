@@ -17,6 +17,7 @@
     module: stat
     path: "cache/templates/{{ proxmox_var.ostemplate }}"
   register: template_downloaded
+  when: proxmox_password is defined
   become: no
 
 - name: download proxmox template
