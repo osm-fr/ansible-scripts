@@ -73,6 +73,7 @@ projetdumois.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm174.openstr
 buildbot.osmose.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm175.openstreetmap.fr
 garmin.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm176.openstreetmap.fr
 tile-vect.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm177.openstreetmap.fr
+osmose-jupyter.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm178.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -289,6 +290,7 @@ osm153.openstreetmap.fr
 osm163.openstreetmap.fr
 osm173.openstreetmap.fr
 tile-vect.vm.openstreetmap.fr
+osmose-jupyter.vm.openstreetmap.fr
 
 [fred:children]
 osmose-backend
