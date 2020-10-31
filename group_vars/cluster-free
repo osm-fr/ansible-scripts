@@ -21,3 +21,9 @@ proxy:
     websites: "mapillary-takeout-web.openstreetmap.fr"
     target: "192.168.0.173"
     redirect_to_https: True
+  -
+    logname: "osmose-jupyter"
+    websites: "osmose-jupyter.openstreetmap.fr"
+    target: "10.1.0.178"
+    redirect_to_https: True
+    target_port: 8888
