@@ -25,7 +25,6 @@ osm110.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non gé
 # osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm118.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm124.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm125.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm127.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 # osm128.openstreetmap.fr vm_host=osm26.openstreetmap.fr
@@ -86,9 +85,6 @@ osmose2.davintech.ca
 osmose3.davintech.ca
 osmose4.davintech.ca
 
-# warning : temporary id but prod
-osm324.openstreetmap.fr vm_host=osm28.openstreetmap.fr # buildbot2
-
 # temporary VMs
 osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
@@ -108,8 +104,6 @@ osm14.openstreetmap.fr
 osm134.openstreetmap.fr
 
 [buildbot-master]
-osm124.openstreetmap.fr buildbot_site=buildbot.osmose.openstreetmap.fr
-osm324.openstreetmap.fr buildbot_site=buildbot2.osmose.openstreetmap.fr buildbot_nine=yes
 buildbot.osmose.vm.openstreetmap.fr buildbot_site=buildbot.osmose.openstreetmap.fr buildbot_nine=yes
 
 [buildbot-slave]
@@ -148,7 +142,6 @@ osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.opens
 osm104.openstreetmap.fr letsencrypt_hosts=osm104.openstreetmap.fr,bano.openstreetmap.fr,cadastre.openstreetmap.fr,imagery.openstreetmap.fr,tms.cadastre.openstreetmap.fr
 osm105.openstreetmap.fr letsencrypt_hosts=osm105.openstreetmap.fr,osm2pgsql-monde.openstreetmap.fr
 osm108.openstreetmap.fr letsencrypt_hosts=download.openstreetmap.fr,polygons.openstreetmap.fr,rawedit.openstreetmap.fr
-osm124.openstreetmap.fr letsencrypt_hosts=buildbot.osmose.openstreetmap.fr
 osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
 osm149.openstreetmap.fr letsencrypt_hosts=osm149.openstreetmap.fr
@@ -284,7 +277,6 @@ osm14.openstreetmap.fr
 osm104.openstreetmap.fr
 osm105.openstreetmap.fr
 osm118.openstreetmap.fr
-osm124.openstreetmap.fr
 osm26.openstreetmap.fr
 osm153.openstreetmap.fr
 osm163.openstreetmap.fr
