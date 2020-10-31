@@ -69,15 +69,6 @@
   template: src="letsencrypt-hosts-list" dest="/data/project/letsencrypt/keys/hosts-list" owner=letsencrypt group=letsencrypt
   register: hosts_list
 
-- name: generate domain csr
-  become: yes
-  become_user: letsencrypt
-  shell:
-    chdir="/data/project/letsencrypt/keys"
-    executable="/bin/bash"
-    openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$(cat hosts-list)")) > domain.csr
-  when: hosts_list.changed
-
 - name: check if using apache
   command: /usr/bin/test -e /etc/apache2/sites-enabled/
   ignore_errors: True

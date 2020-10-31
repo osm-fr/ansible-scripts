@@ -8,7 +8,7 @@ need_update=0
 
 if [ ! -f "./signed.crt" ]; then
   need_update=1
-elif [ "$(find ./account.key ./domain.csr -newer ./signed.crt)" ]; then
+elif [ "$(find ./account.key ./domain.csr ./hosts-list -newer ./signed.crt)" ]; then
   need_update=1
 elif [ "$(find ./signed.crt -mtime +62)" ]; then
   # file is more than 2 months old
@@ -19,6 +19,11 @@ if [ "$need_update" -eq 0 ]; then
   echo "Update is not necessary"
   exit 0
 fi
+
+openssl req -new -sha256 -key domain.key -subj "/" -reqexts SAN -config <(cat /etc/ssl/openssl.cnf <(printf "[SAN]\nsubjectAltName=$(cat hosts-list)")) > domain.csr.tmp
+
+mv domain.csr.tmp domain.csr
+
 
 python ../acme-tiny/acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /data/project/letsencrypt/challenges > ./signed.crt.tmp
 
