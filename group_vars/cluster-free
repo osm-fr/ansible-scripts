@@ -12,6 +12,7 @@ proxy:
     logname: "tile"
     websites: "dev.tile.openstreetmap.fr dev.a.tile.openstreetmap.fr dev.b.tile.openstreetmap.fr dev.c.tile.openstreetmap.fr"
     target: "192.168.0.166"
+    config_src: "nginx-site-cyclosm.j2"
   -
     logname: "geoosm"
     websites: "demo.openstreetmap.fr admin.demo.openstreetmap.fr tiles.demo.openstreetmap.fr service.demo.openstreetmap.fr"
