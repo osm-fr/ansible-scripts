@@ -1,0 +1,67 @@
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  {{ item.websites }};
+
+{% if item.redirect_to_https is defined and item.redirect_to_https %}
+    include /etc/nginx/global.d/letsencrypt-challenge.conf;
+
+    location /.well-known/acme-challenge {
+
+    }
+
+    # On redirige tout en HTTPS
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    server_name  {{ item.websites }};
+
+{% endif %}
+    include /etc/nginx/global.d/*.conf;
+
+    #charset koi8-r;
+    access_log  "/var/log/nginx/{{ item.logname }}.access.log";
+
+    client_max_body_size 50M;
+
+    proxy_connect_timeout 6000;
+    proxy_send_timeout    6000;
+    proxy_read_timeout    6000;
+    send_timeout          6000;
+
+    location / {
+{% if item.target_port is defined %}
+        proxy_pass	http://{{ item.target }}:{{ item.target_port }};
+{% else %}
+        proxy_pass	http://{{ item.target }};
+{% endif %}
+        proxy_redirect     off;
+        proxy_buffering    off;
+        proxy_set_header   Host             $host;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+
+    # Websocket
+    location /api/kernels/ {
+        proxy_read_timeout 1200s;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_http_version 1.1;
+
+{% if item.target_port is defined %}
+        proxy_pass	http://{{ item.target }}:{{ item.target_port }};
+{% else %}
+        proxy_pass	http://{{ item.target }};
+{% endif %}
+        proxy_set_header   Host             $host;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+}
+
