@@ -148,12 +148,6 @@
   become_user: letsencrypt
   file: path="/data/project/letsencrypt/keys/intermediate.pem" owner=letsencrypt
 
-- name: generate chained.pem
-  become: yes
-  become_user: letsencrypt
-  shell: chdir="/data/project/letsencrypt/keys"
-    cat signed.crt intermediate.pem > chained.pem
-
 - name: link generated keys
   file: src="/data/project/letsencrypt/keys/{{ item }}" dest="/etc/ssl/letsencrypt/{{ item }}" state=link
   with_items:
