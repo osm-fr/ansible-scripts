@@ -65,7 +65,7 @@ osm167.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm168.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm169.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm170.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-download.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm171.openstreetmap.fr
+download.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm171.openstreetmap.fr
 caresteouvert-bridge.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm172.openstreetmap.fr
 osm173.openstreetmap.fr vm_host=osm11.openstreetmap.fr install_apache=true
 projetdumois.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm174.openstreetmap.fr
