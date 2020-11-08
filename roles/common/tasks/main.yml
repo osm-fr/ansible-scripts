@@ -211,6 +211,7 @@
     - mc # Midnight Commander
     - monit
     - munin-node
+    - mutt
     - nano
     - rsync # for backuppc
     - screen
