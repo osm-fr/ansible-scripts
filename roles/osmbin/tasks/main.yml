@@ -1,8 +1,41 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
-    - python-lockfile
-    - python-imposm
+    - apache2
+    - osmctools
+    - osmosis
+    - parallel
+    - python3-dateutil
+    - python3-lockfile
+    - python3-shapely
+    # to compile osm_pbf_parser
+    - g++
+    - libboost-python-dev
+    - libosmpbf-dev
+    - make
+    - pkg-config
+    # osmium needs to support <bbox> in diff, added in libosmium version 2.15.2
+    # the version requirement is added by following package osmium-2.15.2-or-later_1.0_all.deb
+    #- osmium-tool
+    #- pyosmium>
+
+- name: init /root/packages/
+  file:
+    path: /root/packages/
+    state: directory
+
+- name: install additional local packages
+  copy:
+    src: "{{ item }}"
+    dest: "/root/packages/{{ item }}"
+  with_items:
+    - osmium-2.15.2-or-later_1.0_all.deb
+
+- name: install additional local packages
+  apt:
+    deb: /root/packages/{{ item }}
+  with_items:
+    - osmium-2.15.2-or-later_1.0_all.deb
 
 - include: ../../../shared/project-account.yml user=osmbin
 
@@ -14,9 +47,85 @@
   become: yes
   become_user: osmbin
 
+- name: init paths
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: osmbin
+    group: osmbin
+    force: no
+  with_items:
+    - /data/work/osmbin/data/
+    - /data/work/osmbin/extracts/
+    - /data/work/osmbin/replication/diffs/planet/minute/
+
 - name: init OsmBin
-  command: chdir=/data/project/osmbin/osm/osc_modif/modules
+  command: chdir=/data/project/osmbin/osm/osc_modif/
            creates=/data/work/osmbin/data/node.crd
-           ./OsmBin.py --init /data/work/osmbin/data
+           ./osmbin.py --init --dir /data/work/osmbin/data
   become: yes
   become_user: osmbin
+
+- name: compile osm_pbf_parser for python3
+  make:
+    chdir: /data/project/osmbin/osm/osc_modif/modules/osm_pbf_parser/
+    target: py3
+  become: yes
+  become_user: osmbin
+
+- name: copy apache config
+  command: creates="/etc/apache2/sites-available/download.conf" cp /data/project/osmbin/osm/osc_modif/apache-site "/etc/apache2/sites-available/download.conf"
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/download.conf" dest="/etc/apache2/sites-enabled/download.conf" state=link
+  notify: reload apache
+
+- name: init web paths
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: osmbin
+    group: osmbin
+    force: no
+  with_items:
+    - /data/project/osmbin/web
+    - /data/project/osmbin/web/extracts
+    - /data/project/osmbin/web/replication
+
+- name: link polygons to site
+  file: src="../osm/osc_modif/polygons/" dest="/data/project/osmbin/web/polygons" state=link
+  notify: reload apache
+
+
+
+#   1. download planet + state.txt
+#   2. link state.txt to /data/work/osmbin/replication/diffs/planet/minute/
+#   3. init database
+# cd /data/project/osmbin/osm/osc_modif/
+# ./osmbin.py --dir /data/work/osmbin/data/ --import <planet>
+#
+#   4. download planet diff up to latest date
+# ./update.py --no-multiproc --skip-diff-generation
+#
+#   5. start generation of diffs
+# ./update.py
+#
+#   6. update planet pbf to latest version
+# mkdir /data/work/osmbin/extracts/planet
+# cp <planet> /data/work/osmbin/extracts/planet/
+# cp <state.txt> /data/work/osmbin/extracts/planet/
+# cp configuration-planet.txt /data/work/osmbin/extracts/planet/configuration.txt
+# ./update_pbf.sh planet
+#
+#   7. generate pbf extracts
+# ./init_pbf.py --osmium
+# ./generate_merges.py --osmium --pbf
+# ./init_extracts_link.sh
+#
+#   8. init crontab for osmbin
+# * * * * * (sleep 5; cd /data/project/osmbin/osm/osc_modif && ./update.py >> /data/work/osmbin/replication.log)
+# * * * * * (sleep 30; cd /data/project/osmbin/osm/osc_modif && ./generate_merges.py >> /data/work/osmbin/merge.log 2>&1)
+# 2 0 */2 * * (cd /data/project/osmbin/osm/osc_modif && ./update_pbf_all.sh)
+# 2 2 * * 1 (cd /data/project/osmbin/osm/osc_modif && ./rotate-replication-log.sh)
+# 4 5 * * 2 (cd /data/project/osmbin/osm/osc_modif && ./clean_diffs.sh)
+#

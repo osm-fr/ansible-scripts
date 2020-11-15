@@ -1,0 +1,17 @@
+osmium-2.15.2-or-later_1.0_all.deb is generated with the following commands.
+
+```
+cat <<EOF >minosmiun
+Section: utils
+Priority: optional
+Standards-Version: 4.5.0
+
+Package: osmium-2.15.2-or-later
+Depends: osmium-tool (>= 1.12), pyosmium (>= 2.15.2)
+Description: dependency package ensuring libosmium 2.15.2 or later is installed
+ Version 2.15.2 is required to support <bbox> in diffs.
+EOF
+
+sudo apt install equivs
+equivs-build minosmium
+```
