@@ -1,5 +1,5 @@
 # for proxycache
-proxy:
+host_proxy:
   -
     logname: "cadastre"
     websites: "dev.cadastre.openstreetmap.fr"

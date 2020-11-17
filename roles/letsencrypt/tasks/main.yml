@@ -60,6 +60,11 @@
     letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ proxy | json_query('[?disable_https_cert_generation!=`True`''].websites') | join(' ') }}"
   when: proxy is defined
 
+- name: set letsencrypt_hosts from host_proxy configuration
+  set_fact:
+    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ host_proxy | json_query('[?disable_https_cert_generation!=`True`''].websites') | join(' ') }}"
+  when: host_proxy is defined
+
 - debug:
     msg: "List of hosts: {{ letsencrypt_hosts }}"
 
