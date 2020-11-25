@@ -1,0 +1,22 @@
+# for proxycache
+host_proxy:
+  -
+    logname: "download"
+    websites: "download.openstreetmap.fr"
+    target: "10.1.0.171"
+  -
+    logname: "projetdumois"
+    websites: "projetdumois.fr www.projetdumois.fr"
+    target: "10.1.0.174"
+    target_port: 3000
+    redirect_to_https: True
+  -
+    logname: "projetdumois_tiles"
+    websites: "tiles.projetdumois.fr"
+    target: "10.1.0.174"
+    target_port: 7800
+    redirect_to_https: True
+  -
+    logname: "tile-vect"
+    websites: "tile-vect.openstreetmap.fr"
+    target: "10.1.0.177"
