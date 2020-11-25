@@ -9,6 +9,10 @@ host_proxy:
     websites: "bano.openstreetmap.fr"
     target: "192.168.0.162"
   -
+    logname: "dev.osm162"
+    websites: "dev.osm162.openstreetmap.fr"
+    target: "192.168.0.162"
+  -
     logname: "tile"
     websites: "dev.tile.openstreetmap.fr dev.a.tile.openstreetmap.fr dev.b.tile.openstreetmap.fr dev.c.tile.openstreetmap.fr"
     target: "192.168.0.166"
