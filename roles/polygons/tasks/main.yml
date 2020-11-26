@@ -10,7 +10,10 @@
   apt:
     pkg:
       - apache2
+      - python-lockfile
       - python-matplotlib
+      - python-psycopg2
+      - python-shapely
       - postgresql-{{ postgresql_version }}
       - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
       - postgresql-contrib-{{ postgresql_version }}
