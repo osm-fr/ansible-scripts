@@ -1,0 +1,34 @@
+# Procédure sur https://github.com/osm-fr/export-cadastre/tree/lxc-buster-migration
+
+- name: install packages
+  apt:
+    pkg:
+      - apache2
+      - libapache2-mod-php
+      - php
+      - poppler-utils
+      - python3
+      - python3-distutils
+      - python3-gdal
+      - python3-rtree
+      - python3-shapely
+      - python3-sklearn
+      - wget
+      # Pour construire les exécutables
+      - g++
+      - make
+      - python3-dev
+      - qt4-qmake
+      - libpodofo-dev
+      - libqt4-dev
+      - libproj-dev
+      - libgeos++-dev
+      - zlib1g-dev
+      - libjpeg-dev
+
+- include: ../../../shared/project-account.yml user=cadastre
+
+- name: checkout git repository
+  git: repo=https://github.com/osm-fr/export-cadastre.git dest=/data/project/cadastre/export-cadastre force=no update=no
+  become: yes
+  become_user: cadastre

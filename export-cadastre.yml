@@ -1,0 +1,5 @@
+- name: export-cadastre configuration
+  hosts: export-cadastre
+  become: yes
+  roles:
+    - export-cadastre
