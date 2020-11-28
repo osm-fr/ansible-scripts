@@ -73,6 +73,7 @@ buildbot.osmose.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm175.open
 garmin.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm176.openstreetmap.fr
 tile-vect.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm177.openstreetmap.fr
 osmose-jupyter.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm178.openstreetmap.fr
+comcommaker.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm179.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -87,7 +88,6 @@ osmose4.davintech.ca
 
 # temporary VMs
 osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm312.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm342.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 
 [cluster-ovh]
@@ -290,7 +290,7 @@ osmose-backend
 
 [gileri]
 osm26.openstreetmap.fr
-osm312.openstreetmap.fr
+comcommaker.vm.openstreetmap.fr
 
 [guillaumeamat]
 osm26.openstreetmap.fr

@@ -1,0 +1,12 @@
+proxmox_var:
+  host: osm11.openstreetmap.fr
+  cpus: 1
+  disk: 10
+  hostname: comcommaker.vm.openstreetmap.fr
+  ipv6: 2a01:e0d:1:c:58bf:fac1:8000:179
+  netif: {"net0": "name=eth0,bridge=vmbr1,ip=192.168.0.179/24,gw=192.168.0.254,ip6=2a01:e0d:1:c:58bf:fac1:8000:179/97,gw6=2a01:e0d:1:c:58bf:fac1:8000:11"}
+  memory: 1024
+  ostemplate: debian-10-standard_10.5-1_amd64.tar.gz
+  storage: "hdd-zfs"
+  swap: 2048
+  vmid: 179
