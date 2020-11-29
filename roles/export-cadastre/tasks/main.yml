@@ -1,5 +1,5 @@
 # Procédure sur https://github.com/osm-fr/export-cadastre/tree/lxc-buster-migration
-
+#
 - name: install packages
   apt:
     pkg:
@@ -50,18 +50,17 @@
   command:
       cmd: make
       chdir: "/data/project/cadastre/export-cadastre/"
-  run_once: true
+      creates: "/data/project/cadastre/export-cadastre/work/data/976/976-liste.txt"
   become: yes
   become_user: cadastre
 
 - name: configure export-cadastre cron
   cron:
-      name:
-          name: maj-dep-massif
-          minute: "0"
-          hours: "4"
-          weekday: "1"
-          job: "cd /data/project/cadastre/export-cadastre/bin/ && ./maj-dep-massif.sh"
+      name: maj-dep-massif
+      minute: "0"
+      hour: "4"
+      weekday: "1"
+      job: "cd /data/project/cadastre/export-cadastre/bin/ && ./maj-dep-massif.sh"
   become: yes
   become_user: cadastre
 
@@ -74,11 +73,14 @@
 - name: enabled apache2 module authz_groupfile
   apache2_module: name=authz_groupfile state=present
 
-# - name: copy apache config
-#  copy: src=apache.site dest="/etc/apache2/sites-available/cadastre.conf"
-#  notify: restart apache
-#
-#- name: enable apache site
-#  file: src="/etc/apache2/sites-available/cadastre.conf" dest="/etc/apache2/sites-enabled/cadastre.conf" state=link
-#  notify: restart apache
+- name: copy apache config
+  copy: src=apache.site dest="/etc/apache2/sites-available/cadastre.conf"
+  notify: restart apache
 
+- name: enable cadastre apache site
+  file: src="/etc/apache2/sites-available/cadastre.conf" dest="/etc/apache2/sites-enabled/cadastre.conf" state=link
+  notify: restart apache
+
+- name: disable default apache site
+  file: path="/etc/apache2/sites-enabled/000-default.conf" state=absent
+  notify: restart apache

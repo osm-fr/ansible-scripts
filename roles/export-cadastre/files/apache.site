@@ -1,7 +1,8 @@
 <VirtualHost *:80 *:443>
 	ServerAdmin webmaster@localhost
 
-	ServerName cadastre.vm.openstreetmap.fr
+	ServerName cadastre.openstreetmap.fr
+	ServerAlias cadastre.vm.openstreetmap.fr
 
 	DocumentRoot /data/project/cadastre/export-cadastre/web
 
