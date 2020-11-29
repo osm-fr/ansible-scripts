@@ -1,0 +1,28 @@
+<VirtualHost *:80 *:443>
+	ServerAdmin webmaster@localhost
+
+	ServerName cadastre.vm.openstreetmap.fr
+
+	DocumentRoot /data/project/cadastre/export-cadastre/web
+
+	<Directory /data/project/cadastre/export-cadastre/web>
+		AllowOverride all 
+		Require all granted
+		Options Indexes FollowSymLinks
+	</Directory>
+
+	AccessFileName .htaccess
+
+	ErrorLog /var/log/apache2/cadastre-error.log   
+	CustomLog /var/log/apache2/cadastre-access.log vhost_combined
+
+	RewriteEngine on
+	RewriteCond %{HTTP_USER_AGENT}  .*Semrush.* [nocase]
+	RewriteRule .* - [forbidden,last]
+
+	#Marc_marc pour https://github.com/osm-fr/export-cadastre/issues/34
+	Header always set Access-Control-Allow-Origin "*"
+
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
