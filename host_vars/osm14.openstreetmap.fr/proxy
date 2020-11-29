@@ -5,6 +5,10 @@ host_proxy:
     websites: "download.openstreetmap.fr"
     target: "10.1.0.171"
   -
+    logname: "polygons"
+    websites: "polygons.openstreetmap.fr"
+    target: "10.1.0.171"
+  -
     logname: "projetdumois"
     websites: "projetdumois.fr www.projetdumois.fr"
     target: "10.1.0.174"
