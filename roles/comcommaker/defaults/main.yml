@@ -1,0 +1,15 @@
+---
+comcommaker_cache_dir: cache
+comcommaker_cache_path: /data/work/comcommaker/cache
+comcommaker_database: osm2pgsql
+comcommaker_database_debug: false
+comcommaker_database_host: localhost
+comcommaker_database_table: planet_osm_polygon
+comcommaker_database_user: comcommaker
+comcommaker_debug: false
+comcommaker_install_path: /data/project/comcommaker/comcommaker
+comcommaker_user: comcommaker
+comcommaker_group: comcommaker
+comcommaker_server_name: comcommaker.openstreetmap.fr
+comcommaker_server_aliases: [dev.comcommaker.openstreetmap.fr]
+comcommaker_srid: 3857
