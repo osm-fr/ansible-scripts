@@ -61,10 +61,12 @@
     - python3-dateutil
     - python3-polib
     - python3-psycopg2
+    - python3-pyosmium
     - python3-shapely
     - python3-regex
     - python3-requests
     - python3-unidecode
+    - pyosmium
     # to compile osm_pbf_parser
     - g++
     - libboost-python-dev
