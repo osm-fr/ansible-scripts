@@ -156,3 +156,7 @@ proxy:
     logname: "garmin"
     websites: "garmin.openstreetmap.fr"
     target: "10.1.0.176"
+  -
+    logname: "cadastre"
+    websites: "cadastre.openstreetmap.fr"
+    target: "10.1.0.180"
