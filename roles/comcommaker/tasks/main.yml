@@ -15,15 +15,6 @@
   vars:
     user: "{{ comcommaker_user }}"
 
-- name: Allow admins to sudo to project account
-  template:
-    src: sudoers.j2
-    dest: /etc/sudoers.d/comcommaker
-    mode: 0440
-    owner: root
-    group: root
-    validate: visudo -cf %s
-
 - name: checkout git repository
   git:
     repo: https://gitlab.com/gileri/ComcomMaker.git
