@@ -121,6 +121,8 @@ def parse_args():
                       help="default: %(default)s Gio")
   parser.add_argument('--storage', action='store', choices=storages,
                       help="default: %(default)s")
+  parser.add_argument('--user', action='append', type=str,
+                      help="Users to create, with root access")
 
   parser.add_argument('--force', action='store_true', help="Force creation of VM without confirmation")
 
@@ -226,6 +228,8 @@ def print_config(args):
   print("disk:     %s Gio on %s" % (args.disk, args.storage))
   print("ipv6:     %s" % args.ipv6)
   print("template: %s" % args.template)
+  if args.user:
+    print("user_root: %s" % args.user)
   print("--------")
 
 
@@ -255,6 +259,12 @@ def configure_ansible(args):
     f.write("  swap: %s\n" % args.swap)
     f.write("  vmid: %s\n" % args.vmid)
 
+  if args.user:
+    user_var_proxmox = "host_vars/%s/users_root" % args.dns_name
+    with open(user_var_proxmox, "xt") as f:
+      f.write("users_root:\n")
+      for user in args.user:
+        f.write("  - %s\n" % user)
 
   hosts_tmp = "hosts.tmp"
 
@@ -262,11 +272,16 @@ def configure_ansible(args):
     re_osm = re.compile("osm([0-9]+)\.")
     with open(hosts_tmp, "xt") as f:
       add_vm = False
+      add_user = False
       for line in f_h:
         if line.startswith("[vm"):
           add_vm = True
         elif line.startswith("["):
           add_vm = False
+          name = line[1:].split("]")[0]
+          for user in args.user:
+            if user == name:
+              add_user = True
 
         elif add_vm:
           ms = re_osm.findall(line)
@@ -276,6 +291,11 @@ def configure_ansible(args):
           if name == -1 or name > args.vmid:
             f.write("%s vm_host=%s # osm%d.openstreetmap.fr\n" % (args.dns_name, host_config[args.host]["hostname"], args.vmid))
             add_vm = False
+
+        elif add_user:
+          if line == "\n" or line > args.dns_name:
+            f.write("%s\n" % args.dns_name)
+            add_user = False
 
         f.write(line)
 
