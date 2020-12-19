@@ -8,10 +8,6 @@
         Require all granted
     </Directory>
 
-    #Alias /js {{ comcommaker_install_path }}/js
-    # TODO
-    LogLevel debug
-
     WSGIScriptAlias /comcommaker.py {{ comcommaker_install_path }}/comcommaker.py
     WSGIScriptAlias /ajax.py {{ comcommaker_install_path }}/ajax.py
 </VirtualHost>
