@@ -6,7 +6,7 @@
       - python3-psycopg2
       - python3-setuptools
       - python3-pip
-      # - git Already included in common
+      - git
       - apache2
       - libapache2-mod-wsgi-py3
 
