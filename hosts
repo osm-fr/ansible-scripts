@@ -74,6 +74,7 @@ tile-vect.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm177.openstreet
 osmose-jupyter.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm178.openstreetmap.fr
 comcommaker.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm179.openstreetmap.fr
 cadastre.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm180.openstreetmap.fr
+mobilizon.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm181.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -387,6 +388,9 @@ osm147.openstreetmap.fr
 osm148.openstreetmap.fr
 osm149.openstreetmap.fr
 osm152.openstreetmap.fr
+
+[tykayn]
+mobilizon.vm.openstreetmap.fr
 
 [tyndare]
 osm104.openstreetmap.fr
