@@ -75,6 +75,7 @@ osmose-jupyter.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm178.opens
 comcommaker.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm179.openstreetmap.fr
 cadastre.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm180.openstreetmap.fr
 mobilizon.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm181.openstreetmap.fr
+cadastre-joker.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm182.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -276,6 +277,7 @@ osm130.openstreetmap.fr
 [francois2] # François de Metz
 
 [fred]
+cadastre-joker.vm.openstreetmap.fr
 osm14.openstreetmap.fr
 osm104.openstreetmap.fr
 osm105.openstreetmap.fr
