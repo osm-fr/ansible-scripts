@@ -59,6 +59,9 @@
     - openjdk-{{ openjdk_version }}-jre-headless
     # to run with python3
     - python3-dateutil
+    - python3-distro
+    - python3-packaging
+    - python3-pip
     - python3-polib
     - python3-psycopg2
     - python3-pyosmium
@@ -73,6 +76,11 @@
     - libosmpbf-dev
     - make
     - pkg-config
+    # to compile PyKOpeningHours
+    - cmake
+    - qtbase5-dev
+    - flex
+    - bison
 
 - name: init /root/packages/
   file:
@@ -87,7 +95,7 @@
     - python3-lark-parser_0.6.7-1_all.deb
     - python3-backports.csv_1.0.7-1_all.deb
     - python3-transporthours_0.0.4-1_all.deb
-   
+
 - name: install additional local packages
   apt:
     deb: /root/packages/{{ item }}
@@ -95,7 +103,13 @@
     - python3-lark-parser_0.6.7-1_all.deb
     - python3-backports.csv_1.0.7-1_all.deb
     - python3-transporthours_0.0.4-1_all.deb
-  
+
+- name: pip install
+  pip:
+    executable: pip3
+    requirements: /data/project/osmose/backend/requirements.txt
+  become: yes
+  become_user: osmose
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
