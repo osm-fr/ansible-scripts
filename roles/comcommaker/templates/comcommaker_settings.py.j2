@@ -1,0 +1,26 @@
+# -*- coding: utf-8  -*-
+"""comcommaker@frvipofm.net"""
+
+__version__ = '0.0.4'
+created_by = "comcommaker@frvipofm.net"
+
+db_name= '{{ comcommaker_database }}'
+db_user= '{{ comcommaker_database_user }}'
+db_host= '{{ comcommaker_database_host }}'
+db_password= '{{ comcommaker_database_password }}'
+db_table= '{{ comcommaker_database_table }}'
+db_geometry= 'way'      # geometry field
+db_srid= '{{ comcommaker_srid }}'
+db_debug= {{ comcommaker_database_debug | capitalize }}
+
+db_where= "boundary='administrative' AND admin_level='8'"
+
+api_server= "www.openstreetmap.org"
+api_path = "/api/0.6/"
+
+
+from time import gmtime, mktime
+cache_dir= "{{ comcommaker_cache_dir }}/"
+cache_deadline = int(mktime(gmtime())) - (60*60*24) # cache 24 h
+
+debug={{ comcommaker_debug | capitalize }}

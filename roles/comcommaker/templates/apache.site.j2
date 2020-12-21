@@ -1,0 +1,13 @@
+<VirtualHost *:80 *:443>
+    ServerName {{ comcommaker_server_name }}
+    ServerAlias {{ comcommaker_server_aliases | join(' ') }}
+
+    DocumentRoot {{ comcommaker_install_path }}
+
+    <Directory {{ comcommaker_install_path }}>
+        Require all granted
+    </Directory>
+
+    WSGIScriptAlias /comcommaker.py {{ comcommaker_install_path }}/comcommaker.py
+    WSGIScriptAlias /ajax.py {{ comcommaker_install_path }}/ajax.py
+</VirtualHost>

@@ -1,0 +1,6 @@
+---
+- name: comcommaker
+  hosts: comcommaker
+  become: true
+  roles:
+    - comcommaker

@@ -1,0 +1,89 @@
+---
+- name: install packages
+  apt:
+    pkg:
+      - postgis
+      - python3-psycopg2
+      - python3-setuptools
+      - python3-pip
+      - git
+      - apache2
+      - libapache2-mod-wsgi-py3
+
+
+- include: ../../../shared/project-account.yml
+  vars:
+    user: "{{ comcommaker_user }}"
+
+- name: checkout git repository
+  git:
+    repo: https://gitlab.com/gileri/ComcomMaker.git
+    dest: "{{ comcommaker_install_path }}"
+    # settings.py resides in the repository folder
+    # pull may fail if upstream settings.py is modified
+    force: false
+    update: false
+  become: true
+  become_user: "{{ comcommaker_user }}"
+
+- name: Configure comcommaker
+  template:
+    src: comcommaker_settings.py.j2
+    dest: "{{ comcommaker_install_path }}/settings.py"
+  # Allow manual configuration
+  when: comcommaker_database_password is defined
+
+- name: Install comcommaker dependencies
+  command:
+    cmd: pip3 install -r requirements.txt
+  args:
+    chdir: "{{ comcommaker_install_path }}"
+  register: pip_install
+  changed_when: '"Successfully installed" in pip_install.stdout'
+
+- name: Create cache folder
+  file:
+    path: "{{ comcommaker_cache_path }}"
+    state: directory
+    owner: "{{ comcommaker_user }}"
+    group: "{{ comcommaker_group }}"
+    mode: 0775
+
+- name: Create symlink to cache folder
+  file:
+    force: true
+    path: "{{ comcommaker_install_path }}/{{ comcommaker_cache_dir }}"
+    src: "{{ comcommaker_cache_path }}"
+    state: link
+
+- name: copy apache config
+  template:
+    src: apache.site.j2
+    dest: /etc/apache2/sites-available/comcommaker.conf
+  notify: reload apache
+
+- name: enable apache site
+  file:
+    src: /etc/apache2/sites-available/comcommaker.conf
+    dest: /etc/apache2/sites-enabled/comcommaker.conf
+    state: link
+  notify: reload apache
+
+- name: add www-data to comcommaker's group
+  user:
+    name: www-data
+    groups: comcommaker
+    append: true
+  notify: restart apache
+
+- name: Disable default apache site
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: reload apache
+
+- name: Start and enable apache
+  systemd:
+    service: apache2.service
+    state: started
+    enabled: true
