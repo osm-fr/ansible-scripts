@@ -118,10 +118,6 @@ proxy:
     websites: "educosm.openstreetmap.fr"
     target: "10.1.0.164"
   -
-    logname: "dev.comcommaker"
-    websites: "dev.comcommaker.openstreetmap.fr"
-    target: "10.1.1.56"
-  -
     logname: "dev.analyser"
     websites: "dev.analyser.openstreetmap.fr"
     target: "10.1.1.47"
