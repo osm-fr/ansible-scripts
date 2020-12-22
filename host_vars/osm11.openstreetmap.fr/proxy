@@ -34,3 +34,8 @@ host_proxy:
     config_src: "nginx-site-osmose-jupyter.j2"
     redirect_to_https: True
     target_port: 8888
+  -
+    logname: "comcommaker"
+    websites: "comcommaker.openstreetmap.fr"
+    target: "192.168.0.179"
+    redirect_to_https: True
