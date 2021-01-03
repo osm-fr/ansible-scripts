@@ -78,6 +78,7 @@
     - pkg-config
     # to compile PyKOpeningHours
     - cmake
+    - extra-cmake-modules
     - qtbase5-dev
     - flex
     - bison
@@ -103,13 +104,6 @@
     - python3-lark-parser_0.6.7-1_all.deb
     - python3-backports.csv_1.0.7-1_all.deb
     - python3-transporthours_0.0.4-1_all.deb
-
-- name: pip install
-  pip:
-    executable: pip3
-    requirements: /data/project/osmose/backend/requirements.txt
-  become: yes
-  become_user: osmose
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
@@ -226,6 +220,13 @@
   become: yes
   become_user: osmose
   ignore_errors: True
+
+- name: pip install
+  pip:
+    executable: pip3
+    requirements: /data/project/osmose/backend/requirements.txt
+  become: yes
+  become_user: osmose
 
 - name: compile osm_pbf_parser for python3
   make:
