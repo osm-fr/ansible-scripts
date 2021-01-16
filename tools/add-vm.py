@@ -123,6 +123,8 @@ def parse_args():
                       help="default: %(default)s")
   parser.add_argument('--user', action='append', type=str,
                       help="Users to create, with root access")
+  parser.add_argument('--docker',    action='store_true', default=False,
+                      help="Enable docker support")
 
   parser.add_argument('--force', action='store_true', help="Force creation of VM without confirmation")
 
@@ -230,6 +232,8 @@ def print_config(args):
   print("template: %s" % args.template)
   if args.user:
     print("user_root: %s" % args.user)
+  if args.docker:
+    print("docker   : yes")
   print("--------")
 
 
@@ -250,6 +254,7 @@ def configure_ansible(args):
     f.write("  host: %s\n" % host_config[args.host]["hostname"])
     f.write("  cpus: %s\n" % args.cpus)
     f.write("  disk: %s\n" % args.disk)
+    f.write("  docker: %s\n" % int(args.docker))
     f.write("  hostname: %s\n" % args.dns_name)
     f.write("  ipv6: %s\n" % args.ipv6)
     f.write("  netif: %s\n" % args.netif)
