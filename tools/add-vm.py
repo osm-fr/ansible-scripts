@@ -81,7 +81,7 @@ host_config = {
 }
 
 templates = [
-  "debian-10-standard_10.5-1_amd64.tar.gz",
+  "debian-10-standard_10.7-1_amd64.tar.gz",
   "debian-9.0-standard_9.7-1_amd64.tar.gz",
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
 ]
@@ -284,9 +284,10 @@ def configure_ansible(args):
         elif line.startswith("["):
           add_vm = False
           name = line[1:].split("]")[0]
-          for user in args.user:
-            if user == name:
-              add_user = True
+          if args.user:
+            for user in args.user:
+              if user == name:
+                add_user = True
 
         elif add_vm:
           ms = re_osm.findall(line)
