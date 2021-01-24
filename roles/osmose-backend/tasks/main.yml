@@ -42,6 +42,7 @@
   apt: pkg={{ item }}
   with_items:
     - bzr  # for josm translations
+    - libarchive-dev
     - python-dateutil
     - python-imposm-parser
     - python-lockfile
