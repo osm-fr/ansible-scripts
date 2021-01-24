@@ -4,6 +4,7 @@ import argparse
 import os
 import re
 import sys
+from termcolor import colored
 
 host_config = {
   "osm11": {
@@ -215,6 +216,10 @@ def expand_args(args):
 
   if not args.storage:
     args.storage = host_config[args.host]["default_storage"]
+
+  if args.docker and args.disk < 50:
+    print(colored("WARNING: Increasing diskspace to 50G for docker usage", "yellow"))
+    args.disk = 50
 
   return args
 

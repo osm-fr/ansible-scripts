@@ -1,7 +1,7 @@
 proxmox_var:
   host: osm14.openstreetmap.fr
   cpus: 1
-  disk: 10
+  disk: 50
   docker: 1
   hostname: cadastre-joker.vm.openstreetmap.fr
   ipv6: 2a01:e0d:1:c:58bf:fac1:c400:182
