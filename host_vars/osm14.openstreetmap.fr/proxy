@@ -24,3 +24,7 @@ host_proxy:
     logname: "tile-vect"
     websites: "tile-vect.openstreetmap.fr"
     target: "10.1.0.177"
+  -
+    logname: "cadastre-joker"
+    websites: "tms.cadastre.openstreetmap.fr"
+    target: "10.1.0.182"
