@@ -42,6 +42,7 @@
   apt: pkg={{ item }}
   with_items:
     - bzr  # for josm translations
+    - gdal-bin
     - libarchive-dev
     - postgresql-{{ postgresql_version }}
     - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
