@@ -43,16 +43,6 @@
   with_items:
     - bzr  # for josm translations
     - libarchive-dev
-    - python-dateutil
-    - python-imposm-parser
-    - python-lockfile
-    - python-polib
-    - python-poster
-    - python-psycopg2
-    - python-regex
-    - python-requests
-    - python-shapely
-    - python-regex
     - postgresql-{{ postgresql_version }}
     - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
     - postgresql-contrib-{{ postgresql_version }}
