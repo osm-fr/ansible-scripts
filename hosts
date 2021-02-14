@@ -101,6 +101,15 @@ osm28.openstreetmap.fr
 osm11.openstreetmap.fr
 osm14.openstreetmap.fr
 
+[proxmox:children]
+cluster-ovh
+cluster-free
+
+[proxmox]
+osm29.openstreetmap.fr
+osm30.openstreetmap.fr
+osm31.openstreetmap.fr
+
 # services
 [backuppc-server]
 osm134.openstreetmap.fr
