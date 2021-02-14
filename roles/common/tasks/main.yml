@@ -542,6 +542,27 @@
     sysctl_file: /etc/sysctl.d/ansible.conf
   when: "not 'vm' in group_names"
 
+# configure lxfs so that VMs get their own load-average
+- name: create systemd override directory for lxcfs
+  file:
+    path: '/etc/systemd/system/lxcfs.service.d'
+    state: directory
+    mode: 0755
+  notify:
+    - systemd daemon-reload
+  when: "'proxmox' in group_names"
+
+- name: configure systemd override for lxcfs
+  copy:
+    src: 'systemd-lxfs-override.conf'
+    dest: '/etc/systemd/system/lxcfs.service.d/override.conf'
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - systemd daemon-reload
+  when: "'proxmox' in group_names"
+
 - include: ssh-tunnel.yml user=ssh-tunnel uid=1104
   when: "'ssh-tunnel' in group_names"
 
