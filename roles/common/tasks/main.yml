@@ -197,54 +197,56 @@
 
 #- apt: update_cache=yes
 - name: install packages
-  apt: pkg={{ item }} update_cache=yes
-  with_items:
-    - python
-    - python-apt
+  apt:
+    update_cache: yes
+    pkg:
+      - python
+      - python-apt
 
-    - acl
-    - atop
-    - bash-completion
-    - ca-certificates
-    - etckeeper
-    - fail2ban
-    - git
-    - htop
-    - lftp
-    - libdbd-pg-perl  # for postgresql's munin plugin
-    - locales
-    - logrotate
-    - mc # Midnight Commander
-    - monit
-    - munin-node
-    - mutt
-    - nano
-    - rsync # for backuppc
-    - screen
-    - sudo
-    - time
-    - vim-nox
-    - wget
+      - acl
+      - atop
+      - bash-completion
+      - ca-certificates
+      - etckeeper
+      - fail2ban
+      - git
+      - htop
+      - lftp
+      - libdbd-pg-perl  # for postgresql's munin plugin
+      - locales
+      - logrotate
+      - mc # Midnight Commander
+      - monit
+      - munin-node
+      - mutt
+      - nano
+      - rsync # for backuppc
+      - screen
+      - sudo
+      - time
+      - vim-nox
+      - wget
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: install packages
-  apt: pkg={{ item }} update_cache=no
-  with_items:
-    - language-pack-en-base
+  apt:
+    pkg:
+      - language-pack-en-base
   when: ansible_distribution == 'Ubuntu'
 
 - name: install packages for apache2
-  apt: pkg={{ item }} update_cache=yes
-  with_items:
-    - apache2
-    - libwww-perl  # for apache's munin plugin
+  apt:
+    pkg:
+      - apache2
+      - libwww-perl  # for apache's munin plugin
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and install_apache
 
 - name: remove packages
-  apt: pkg={{ item }} state=absent
-  with_items:
-    - locate
-    - mlocate
+  apt:
+    state: absent
+    pkg:
+      - locate
+      - mlocate
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: install packages
@@ -271,9 +273,9 @@
 
 
 - name: install sensors package
-  apt: pkg={{ item }}
-  with_items:
-    - lm-sensors   # for sensors's munin plugin
+  apt:
+    pkg:
+      - lm-sensors   # for sensors's munin plugin
   notify:
     - detect sensors
   when: not 'vm' in group_names and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
