@@ -95,6 +95,7 @@ storages = [
   "local-zfs",
   "ssd-nvme",
   "ssd-sata",
+  "ssd-zfs",
 ]
 
 default_template = templates[0]
