@@ -1,24 +1,20 @@
 - name: configure monit webserver
   template: src=monit-webserver dest=/etc/monit/conf.d/webserver mode=0600 owner=root group=root force=yes
   notify: restart monit
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: configure monit alert
   template: src="monit-alert" dest="/etc/monit/conf.d/alert" owner=root group=root mode=0644
   notify: restart monit
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Fix openssh module to remove dsa key check (patch 1)
   patch:
     src: monit-openssh-no-dsa-check-1.patch
     dest: /etc/monit/conf-available/openssh-server
-#  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Fix openssh module to remove dsa key check (patch 2)
   patch:
     src: monit-openssh-no-dsa-check-2.patch
     dest: /etc/monit/conf-available/openssh-server
-#  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: add monit modules
   file: src="/etc/monit/monitrc.d/{{ item }}" dest="/etc/monit/conf.d/{{ item }}" state=link
@@ -42,25 +38,23 @@
 - name: add monit module for apache
   copy: src="monit-apache" dest="/etc/monit/conf.d/apache" owner=root group=root mode=0644
   notify: restart monit
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and install_apache
+  when: install_apache
 
 # munin
 - name: add monit module for munin
   copy: src="monit-munin" dest="/etc/monit/conf.d/munin" owner=root group=root mode=0644
   notify: restart monit
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 # mysql
 - name: check if mysql installed
   command: /usr/bin/test -e /var/run/mysqld/mysqld.pid
   ignore_errors: True
   register: mysql_installed
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: add monit module for mysql
   copy: src="monit-mysql" dest="/etc/monit/conf.d/mysql" owner=root group=root mode=0644
   notify: restart monit
-  when: mysql_installed.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  when: mysql_installed.rc == 0
 
 # postgresql
 - name: find version of postgresql
@@ -75,30 +69,28 @@
     - 11
   ignore_errors: True
   register: postgresql_installed
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: set postgresql_version
   set_fact: postgresql_version="{{ item.stdout }}"
-  when: item.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  when: item.rc == 0
   with_items: "{{ postgresql_installed.results }}"
   ignore_errors: True
 
 - name: add monit module for postgresql
   template: src="monit-postgresql" dest="/etc/monit/conf.d/postgresql" owner=root group=root mode=0644
   notify: restart monit
-  when: postgresql_version is defined and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  when: postgresql_version is defined
 
 # sympa
 - name: check if sympa installed
   command: /usr/bin/test -e /var/run/sympa/sympa.pid
   ignore_errors: True
   register: sympa_installed
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: add monit module for sympa
   copy: src="monit-sympa" dest="/etc/monit/conf.d/sympa" owner=root group=root mode=0644
   notify: restart monit
-  when: sympa_installed.rc == 0 and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  when: sympa_installed.rc == 0
 
 # apache configuration to access monit
 - include: apache2-monit.yml

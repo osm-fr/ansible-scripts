@@ -226,7 +226,6 @@
       - time
       - vim-nox
       - wget
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: install packages
   apt:
@@ -239,7 +238,7 @@
     pkg:
       - apache2
       - libwww-perl  # for apache's munin plugin
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and install_apache
+  when: install_apache
 
 - name: remove packages
   apt:
@@ -247,30 +246,6 @@
     pkg:
       - locate
       - mlocate
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: install packages
-  yum: name={{ item }}
-  with_items:
-    - python
-
-    - atop
-    - bash-completion
-    - etckeeper
-    - fail2ban
-    - git
-    - htop
-    - lftp
-    - mc # Midnight Commander
-    - monit
-    - munin-node
-    - nano
-    - screen
-    - sudo
-    - time
-    - vim-enhanced
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-
 
 - name: install sensors package
   apt:
@@ -278,7 +253,7 @@
       - lm-sensors   # for sensors's munin plugin
   notify:
     - detect sensors
-  when: not 'vm' in group_names and (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  when: not 'vm' in group_names
 
 - name: init /data/ paths
   file:
@@ -435,7 +410,6 @@
     dest: /etc/bash.bashrc
     regexp: 'alias ll="ls -l"'
     line: 'alias ll="ls -l"'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Check if user backuppc exists
   action: shell /usr/bin/getent passwd backuppc
@@ -534,7 +508,6 @@
     vtype: select
   notify:
     - generate locales
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 # necessary to run a lot of containers, each which systemd launching several inotify
 - name: increase fs.inotify.max_user_instances on host

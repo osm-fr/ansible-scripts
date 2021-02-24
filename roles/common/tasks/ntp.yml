@@ -1,15 +1,5 @@
 - name: install ntp package
   apt: pkg=ntp
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: install ntp package
-  yum: name=ntp
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: launch ntp
   service: name=ntp state=started enabled=yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: launch ntp
-  service: name=ntpd state=running enabled=yes
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

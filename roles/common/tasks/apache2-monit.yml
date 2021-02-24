@@ -5,24 +5,19 @@
     - proxy.conf
     - proxy_http.load
     - proxy.load
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: configure monit in apache
   copy: src="apache-monit" dest="/etc/apache2/sites-available/monit.conf" owner=root group=root mode=0644
   notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: enable monit in apache
   file: src="/etc/apache2/sites-available/monit.conf" dest="/etc/apache2/sites-enabled/monit.conf" state=link
   notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: remove /etc/apache2/sites-available/monit
   file: path="/etc/apache2/sites-available/monit" state=absent
   notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: remove /etc/apache2/sites-enabled/monit
   file: path="/etc/apache2/sites-enabled/monit" state=absent
   notify: restart apache
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'

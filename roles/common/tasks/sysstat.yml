@@ -3,7 +3,6 @@
   with_items:
     - sysstat
     - xz-utils
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Enable sysstat
   copy:
