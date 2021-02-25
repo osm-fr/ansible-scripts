@@ -56,7 +56,7 @@ osm157.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 # osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm160.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm162.openstreetmap.fr vm_host=osm11.openstreetmap.fr
+bano.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm162.openstreetmap.fr
 osm163.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm164.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm165.openstreetmap.fr vm_host=osm11.openstreetmap.fr
@@ -356,7 +356,7 @@ osm138.openstreetmap.fr
 osm147.openstreetmap.fr  # new overpass api
 osm148.openstreetmap.fr
 osm153.openstreetmap.fr
-osm162.openstreetmap.fr
+bano.vm.openstreetmap.fr
 
 [nmoyroud]
 osm26.openstreetmap.fr
@@ -419,7 +419,7 @@ cadastre.vm.openstreetmap.fr
 osm11.openstreetmap.fr
 osm104.openstreetmap.fr
 osm26.openstreetmap.fr
-osm162.openstreetmap.fr
+bano.vm.openstreetmap.fr
 
 [ybon]
 osm28.openstreetmap.fr
