@@ -35,7 +35,7 @@ proxy:
   -
     logname: "forum"
     websites: "forum.openstreetmap.fr dev.forum.openstreetmap.fr"
-    target: "10.1.0.139"
+    target: "10.1.0.169"
     redirect_to_https: True
   -
     logname: "nextcloud"
