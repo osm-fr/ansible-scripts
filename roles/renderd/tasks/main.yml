@@ -97,6 +97,7 @@
   notify:
     - restart renderd
     - reload apache2
+  when: renderd_layers
 
 - name: remove layers from renderd.conf
   blockinfile:
@@ -112,3 +113,4 @@
   notify:
     - restart renderd
     - reload apache2
+  when: renderd_layers
