@@ -198,7 +198,7 @@ osmose3.davintech.ca
 osmose4.davintech.ca
 
 [osmose-frontend]
-osm153.openstreetmap.fr	osmose_frontend_site=osmose.openstreetmap.fr
+osm153.openstreetmap.fr osmose_frontend_site=osmose.openstreetmap.fr
 
 [osmbin]
 download.vm.openstreetmap.fr
