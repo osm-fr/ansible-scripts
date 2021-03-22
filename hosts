@@ -23,7 +23,7 @@ osm110.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non gé
 # osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-osm118.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+taginfo.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm118.openstreetmap.fr
 osm125.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm127.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 # osm128.openstreetmap.fr vm_host=osm26.openstreetmap.fr
@@ -213,7 +213,7 @@ osm155.openstreetmap.fr
 download.vm.openstreetmap.fr
 
 [taginfo]
-osm118.openstreetmap.fr
+taginfo.vm.openstreetmap.fr
 
 [live]
 osm132.openstreetmap.fr
@@ -291,7 +291,7 @@ cadastre-joker.vm.openstreetmap.fr
 osm14.openstreetmap.fr
 osm104.openstreetmap.fr
 osm105.openstreetmap.fr
-osm118.openstreetmap.fr
+taginfo.vm.openstreetmap.fr
 osm26.openstreetmap.fr
 osm153.openstreetmap.fr
 osm163.openstreetmap.fr
