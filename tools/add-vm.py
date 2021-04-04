@@ -14,7 +14,7 @@ host_config = {
     "ipv4": "192.168.%d.%d",
     "gw6": "2a01:e0d:1:c:58bf:fac1:8000:11",
     "ipv6": "2a01:e0d:1:c:58bf:fac1:8000:%d",
-    "default_storage": "hdd-zfs",
+    "default_storage": "ssd-zfs",
   },
   "osm14": {
     "hostname": "osm14.openstreetmap.fr",
@@ -23,7 +23,7 @@ host_config = {
     "ipv4": "10.1.%d.%d",
     "gw6": "2a01:e0d:1:c:58bf:fac1:c400:14",
     "ipv6": "2a01:e0d:1:c:58bf:fac1:c400:%d",
-    "default_storage": "hdd-zfs",
+    "default_storage": "ssd-zfs",
   },
   "osm26": {
     "hostname": "osm26.openstreetmap.fr",
