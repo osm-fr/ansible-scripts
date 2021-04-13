@@ -247,6 +247,13 @@
       - locate
       - mlocate
 
+- name: install docker packages
+  apt:
+    pkg:
+      - docker
+      - docker-compose
+  when: proxmox_var is defined and proxmox_var.docker
+
 - name: install sensors package
   apt:
     pkg:
