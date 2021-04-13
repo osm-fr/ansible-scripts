@@ -51,3 +51,7 @@ if [ -e intermediate.pem ]; then
     echo "nginx was reloaded"
   fi
 fi
+
+if [ -e /etc/pve/nodes ]; then
+  sudo /usr/local/bin/letsencrypt-to-proxmox.sh
+fi

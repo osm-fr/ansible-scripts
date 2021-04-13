@@ -126,6 +126,9 @@
   when: using_nginx.changed and copy_nginx_challenge.changed
 
 
+- name: copy script to send keys to proxmox
+  copy: src=letsencrypt-to-proxmox.sh dest="/usr/local/bin/letsencrypt-to-proxmox.sh"
+
 - name: copy launch-acme-tiny.sh config
   template: src=launch-acme-tiny.sh dest="/data/project/letsencrypt/keys/launch-acme-tiny.sh"
     owner=letsencrypt group=letsencrypt mode="0700"
