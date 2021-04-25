@@ -56,6 +56,7 @@ server {
 
     add_header Referrer-Policy "strict-origin-when-cross-origin";
     add_header Content-Security-Policy "default-src 'none'; font-src 'self'; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:; connect-src 'self' wss://{{ item.websites }}; frame-ancestors 'none';";
+    add_header Permissions-Policy interest-cohort=();
 
     gzip on;
     gzip_disable "msie6";

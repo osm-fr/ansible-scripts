@@ -46,6 +46,8 @@ server {
         proxy_pass	http://{{ item.target }};
 {% endif %}
         proxy_redirect  off;
+
+        add_header Permissions-Policy interest-cohort=();
    }
 
     location /sse/ {
