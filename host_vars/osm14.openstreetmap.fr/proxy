@@ -28,3 +28,8 @@ host_proxy:
     logname: "cadastre-joker"
     websites: "tms.cadastre.openstreetmap.fr"
     target: "10.1.0.182"
+  -
+    logname: "mapcontrib"
+    websites: "mapcontrib.openstreetmap.fr"
+    target: "10.1.0.185"
+    target_port: 8080
