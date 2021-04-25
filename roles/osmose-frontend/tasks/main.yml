@@ -136,6 +136,7 @@
   notify: restart apache
   with_items:
     - expires.load
+    - headers.load
     - rewrite.load
     - wsgi.conf
     - wsgi.load
