@@ -30,6 +30,6 @@ host_proxy:
     target: "10.1.0.182"
   -
     logname: "mapcontrib"
-    websites: "mapcontrib.openstreetmap.fr"
+    websites: "mapcontrib.openstreetmap.fr www.mapcontrib.xyz"
     target: "10.1.0.185"
     target_port: 8080
