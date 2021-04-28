@@ -82,7 +82,7 @@
 - name: enable docker support on VM
   command: "pct set {{ proxmox_var.vmid }} --features keyctl=1,nesting=1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and proxmox_var.docker
+  when: proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker
   become: yes
 
 - name: start VM
@@ -252,7 +252,7 @@
     pkg:
       - docker
       - docker-compose
-  when: proxmox_var is defined and proxmox_var.docker
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
 
 - name: install sensors package
   apt:
