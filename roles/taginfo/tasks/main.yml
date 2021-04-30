@@ -24,6 +24,8 @@
     - libprotoc-dev
     - protobuf-compiler
     - libosmpbf-dev
+    # osmconvert osmfilter osmupdate
+    - osmctools
 
 
 - include: ../../../shared/project-account.yml user=taginfo
@@ -81,9 +83,13 @@
   with_items:
     - taginfo-config.json
     - 10_download.sh
+    - 10_filtre.sh
     - 10_update_pbf.sh
     - 20_update.sh
     - 30_restart_webserver.sh
+    - crontab.sh
+    - france.poly
+    - remove-not-in-france.sh
 
 - name: add taginfo france.png file
   copy: src="france.png" dest="/data/project/taginfo/taginfo/web/public/img/france.png"
@@ -118,7 +124,7 @@
     - download
 
 - name: initialize daily crontab
-  cron: name="update taginfo" hour=0 minute=5 job="(./10_download.sh && ./20_update.sh && ./30_restart_webserver.sh)"
+  cron: name="update taginfo" hour=0 minute=5 job="(./crontab.sh)"
   become: yes
   become_user: taginfo
 
