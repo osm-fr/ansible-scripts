@@ -1,6 +1,6 @@
 - name: unattended-upgrades configuration
   hosts: vm
   gather_facts: no
-  sudo: yes
+  become: yes
   roles:
     - unattended-upgrades

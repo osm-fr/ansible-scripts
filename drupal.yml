@@ -1,5 +1,5 @@
 - name: drupal configuration
   hosts: drupal
-  sudo: yes
+  become: yes
   roles:
     - drupal

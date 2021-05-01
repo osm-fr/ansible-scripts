@@ -1,5 +1,5 @@
 - name: nextcloud configuration
   hosts: nextcloud
-  sudo: yes
+  become: yes
   roles:
     - nextcloud
