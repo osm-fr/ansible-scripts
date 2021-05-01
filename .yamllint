@@ -11,11 +11,6 @@ rules:
     max-spaces-after: 10
   commas:
     max-spaces-after: 40
-  document-start: disable
-  truthy:
-    allowed-values: ['true', 'false', 'True', 'False', 'yes', 'no']
-
-  # Files exclusions
   comments:
     ignore: |
       roles/ocitysmap/vars/main.yml
@@ -23,3 +18,8 @@ rules:
   comments-indentation:
     ignore: |
       roles/ocitysmap/tasks/main.yml
+  document-start: disable
+  truthy:
+    allowed-values: ['true', 'false', 'True', 'False', 'yes', 'no']
+    ignore: |
+      .github/workflows/ci.yml

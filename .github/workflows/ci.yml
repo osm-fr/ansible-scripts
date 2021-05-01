@@ -1,0 +1,20 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            yamllint
+
+      - uses: actions/checkout@v2
+
+      - name: yamllint
+        run: |
+          yamllint .
