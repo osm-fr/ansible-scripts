@@ -42,7 +42,7 @@ debian_other_required_packages:
   #pour compiler une locale, il faut
   - gettext
   - git
-  #pour le build de python-mapnik, il faut 
+  #pour le build de python-mapnik, il faut
   #- libmapnik-dev
   #- python-cairo-dev
   #- python-setuptools

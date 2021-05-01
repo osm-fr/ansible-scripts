@@ -40,9 +40,9 @@
 
 - name: create hosts
   lineinfile:
-    dest=/etc/backuppc/hosts
-    line="{{ item }}	0		"
-    regexp="{{ item }}[ 	]*0"
+    dest: /etc/backuppc/hosts
+    line: "{{ item }}	0		"
+    regexp: "{{ item }}[ 	]*0"
   with_items: "{{ groups['all'] }}"
   notify:
     - restart backuppc
@@ -96,4 +96,3 @@
   copy: src="monit-backuppc" dest="/etc/monit/conf.d/backuppc" owner=root group=root mode=0644
   notify: restart monit
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
-

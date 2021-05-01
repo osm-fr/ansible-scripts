@@ -195,7 +195,6 @@
     update_cache: yes
   when: ansible_distribution_release == "buster"
 
-#- apt: update_cache=yes
 - name: install packages
   apt:
     update_cache: yes
@@ -215,12 +214,12 @@
       - libdbd-pg-perl  # for postgresql's munin plugin
       - locales
       - logrotate
-      - mc # Midnight Commander
+      - mc   # Midnight Commander
       - monit
       - munin-node
       - mutt
       - nano
-      - rsync # for backuppc
+      - rsync   # for backuppc
       - screen
       - sudo
       - time
@@ -575,4 +574,3 @@
 
 - include: ntp.yml
   when: "not 'vm' in group_names"
-

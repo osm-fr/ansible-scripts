@@ -44,4 +44,3 @@
 - name: enable apache site
   file: src="/etc/apache2/sites-available/yeswiki.conf" dest="/etc/apache2/sites-enabled/yeswiki.conf" state=link
   notify: restart apache
-

@@ -44,4 +44,3 @@
 - name: enable apache site
   file: src="/etc/apache2/sites-available/www.conf" dest="/etc/apache2/sites-enabled/www.conf" state=link
   notify: restart apache
-

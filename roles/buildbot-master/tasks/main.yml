@@ -162,4 +162,3 @@
     - restart munin-node
   when:
     - stat_result.stat.exists == True
-

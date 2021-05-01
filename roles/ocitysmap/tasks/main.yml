@@ -38,7 +38,7 @@
   with_items: "{{ debian_other_required_packages }}"
 
 - name: add sudoers to access regular application user
-  copy: 
+  copy:
     src: sudoers
     dest: /etc/sudoers.d/ocitysmap
     mode: 0440
@@ -143,7 +143,7 @@
   become_user: "{{ application_user_account }}"
 
 - name: Installation du Fichier de configuration de ocitysmap
-  template :
+  template:
     src: ocitysmap.conf.j2
     dest: "{{ application_dir }}/.ocitysmap.conf"
     owner: "{{ application_user_account }}"
@@ -193,16 +193,16 @@
   when: find_layers.matched == 0
 
 - name: Lien pour acces au fichier z7.tif
-  file: 
+  file:
     path: "{{ application_dir }}/styles/osmfr-cartocss/layers"
     src: "{{ application_dir }}/styles-commons/osmfr-layers"
-    state: link 
+    state: link
     force: yes
 - name: lien pour acces aux donnees de base cartographiques
-  file: 
+  file:
     path: "{{ application_dir }}/styles/osmfr-cartocss/data"
     src: /usr/share/openstreetmap-carto-common/data
-    state: link 
+    state: link
     force: yes
 
 #2# psql -f additions.sql
@@ -251,7 +251,7 @@
   become_user: "{{ application_user_account }}"
 
 #5# curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -  (installation de nodejs et npm depuis un depot particulier)
-#old: apt-get install nodejs 
+#old: apt-get install nodejs
 #old: sudo apt-get install -y npm
 #old: sudo ln -s /usr/bin/nodejs /usr/bin/node
 #npm install -g @mapbox/carto
@@ -264,8 +264,8 @@
     - /usr/bin/npm install -g @mapbox/carto
     - /usr/bin/npm install -g millstone
 
-#nodejs /usr/bin/carto -a "3.0.0" project.json.mml > mapnik.xml          
-#carto -a "3.0.0" project.json.mml > mapnik.xml    
+#nodejs /usr/bin/carto -a "3.0.0" project.json.mml > mapnik.xml
+#carto -a "3.0.0" project.json.mml > mapnik.xml
 - name: configuration du rendu osmfr pour mapnik
   shell: "nodejs /usr/bin/carto -a '3.0.0' project.json.mml > mapnik.xml"
   args:
@@ -288,7 +288,7 @@
 #inutile# cd locale
 #inutile# cp -r fr fr_FR.UTF-8
 #./i18n.py --make-po
-#./i18n.py --compile-mo  
+#./i18n.py --compile-mo
 - name: gestion des locales
   command: "{{ item }}"
   with_items:

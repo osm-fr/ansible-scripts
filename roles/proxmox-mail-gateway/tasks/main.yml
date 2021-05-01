@@ -42,7 +42,7 @@
     name: postfix
     groups: sasl
     append: yes
- 
+
 - name: add mount point for /var/spool/postfix/var/run/saslauthd
   mount:
     path: "/var/spool/postfix/var/run/saslauthd"

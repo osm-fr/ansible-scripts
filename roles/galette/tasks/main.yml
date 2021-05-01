@@ -77,4 +77,3 @@
     dest: "/etc/apache2/sites-enabled/galette.conf"
     state: link
   notify: restart apache
-

@@ -21,7 +21,7 @@
       - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
       - postgresql-contrib-{{ postgresql_version }}
       - postgis
-      - openjdk-{{ openjdk_version }}-jre-headless # for osmosis
+      - openjdk-{{ openjdk_version }}-jre-headless   # for osmosis
       - python-psycopg2
 
       - osm2pgsql

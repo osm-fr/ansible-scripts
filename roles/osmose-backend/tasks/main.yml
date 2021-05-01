@@ -156,10 +156,9 @@
 
 - name: psql extension postgis
   command: psql -d osmose -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
-  when: createdb_osmose.changed
+  when: createdb_osmose.changed and postgresql_version == 9.1
   become: yes
   become_user: postgres
-  when: postgresql_version == 9.1
 
 - name: psql extension postgis - spatial_ref_sys
   command: psql -d osmose -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql

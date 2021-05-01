@@ -95,7 +95,7 @@
   copy: src="france.png" dest="/data/project/taginfo/taginfo/web/public/img/france.png"
   become: yes
   become_user: taginfo
- 
+
 - name: compile OSM-binary
   command: chdir=/data/project/taginfo/OSM-binary/src make
   register: make

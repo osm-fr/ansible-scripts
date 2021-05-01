@@ -48,19 +48,19 @@
 
 - name: build export-cadastre project
   command:
-      cmd: make
-      chdir: "/data/project/cadastre/export-cadastre/"
-      creates: "/data/project/cadastre/export-cadastre/work/data/976/976-liste.txt"
+    cmd: make
+    chdir: "/data/project/cadastre/export-cadastre/"
+    creates: "/data/project/cadastre/export-cadastre/work/data/976/976-liste.txt"
   become: yes
   become_user: cadastre
 
 - name: configure export-cadastre cron
   cron:
-      name: maj-dep-massif
-      minute: "0"
-      hour: "4"
-      weekday: "1"
-      job: "cd /data/project/cadastre/export-cadastre/bin/ && ./maj-dep-massif.sh"
+    name: maj-dep-massif
+    minute: "0"
+    hour: "4"
+    weekday: "1"
+    job: "cd /data/project/cadastre/export-cadastre/bin/ && ./maj-dep-massif.sh"
   become: yes
   become_user: cadastre
 

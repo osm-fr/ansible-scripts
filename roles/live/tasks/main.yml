@@ -24,14 +24,14 @@
   file: src="/data/work/live/changesets.db" dest="/data/project/live/osm-livechanges/backend/changesets.db" state=link
   become: yes
   become_user: live
- 
+
 - name: copy apache config
   copy: src=apache.site dest="/etc/apache2/sites-available/live.conf"
-  notify: restart apache 
+  notify: restart apache
 
 - name: enable apache site
   file: src="/etc/apache2/sites-available/live.conf" dest="/etc/apache2/sites-enabled/live.conf" state=link
-  notify: restart apache 
+  notify: restart apache
 
 - name: add apache mods
   file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link

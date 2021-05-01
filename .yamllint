@@ -1,0 +1,25 @@
+extends: default
+
+rules:
+  line-length:
+    max: 1000
+    level: warning
+
+  braces:
+    max-spaces-inside: 1
+  colons:
+    max-spaces-after: 10
+  commas:
+    max-spaces-after: 40
+  document-start: disable
+  truthy:
+    allowed-values: ['true', 'false', 'True', 'False', 'yes', 'no']
+
+  # Files exclusions
+  comments:
+    ignore: |
+      roles/ocitysmap/vars/main.yml
+      roles/ocitysmap/tasks/main.yml
+  comments-indentation:
+    ignore: |
+      roles/ocitysmap/tasks/main.yml

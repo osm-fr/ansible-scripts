@@ -25,4 +25,3 @@
 - name: enable apache site
   file: src="/etc/apache2/sites-available/forum.conf" dest="/etc/apache2/sites-enabled/forum.conf" state=link
   notify: restart apache
-
