@@ -33,3 +33,7 @@ host_proxy:
     websites: "mapcontrib.openstreetmap.fr www.mapcontrib.xyz"
     target: "10.1.0.185"
     target_port: 8081
+  -
+    logname: "mapcontrib-top"
+    websites: "mapcontrib.xyz"
+    redirect: "www.mapcontrib.xyz"
