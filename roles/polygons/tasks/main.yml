@@ -14,6 +14,10 @@
       - python-matplotlib
       - python-psycopg2
       - python-shapely
+      - python3-lockfile
+      - python3-matplotlib
+      - python3-psycopg2
+      - python3-shapely
       - postgresql-{{ postgresql_version }}
       - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
       - postgresql-contrib-{{ postgresql_version }}
