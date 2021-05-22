@@ -59,6 +59,7 @@
   with_items:
     - fuzzystrmatch
     - hstore
+    - pgcrypto
 
 - name: checkout git repository
   git: repo=https://github.com/osm-fr/osmose-frontend.git dest=/data/project/osmose/frontend/ force=no update=no
