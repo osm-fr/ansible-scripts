@@ -169,12 +169,11 @@
   notify: restart apache
   with_items:
     - {regexp: "StartServers",           line: "	StartServers		1"}
-    - {regexp: "MinSpareThreads",        line: "	MinSpareThreads		1"}
-    - {regexp: "MaxSpareThreads",        line: "	MaxSpareThreads		7"}
-    - {regexp: "ThreadsPerChild",        line: "	ThreadsPerChild		8"}
-    - {regexp: "MaxRequestWorkers",      line: "	MaxRequestWorkers	40"}
-    - {regexp: "MaxConnectionsPerChild", line: "	MaxConnectionsPerChild	100"}
-    - {regexp: "ServerLimit",            line: "	ServerLimit		40"}
+    - {regexp: "MinSpareThreads",        line: "	MinSpareThreads		15"}
+    - {regexp: "MaxSpareThreads",        line: "	MaxSpareThreads		75"}
+    - {regexp: "ThreadsPerChild",        line: "	ThreadsPerChild		25"}
+    - {regexp: "MaxRequestWorkers",      line: "	MaxRequestWorkers	150"}
+    - {regexp: "MaxConnectionsPerChild", line: "	MaxConnectionsPerChild	500"}
 
 - name: enable apache site
   file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}.conf" state=link
