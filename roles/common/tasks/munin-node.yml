@@ -25,6 +25,7 @@
     - restart munin-node
   with_items:
     - {src: /usr/share/munin/plugins/df_abs, dest: df_abs}
+    - {src: /usr/share/munin/plugins/tcp, dest: tcp}
 
 - name: add plugin links for sensors
   file: state=link src="{{ item.src }}" dest="/etc/munin/plugins/{{ item.dest }}" force=no
