@@ -64,6 +64,29 @@
     - hstore
     - pgcrypto
 
+- name: read postgresql_version
+  command: psql -qAt -c "SELECT regexp_replace(current_setting('config_file'), '^.*/etc/postgresql/(.*)/main.*$', '\1');"
+  register: psql_res
+  become: yes
+  become_user: postgres
+
+- name: set postgresql_version to {{ psql_res.stdout_lines[0] }}
+  set_fact:
+    postgresql_version: "{{ psql_res.stdout_lines[0] }}"
+
+- name: create postgresql conf.d
+  file:
+    path: /etc/postgresql/{{ postgresql_version }}/main/conf.d
+    state: directory
+
+- name: configure postgresql
+  template:
+    dest="/etc/postgresql/{{ postgresql_version }}/main/conf.d/10-ansible-osmose.conf"
+    src="postgresql-config"
+    owner=root
+  notify:
+    - restart postgresql
+
 - name: checkout git repository
   git: repo=https://github.com/osm-fr/osmose-frontend.git dest=/data/project/osmose/frontend/ force=no update=no
   become: yes

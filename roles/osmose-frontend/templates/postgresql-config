@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+shared_buffers = 4GB
+work_mem = 16MB
+maintenance_work_mem = 512MB
+
+effective_io_concurrency = 2
+
+checkpoint_timeout = 15min
+max_wal_size = 4GB
+checkpoint_completion_target = 0.8
