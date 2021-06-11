@@ -79,6 +79,7 @@ stable-data.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm183.openstre
 backuppc2.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm184.openstreetmap.fr
 mapcontrib.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm185.openstreetmap.fr
 osmose.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm186.openstreetmap.fr
+batimap.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm187.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -317,6 +318,7 @@ osm26.openstreetmap.fr
 mapcontrib.vm.openstreetmap.fr
 
 [gpelloux]
+batimap.vm.openstreetmap.fr
 
 [hamlet]
 
