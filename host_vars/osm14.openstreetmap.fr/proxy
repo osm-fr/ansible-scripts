@@ -37,3 +37,7 @@ host_proxy:
     logname: "mapcontrib-top"
     websites: "mapcontrib.xyz"
     redirect: "www.mapcontrib.xyz"
+  -
+    logname: "batimap"
+    websites: "cadastre.damsy.net"
+    target: "10.1.0.187"
