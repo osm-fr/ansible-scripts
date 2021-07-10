@@ -41,9 +41,9 @@ server {
     error_log /var/log/nginx/{{ item.logname }}-error.log;
 
     # HTTPS
-    ssl_certificate /data/project/letsencrypt/keys/chained.pem;
-    ssl_certificate_key /data/project/letsencrypt/keys/domain.key;
-    ssl_dhparam /data/project/letsencrypt/keys/dhparams.pem;
+    ssl_certificate /etc/ssl/letsencrypt/chained.pem;
+    ssl_certificate_key /etc/ssl/letsencrypt/domain.key;
+    ssl_dhparam /etc/ssl/letsencrypt/dhparams.pem;
 
     ssl_protocols TLSv1.2;
     ssl_ecdh_curve prime256v1;
