@@ -1,2 +1,0 @@
-letsencrypt	ALL=NOPASSWD: /etc/init.d/apache2 reload
-letsencrypt	ALL=NOPASSWD: /etc/init.d/nginx reload
