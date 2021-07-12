@@ -54,3 +54,6 @@ fi
 if [ -e /etc/pve/nodes ]; then
   sudo /usr/local/bin/letsencrypt-to-proxmox.sh
 fi
+if [ -e /etc/pmg/pmg-api.pem ]; then
+  sudo /usr/local/bin/letsencrypt-to-proxmox-mail-gateway.sh
+fi

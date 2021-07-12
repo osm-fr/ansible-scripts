@@ -2,4 +2,5 @@ letsencrypt	ALL=NOPASSWD: /etc/init.d/apache2 reload
 letsencrypt	ALL=NOPASSWD: /etc/init.d/nginx reload
 letsencrypt	ALL=NOPASSWD: /bin/systemctl reload pveproxy
 letsencrypt	ALL=NOPASSWD: /usr/local/bin/letsencrypt-to-proxmox.sh
+letsencrypt	ALL=NOPASSWD: /usr/local/bin/letsencrypt-to-proxmox-mail-gateway.sh
 letsencrypt	ALL=NOPASSWD: /usr/local/bin/letsencrypt-to-nginx.sh

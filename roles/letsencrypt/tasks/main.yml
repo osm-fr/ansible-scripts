@@ -150,6 +150,10 @@
   copy: src=letsencrypt-to-proxmox.sh dest="/usr/local/bin/letsencrypt-to-proxmox.sh" mode="0544"
   when: letsencrypt_slave is not defined
 
+- name: copy script to send keys to proxmox mail gateway
+  copy: src=letsencrypt-to-proxmox-mail-gateway.sh dest="/usr/local/bin/letsencrypt-to-proxmox-mail-gateway.sh" mode="0544"
+  when: letsencrypt_slave is not defined
+
 - name: configure sudoers to reload apache/nginx
   copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt mode=0440 owner=root group=root validate='visudo -cf %s'
 
