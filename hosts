@@ -103,6 +103,7 @@ osm28.openstreetmap.fr
 
 [cluster-free]
 osm11.openstreetmap.fr
+osm12.openstreetmap.fr
 osm14.openstreetmap.fr
 
 [proxmox:children]
