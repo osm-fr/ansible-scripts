@@ -249,7 +249,7 @@
 - name: install docker packages
   apt:
     pkg:
-      - docker
+      - docker.io
       - docker-compose
   when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
 
