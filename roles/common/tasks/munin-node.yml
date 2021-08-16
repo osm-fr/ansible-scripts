@@ -50,3 +50,27 @@
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_temp}
     - {src: /usr/share/munin/plugins/sensors_, dest: sensors_volt}
   when: "not 'vm' in group_names"
+
+- name: check if postgresql installed
+  command: /usr/bin/test -e /etc/postgresql/
+  ignore_errors: True
+  register: postgres_installed
+
+- name: add postgres munin plugin links
+  file:
+    state: link
+    src: "{{ item.src }}"
+    dest: "/etc/munin/plugins/{{ item.dest }}"
+    force: no
+  notify:
+    - restart munin-node
+  with_items:
+    - {src: /usr/share/munin/plugins/postgres_autovacuum,   dest: postgres_autovacuum}
+    - {src: /usr/share/munin/plugins/postgres_checkpoints,  dest: postgres_checkpoints}
+    - {src: /usr/share/munin/plugins/postgres_connections_, dest: postgres_connections_ALL}
+    - {src: /usr/share/munin/plugins/postgres_locks_,       dest: postgres_locks_ALL}
+    - {src: /usr/share/munin/plugins/postgres_querylength_, dest: postgres_querylength_ALL}
+    - {src: /usr/share/munin/plugins/postgres_size_,        dest: postgres_size_ALL}
+    - {src: /usr/share/munin/plugins/postgres_users,        dest: postgres_users}
+    - {src: /usr/share/munin/plugins/postgres_xlog,         dest: postgres_xlog}
+  when: postgres_installed.rc == 0
