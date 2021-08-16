@@ -1,6 +1,9 @@
 - name: add allowed hosts to munin-node
-  lineinfile: dest=/etc/munin/munin-node.conf regexp="^allow .{{ item.regexp }}.$"
-              insertafter="^allow" line="allow ^{{ item.ip }}$"
+  lineinfile:
+    dest: /etc/munin/munin-node.conf
+    regexp: "^allow .{{ item.regexp }}.$"
+    insertafter: "^allow"
+    line: "allow ^{{ item.ip }}$"
   notify:
     - restart munin-node
   with_items:
@@ -14,13 +17,20 @@
     - {ip: '137\.74\.202\.107', regexp: "137..74..202..107"}
 
 - name: configure hostname of munin-node
-  lineinfile: dest=/etc/munin/munin-node.conf regexp="^host_name {{ inventory_hostname }}"
-              insertafter="^#host_name" line="host_name {{ inventory_hostname  }}"
+  lineinfile:
+    dest: /etc/munin/munin-node.conf
+    regexp: "^host_name {{ inventory_hostname }}"
+    insertafter: "^#host_name"
+    line: "host_name {{ inventory_hostname  }}"
   notify:
     - restart munin-node
 
 - name: add plugin links
-  file: state=link src="{{ item.src }}" dest="/etc/munin/plugins/{{ item.dest }}" force=no
+  file:
+    state: link
+    src: "{{ item.src }}"
+    dest: "/etc/munin/plugins/{{ item.dest }}"
+    force: no
   notify:
     - restart munin-node
   with_items:
@@ -28,7 +38,11 @@
     - {src: /usr/share/munin/plugins/tcp, dest: tcp}
 
 - name: add plugin links for sensors
-  file: state=link src="{{ item.src }}" dest="/etc/munin/plugins/{{ item.dest }}" force=no
+  file:
+    state: link
+    src: "{{ item.src }}"
+    dest: "/etc/munin/plugins/{{ item.dest }}"
+    force: no
   notify:
     - restart munin-node
   with_items:
