@@ -173,7 +173,7 @@
   setup:
 
 # disabling atopacct, as it breaks apt-get install atop
-- name: Disable atopacct on Debian 9
+- name: Disable atopacct
   file:
     state: link
     src: "/dev/null"
@@ -182,7 +182,8 @@
          (ansible_distribution == 'Debian' and ansible_distribution_major_version == '9') or
          (ansible_distribution == 'Debian' and ansible_distribution_major_version == '10') or
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '17') or
-         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18'))
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18') or
+         (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '20'))
 
 - set_fact: install_apache=false
   when: install_apache is undefined
