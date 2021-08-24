@@ -78,7 +78,7 @@ proxy:
   -
     logname: "beta.osmose"
     websites: "beta.osmose.openstreetmap.fr"
-    target: "10.1.0.153"
+    target: "10.1.0.186"
   -
     logname: "sotm2018"
     websites: "sotm2018.openstreetmap.fr"
