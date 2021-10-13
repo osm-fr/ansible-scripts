@@ -16,6 +16,15 @@ host_config = {
     "ipv6": "2a01:e0d:1:c:58bf:fac1:8000:%d",
     "default_storage": "ssd-zfs",
   },
+  "osm12": {
+    "hostname": "osm12.openstreetmap.fr",
+    "bridge": "vmbr2",
+    "gw4":  "10.0.0.12",
+    "ipv4": "10.1.%d.%d",
+    "gw6": "2a01:e0d:1:c:58bf:fac1:c200:12",
+    "ipv6": "2a01:e0d:1:c:58bf:fac1:c200:%d",
+    "default_storage": "ssd-zfs",
+  },
   "osm14": {
     "hostname": "osm14.openstreetmap.fr",
     "bridge": "vmbr2",
@@ -82,6 +91,7 @@ host_config = {
 }
 
 templates = [
+  "debian-11-standard_11.0-1_amd64.tar.gz",
   "debian-10-standard_10.7-1_amd64.tar.gz",
   "debian-9.0-standard_9.7-1_amd64.tar.gz",
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
