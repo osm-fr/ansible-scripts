@@ -166,8 +166,8 @@
 - name: apt-get update
   raw: "[ -e /usr/bin/apt-get ] && apt-get update"
 
-- name: bootstrap python-apt package
-  raw: "[ -e /usr/bin/apt-get ] && apt-get -y install python-apt"
+- name: bootstrap python3-apt package
+  raw: "[ -e /usr/bin/apt-get ] && apt-get -y install python3-apt"
 
 - name: Gathering facts
   setup:
@@ -201,7 +201,7 @@
     update_cache: yes
     pkg:
       - python
-      - python-apt
+      - python3-apt
 
       - acl
       - atop
