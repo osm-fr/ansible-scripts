@@ -1,32 +1,16 @@
-- name: set postgresql_version = 9.6
-  set_fact:
-    postgresql_version: 9.6
-    postgis_version: 2.3
-    postgis_suffix: -2.3
-    openjdk_version: 8
-  when: ansible_distribution_release == "stretch"
-
-- name: set postgresql_version = 11
-  set_fact:
-    postgresql_version: 11
-    postgis_version: 2.5
-    postgis_suffix: -2.5
-    openjdk_version: 11
-  when: ansible_distribution_release == "buster"
-
 - name: install packages
   apt:
     pkg:
-      - postgresql-{{ postgresql_version }}
-      - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
-      - postgresql-contrib-{{ postgresql_version }}
+      - postgresql
+      - postgresql-contrib
       - postgis
-      - openjdk-{{ openjdk_version }}-jre-headless   # for osmosis
-      - python-psycopg2
+      - default-jre-headless   # for osmosis
+      - python3-psycopg2
 
       - osm2pgsql
       - osmctools
       - osmosis
+      - osmium-tool
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
