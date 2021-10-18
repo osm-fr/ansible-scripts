@@ -15,7 +15,7 @@
 - name: checkout acme-tiny repo
   git: repo=https://github.com/diafygi/acme-tiny.git
        dest=/data/project/letsencrypt/acme-tiny
-       version=cb094cf3efa34acef8c7139c8480e2135422e755  # on 2019-07-07
+       version=ce0bbdb3a19568a23452a15b5e4d4797e6ac77f9  # on 2021-08-21
   become: yes
   become_user: letsencrypt
   when: letsencrypt_slave is not defined
@@ -177,9 +177,9 @@
   become_user: letsencrypt
   notify: reload apache
   get_url: >
-    url="https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem"
+    url="https://letsencrypt.org/certs/lets-encrypt-r3-cross-signed.pem"
     dest="/data/project/letsencrypt/keys/intermediate.pem"
-    sha256sum="e446c5e9dbef9d09ac9f7027c034602492437a05ff6c40011d7235fca639c79a"
+    sha256sum="7a632fde8c8d0360b359858b8ba306aab7a971be35e1565d8fc39be6c8265ffa"
   when: letsencrypt_slave is not defined
 
 - name: fix permission for intermediate certificate
