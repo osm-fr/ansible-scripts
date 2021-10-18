@@ -167,14 +167,6 @@
   become_user: letsencrypt
   when: letsencrypt_slave is not defined
 
-- name: launch acme-tiny
-  become: yes
-  become_user: letsencrypt
-  command:
-    chdir="/data/project/letsencrypt/keys"
-    ./launch-acme-tiny.sh
-  when: letsencrypt_slave is not defined
-
 - name: download intermediate certificate
   become: yes
   become_user: letsencrypt
@@ -189,6 +181,14 @@
   become: yes
   become_user: letsencrypt
   file: path="/data/project/letsencrypt/keys/intermediate.pem" owner=letsencrypt
+  when: letsencrypt_slave is not defined
+
+- name: launch acme-tiny
+  become: yes
+  become_user: letsencrypt
+  command:
+    chdir="/data/project/letsencrypt/keys"
+    ./launch-acme-tiny.sh
   when: letsencrypt_slave is not defined
 
 - name: check name of default-ssl

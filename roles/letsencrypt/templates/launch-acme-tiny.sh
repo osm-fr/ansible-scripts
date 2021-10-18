@@ -36,16 +36,19 @@ if [ -e intermediate.pem ]; then
     echo "apache2 was reloaded"
   fi
   if [ -e /etc/init.d/nginx ]; then
+    sudo /usr/local/bin/letsencrypt-to-nginx.sh
 {% if inventory_hostname in groups["cluster-free"] %}
 {%   for node in groups["cluster-free"] %}
-    ssh letsencrypt@{{ node }} sudo /etc/init.d/nginx reload
+{%     if node != inventory_hostname %}
+#    ssh letsencrypt@{{ node }} sudo /etc/init.d/nginx reload
+{%     endif %}
 {%   endfor %}
 {% elif inventory_hostname in groups["cluster-ovh"] %}
 {%   for node in groups["cluster-ovh"] %}
+{%     if node != inventory_hostname %}
     ssh letsencrypt@{{ node }} sudo /usr/local/bin/letsencrypt-to-nginx.sh
+{%     endif %}
 {%   endfor %}
-{% else %}
-    sudo /etc/init.d/nginx reload
 {% endif %}
     echo "nginx was reloaded"
   fi
