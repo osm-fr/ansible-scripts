@@ -146,6 +146,9 @@
 - name: copy script to relaunch nginx
   copy: src=letsencrypt-to-nginx.sh dest="/usr/local/bin/letsencrypt-to-nginx.sh" mode="0544"
 
+- name: copy script to relaunch apache
+  copy: src=letsencrypt-to-apache.sh dest="/usr/local/bin/letsencrypt-to-apache.sh" mode="0544"
+
 - name: copy script to send keys to proxmox
   copy: src=letsencrypt-to-proxmox.sh dest="/usr/local/bin/letsencrypt-to-proxmox.sh" mode="0544"
   when: letsencrypt_slave is not defined

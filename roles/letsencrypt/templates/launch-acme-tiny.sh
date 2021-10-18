@@ -32,7 +32,7 @@ mv ./signed.crt.tmp ./signed.crt
 if [ -e intermediate.pem ]; then
   cat ./signed.crt intermediate.pem > chained.pem
   if [ -e /etc/init.d/apache2 ]; then
-    sudo /etc/init.d/apache2 reload
+    sudo /usr/local/bin/letsencrypt-to-apache.sh
     echo "apache2 was reloaded"
   fi
   if [ -e /etc/init.d/nginx ]; then
