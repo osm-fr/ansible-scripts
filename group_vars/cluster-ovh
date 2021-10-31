@@ -29,10 +29,6 @@ proxy:
     websites: "bato.openstreetmap.fr"
     target: "10.1.0.135"
   -
-    logname: "layers"
-    websites: "layers.openstreetmap.fr"
-    target: "10.1.0.136"
-  -
     logname: "forum"
     websites: "forum.openstreetmap.fr dev.forum.openstreetmap.fr"
     target: "10.1.0.169"
