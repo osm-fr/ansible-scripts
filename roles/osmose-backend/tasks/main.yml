@@ -127,12 +127,6 @@
   with_items:
     - postgis
 
-- name: psql extension postgis - spatial_ref_sys
-  command: psql -d osmose -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
-  when: createdb_osmose.changed
-  become: yes
-  become_user: postgres
-
 - name: psql access to tables
   postgresql_privs: database=osmose type=table objs={{ item }} roles=osmose privs=SELECT,INSERT,UPDATE,DELETE
   become: yes
