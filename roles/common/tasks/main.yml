@@ -61,7 +61,7 @@
     api_password: "{{ proxmox_password }}"
     cores: "{{ proxmox_var.cpus }}"
     cpus: "{{ proxmox_var.cpus }}"
-    disk: "{{ proxmox_var.disk }}"
+    disk: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }}"
     hostname: "{{ inventory_hostname }}"
     netif: "{{ proxmox_var.netif }}"
     memory: "{{ proxmox_var.memory }}"
