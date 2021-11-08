@@ -83,6 +83,7 @@ batimap.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm187.openstreetma
 osm2pgsql-osm12.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm188.openstreetmap.fr
 hdm-tiles.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm189.openstreetmap.fr
 layers.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm190.openstreetmap.fr
+commerces.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm191.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -376,6 +377,7 @@ osm26.openstreetmap.fr
 osm154.openstreetmap.fr
 
 [panieravide]
+commerces.vm.openstreetmap.fr
 osm26.openstreetmap.fr
 osm145.openstreetmap.fr
 osm168.openstreetmap.fr

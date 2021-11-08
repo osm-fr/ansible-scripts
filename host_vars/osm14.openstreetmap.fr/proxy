@@ -41,3 +41,8 @@ host_proxy:
     logname: "batimap"
     websites: "cadastre.damsy.net"
     target: "10.1.0.187"
+  -
+    logname: "commerces"
+    websites: "commerces.openstreetmap.fr"
+    target: "10.1.0.191"
+    target_port: 3000
