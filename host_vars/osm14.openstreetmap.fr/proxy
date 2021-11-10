@@ -46,3 +46,8 @@ host_proxy:
     websites: "commerces.openstreetmap.fr"
     target: "10.1.0.191"
     target_port: 3000
+  -
+    logname: "commerces_tiles"
+    websites: "tile-commerces.openstreetmap.fr"
+    target: "10.1.0.191"
+    target_port: 7800
