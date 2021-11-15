@@ -8,6 +8,7 @@ host_proxy:
     logname: "bano"
     websites: "bano.openstreetmap.fr"
     target: "192.168.0.162"
+    redirect_to_https: True
   -
     logname: "dev.osm162"
     websites: "dev.osm162.openstreetmap.fr"
