@@ -50,7 +50,7 @@ osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm154.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true
-osm155.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+peertube.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm155.openstreetmap.fr
 osm157.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 # osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
@@ -210,7 +210,7 @@ download.vm.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [peertube]
-osm155.openstreetmap.fr
+peertube.vm.openstreetmap.fr
 
 [polygons]
 download.vm.openstreetmap.fr
@@ -405,7 +405,7 @@ osm153.openstreetmap.fr
 osm165.openstreetmap.fr
 
 [thomasl]
-osm155.openstreetmap.fr
+peertube.vm.openstreetmap.fr
 
 [thorieux]
 osm154.openstreetmap.fr
