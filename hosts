@@ -25,7 +25,7 @@ osm110.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non gé
 # osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 taginfo.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm118.openstreetmap.fr
 osm125.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm127.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+munin.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm127.openstreetmap.fr
 # osm128.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm130.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm132.openstreetmap.fr vm_host=osm26.openstreetmap.fr
@@ -177,7 +177,7 @@ osm28.openstreetmap.fr letsencrypt_slave=osm26.openstreetmap.fr
 backuppc2.vm.openstreetmap.fr letsencrypt_hosts=backuppc2.vm.openstreetmap.fr
 
 [munin-server]
-osm127.openstreetmap.fr
+munin.vm.openstreetmap.fr
 
 [nextcloud]
 osm141.openstreetmap.fr
@@ -360,7 +360,7 @@ osm160.openstreetmap.fr
 [marc_marc]
 osm24.openstreetmap.fr
 osm103.openstreetmap.fr  # old overpass api
-osm127.openstreetmap.fr
+munin.vm.openstreetmap.fr
 osm138.openstreetmap.fr
 osm147.openstreetmap.fr  # new overpass api
 osm148.openstreetmap.fr
