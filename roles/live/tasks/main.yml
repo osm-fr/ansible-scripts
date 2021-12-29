@@ -2,7 +2,8 @@
   apt: pkg={{ item }}
   with_items:
     - apache2
-    - python-lxml
+    - python3-lxml
+    - python3-iso8601
     - sqlite3
 
 - include: ../../../shared/project-account.yml user=live
