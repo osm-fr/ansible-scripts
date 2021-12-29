@@ -28,7 +28,7 @@ osm125.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 munin.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm127.openstreetmap.fr
 # osm128.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm130.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-osm132.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+live.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm132.openstreetmap.fr
 osm133.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm134.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 # osm135.openstreetmap.fr vm_host=osm27.openstreetmap.fr
@@ -219,7 +219,7 @@ download.vm.openstreetmap.fr
 taginfo.vm.openstreetmap.fr
 
 [live]
-osm132.openstreetmap.fr
+live.vm.openstreetmap.fr
 
 [rawedit]
 
