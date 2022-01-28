@@ -200,11 +200,10 @@
   apt:
     update_cache: yes
     pkg:
-      - python
+      - python3
       - python3-apt
 
       - acl
-      - atop
       - bash-completion
       - ca-certificates
       - etckeeper
@@ -212,11 +211,9 @@
       - git
       - htop
       - lftp
-      - libdbd-pg-perl  # for postgresql's munin plugin
       - locales
       - logrotate
       - mc   # Midnight Commander
-      - monit
       - munin-node
       - mutt
       - nano
@@ -262,6 +259,12 @@
     - detect sensors
   when: not 'vm' in group_names
 
+- name: install package for hosts
+  apt:
+    pkg:
+      - molly-guard
+  when: not 'vm' in group_names
+
 - name: init /data/ paths
   file:
     path: "{{ item }}"
@@ -276,7 +279,6 @@
 
 - include: ../../../shared/account.yml user=cquest  uid=1202
 - include: ../../../shared/account.yml user=jocelyn uid=1203
-- include: ../../../shared/account.yml user=marc_marc uid=1216
 
 - include: ../../../shared/account.yml user=achetta uid=1236
   when: "'achetta' in group_names"
@@ -343,6 +345,9 @@
 
 - include: ../../../shared/account.yml user=mael uid=1218
   when: "'mael' in group_names"
+
+- include: ../../../shared/account.yml user=marc_marc uid=1216
+  when: "'marc_marc' in group_names"
 
 - include: ../../../shared/account.yml user=nlehuby uid=1220
   when: "'nlehuby' in group_names"
@@ -415,12 +420,6 @@
   when: users_root is defined or group_users_root is defined
 
 
-- name: add alias for ll
-  lineinfile:
-    dest: /etc/bash.bashrc
-    regexp: 'alias ll="ls -l"'
-    line: 'alias ll="ls -l"'
-
 - name: Check if user backuppc exists
   action: shell /usr/bin/getent passwd backuppc
   register: user_exist
@@ -481,10 +480,7 @@
     line: '{{ item }}'
   with_items:
     - 'sshd: 127.0.0.1'
-    - 'sshd: 78.238.28.132'      # Jocelyn
     - 'sshd: stmaur.cquest.org'  # Christian
-    - 'sshd: osm2.crans.org'     # backup
-    - 'sshd: osm3.crans.org'     # backup
     - 'sshd: .openstreetmap.fr'  # other machines
 
 - name: configure locales
@@ -567,11 +563,7 @@
 
 - include: nginx.yml
 
-- include: monit.yml
-
 - include: munin-node.yml
-
-- include: sysstat.yml
 
 - include: ntp.yml
   when: "not 'vm' in group_names"
