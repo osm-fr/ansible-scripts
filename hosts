@@ -109,6 +109,11 @@ osm11.openstreetmap.fr
 osm12.openstreetmap.fr
 osm14.openstreetmap.fr
 
+[cluster-th3]
+osm32.openstreetmap.fr
+osm33.openstreetmap.fr
+osm34.openstreetmap.fr
+
 [proxmox:children]
 cluster-ovh
 cluster-free
