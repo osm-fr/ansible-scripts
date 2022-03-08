@@ -88,6 +88,10 @@ proxy:
     websites: "sotm2020.openstreetmap.fr"
     target: "10.1.0.154"
   -
+    logname: "sotm2022"
+    websites: "sotm2022.openstreetmap.fr"
+    target: "10.1.0.154"
+  -
     logname: "peertube"
     websites: "peertube.openstreetmap.fr"
     target: "10.1.0.155"
