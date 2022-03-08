@@ -247,11 +247,44 @@
       - locate
       - mlocate
 
+- name: download docker apt key
+  get_url:
+    url: "https://download.docker.com/linux/debian/gpg"
+    dest: "/usr/share/keyrings/docker-archive-keyring.gpg.tmp"
+    checksum: "sha512:d07607e3119181026e3309fb828882a13621960c54290416c2f897e1834f36abdb48d11b6f71aba1d2b9e7dac3f3fe8281c248500cfe13705674a5446826b699"
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
+
+- name: activate docker apt key
+  command: "gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg /usr/share/keyrings/docker-archive-keyring.gpg.tmp"
+  args:
+    creates: "/usr/share/keyrings/docker-archive-keyring.gpg"
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
+
+- name: add repository for docker
+  apt_repository:
+    filename: 'docker'
+    repo: 'deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable'
+    state: present
+    update_cache: yes
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker and ansible_distribution_release == "bullseye"
+
+- name: remove obsolete docker packages
+  apt:
+    state: absent
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
+
 - name: install docker packages
   apt:
     pkg:
-      - docker.io
-      - docker-compose
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
   when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
 
 - name: install sensors package
