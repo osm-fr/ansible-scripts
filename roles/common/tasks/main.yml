@@ -206,13 +206,16 @@
       - acl
       - bash-completion
       - ca-certificates
+      - curl
       - etckeeper
       - fail2ban
       - git
+      - gnupg
       - htop
       - lftp
       - locales
       - logrotate
+      - lsb-release
       - mc   # Midnight Commander
       - munin-node
       - mutt
