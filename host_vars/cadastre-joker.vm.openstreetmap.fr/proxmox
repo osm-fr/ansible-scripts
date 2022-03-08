@@ -6,8 +6,8 @@ proxmox_var:
   hostname: cadastre-joker.vm.openstreetmap.fr
   ipv6: 2a01:e0d:1:c:58bf:fac1:c400:182
   netif: {"net0": "name=eth0,bridge=vmbr2,ip=10.1.0.182/24,gw=10.0.0.14,ip6=2a01:e0d:1:c:58bf:fac1:c400:182/97,gw6=2a01:e0d:1:c:58bf:fac1:c400:14"}
-  memory: 1024
-  ostemplate: debian-10-standard_10.7-1_amd64.tar.gz
-  storage: "hdd-zfs"
+  memory: 4096
+  ostemplate: debian-11-standard_11.0-1_amd64.tar.gz
+  storage: "ssd-zfs"
   swap: 2048
   vmid: 182
