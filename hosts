@@ -49,7 +49,7 @@ osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm154.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true
+sotm.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true # osm154.openstreetmap.fr
 peertube.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm155.openstreetmap.fr
 osm157.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
@@ -263,7 +263,7 @@ osm164.openstreetmap.fr
 # user creation
 
 [achetta]
-osm154.openstreetmap.fr
+sotm.vm.openstreetmap.fr
 
 [apavie] # Adrien P.
 osm14.openstreetmap.fr
@@ -343,7 +343,7 @@ osm26.openstreetmap.fr
 osm133.openstreetmap.fr
 
 [juliep]
-osm154.openstreetmap.fr
+sotm.vm.openstreetmap.fr
 
 [karl]
 osm167.openstreetmap.fr
@@ -374,7 +374,7 @@ bano.vm.openstreetmap.fr
 
 [nmoyroud]
 osm26.openstreetmap.fr
-osm154.openstreetmap.fr
+sotm.vm.openstreetmap.fr
 
 [panieravide]
 commerces.vm.openstreetmap.fr
@@ -413,7 +413,7 @@ osm165.openstreetmap.fr
 peertube.vm.openstreetmap.fr
 
 [thorieux]
-osm154.openstreetmap.fr
+sotm.vm.openstreetmap.fr
 
 [thrrp] # Rodolphe P-P
 osm28.openstreetmap.fr
