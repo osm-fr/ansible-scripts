@@ -1,42 +1,8 @@
 # for proxycache
 host_proxy:
   -
-    logname: "cadastre"
-    websites: "dev.cadastre.openstreetmap.fr"
-    target: "192.168.0.162"
-  -
-    logname: "bano"
-    websites: "bano.openstreetmap.fr"
-    target: "192.168.0.162"
-    redirect_to_https: True
-  -
-    logname: "dev.osm162"
-    websites: "dev.osm162.openstreetmap.fr"
-    target: "192.168.0.162"
-  -
     logname: "tile"
     websites: "dev.tile.openstreetmap.fr dev.a.tile.openstreetmap.fr dev.b.tile.openstreetmap.fr dev.c.tile.openstreetmap.fr"
     target: "192.168.0.166"
     config_src: "nginx-site-cyclosm.j2"
-  -
-    logname: "geoosm"
-    websites: "demo.openstreetmap.fr admin.demo.openstreetmap.fr tiles.demo.openstreetmap.fr service.demo.openstreetmap.fr"
-    target: "10.1.0.167"
-    redirect_to_https: True
-  -
-    logname: "mapillary_takeout_web"
-    websites: "mapillary-takeout-web.openstreetmap.fr"
-    target: "192.168.0.173"
-    redirect_to_https: True
-  -
-    logname: "osmose-jupyter"
-    websites: "osmose-jupyter.openstreetmap.fr"
-    target: "10.1.0.178"
-    config_src: "nginx-site-osmose-jupyter.j2"
-    redirect_to_https: True
-    target_port: 8888
-  -
-    logname: "comcommaker"
-    websites: "comcommaker.openstreetmap.fr"
-    target: "192.168.0.179"
-    redirect_to_https: True
+
