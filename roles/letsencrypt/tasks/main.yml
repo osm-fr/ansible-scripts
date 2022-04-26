@@ -15,7 +15,7 @@
 - name: checkout acme-tiny repo
   git: repo=https://github.com/diafygi/acme-tiny.git
        dest=/data/project/letsencrypt/acme-tiny
-       version=ce0bbdb3a19568a23452a15b5e4d4797e6ac77f9  # on 2021-08-21
+       version=c29c0f36cedbca2a7117169c6a9e1f166c501899  # on 2022-04-26
   become: yes
   become_user: letsencrypt
   when: letsencrypt_slave is not defined
