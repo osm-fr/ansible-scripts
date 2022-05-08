@@ -79,6 +79,12 @@
   register: create_vm
   become: no
 
+- name: enable nesting support on VM, required for systemd
+  command: "pct set {{ proxmox_var.vmid }} --features nesting=1"
+  delegate_to: "{{ vm_host }}"
+  when: proxmox_password is defined and (proxmox_var.docker is not defined or not proxmox_var.docker)
+  become: yes
+
 - name: enable docker support on VM
   command: "pct set {{ proxmox_var.vmid }} --features keyctl=1,nesting=1"
   delegate_to: "{{ vm_host }}"
