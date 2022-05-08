@@ -206,6 +206,7 @@
   apt:
     update_cache: yes
     pkg:
+      - python-is-python3
       - python3
       - python3-apt
 
