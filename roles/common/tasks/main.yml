@@ -109,13 +109,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[678].openstreetmap.fr')
+  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[67].openstreetmap.fr')
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[678].openstreetmap.fr')
+  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[67].openstreetmap.fr')
   become: yes
 
 - name: configure ipv6 on host interfaces

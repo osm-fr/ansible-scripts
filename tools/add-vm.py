@@ -57,7 +57,7 @@ host_config = {
     "bridge": "vmbr0",
     "gw4":  "10.0.0.28",
     "ipv4": "10.1.%d.%d",
-    "gw6":  "2001:41d0:1008:2c6b:1::28",
+    "gw6":  "2001:41d0:1008:2cff:ff:ff:ff:ff",
     "ipv6": "2001:41d0:1008:2c6b:1::%d",
     "default_storage": "local-zfs",
   },
