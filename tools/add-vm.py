@@ -219,7 +219,11 @@ def expand_args(args):
     args.ipv4 = cfg_host["ipv4"] % (args.vmid // 256, args.vmid % 256)
   args.ipv6 = cfg_host["ipv6"] % args.vmid
 
-  args.netif = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/97,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+  if "bridge_ipv6" in cfg_host:
+    args.netif =  '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
+    args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+  else:
+    args.netif = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/97,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
   args.swap = "2048"
 
