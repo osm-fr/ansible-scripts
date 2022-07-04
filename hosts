@@ -86,6 +86,7 @@ layers.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm190.openstreetmap
 commerces.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm191.openstreetmap.fr
 proxy-free.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm192.openstreetmap.fr
 notes-heatmap.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm194.openstreetmap.fr
+matrix.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm195.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
