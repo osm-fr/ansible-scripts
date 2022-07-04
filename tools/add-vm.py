@@ -127,6 +127,10 @@ templates = [
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
 ]
 
+templates_kvm = [
+  "debian-11-genericcloud-amd64"
+]
+
 storages = [
   "hdd-sdd",
   "hdd-zfs",
@@ -167,6 +171,8 @@ def parse_args():
                       help="Users to create, with root access")
   parser.add_argument('--docker',    action='store_true', default=False,
                       help="Enable docker support")
+  parser.add_argument('--kvm',    action='store_true', default=False,
+                      help="Create a KVM instead of a LXC container")
 
   parser.add_argument('--force', action='store_true', help="Force creation of VM without confirmation")
 
@@ -249,11 +255,22 @@ def expand_args(args):
     args.ipv4 = cfg_host["ipv4"] % (args.vmid // 256, args.vmid % 256)
   args.ipv6 = cfg_host["ipv6"] % args.vmid
 
-  if "bridge_ipv6" in cfg_host:
-    args.netif =  '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
-    args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+  if args.kvm:
+    if not "bridge_ipv6" in cfg_host:
+      raise Exception("kvm not supported without bridge_ipv6 in host")
+
+    args.net =  '{"net0": "bridge=%(bridge)s",' % {"bridge": cfg_host["bridge"]}
+    args.net += ' "net1": "bridge=%(bridge_ipv6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"]}
+
+    args.ipconfig =  '{"ipconfig0": "ip=%(ipv4)s/24,gw=%(gw4)s",' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
+    args.ipconfig += ' "ipconfig1": "ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+
   else:
-    args.netif = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/97,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+    if "bridge_ipv6" in cfg_host:
+      args.netif =  '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
+      args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+    else:
+      args.netif = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/97,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
   args.swap = "2048"
 
@@ -265,6 +282,10 @@ def expand_args(args):
   if args.docker and args.disk < 50:
     print(colored("WARNING: Increasing diskspace to 50G for docker usage", "yellow"))
     args.disk = 50
+
+  if args.kvm and args.template not in templates_kvm:
+    print(colored("WARNING: Changing template for kvm to {0}".format(templates_kvm[0]), "yellow"))
+    args.template = templates_kvm[0]
 
   return args
 
@@ -284,6 +305,8 @@ def print_config(args):
     print("user_root: %s" % args.user)
   if args.docker:
     print("docker   : yes")
+  if args.kvm:
+    print("kvm      : yes")
   print("--------")
 
 
@@ -307,7 +330,12 @@ def configure_ansible(args):
     f.write("  docker: %s\n" % int(args.docker))
     f.write("  hostname: %s\n" % args.dns_name)
     f.write("  ipv6: %s\n" % args.ipv6)
-    f.write("  netif: %s\n" % args.netif)
+    f.write("  kvm: %s\n" % int(args.kvm))
+    if args.kvm:
+      f.write("  net: %s\n" % args.net)
+      f.write("  ipconfig: %s\n" % args.ipconfig)
+    else:
+      f.write("  netif: %s\n" % args.netif)
     f.write("  memory: %s\n" % args.memory)
     f.write("  ostemplate: %s\n" % args.template)
     f.write("  storage: \"%s\"\n" % args.storage)
