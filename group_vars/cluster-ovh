@@ -151,3 +151,7 @@ proxy:
     logname: "mobilizon"
     websites: "mobilizon.openstreetmap.fr"
     target: "10.1.0.181"
+  -
+    logname: "notes-heatmap"
+    websites: "notes-heatmap.openstreetmap.fr"
+    target: "10.1.0.194"
