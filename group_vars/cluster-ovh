@@ -47,11 +47,6 @@ proxy:
     websites: "prev.openstreetmap.fr"
     target: "10.1.0.146"
   -
-    logname: "mastodon"
-    websites: "fr.osm.social"
-    target: "10.1.0.143"
-    config_src: "nginx-site-mastodon.j2"
-  -
     logname: "umap"
     websites: "dev.umap.openstreetmap.fr umap.openstreetmap.fr"
     target: "10.1.0.144"
@@ -59,10 +54,6 @@ proxy:
     logname: "api-pic4carto"
     websites: "api-pic4carto.openstreetmap.fr"
     target: "10.1.0.145"
-  -
-    logname: "overpass-api"
-    websites: "api.openstreetmap.fr overpass.openstreetmap.fr"
-    target: "10.1.0.147"
   -
     logname: "monitor"
     websites: "monitor.openstreetmap.fr"
