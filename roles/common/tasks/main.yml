@@ -28,7 +28,7 @@
   with_items:
     - "{{ proxmox_var.ostemplate }}"
     - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
-  when: proxmox_password is defined and not template_downloaded.stat.exists
+  when: proxmox_password is defined and not template_downloaded.stat.exists and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   register: download_template
   become: no
 
@@ -49,10 +49,10 @@
     node: "{{ vm_host.split('.')[0] }}"
     src: "cache/templates/{{ proxmox_var.ostemplate }}"
     storage: "local"
-  when: proxmox_password is defined
+  when: proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: no
 
-- name: create VM
+- name: create container
   local_action:
     module: proxmox
     timeout: 240
@@ -75,23 +75,87 @@
     swap: "{{ proxmox_var.swap }}"
     unprivileged: yes
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_password is defined
+  when: proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  register: create_ct
+  become: no
+
+# To create kvm template:
+# wget http://cloud.debian.org/images/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2
+# qm create 9000 --name debian-11-genericcloud-amd64 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1,firewall=1
+# qm importdisk 9000 debian-11-genericcloud-amd64.qcow2 local-zfs
+# qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-zfs:vm-9000-disk-0
+# qm set 9000 --ide2 local-zfs:cloudinit
+# qm set 9000 --boot c --bootdisk scsi0
+# qm set 9000 --serial0 socket --vga serial0
+# qm template 9000
+
+- name: create VM
+  local_action:
+    module: proxmox_kvm
+    timeout: 240
+    api_host: "{{ proxmox_var.host }}"
+    api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
+    cipassword: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
+    ciuser: "root"
+    clone: "{{ proxmox_var.ostemplate }}"
+    cores: "{{ proxmox_var.cpus }}"
+    cpulimit: "{{ proxmox_var.cpus }}"
+    name: "{{ inventory_hostname }}"
+    net: "{{ proxmox_var.net }}"
+    newid: "{{ proxmox_var.vmid }}"
+    ipconfig: "{{ proxmox_var.ipconfig }}"
+    memory: "{{ proxmox_var.memory }}"
+    node: "{{ vm_host.split('.')[0] }}"
+    onboot: yes
+    ostype: "l26"
+    scsi:
+      scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
+    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    state: present
+  when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   register: create_vm
+  become: no
+
+- name: update VM config
+  local_action:
+    module: proxmox_kvm
+    timeout: 240
+    api_host: "{{ proxmox_var.host }}"
+    api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
+    cipassword: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
+    ciuser: "root"
+    cores: "{{ proxmox_var.cpus }}"
+    cpulimit: "{{ proxmox_var.cpus }}"
+    name: "{{ inventory_hostname }}"
+    net: "{{ proxmox_var.net }}"
+    ipconfig: "{{ proxmox_var.ipconfig }}"
+    memory: "{{ proxmox_var.memory }}"
+    node: "{{ vm_host.split('.')[0] }}"
+    onboot: yes
+    ostype: "l26"
+    scsi:
+      scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
+    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    state: present
+    update: yes
+  when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   become: no
 
 - name: enable nesting support on VM, required for systemd
   command: "pct set {{ proxmox_var.vmid }} --features nesting=1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (proxmox_var.docker is not defined or not proxmox_var.docker)
+  when: proxmox_password is defined and (proxmox_var.docker is not defined or not proxmox_var.docker) and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
 
 - name: enable docker support on VM
   command: "pct set {{ proxmox_var.vmid }} --features keyctl=1,nesting=1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker
+  when: proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
 
-- name: start VM
+- name: start container
   local_action:
     module: proxmox
     api_host: "{{ proxmox_var.host }}"
@@ -99,7 +163,18 @@
     api_password: "{{ proxmox_password }}"
     state: started
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_password is defined
+  when: proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  become: no
+
+- name: start VM
+  local_action:
+    module: proxmox_kvm
+    api_host: "{{ proxmox_var.host }}"
+    api_user: "ansible@pve"
+    api_password: "{{ proxmox_password }}"
+    state: started
+    vmid: "{{ proxmox_var.vmid }}"
+  when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   become: no
 
 - name: configure ipv6 on host interfaces
@@ -109,13 +184,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[67].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm2[67].openstreetmap.fr')
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm2[67].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm2[67].openstreetmap.fr')
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -125,7 +200,7 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm1[123].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm1[123].openstreetmap.fr')
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -135,13 +210,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm14.openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm14.openstreetmap.fr')
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and create_vm.changed and vm_host | regex_search('osm1[1234].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm1[1234].openstreetmap.fr')
   become: yes
 
 
@@ -156,7 +231,7 @@
       Host {{ item }}
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
   with_items: '{{play_hosts}}'
-  when: proxmox_password is defined and create_vm.changed
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
 - name: add ssh key to known_hosts
@@ -166,7 +241,7 @@
     name: "{{ hostvars[item].proxmox_var.ipv6 }}"
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
   with_items: '{{play_hosts}}'
-  when: proxmox_password is defined and create_vm.changed
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
 - name: apt-get update
