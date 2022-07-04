@@ -88,6 +88,36 @@ host_config = {
     "ipv6": "2a00:1788:100:109::%d",
     "default_storage": "local-zfs",
   },
+  "osm32": {
+    "hostname": "osm32.openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr1",
+    "gw4":  "10.0.0.32",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2001:67c:1740:9031::1",
+    "ipv6": "2001:67c:1740:9031::%d",
+    "default_storage": "local-zfs",
+  },
+  "osm33": {
+    "hostname": "osm33.openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr1",
+    "gw4":  "10.0.0.33",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2001:67c:1740:9031::1",
+    "ipv6": "2001:67c:1740:9031::%d",
+    "default_storage": "local-zfs",
+  },
+  "osm34": {
+    "hostname": "osm34.openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr1",
+    "gw4":  "10.0.0.34",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2001:67c:1740:9031::1",
+    "ipv6": "2001:67c:1740:9031::%d",
+    "default_storage": "local-zfs",
+  },
 }
 
 templates = [
