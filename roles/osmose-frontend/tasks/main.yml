@@ -157,6 +157,15 @@
   become: yes
   become_user: osmose
 
+- name: python virtualenv for prod
+  pip:
+    chdir: /data/project/osmose/frontend/
+    requirements: requirements-prod.txt
+    virtualenv: /data/project/osmose/frontend/osmose-frontend-venv
+    virtualenv_python: python3
+  become: yes
+  become_user: osmose
+
 - name: psql init
   command: chdir=/data/project/osmose/frontend/ psql -d osmose_frontend -f tools/database/schema.sql
   become: yes
@@ -204,6 +213,14 @@
 - name: enable apache site
   file: src="/etc/apache2/sites-available/{{ osmose_frontend_site }}.conf" dest="/etc/apache2/sites-enabled/{{ osmose_frontend_site }}.conf" state=link
   notify: restart apache
+
+- name: configure gunicorn on systemd
+  copy:
+    src: systemd-gunicorn.service
+    dest: /etc/systemd/system/gunicorn-osmose.service
+    owner: root
+    group: root
+  notify: restart gunicorn
 
 - name: initialize daily crontab
   cron: name="launch osmose-frontend" hour=2 minute=2 job="(cd frontend && tools/cron.sh)"

@@ -1,0 +1,19 @@
+[Unit]
+Description=gunicorn daemon for osmose
+After=network.target
+
+[Service]
+PIDFile = /run/gunicorn-osmose/osmose.pid
+User=osmose
+Group=osmose
+RuntimeDirectory=gunicorn-osmose
+WorkingDirectory=/data/project/osmose/frontend/
+Environment=PYTHONPATH=/data/project/osmose/frontend/osmose-frontend-venv/lib/python3.9/site-packages/
+ExecStart=/data/project/osmose/frontend/osmose-frontend-venv/bin/gunicorn osmose:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 127.0.0.1:8000 --pid /run/gunicorn-osmose/osmose.pid
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
