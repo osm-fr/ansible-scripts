@@ -85,6 +85,7 @@ hdm-tiles.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm189.openstreet
 layers.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm190.openstreetmap.fr
 commerces.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm191.openstreetmap.fr
 proxy-free.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm192.openstreetmap.fr
+enedis.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm193.openstreetmap.fr
 notes-heatmap.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm194.openstreetmap.fr
 matrix.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm195.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
@@ -294,6 +295,9 @@ osm105.openstreetmap.fr
 [eloks]
 osm26.openstreetmap.fr
 osm130.openstreetmap.fr
+
+[flacombe]
+enedis.vm.openstreetmap.fr
 
 [francois2] # François de Metz
 

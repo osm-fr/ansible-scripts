@@ -1,0 +1,15 @@
+proxmox_var:
+  host: osm34.openstreetmap.fr
+  cpus: 2
+  disk: 100
+  docker: 0
+  hostname: enedis.vm.openstreetmap.fr
+  ipv6: 2001:67c:1740:9031::193
+  kvm: 1
+  net: {"net0": "bridge=vmbr0", "net1": "bridge=vmbr1"}
+  ipconfig: {"ipconfig0": "ip=10.1.0.193/24,gw=10.0.0.34", "ipconfig1": "ip6=2001:67c:1740:9031::193/128,gw6=2001:67c:1740:9031::1"}
+  memory: 4096
+  ostemplate: debian-11-genericcloud-amd64
+  storage: "local-zfs"
+  swap: 2048
+  vmid: 193
