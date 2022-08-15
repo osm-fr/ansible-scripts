@@ -3,4 +3,4 @@ host_proxy:
   -
     logname: "layers"
     websites: "layers.openstreetmap.fr"
-    target: "192.168.0.188"
+    target: "10.1.0.190"
