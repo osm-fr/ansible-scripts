@@ -22,7 +22,7 @@
       - libmapnik-dev
       - libncursesw5-dev
       - mapnik-utils
-      - python-mapnik
+      - python3-mapnik
       - python3-pip
       - python3-venv
       - software-properties-common
