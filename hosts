@@ -91,6 +91,7 @@ matrix.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm195.openstreetmap
 osm2pgsql.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 renderd.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
+proxy.osmose.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm196.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -247,6 +248,7 @@ osm25.openstreetmap.fr
 osm26.openstreetmap.fr
 osm27.openstreetmap.fr
 osm28.openstreetmap.fr
+proxy.osmose.vm.openstreetmap.fr
 
 [proxycache:children]
 cluster-free
@@ -314,6 +316,7 @@ osm14.openstreetmap.fr
 osm104.openstreetmap.fr
 osm105.openstreetmap.fr
 osmose.vm.openstreetmap.fr
+proxy.osmose.vm.openstreetmap.fr
 taginfo.vm.openstreetmap.fr
 osm26.openstreetmap.fr
 osm153.openstreetmap.fr

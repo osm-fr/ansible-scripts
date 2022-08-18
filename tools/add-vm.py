@@ -121,7 +121,7 @@ host_config = {
 }
 
 templates = [
-  "debian-11-standard_11.0-1_amd64.tar.gz",
+  "debian-11-standard_11.3-1_amd64.tar.zst",
   "debian-10-standard_10.7-1_amd64.tar.gz",
   "debian-9.0-standard_9.7-1_amd64.tar.gz",
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
