@@ -1,0 +1,11 @@
+^generator:source$
+^water_source$
+^light_source$
+^plant:source$
+^resource$
+^source_ref$
+^opensource$
+^map_source$
+^map_source:attribution$
+^power_source$
+^fire_hydrant:water_source$
