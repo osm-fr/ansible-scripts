@@ -281,7 +281,6 @@
   apt:
     update_cache: yes
     pkg:
-      - python-is-python3
       - python3
       - python3-apt
 
@@ -308,6 +307,13 @@
       - time
       - vim-nox
       - wget
+
+- name: install package python-is-python3
+  apt:
+    update_cache: yes
+    pkg:
+      - python-is-python3
+  when: ansible_distribution_release != "buster"
 
 - name: install packages
   apt:
