@@ -1,0 +1,14 @@
+proxmox_var:
+  host: osm33.openstreetmap.fr
+  cpus: 3
+  disk: 100
+  docker: 0
+  hostname: geovisio.vm.openstreetmap.fr
+  ipv6: 2001:67c:1740:9031::197
+  kvm: 0
+  netif: {"net0": "name=eth0,bridge=vmbr0,ip=10.1.0.197/24,gw=10.0.0.33", "net1": "name=eth1,bridge=vmbr1,ip6=2001:67c:1740:9031::197/128,gw6=2001:67c:1740:9031::1"}
+  memory: 4096
+  ostemplate: debian-11-standard_11.3-1_amd64.tar.zst
+  storage: "local-zfs"
+  swap: 2048
+  vmid: 197
