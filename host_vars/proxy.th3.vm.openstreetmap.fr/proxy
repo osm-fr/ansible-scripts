@@ -4,3 +4,8 @@ host_proxy:
     logname: "proxy.osmose"
     websites: "proxy.osmose.openstreetmap.fr"
     target: "10.1.0.196"
+  -
+    logname: "geovisio"
+    websites: "geovisio.openstreetmap.fr"
+    target: "10.1.0.197"
+    target_port: 5000
