@@ -403,6 +403,7 @@
 
 - include: ../../../shared/account.yml user=cquest  uid=1202
 - include: ../../../shared/account.yml user=jocelyn uid=1203
+- include: ../../../shared/account.yml user=marc_marc uid=1216
 
 - include: ../../../shared/account.yml user=achetta uid=1236
   when: "'achetta' in group_names"
@@ -475,9 +476,6 @@
 
 - include: ../../../shared/account.yml user=mael uid=1218
   when: "'mael' in group_names"
-
-- include: ../../../shared/account.yml user=marc_marc uid=1216
-  when: "'marc_marc' in group_names"
 
 - include: ../../../shared/account.yml user=nlehuby uid=1220
   when: "'nlehuby' in group_names"
