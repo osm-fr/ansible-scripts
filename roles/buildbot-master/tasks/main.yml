@@ -17,6 +17,7 @@
       - nginx
       - postgresql
       - python-pkg-resources
+      - python3-flask
       - python3-pip
       - python3-psycopg2
       - python3-setuptools
@@ -29,6 +30,8 @@
   with_items:
     - buildbot-www
     - buildbot-grid-view
+    - buildbot-wsgi-dashboards
+  become_user: buildbot
   notify: restart buildbot
   when: buildbot_nine is defined
 
