@@ -42,7 +42,7 @@
   lineinfile:
     dest: /etc/backuppc/hosts
     line: "{{ item }}	0		"
-    regexp: "{{ item }}[ 	]*0"
+    regexp: "^{{ item }}[ 	]*0"
   with_items: "{{ groups['all'] }}"
   notify:
     - restart backuppc
