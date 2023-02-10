@@ -1,2 +1,6 @@
 - name: reload postgresql
   service: name=postgresql state=restarted
+
+- name: systemd daemon-reload
+  ansible.builtin.systemd:
+    daemon_reload: true

@@ -157,6 +157,19 @@
   notify:
     - reload postgresql
 
+- name: create systemd override for postgresql
+  file:
+    path: /etc/systemd/system/postgresql@.service.d/
+    state: directory
+
+- name: add systemd override for postgresql
+  template:
+    dest: "/etc/systemd/system/postgresql@.service.d/override.conf"
+    src: "systemd-postgresql-override.conf"
+    owner: root
+  notify:
+    - systemd daemon-reload
+
 - name: checkout git repository
   git: repo=https://github.com/osm-fr/osmose-backend.git dest=/data/project/osmose/backend/ force=no update=no
   become: yes
