@@ -1,14 +1,15 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
+    - apache2
     - build-essential
     - curl
     - libapache2-mod-passenger
     - sqlite3
-    - openjdk-6-jre-headless
+    - default-jre-headless
 
-    - ruby2.1
-    - ruby2.1-dev
+    - ruby
+    - ruby-dev
     - ruby-passenger
     - ruby-sqlite3
 
@@ -16,8 +17,8 @@
     - libboost-dev
     - libbz2-dev
     - libshp-dev
-    - libgd2-xpm-dev
-    - libgdal1-dev
+    - libgdchart-gd2-xpm
+    - libgdal-dev
     - libexpat1-dev
     - libgeos++-dev
     - libsparsehash-dev
