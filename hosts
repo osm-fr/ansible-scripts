@@ -96,6 +96,7 @@ geovisio.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm197.openstreetm
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
+osm318.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm318.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 osmose-eurecom.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
@@ -230,6 +231,7 @@ download.vm.openstreetmap.fr
 
 [taginfo]
 taginfo.vm.openstreetmap.fr
+osm318.openstreetmap.fr
 
 [live]
 live.vm.openstreetmap.fr
