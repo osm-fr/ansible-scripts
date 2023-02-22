@@ -85,10 +85,13 @@
     - taginfo-config.json
     - 10_download.sh
     - 10_filtre.sh
+    - 10_filtre.osh.sh
     - 10_update_pbf.sh
+    - 10_update_pbf.osh.sh
     - 20_update.sh
     - 30_restart_webserver.sh
     - crontab.sh
+    - crontab.osh.sh
     - france.poly
     - remove-not-in-france.sh
 
