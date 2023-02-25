@@ -239,21 +239,38 @@ def get_host(host=None):
 
   return host
 
+def compute_ipv4(cfg_host, vmid):
+
+  if cfg_host["ipv4"].count("%d") == 1 and vmid > 255:
+    raise Exception("vmid > 255 not supported for ipv4 calculation")
+
+  if cfg_host["ipv4"].count("%d") == 1:
+    return cfg_host["ipv4"] % vmid
+  else:
+    return cfg_host["ipv4"] % (vmid // 256, vmid % 256)
+
+def compute_ipv4_prefix(cfg_host, vmid):
+  return "24"
+
+def compute_ipv6(cfg_host, vmid):
+
+  if vmid > 9999:
+    raise Exception("vmid > 9999 not supported for ipv6 calculation")
+
+  return cfg_host["ipv6"] % vmid
+
+def compute_ipv6_prefix(cfg_host, vmid):
+  return "80"
+
 
 def expand_args(args):
 
   cfg_host = host_config[args.host]
 
-  if cfg_host["ipv4"].count("%d") == 1 and args.vmid > 255:
-    raise Exception("vmid > 255 not supported for ipv4 calculation")
-  elif args.vmid > 9999:
-    raise Exception("vmid > 9999 not supported for ipv6 calculation")
-
-  if cfg_host["ipv4"].count("%d") == 1:
-    args.ipv4 = cfg_host["ipv4"] % args.vmid
-  else:
-    args.ipv4 = cfg_host["ipv4"] % (args.vmid // 256, args.vmid % 256)
-  args.ipv6 = cfg_host["ipv6"] % args.vmid
+  args.ipv4 = compute_ipv4(cfg_host, vmid)
+  args.ipv6 = compute_ipv6(cfg_host, vmid)
+  args.ipv4_prefix = compute_ipv4_prefix(cfg_host, vmid)
+  args.ipv6_prefix = compute_ipv6_prefix(cfg_host, vmid)
 
   if args.kvm:
     if not "bridge_ipv6" in cfg_host:
@@ -267,8 +284,8 @@ def expand_args(args):
 
   else:
     if "bridge_ipv6" in cfg_host:
-      args.netif =  '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
-      args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+      args.netif =  '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/%(ipv4_prefix),gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "ipv4_prefix": args.ipv4_prefix, "gw4": cfg_host["gw4"]}
+      args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/%(ipv6_prefix),gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "ipv6_prefix": args.ipv6_prefix, "gw6": cfg_host["gw6"]}
     else:
       args.netif = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/97,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
