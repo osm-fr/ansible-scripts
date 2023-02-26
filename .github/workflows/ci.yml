@@ -11,6 +11,8 @@ jobs:
       - run: |
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends \
+            pylama \
+            python3-pylama \
             yamllint
 
       - uses: actions/checkout@v2
@@ -18,3 +20,7 @@ jobs:
       - name: yamllint
         run: |
           yamllint .
+
+      - name: pylama
+        run: |
+          pylama
