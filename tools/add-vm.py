@@ -147,6 +147,7 @@ default_cpus = 1
 default_memory = 1024
 default_disk = 10
 
+
 def parse_args():
 
   parser = argparse.ArgumentParser(description='Create configuration for a new VM.')
@@ -187,8 +188,8 @@ def find_vmid(vmid=None, vmname=None):
   existing_names = set()
 
   with open("hosts") as f:
-    re_osm = re.compile("osm([0-9]+)\.")
-    re_vm_openstreetmap_fr = re.compile("([0-9a-z_.]+)\.openstreetmap\.fr")
+    re_osm = re.compile(r"osm([0-9]+)\.")
+    re_vm_openstreetmap_fr = re.compile(r"([0-9a-z_.]+)\.openstreetmap\.fr")
 
     for line in f:
       ms = re_osm.findall(line)
@@ -234,10 +235,11 @@ def get_host(host=None):
     try:
       resp = int(input("? "))
       host = hosts[resp]
-    except (ValueError, IndexError) as e:
+    except (ValueError, IndexError):
       print("- Incorrect answer\n")
 
   return host
+
 
 def compute_ipv4(cfg_host, vmid):
 
@@ -249,8 +251,10 @@ def compute_ipv4(cfg_host, vmid):
   else:
     return cfg_host["ipv4"] % (vmid // 256, vmid % 256)
 
+
 def compute_ipv4_prefix(cfg_host, vmid):
   return "24"
+
 
 def compute_ipv6(cfg_host, vmid):
 
@@ -258,6 +262,7 @@ def compute_ipv6(cfg_host, vmid):
     raise Exception("vmid > 9999 not supported for ipv6 calculation")
 
   return cfg_host["ipv6"] % vmid
+
 
 def compute_ipv6_prefix(cfg_host, vmid):
   return "80"
@@ -267,25 +272,25 @@ def expand_args(args):
 
   cfg_host = host_config[args.host]
 
-  args.ipv4 = compute_ipv4(cfg_host, vmid)
-  args.ipv6 = compute_ipv6(cfg_host, vmid)
-  args.ipv4_prefix = compute_ipv4_prefix(cfg_host, vmid)
-  args.ipv6_prefix = compute_ipv6_prefix(cfg_host, vmid)
+  args.ipv4 = compute_ipv4(cfg_host, args.vmid)
+  args.ipv6 = compute_ipv6(cfg_host, args.vmid)
+  args.ipv4_prefix = compute_ipv4_prefix(cfg_host, args.vmid)
+  args.ipv6_prefix = compute_ipv6_prefix(cfg_host, args.vmid)
 
   if args.kvm:
-    if not "bridge_ipv6" in cfg_host:
+    if "bridge_ipv6" not in cfg_host:
       raise Exception("kvm not supported without bridge_ipv6 in host")
 
-    args.net =  '{"net0": "bridge=%(bridge)s",' % {"bridge": cfg_host["bridge"]}
+    args.net  = '{"net0": "bridge=%(bridge)s",' % {"bridge": cfg_host["bridge"]}
     args.net += ' "net1": "bridge=%(bridge_ipv6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"]}
 
-    args.ipconfig =  '{"ipconfig0": "ip=%(ipv4)s/24,gw=%(gw4)s",' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
+    args.ipconfig  = '{"ipconfig0": "ip=%(ipv4)s/24,gw=%(gw4)s",' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
     args.ipconfig += ' "ipconfig1": "ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
   else:
     if "bridge_ipv6" in cfg_host:
-      args.netif =  '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/%(ipv4_prefix),gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "ipv4_prefix": args.ipv4_prefix, "gw4": cfg_host["gw4"]}
-      args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/%(ipv6_prefix),gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "ipv6_prefix": args.ipv6_prefix, "gw6": cfg_host["gw6"]}
+      args.netif  = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/%(ipv4_prefix)s,gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "ipv4_prefix": args.ipv4_prefix, "gw4": cfg_host["gw4"]}
+      args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/%(ipv6_prefix)s,gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "ipv6_prefix": args.ipv6_prefix, "gw6": cfg_host["gw6"]}
     else:
       args.netif = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/97,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
@@ -369,7 +374,7 @@ def configure_ansible(args):
   hosts_tmp = "hosts.tmp"
 
   with open("hosts", "rt") as f_h:
-    re_osm = re.compile("osm([0-9]+)\.")
+    re_osm = re.compile(r"osm([0-9]+)\.")
     with open(hosts_tmp, "xt") as f:
       add_vm = False
       add_user = False
@@ -417,4 +422,3 @@ if __name__ == '__main__':
       sys.exit(1)
 
   configure_ansible(args)
-

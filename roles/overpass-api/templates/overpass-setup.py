@@ -25,7 +25,7 @@ def parse_state_txt(url):
             timestamp = line.split('=')[1]
 
     return (sequence_number, datetime.strptime(timestamp[:-5],
-                                               '%Y-%m-%dT%H\:%M'))
+                                               '%Y-%m-%dT%H:%M'))
 
 
 def md5(fname):
@@ -100,7 +100,7 @@ try:
         'osmconvert {} --out-osm | update_database --db-dir={{ overpass_database_dir }} --meta'.
         format(pbf_dest),
         shell=True, )
-except:
+except Exception:
     log.critical('install database failed')
     sys.exit(2)
 
