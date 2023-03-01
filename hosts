@@ -267,6 +267,12 @@ osm13.openstreetmap.fr renderd_layers=true
 osm166.openstreetmap.fr renderd_cyclosm=true
 renderd.th3.vm.openstreetmap.fr renderd_layers=true
 
+[wireguard]
+proxy.ovh.vm.openstreetmap.fr wireguard_config=server
+osmose-aquilenet.openstreetmap.fr
+osmose-hivane1.openstreetmap.fr
+osmose-hivane2.openstreetmap.fr
+
 [wordpress]
 osm142.openstreetmap.fr
 

@@ -1,0 +1,4 @@
+wireguard_clients:
+  - osmose-aquilenet.openstreetmap.fr
+  - osmose-hivane1.openstreetmap.fr
+  - osmose-hivane2.openstreetmap.fr

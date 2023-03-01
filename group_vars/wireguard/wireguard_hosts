@@ -1,0 +1,6 @@
+wireguard_hosts:
+  - download.geofabrik.de
+  - github.com
+  - centrodedescargas.cnig.es
+  - taginfo.openstreetmap.org
+  - o4504033570848768.ingest.sentry.io

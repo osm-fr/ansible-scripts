@@ -1,0 +1,38 @@
+- name: install packages
+  apt:
+    pkg:
+      - wireguard
+
+- name: configure wireguard
+  template:
+    dest="/etc/wireguard/wg0.conf"
+    src="wireguard-{{ wireguard_config | default('client') }}-wg0.conf"
+    owner=root
+  notify:
+    - restart wireguard
+
+# Need to reload wireguard to update hostname
+- name: init wireguard reloader
+  copy:
+    src="{{ item }}"
+    dest="/etc/systemd/system/{{ item }}"
+  with_items:
+    - wireguard_reresolve-dns.timer
+    - wireguard_reresolve-dns.service
+  when: wireguard_config is not defined or wireguard_config == "client"
+
+- name: enable reloader on systemd
+  systemd:
+    name: wireguard_reresolve-dns.timer
+    enabled: true
+    masked: false
+    state: started
+  when: wireguard_config is not defined or wireguard_config == "client"
+
+- name: enable wireguard on systemd
+  systemd:
+    name: wg-quick@wg0
+    enabled: true
+    masked: false
+    state: started
+  when: wireguard_config is not defined or wireguard_config == "client"
