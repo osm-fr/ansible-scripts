@@ -93,6 +93,7 @@ renderd.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 proxy.osmose.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm196.openstreetmap.fr
 geovisio.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm197.openstreetmap.fr
+proxy.ovh.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm198.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
