@@ -1,0 +1,5 @@
+- name: wireguard configuration
+  hosts: wireguard
+  become: yes
+  roles:
+    - wireguard
