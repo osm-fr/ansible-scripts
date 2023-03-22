@@ -1,0 +1,54 @@
+- name: install packages
+  apt:
+    pkg:
+      - python3
+
+- name: add user proxmox-backup
+  user:
+    name: proxmox-backup
+    home: /home/proxmox-backup
+    system: true
+
+- name: configure sudoers to launch pct commands
+  community.general.sudoers:
+    name: proxmox-backup
+    user: proxmox-backup
+    commands:
+      - /usr/bin/cat /etc/pve/.vmlist
+      - /usr/sbin/pct snapshot *
+      - /usr/sbin/pct listsnapshot *
+      - /usr/sbin/pct delsnapshot *
+
+- name: checkout git repository
+  git:
+    repo: https://github.com/osm-fr/proxmox-autosnap.git
+    dest: /home/proxmox-backup/proxmox-autosnap
+  become: true
+  become_user: proxmox-backup
+
+- name: init systemd services+timers
+  template:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  with_items:
+    - proxmox-autosnap-daily.service
+    - proxmox-autosnap-daily.timer
+    - proxmox-autosnap-monthly.service
+    - proxmox-autosnap-monthly.timer
+    - proxmox-autosnap-weekly.service
+    - proxmox-autosnap-weekly.timer
+  notify:
+    - systemd daemon-reload
+
+- name: enable timers on systemd
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    masked: false
+    state: started
+  with_items:
+    - proxmox-autosnap-daily.timer
+    - proxmox-autosnap-monthly.timer
+    - proxmox-autosnap-weekly.timer
+  notify:
+    - systemd daemon-reload

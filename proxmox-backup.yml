@@ -1,0 +1,5 @@
+- name: proxmox-backup configuration
+  hosts: proxmox-backup
+  become: yes
+  roles:
+    - proxmox-backup

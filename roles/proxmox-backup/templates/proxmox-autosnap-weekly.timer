@@ -1,0 +1,8 @@
+[Unit]
+Description=Run proxmox-autosnap weekly
+
+[Timer]
+OnCalendar=Mon *-*-2..31 00:05:00
+
+[Install]
+WantedBy=timers.target

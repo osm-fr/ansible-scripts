@@ -1,0 +1,9 @@
+[Unit]
+Description=proxmox-autosnap daily
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/proxmox-backup/proxmox-autosnap
+ExecStart=/home/proxmox-backup/proxmox-autosnap/proxmox-autosnap.py -v all {% if proxmox_backup_exclude is defined %}--exclude {{ proxmox_backup_exclude }} {% endif %}--sudo --label daily --snap --date-iso-format
+ExecStart=/home/proxmox-backup/proxmox-autosnap/proxmox-autosnap.py -v all {% if proxmox_backup_exclude is defined%}--exclude {{ proxmox_backup_exclude }} {% endif %}--sudo --label daily --clean --keep 6
+User=proxmox-backup

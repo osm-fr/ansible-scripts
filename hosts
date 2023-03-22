@@ -262,6 +262,9 @@ cluster-free
 osm147.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
 osm148.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
 
+[proxmox-backup]
+osm28.openstreetmap.fr proxmox_backup_exclude="186"
+
 [renderd]
 osm13.openstreetmap.fr renderd_layers=true
 osm166.openstreetmap.fr renderd_cyclosm=true
