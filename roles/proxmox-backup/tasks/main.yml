@@ -6,8 +6,32 @@
 - name: add user proxmox-backup
   user:
     name: proxmox-backup
+    generate_ssh_key: true
     home: /home/proxmox-backup
     system: true
+
+- name: fetch generated public ssh key
+  fetch:
+    src: /home/proxmox-backup/.ssh/id_rsa.pub
+    dest: public_keys/proxmox-backup/{{ inventory_hostname }}
+    flat: true
+
+- name: update ssh known_hosts
+  known_hosts:
+    name: "{{ item }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan {{ item }}') }}"
+  with_items:
+    "{{ groups['proxmox-backup'] }}"
+  become: yes
+  become_user: proxmox-backup
+
+- name: update authorized keys
+  authorized_key:
+    user: proxmox-backup
+    key: "{{ lookup('file', 'public_keys/proxmox-backup/{{ item }}') }}"
+    key_options: "no-port-forwarding"
+  with_items:
+    "{{ groups['proxmox-backup'] }}"
 
 - name: configure sudoers to launch pct commands
   community.general.sudoers:
@@ -15,9 +39,22 @@
     user: proxmox-backup
     commands:
       - /usr/bin/cat /etc/pve/.vmlist
+      - /usr/bin/cat /etc/pve/lxc/*.conf
       - /usr/sbin/pct snapshot *
       - /usr/sbin/pct listsnapshot *
       - /usr/sbin/pct delsnapshot *
+      - /usr/sbin/zfs send *
+  when:
+    proxmox_backup_host is not defined
+
+- name: configure sudoers to launch zfs commands
+  community.general.sudoers:
+    name: proxmox-backup-host
+    user: proxmox-backup
+    commands:
+      - /usr/sbin/zfs recv *
+  when:
+    proxmox_backup_host is defined
 
 - name: checkout git repository
   git:
@@ -25,6 +62,8 @@
     dest: /home/proxmox-backup/proxmox-autosnap
   become: true
   become_user: proxmox-backup
+  when:
+    proxmox_backup_host is not defined
 
 - name: init systemd services+timers
   template:
@@ -39,6 +78,8 @@
     - proxmox-autosnap-weekly.timer
   notify:
     - systemd daemon-reload
+  when:
+    proxmox_backup_host is not defined
 
 - name: enable timers on systemd
   systemd:
@@ -52,3 +93,5 @@
     - proxmox-autosnap-weekly.timer
   notify:
     - systemd daemon-reload
+  when:
+    proxmox_backup_host is not defined
