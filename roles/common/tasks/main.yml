@@ -531,6 +531,9 @@
 - include: ../../../shared/account.yml user=ybon uid=1223
   when: "'ybon' in group_names"
 
+- include: ../../../shared/account.yml user=ydel uid=1313
+  when: "'ydel' in group_names"
+
 - name: add default sudoers
   copy:
     src: sudoers
