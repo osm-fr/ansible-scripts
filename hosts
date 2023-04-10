@@ -263,7 +263,9 @@ osm147.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
 osm148.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
 
 [proxmox-backup]
-osm28.openstreetmap.fr proxmox_backup_exclude="186" proxmox_backup_target="osm32.openstreetmap.fr:rpool/backups"
+osm26.openstreetmap.fr proxmox_backup_exclude="118 144 186 999" proxmox_backup_target="osm32.openstreetmap.fr:rpool/backups"
+osm27.openstreetmap.fr proxmox_backup_exclude="118 144 186 999" proxmox_backup_target="osm32.openstreetmap.fr:rpool/backups"
+osm28.openstreetmap.fr proxmox_backup_exclude="118 144 186 999" proxmox_backup_target="osm32.openstreetmap.fr:rpool/backups"
 osm32.openstreetmap.fr proxmox_backup_host=true
 
 [renderd]
