@@ -56,7 +56,6 @@ osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 # osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm160.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 bano.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm162.openstreetmap.fr
-osm163.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm164.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm165.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm166.openstreetmap.fr vm_host=osm11.openstreetmap.fr
@@ -342,7 +341,6 @@ proxy.osmose.vm.openstreetmap.fr
 taginfo.vm.openstreetmap.fr
 osm26.openstreetmap.fr
 osm153.openstreetmap.fr
-osm163.openstreetmap.fr
 osm173.openstreetmap.fr
 tile-vect.vm.openstreetmap.fr
 osmose-jupyter.vm.openstreetmap.fr
