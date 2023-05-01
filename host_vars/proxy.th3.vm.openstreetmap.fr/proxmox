@@ -1,0 +1,14 @@
+proxmox_var:
+  host: osm33.openstreetmap.fr
+  cpus: 1
+  disk: 10
+  docker: 0
+  hostname: proxy.th3.vm.openstreetmap.fr
+  ipv6: 2001:67c:1740:9031:1::103
+  kvm: 0
+  netif: {"net0": "name=eth0,bridge=vmbr1,ip=193.200.42.123/28,gw=193.200.42.113,ip6=2001:67c:1740:9031:1::103/64,gw6=2001:67c:1740:9031::1", "net1": "name=eth1,bridge=vmbr0,ip=10.1.0.103/24"}
+  memory: 2048
+  ostemplate: debian-11-standard_11.6-1_amd64.tar.zst
+  storage: "local-zfs"
+  swap: 2048
+  vmid: 103

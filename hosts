@@ -14,7 +14,6 @@ osm31.openstreetmap.fr
 [vm]
 # osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 # osm102.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-osm103.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm104.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 osm105.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm109.openstreetmap.fr vm_host=osm11.openstreetmap.fr
@@ -89,7 +88,7 @@ notes-heatmap.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm194.openst
 matrix.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm195.openstreetmap.fr
 osm2pgsql.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 renderd.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
-proxy.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
+proxy.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm103.openstreetmap.fr
 proxy.osmose.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm196.openstreetmap.fr
 geovisio.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm197.openstreetmap.fr
 proxy.ovh.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm198.openstreetmap.fr
