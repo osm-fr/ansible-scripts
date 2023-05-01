@@ -1,0 +1,100 @@
+proxy_cache_path  /dev/shm/nginx-cache-wms levels=1:2 keys_zone=wms:10m inactive=7d  max_size=8g;
+
+
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  {{ item.websites }};
+
+{% if item.redirect_to_https is defined and item.redirect_to_https %}
+    include /etc/nginx/global.d/letsencrypt-challenge.conf;
+
+    location /.well-known/acme-challenge {
+
+    }
+
+    # On redirige tout en HTTPS
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    server_name  {{ item.websites }};
+
+{% endif %}
+    include /etc/nginx/global.d/*.conf;
+
+    #charset koi8-r;
+    access_log  "/var/log/nginx/{{ item.logname }}.access.log";
+
+    client_max_body_size 50M;
+
+    proxy_connect_timeout 6000;
+    proxy_send_timeout    6000;
+    proxy_read_timeout    6000;
+    send_timeout          6000;
+
+    proxy_set_header   Host             $host;
+    proxy_set_header   X-Real-IP        $remote_addr;
+    proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+    proxy_set_header   X-Forwarded-Proto $scheme;
+    proxy_set_header   X-Forwarded-Server  $host;
+    proxy_set_header   X-Forwarded-Host  $host;
+
+    location ~enedis {
+        # blocage referer/user-agent hors edition OSM
+        valid_referers www.openstreetmap.org preview.ideditor.com opensolarmap.org www.mapcontrib.xyz www.cartes.xyz cadastre.openstreetmap.fr od2osm.cleverapps.io enedis.openstreetmap.fr;
+        if ($http_user_agent ~ JOSM.*Java) {
+                set $valid 1;
+        }
+        if ($http_user_agent ~ Vespucci) {
+                set $valid 1;
+        }
+        if ($invalid_referer = "") {
+                set $valid 1;
+        }
+        if ($http_user_agent ~ QGIS) {
+                set $valid 0;
+        }
+        if ($valid != 1) {
+                return 403;
+        }
+
+        proxy_pass              http://{{ item.target }}; # osm107@TH3
+        proxy_cache             wms;
+        proxy_cache_valid       200 302 10m;
+        proxy_cache_valid       404     1m;
+        proxy_read_timeout      30s;
+
+        proxy_hide_header       Access-Control-Allow-Origin;
+        add_header              'Access-Control-Allow-Origin' '*';
+        proxy_hide_header       Access-Control-Allow-Methods;
+        add_header              'Access-Control-Allow-Methods' 'GET';
+        access_log  /var/log/nginx/wms-enedis.log  combined;
+    }
+
+    location /tms {
+        proxy_pass              http://{{ item.target }};
+        proxy_cache             wms;
+        proxy_cache_valid       200 302    10m;
+        proxy_cache_valid       404        1m;
+        proxy_read_timeout      300s;
+        proxy_cache_key         "$request_uri";
+
+        proxy_hide_header       Access-Control-Allow-Origin;
+        add_header              'Access-Control-Allow-Origin' '*';
+        proxy_hide_header       Access-Control-Allow-Methods;
+        add_header              'Access-Control-Allow-Methods' 'GET';
+        }
+
+
+    location / {
+        proxy_pass              http://{{ item.target }};
+        proxy_read_timeout      300s;
+        proxy_hide_header       Access-Control-Allow-Origin;
+        add_header              'Access-Control-Allow-Origin' '*';
+        proxy_hide_header       Access-Control-Allow-Methods;
+        add_header              'Access-Control-Allow-Methods' 'GET';
+    }
+}
