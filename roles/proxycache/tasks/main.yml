@@ -10,14 +10,6 @@
     path: /etc/nginx/global.d/
     state: directory
 
-- name: copy nginx challenge config
-  copy: src=nginx-letsencrypt-challenge.conf dest="/etc/nginx/global.d/letsencrypt-challenge.conf"
-  notify: reload nginx
-
-- name: copy nginx ssl config
-  copy: src=nginx-letsencrypt-ssl.conf dest="/etc/nginx/global.d/letsencrypt-ssl.conf"
-  notify: reload nginx
-
 - name: add include global.d in default nginx site
   lineinfile:
     dest: /etc/nginx/sites-available/default
