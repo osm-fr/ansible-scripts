@@ -1,6 +1,7 @@
 - name: install packages
   apt:
     pkg:
+      - iptables
       - nginx
       - logrotate
 
