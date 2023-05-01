@@ -1,0 +1,125 @@
+- include: ../../../shared/project-account.yml user=letsencrypt generate_ssh_key=yes
+
+- name: fetch generated public ssh key
+  fetch: src=/data/project/letsencrypt/.ssh/id_rsa.pub dest=public_keys/letsencrypt-{{ inventory_hostname }} flat=yes
+  when: letsencrypt_slave is not defined
+
+- name: add ssh key to user letsencrypt
+  authorized_key:
+    user: letsencrypt
+    key: "{{ lookup('file',item) }}"
+  with_items:
+    - "{{ lookup('env','PWD') }}/public_keys/letsencrypt-{{ letsencrypt_slave }}"
+  when: letsencrypt_slave is defined
+
+- name: install packages
+  apt:
+    update_cache: yes
+    pkg:
+      - certbot
+      - python3-certbot-nginx
+  when: letsencrypt_slave is not defined
+
+- name: init paths
+  file: path={{ item }} state=directory owner=root group=root force=no mode="0640"
+  with_items:
+    - /etc/ssl/letsencrypt
+
+- name: init paths
+  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no follow=yes
+  with_items:
+    - /data/project/letsencrypt/challenges
+
+- name: check if /data/project/letsencrypt/keys already exists
+  command: /usr/bin/test -e /data/project/letsencrypt/keys
+  ignore_errors: True
+  register: keys_created
+  changed_when: "keys_created.rc != 0"
+
+- name: generate dhparams
+  shell:
+    creates="/etc/ssl/letsencrypt/dhparams.pem" chdir="/etc/ssl/letsencrypt/"
+    openssl dhparam -out dhparams.pem 2048
+  when: letsencrypt_slave is not defined
+
+- name: set letsencrypt_hosts from proxy configuration
+  set_fact:
+    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ proxy | json_query('[?disable_https_cert_generation!=`True`''].websites') | join(' ') }}"
+  when: proxy is defined and letsencrypt_slave is not defined
+
+- name: set letsencrypt_hosts from host_proxy configuration
+  set_fact:
+    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ host_proxy | json_query('[?disable_https_cert_generation!=`True`''].websites') | join(' ') }}"
+  when: host_proxy is defined and letsencrypt_slave is not defined
+
+- debug:
+    msg: "List of hosts: {{ letsencrypt_hosts }}"
+  when: letsencrypt_slave is not defined
+
+- name: dump list of hosts
+  become: yes
+  become_user: letsencrypt
+  template: src="letsencrypt-hosts-list-certbot" dest="/data/project/letsencrypt/hosts-list" owner=letsencrypt group=letsencrypt
+  register: hosts_list
+  when: letsencrypt_slave is not defined
+
+- name: check if using nginx
+  command: /usr/bin/test -e /etc/nginx/
+  ignore_errors: True
+  register: using_nginx
+  changed_when: "using_nginx.rc == 0"
+
+- name: init /etc/nginx/global.d/ path
+  file:
+    path: /etc/nginx/global.d/
+    state: directory
+  when: using_nginx.changed
+
+- name: copy nginx challenge config
+  copy: src=nginx-letsencrypt-challenge-certbot.conf dest="/etc/nginx/global.d/letsencrypt-challenge.conf"
+  register: copy_nginx_challenge
+  when: using_nginx.changed
+
+- name: reload nginx
+  service: name=nginx state=reloaded
+  when: using_nginx.changed and copy_nginx_challenge.changed
+
+- name: copy script to relaunch nginx
+  copy: src=letsencrypt-to-nginx.sh dest="/usr/local/bin/letsencrypt-to-nginx.sh" mode="0544"
+
+- name: copy script to send keys to proxmox
+  copy: src=letsencrypt-to-proxmox.sh dest="/usr/local/bin/letsencrypt-to-proxmox.sh" mode="0544"
+  when: letsencrypt_slave is not defined
+
+- name: copy script to send keys to proxmox mail gateway
+  copy: src=letsencrypt-to-proxmox-mail-gateway.sh dest="/usr/local/bin/letsencrypt-to-proxmox-mail-gateway.sh" mode="0544"
+  when: letsencrypt_slave is not defined
+
+- name: configure sudoers to reload apache/nginx
+  copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt mode=0440 owner=root group=root validate='visudo -cf %s'
+
+- name: copy launch-certbot.sh config
+  template: src=launch-certbot.sh dest="/data/project/letsencrypt/launch-certbot.sh"
+    owner=letsencrypt group=letsencrypt mode="0700"
+  become: yes
+  become_user: letsencrypt
+  when: letsencrypt_slave is not defined
+
+- name: launch certbot
+  become: yes
+  become_user: letsencrypt
+  command:
+    chdir="/data/project/letsencrypt/"
+    ./launch-certbot.sh
+  when: letsencrypt_slave is not defined
+
+- name: copy nginx ssl config
+  copy: src=nginx-letsencrypt-ssl.conf dest="/etc/nginx/global.d/letsencrypt-ssl.conf"
+  notify: reload nginx
+  when: using_nginx.changed
+
+- name: configure crontab
+  cron: name="letsencrypt" hour="{{ 4 | random }}" minute="{{ 59 | random }}" day="*" weekday="{{ 6 | random }}" month="*" job="(cd . && ./launch-certbot.sh)"
+  become: yes
+  become_user: letsencrypt
+  when: letsencrypt_slave is not defined

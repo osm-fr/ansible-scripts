@@ -1,0 +1,244 @@
+- include: ../../../shared/project-account.yml user=letsencrypt generate_ssh_key=yes
+
+- name: fetch generated public ssh key
+  fetch: src=/data/project/letsencrypt/.ssh/id_rsa.pub dest=public_keys/letsencrypt-{{ inventory_hostname }} flat=yes
+  when: letsencrypt_slave is not defined
+
+- name: add ssh key to user letsencrypt
+  authorized_key:
+    user: letsencrypt
+    key: "{{ lookup('file',item) }}"
+  with_items:
+    - "{{ lookup('env','PWD') }}/public_keys/letsencrypt-{{ letsencrypt_slave }}"
+  when: letsencrypt_slave is defined
+
+- name: checkout acme-tiny repo
+  git: repo=https://github.com/diafygi/acme-tiny.git
+       dest=/data/project/letsencrypt/acme-tiny
+       version=c29c0f36cedbca2a7117169c6a9e1f166c501899  # on 2022-04-26
+  become: yes
+  become_user: letsencrypt
+  when: letsencrypt_slave is not defined
+
+- name: init paths
+  file: path={{ item }} state=directory owner=root group=root force=no mode="0640"
+  with_items:
+    - /etc/ssl/letsencrypt
+
+- name: init paths
+  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no follow=yes
+  with_items:
+    - /data/project/letsencrypt/challenges
+
+- name: check if /data/project/letsencrypt/keys already exists
+  command: /usr/bin/test -e /data/project/letsencrypt/keys
+  ignore_errors: True
+  register: keys_created
+  changed_when: "keys_created.rc != 0"
+
+- name: init paths
+  file: path={{ item }} state=directory owner=letsencrypt group=letsencrypt force=no mode="0700" follow=yes
+  with_items:
+    - /data/project/letsencrypt/keys
+  when: keys_created.changed
+
+- name: generate dhparams
+  become: yes
+  become_user: letsencrypt
+  shell:
+    creates="/data/project/letsencrypt/keys/dhparams.pem" chdir="/data/project/letsencrypt/keys"
+    openssl dhparam -out dhparams.pem 2048
+  when: letsencrypt_slave is not defined
+
+- name: generate account key
+  become: yes
+  become_user: letsencrypt
+  shell:
+    creates="/data/project/letsencrypt/keys/account.key" chdir="/data/project/letsencrypt/keys"
+    openssl genrsa 4096 > account.key
+  when: letsencrypt_slave is not defined
+
+- name: generate domain key
+  become: yes
+  become_user: letsencrypt
+  shell:
+    creates="/data/project/letsencrypt/keys/domain.key" chdir="/data/project/letsencrypt/keys"
+    openssl genrsa 4096 > domain.key
+  when: letsencrypt_slave is not defined
+
+- name: declare letsencrypt_hosts
+  set_fact:
+    letsencrypt_hosts: ""
+  when: letsencrypt_hosts is not defined and letsencrypt_slave is not defined
+
+- name: set letsencrypt_hosts from proxy configuration
+  set_fact:
+    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ proxy | json_query('[?disable_https_cert_generation!=`True`''].websites') | join(' ') }}"
+  when: proxy is defined and letsencrypt_slave is not defined
+
+- name: set letsencrypt_hosts from host_proxy configuration
+  set_fact:
+    letsencrypt_hosts: "{{ letsencrypt_hosts}} {{ host_proxy | json_query('[?disable_https_cert_generation!=`True`''].websites') | join(' ') }}"
+  when: host_proxy is defined and letsencrypt_slave is not defined
+
+- debug:
+    msg: "List of hosts: {{ letsencrypt_hosts }}"
+  when: letsencrypt_slave is not defined
+
+- name: dump list of hosts
+  become: yes
+  become_user: letsencrypt
+  template: src="letsencrypt-hosts-list" dest="/data/project/letsencrypt/keys/hosts-list" owner=letsencrypt group=letsencrypt
+  register: hosts_list
+  when: letsencrypt_slave is not defined
+
+- name: check if using apache
+  command: /usr/bin/test -e /etc/apache2/sites-enabled/
+  ignore_errors: True
+  register: using_apache
+  changed_when: "using_apache.rc == 0"
+
+- name: check if using nginx
+  command: /usr/bin/test -e /etc/nginx/
+  ignore_errors: True
+  register: using_nginx
+  changed_when: "using_nginx.rc == 0"
+
+- name: copy apache config
+  copy: src=apache-challenge.site dest="/etc/apache2/sites-available/letsencrypt-challenge.conf"
+  register: copy_apache_challenge
+  when: using_apache.changed
+
+- name: enable apache site
+  file: src="/etc/apache2/sites-available/letsencrypt-challenge.conf" dest="/etc/apache2/sites-enabled/001-letsencrypt-challenge.conf" state=link
+  when: using_apache.changed
+
+- name: add apache mods
+  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
+  register: add_apache_mods
+  with_items:
+    - rewrite.load
+  when: using_apache.changed
+
+- name: reload apache
+  service: name=apache2 state=reloaded
+  when: using_apache.changed and copy_apache_challenge.changed and not add_apache_mods.changed
+
+- name: restart apache
+  service: name=apache2 state=restarted
+  when: using_apache.changed and add_apache_mods.changed
+
+- name: init /etc/nginx/global.d/ path
+  file:
+    path: /etc/nginx/global.d/
+    state: directory
+  when: using_nginx.changed
+
+- name: copy nginx challenge config
+  copy: src=nginx-letsencrypt-challenge.conf dest="/etc/nginx/global.d/letsencrypt-challenge.conf"
+  register: copy_nginx_challenge
+  when: using_nginx.changed
+
+- name: reload nginx
+  service: name=nginx state=reloaded
+  when: using_nginx.changed and copy_nginx_challenge.changed
+
+- name: copy script to relaunch nginx
+  copy: src=letsencrypt-to-nginx.sh dest="/usr/local/bin/letsencrypt-to-nginx.sh" mode="0544"
+
+- name: copy script to relaunch apache
+  copy: src=letsencrypt-to-apache.sh dest="/usr/local/bin/letsencrypt-to-apache.sh" mode="0544"
+
+- name: copy script to send keys to proxmox
+  copy: src=letsencrypt-to-proxmox.sh dest="/usr/local/bin/letsencrypt-to-proxmox.sh" mode="0544"
+  when: letsencrypt_slave is not defined
+
+- name: copy script to send keys to proxmox mail gateway
+  copy: src=letsencrypt-to-proxmox-mail-gateway.sh dest="/usr/local/bin/letsencrypt-to-proxmox-mail-gateway.sh" mode="0544"
+  when: letsencrypt_slave is not defined
+
+- name: configure sudoers to reload apache/nginx
+  copy: src=sudoers dest=/etc/sudoers.d/ansible-letsencrypt mode=0440 owner=root group=root validate='visudo -cf %s'
+
+- name: copy launch-acme-tiny.sh config
+  template: src=launch-acme-tiny.sh dest="/data/project/letsencrypt/keys/launch-acme-tiny.sh"
+    owner=letsencrypt group=letsencrypt mode="0700"
+  become: yes
+  become_user: letsencrypt
+  when: letsencrypt_slave is not defined
+
+- name: download intermediate certificate
+  become: yes
+  become_user: letsencrypt
+  notify: reload apache
+  get_url: >
+    url="https://letsencrypt.org/certs/lets-encrypt-r3-cross-signed.pem"
+    dest="/data/project/letsencrypt/keys/intermediate.pem"
+    sha256sum="7a632fde8c8d0360b359858b8ba306aab7a971be35e1565d8fc39be6c8265ffa"
+  when: letsencrypt_slave is not defined
+
+- name: fix permission for intermediate certificate
+  become: yes
+  become_user: letsencrypt
+  file: path="/data/project/letsencrypt/keys/intermediate.pem" owner=letsencrypt
+  when: letsencrypt_slave is not defined
+
+- name: launch acme-tiny
+  become: yes
+  become_user: letsencrypt
+  command:
+    chdir="/data/project/letsencrypt/keys"
+    ./launch-acme-tiny.sh
+  when: letsencrypt_slave is not defined
+
+- name: check name of default-ssl
+  command: /usr/bin/test -e /etc/apache2/sites-available/default-ssl.conf
+  ignore_errors: True
+  register: apache_default_ssl_conf
+  when: using_apache.changed
+
+- name: set apache_default_ssl to default-ssl.conf
+  set_fact: apache_default_ssl=default-ssl.conf
+  when: using_apache.changed and apache_default_ssl_conf.rc == 0
+
+- name: set apache_default_ssl to default-ssl
+  set_fact: apache_default_ssl=default-ssl
+  when: using_apache.changed and apache_default_ssl_conf.rc != 0
+
+- name: configure https keys
+  lineinfile: dest="/etc/apache2/sites-available/{{ apache_default_ssl }}" regexp="{{ item.regexp }}" line="{{ item.line }}" insertbefore="{{ item.before }}"
+  notify: reload apache
+  with_items:
+    - {regexp: "^[ 	]*SSLCertificateFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateFile	/etc/ssl/letsencrypt/signed.crt"}
+    - {regexp: "^[ 	]*SSLCertificateKeyFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateKeyFile	/etc/ssl/letsencrypt/domain.key"}
+    - {regexp: "^[ 	]*SSLCertificateChainFile.*",
+       before: "^[ 	]*SSLCertificateFile",
+       line:   "	SSLCertificateChainFile	/etc/ssl/letsencrypt/intermediate.pem"}
+  when: using_apache.changed
+
+- name: enable apache ssl site
+  file: src="/etc/apache2/sites-available/{{ apache_default_ssl }}" dest="/etc/apache2/sites-enabled/{{ apache_default_ssl }}" state=link
+  notify: reload apache
+  when: using_apache.changed
+
+- name: add apache ssl module
+  apache2_module:
+    state: present
+    name: ssl
+  notify: restart apache
+  when: using_apache.changed
+
+- name: copy nginx ssl config
+  copy: src=nginx-letsencrypt-ssl.conf dest="/etc/nginx/global.d/letsencrypt-ssl.conf"
+  notify: reload nginx
+  when: using_nginx.changed
+
+- name: configure crontab
+  cron: name="letsencrypt" hour="{{ 4 | random }}" minute="{{ 59 | random }}" day="*" weekday="{{ 6 | random }}" month="*" job="(cd keys && ./launch-acme-tiny.sh)"
+  become: yes
+  become_user: letsencrypt
+  when: letsencrypt_slave is not defined

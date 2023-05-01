@@ -189,6 +189,7 @@ osm26.openstreetmap.fr letsencrypt_hosts=osm26.openstreetmap.fr,osm27.openstreet
 osm27.openstreetmap.fr letsencrypt_slave=osm26.openstreetmap.fr
 osm28.openstreetmap.fr letsencrypt_slave=osm26.openstreetmap.fr
 backuppc2.vm.openstreetmap.fr letsencrypt_hosts=backuppc2.vm.openstreetmap.fr
+proxy.th3.vm.openstreetmap.fr letsencrypt_certbot=yes letsencrypt_hosts=proxy.th3.vm.openstreetmap.fr
 
 [munin-server]
 munin.vm.openstreetmap.fr
