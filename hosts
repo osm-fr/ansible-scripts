@@ -55,7 +55,7 @@ osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 # osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm160.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 bano.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm162.openstreetmap.fr
-osm164.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+educosm.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm164.openstreetmap.fr
 osm165.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm166.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm167.openstreetmap.fr vm_host=osm11.openstreetmap.fr
@@ -282,7 +282,7 @@ osmose-hivane2.openstreetmap.fr
 osm142.openstreetmap.fr
 
 [yeswiki]
-osm164.openstreetmap.fr
+educosm.vm.openstreetmap.fr
 
 
 # user creation
@@ -389,7 +389,7 @@ osm130.openstreetmap.fr
 osm151.openstreetmap.fr
 
 [ljbouere]
-osm164.openstreetmap.fr
+educosm.vm.openstreetmap.fr
 
 [nlehuby]
 osm26.openstreetmap.fr
