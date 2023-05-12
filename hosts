@@ -92,6 +92,7 @@ proxy.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm103.openstreet
 proxy.osmose.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm196.openstreetmap.fr
 geovisio.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm197.openstreetmap.fr
 proxy.ovh.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm198.openstreetmap.fr
+umap.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm199.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -484,6 +485,7 @@ osm28.openstreetmap.fr
 osm104.openstreetmap.fr
 osm105.openstreetmap.fr
 osm144.openstreetmap.fr
+umap.vm.openstreetmap.fr
 
 [ydel]
 osm144.openstreetmap.fr

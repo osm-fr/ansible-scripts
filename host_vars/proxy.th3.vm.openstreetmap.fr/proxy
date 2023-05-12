@@ -27,3 +27,7 @@ host_proxy:
     logname: "dev.enedis"
     websites: "dev.enedis.openstreetmap.fr"
     target: "10.1.0.193"
+  -
+    logname: "dev.umap"
+    websites: "dev.umap.openstreetmap.fr"
+    target: "10.1.0.199"
