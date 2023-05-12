@@ -94,6 +94,9 @@
     - crontab.osh.sh
     - france.poly
     - remove-not-in-france.sh
+    - remove-metadata.sh
+    - remove-source.sh
+    - key-source-valide.txt
 
 - name: add taginfo france.png file
   copy: src="france.png" dest="/data/project/taginfo/taginfo/web/public/img/france.png"

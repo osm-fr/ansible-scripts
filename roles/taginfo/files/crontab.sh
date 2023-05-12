@@ -16,6 +16,9 @@ echo "$(date --rfc-3339=s) INFO: ${0} start ..."
 # 2019/06/13 osmosis (2h30 pour maj+filtre) -> osmosis (30min pour maj) + osmfilter (15min pour filtre)
 ./10_update_pbf.sh && ./10_filtre.sh
 
+# environ 35min
+./remove-metadata.sh
+
 # environ 15min
 ./20_update.sh && ./30_restart_webserver.sh
 
