@@ -1,6 +1,6 @@
 - name: run acme-tiny
   include: acme-tiny.yml
-  when: letsencrypt_acme_tiny is defined
+  when: letsencrypt_certbot is not defined
 
 - name: run certbot
   include: certbot.yml
