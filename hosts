@@ -202,6 +202,8 @@ osm141.openstreetmap.fr
 #osm25.openstreetmap.fr ## osm2pgsql installé hors ansible
 osm105.openstreetmap.fr
 osm165.openstreetmap.fr
+osm2pgsql-osm12.vm.openstreetmap.fr # nom pas ideal. osm2pgsql.free ?
+osm2pgsql.th3.vm.openstreetmap.fr
 
 [osmose-backend]
 osm110.openstreetmap.fr
