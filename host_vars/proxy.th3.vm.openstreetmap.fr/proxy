@@ -24,8 +24,8 @@ host_proxy:
     target: "10.1.0.197"
     target_port: 5000
   -
-    logname: "dev.enedis"
-    websites: "dev.enedis.openstreetmap.fr"
+    logname: "enedis"
+    websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com"
     target: "10.1.0.193"
   -
     logname: "dev.umap"
