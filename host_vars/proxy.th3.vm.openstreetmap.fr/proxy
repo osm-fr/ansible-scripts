@@ -28,6 +28,6 @@ host_proxy:
     websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com"
     target: "10.1.0.193"
   -
-    logname: "dev.umap"
-    websites: "dev.umap.openstreetmap.fr"
+    logname: "umap"
+    websites: "dev.umap.openstreetmap.fr umap.openstreetmap.fr"
     target: "10.1.0.199"
