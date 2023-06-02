@@ -3,4 +3,5 @@ ssl = false
 autovacuum = on
 synchronous_commit = off # remplace fsync = off
 full_page_writes = off
+max_wal_senders = 0
 wal_level = minimal
