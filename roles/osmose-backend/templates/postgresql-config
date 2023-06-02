@@ -1,5 +1,6 @@
 # {{ ansible_managed }}
 ssl = false
-autovacuum = off
-fsync = off
+autovacuum = on
+synchronous_commit = off # remplace fsync = off
 full_page_writes = off
+wal_level = minimal
