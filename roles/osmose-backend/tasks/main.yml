@@ -38,6 +38,7 @@
       - qtbase5-dev
       - flex
       - bison
+      - zstd
 
 - name: init /root/packages/
   file:
@@ -149,6 +150,12 @@
   when: not 'osmbin' in group_names and not 'osmosis' in group_names and not 'osm2pgsql' in group_names
   notify:
     - reload postgresql
+
+- name: Logrotate config for postgresql
+  copy:
+    dest: "/etc/logrotate.d/postgresql-common"
+    src: "logrotate-postgres"
+    owner: root
 
 - name: create systemd override for postgresql
   file:
