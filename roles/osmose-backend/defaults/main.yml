@@ -9,7 +9,6 @@ var1:
   - 1048576
 shared_buffers: "{{ var1 | map('int')| min }}"
 
-maintenance_work_mem: "512MB"
 work_mem: "64MB"
 
 bgwriter_delay: 200
@@ -17,23 +16,23 @@ bgwriter_lru_maxpages: 100
 bgwriter_lru_multiplier: 2.0
 
 max_worker_processes: "{{ ansible_processor_vcpus - 2 }}"
-max_parallel_maintenance_workers: "{% if ansible_processor_vcpus > 8 %} 4 {% else %} 4 {% endif %}"
+max_parallel_maintenance_workers: "{% if ansible_processor_vcpus > 8 %} 4 {% else %} 2 {% endif %}"
 max_parallel_workers_per_gather: >-
  {% if ansible_processor_vcpus < 4 %}
- 1
+ 0
  {% elif ansible_processor_vcpus < 8 %}
- 2
+ 1
  {% elif ansible_processor_vcpus < 16 %}
- 4
+ 2
  {% elif ansible_processor_vcpus >= 16 %}
- 8
+ 4
  {% endif %}
 max_parallel_workers: "{{ max_worker_processes | int - 2 }}"
 
 # Ces paramètres sont revus par rapport à la valeur par défaut si on est sur du SSD
 effective_io_concurrency: 100
 maintenance_io_concurrency: 200
-random_page_cost: 2.0
+random_page_cost: 1.5
 
 # 2/3 de la RAM
 # Unité : Nombre de blocs de 8Ko

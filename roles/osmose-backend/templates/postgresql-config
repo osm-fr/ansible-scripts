@@ -1,5 +1,6 @@
 # {{ ansible_managed }}
-# Voir le fichier defaults/main.yml pour l'explication
+{# Voir le fichier defaults/main.yml pour l'explication #}
+
 ssl = false
 
 shared_buffers = {{ shared_buffers }}
@@ -7,9 +8,9 @@ shared_buffers = {{ shared_buffers }}
 {% if ansible_memtotal_mb >= 2048 and ansible_memtotal_mb < 4096%}
 maintenance_work_mem = 256MB
 {% elif ansible_memtotal_mb >= 4096 and ansible_memtotal_mb < 8192 %}
-maintenance_work_mem = 1GB
+maintenance_work_mem = 512MB
 {% elif ansible_memtotal_mb >= 8192 %}
-maintenance_work_mem = 2GB
+maintenance_work_mem = 1GB
 {% endif %}
 
 work_mem = {{ work_mem }}
