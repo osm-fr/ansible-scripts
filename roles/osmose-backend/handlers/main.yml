@@ -2,11 +2,7 @@
   service: name=postgresql state=restarted
 
 - name: reload postgresql
-  become: yes
-  become_user: postgres
-  community.postgresql.postgresql_query:
-    db: postgres
-    query: SELECT pg_reload_conf()
+  service: name=postgresql state=reloaded
 
 - name: systemd daemon-reload
   ansible.builtin.systemd:
