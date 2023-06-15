@@ -51,7 +51,7 @@ osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 sotm.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true # osm154.openstreetmap.fr
 peertube.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm155.openstreetmap.fr
 osm157.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm158.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+mail.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 # osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm160.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 bano.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm162.openstreetmap.fr
@@ -182,7 +182,7 @@ osm105.openstreetmap.fr letsencrypt_hosts=osm105.openstreetmap.fr,osm2pgsql-mond
 osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
 osm149.openstreetmap.fr letsencrypt_hosts=osm149.openstreetmap.fr
-osm158.openstreetmap.fr letsencrypt_hosts=mail.openstreetmap.fr,osm158.openstreetmap.fr
+mail.openstreetmap.fr letsencrypt_hosts=mail.openstreetmap.fr,osm158.openstreetmap.fr
 osm24.openstreetmap.fr letsencrypt_hosts=proxy-ign.openstreetmap.fr
 osm25.openstreetmap.fr
 osm26.openstreetmap.fr letsencrypt_hosts=osm26.openstreetmap.fr,osm27.openstreetmap.fr,osm28.openstreetmap.fr,fr.osm.social
@@ -245,7 +245,7 @@ live.vm.openstreetmap.fr
 osm138.openstreetmap.fr
 
 [proxmox-mail-gateway]
-osm158.openstreetmap.fr
+mail.openstreetmap.fr
 
 [proxycache]
 osm23.openstreetmap.fr
