@@ -1,0 +1,55 @@
+zfs: false
+ssd: false
+
+# 1/4 de la ram dans la limite de 8Go
+# Unité : Nombre de blocs de 8Ko
+# 8Go => 1048576 blocs de 8Ko
+var1:
+  - "{{ ansible_memtotal_mb * 1024 / 4 / 8 }}"
+  - 1048576
+shared_buffers: "{{ var1 | map('int')| min }}"
+
+work_mem: "64MB"
+
+bgwriter_delay: 200
+bgwriter_lru_maxpages: 100
+bgwriter_lru_multiplier: 2.0
+
+max_worker_processes: "{% if ansible_processor_vcpus >= 10 %}{{ ansible_processor_vcpus - 2 }}{% else %}4{% endif %}"
+max_parallel_maintenance_workers: "{% if ansible_processor_vcpus > 8 %} 4 {% else %}2{% endif %}"
+max_parallel_workers_per_gather: >-
+ {% if ansible_processor_vcpus < 4 %}
+ 0
+ {% elif ansible_processor_vcpus < 8 %}
+ 1
+ {% elif ansible_processor_vcpus < 16 %}
+ 2
+ {% elif ansible_processor_vcpus >= 16 %}
+ 4
+ {% endif %}
+max_parallel_workers: "{% if ansible_processor_vcpus >= 4 %}{{ max_worker_processes | int - 2 }}{% else %}0{% endif %}"
+
+# Ces paramètres sont revus par rapport à la valeur par défaut si on est sur du SSD
+effective_io_concurrency: 100
+maintenance_io_concurrency: 200
+random_page_cost: 1.5
+
+# 2/3 de la RAM
+# Unité : Nombre de blocs de 8Ko
+effective_cache_size: "{{ (ansible_memtotal_mb * 1024 / 3 / 8) | int }}"
+
+# L'estimation sur le JIT se prend un peu les pieds dans le tapis
+# et la requête suivante devient couteuse :
+# https://github.com/MagicStack/asyncpg/issues/530
+jit: "false"
+
+log_min_duration_statement: "10s"
+auto_explain_log_min_duration: "60s"
+shared_preload_libraries: "'pg_stat_statements'"
+session_preload_libraries: "'auto_explain'"
+
+wal_compression: "on"
+
+max_wal_size: "10GB"
+
+synchronous_commit: "on"

@@ -1,0 +1,3 @@
+zfs: true
+ssd: false
+synchronous_commit: "off"

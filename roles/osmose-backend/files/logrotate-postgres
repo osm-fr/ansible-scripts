@@ -1,0 +1,15 @@
+/var/log/postgresql/*.log {
+       daily
+       rotate 30
+       copytruncate
+       delaycompress
+       # from https://wiki.archlinux.org/title/logrotate#Compressing_logs
+       compress
+       compresscmd /usr/bin/zstd
+       compressext .zst
+       compressoptions -T0 --long
+       uncompresscmd /usr/bin/unzstd
+       notifempty
+       missingok
+       su root root
+}
