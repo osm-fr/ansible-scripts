@@ -172,9 +172,9 @@
   become_user: letsencrypt
   notify: reload apache
   get_url:
-    url: "https://letsencrypt.org/certs/lets-encrypt-r3-cross-signed.pem"
+    url: "https://letsencrypt.org/certs/lets-encrypt-r3.pem"
     dest: "/data/project/letsencrypt/keys/intermediate.pem"
-    checksum: "sha256:7a632fde8c8d0360b359858b8ba306aab7a971be35e1565d8fc39be6c8265ffa"
+    checksum: "sha256:177e1b8fc43b722b393f4200ff4d92e32deeffbb76fef5ee68d8f49c88cf9d32"
   when: letsencrypt_slave is not defined
 
 - name: fix permission for intermediate certificate
