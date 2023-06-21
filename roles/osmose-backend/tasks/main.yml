@@ -21,6 +21,7 @@
       - python3-regex
       - python3-requests
       - python3-unidecode
+      - python3-venv
       - pyosmium
       # dependencies for pip3 install
       - libarchive-dev
@@ -184,8 +185,22 @@
 
 - name: pip install
   pip:
-    executable: pip3
     requirements: /data/project/osmose/backend/requirements.txt
+    virtualenv: ~/.venvs/backend/
+    virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_site_packages: True
+  environment:
+    PYTHONNOUSERSITE: 1
+  become: yes
+  become_user: osmose
+
+- name: enable venv for osmose account
+  blockinfile:
+    dest: "~/.bashrc"
+    block: |
+      if [ -f ~/.venvs/backend/bin/activate ]; then
+        . ~/.venvs/backend/bin/activate
+      fi
   become: yes
   become_user: osmose
 
