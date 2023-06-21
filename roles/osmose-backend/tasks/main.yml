@@ -105,10 +105,6 @@
     db: osmose
   register: postgres_info
 
-- name: set postgresql_version to {{ psql_res.stdout_lines[0] }}
-  set_fact:
-    postgresql_version: "{{ psql_res.stdout_lines[0] }}"
-
 - name: psql extensions
   become: yes
   become_user: postgres
