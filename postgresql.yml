@@ -1,0 +1,5 @@
+- name: postgresql configuration
+  hosts: postgresql
+  become: yes
+  roles:
+    - postgresql

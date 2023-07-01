@@ -1,0 +1,66 @@
+- name: Add key for Postgres
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+- name: Add Postgres repo
+  apt_repository:
+    repo: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+    filename: pgdg
+
+- name: install packages
+  apt:
+    pkg:
+      - libdbd-pg-perl   # for munin
+      - pg-activity
+      - postgis
+      - postgresql
+      - postgresql-contrib
+      - postgresql-postgis
+      - python3-psycopg2
+      - zstd             # for logrotate compression
+
+- name: Get Postgres informations
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_info:
+  register: postgres_info
+
+- name: create postgresql conf.d
+  file:
+    path: /etc/postgresql/{{ postgres_info.version.major }}/main/conf.d
+    state: directory
+
+- name: configure postgresql
+  template:
+    dest="/etc/postgresql/{{ postgres_info.version.major }}/main/conf.d/10-ansible.conf"
+    src="postgresql-config"
+    owner=root
+  notify:
+    - reload postgresql
+
+- name: enable postgresql configuration
+  lineinfile:
+    dest: "/etc/postgresql/{{ postgres_info.version.major }}/main/postgresql.conf"
+    regexp: "^.*include_dir = 'conf.d"
+    line: "include_dir = 'conf.d'                  # include files ending in '.conf' from"
+  notify:
+    - reload postgresql
+
+- name: Logrotate config for postgresql
+  copy:
+    dest: "/etc/logrotate.d/postgresql-common"
+    src: "logrotate-postgres"
+    owner: root
+
+- name: create systemd override for postgresql
+  file:
+    path: /etc/systemd/system/postgresql@.service.d/
+    state: directory
+
+- name: add systemd override for postgresql
+  template:
+    dest: "/etc/systemd/system/postgresql@.service.d/override.conf"
+    src: "systemd-postgresql-override.conf"
+    owner: root
+  notify:
+    - systemd daemon-reload
