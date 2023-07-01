@@ -88,7 +88,7 @@ wal_recycle = off                       # recycle WAL files
 wal_compression = {{ wal_compression }}
 
 # On espace un peu plus les checkpoints
-checkpoint_timeout = 15min
+checkpoint_timeout = {{ checkpoint_timeout }}
 checkpoint_completion_target = 0.9
 max_wal_size = {{ max_wal_size }}
 min_wal_size = 1GB
