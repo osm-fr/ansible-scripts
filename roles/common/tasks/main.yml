@@ -504,6 +504,9 @@
 - include: ../../../shared/account.yml user=sly     uid=1209
   when: "'sly' in group_names"
 
+- include: ../../../shared/account.yml user=stephanec uid=1225
+  when: "'stephanec' in group_names"
+
 - include: ../../../shared/account.yml user=teslix uid=1222
   when: "'teslix' in group_names"
 
