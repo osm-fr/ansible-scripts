@@ -1,6 +1,9 @@
 zfs: false
 ssd: false
 
+
+pgport: 5432
+
 # 1/4 de la ram dans la limite de 8Go
 # Unité : Nombre de blocs de 8Ko
 # 8Go => 1048576 blocs de 8Ko

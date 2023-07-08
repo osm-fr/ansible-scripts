@@ -23,6 +23,7 @@
   become: true
   become_user: postgres
   community.postgresql.postgresql_info:
+    port: "{{ pgport }}"
   register: postgres_info
 
 - name: create postgresql conf.d
