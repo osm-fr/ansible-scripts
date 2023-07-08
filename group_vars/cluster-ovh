@@ -153,3 +153,20 @@ proxy:
     logname: "notes-heatmap"
     websites: "notes-heatmap.openstreetmap.fr"
     target: "10.1.0.194"
+  -
+    logname: "openstreetmap.bzh"
+#    websites: "teol.openstreetmap.bzh tile.openstreetmap.bzh api.openstreetmap.bzh stats.openstreetmap.bzh"
+    websites: "teol.openstreetmap.bzh tile.openstreetmap.bzh stats.openstreetmap.bzh"
+    target: "10.1.0.202"
+  -
+    logname: "monit.tile.openstreetmap.bzh"
+    websites: "monit.tile.openstreetmap.bzh"
+    target: "10.1.0.202"
+    target_port: "2812"
+    config_src: "nginx-site-port.j2"
+  -
+    logname: "kosmtik.openstreetmap.bzh"
+    websites: "kosmtik.openstreetmap.bzh"
+    target: "10.1.0.202"
+    target_port: "6789"
+    config_src: "nginx-site-port.j2"

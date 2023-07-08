@@ -95,6 +95,7 @@ proxy.ovh.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm198.openstreet
 umap.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm199.openstreetmap.fr
 postgres-ovh.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm200.openstreetmap.fr
 pleinair.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm201.openstreetmap.fr
+bzh202.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm202.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -279,6 +280,7 @@ osm32.openstreetmap.fr proxmox_backup_host=true
 osm13.openstreetmap.fr renderd_layers=true
 osm166.openstreetmap.fr renderd_cyclosm=true
 renderd.th3.vm.openstreetmap.fr renderd_layers=true
+bzh202.vm.openstreetmap.fr renderd_bzh=true 
 
 [wireguard]
 proxy.ovh.vm.openstreetmap.fr wireguard_config=server
@@ -404,6 +406,7 @@ osm26.openstreetmap.fr
 
 [mael]
 osm160.openstreetmap.fr
+bzh202.vm.openstreetmap.fr
 
 [marc_marc:children]
 cluster-free
