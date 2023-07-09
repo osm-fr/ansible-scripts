@@ -1,4 +1,4 @@
-group_users_root:
+group_users_root_osmose_backend:
   - fred
   - marc_marc
   - teslix

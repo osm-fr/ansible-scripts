@@ -543,6 +543,9 @@
     group: root
     validate: 'visudo -cf %s'
 
+- set_fact:
+    group_users_root: "{{ q('vars', *q('varnames', '^group_users_root')) | flatten }}"
+
 - name: add sudoers for users
   template:
     src: sudoers-users
