@@ -1,6 +1,9 @@
 zfs: false
 ssd: false
 
+
+pgport: 5432
+
 # 1/4 de la ram dans la limite de 8Go
 # Unité : Nombre de blocs de 8Ko
 # 8Go => 1048576 blocs de 8Ko
@@ -48,7 +51,12 @@ auto_explain_log_min_duration: "60s"
 shared_preload_libraries: "'pg_stat_statements'"
 session_preload_libraries: "'auto_explain'"
 
-wal_compression: "on"
+wal_compression: >-
+ {% if postgres_info.version.major >= 15 %}
+ lz4
+ {% else %}
+ on
+ {% endif %}
 checkpoint_timeout: "30min"
 max_wal_size: "10GB"
 

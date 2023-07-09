@@ -1,0 +1,3 @@
+dependencies:
+  - role: postgresql
+    when: not 'osmbin' in group_names and not 'osmosis' in group_names and not 'osm2pgsql' in group_names
