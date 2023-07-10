@@ -15,7 +15,6 @@ osm31.openstreetmap.fr
 # osm101.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 # osm102.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm104.openstreetmap.fr vm_host=osm12.openstreetmap.fr
-osm105.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm109.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm110.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non générique france_local_db)
 # osm111.openstreetmap.fr vm_host=osm12.openstreetmap.fr
@@ -180,7 +179,6 @@ osm13.openstreetmap.fr letsencrypt_hosts=osm13.openstreetmap.fr,tile.openstreetm
 osm14.openstreetmap.fr letsencrypt_hosts=osm14.openstreetmap.fr
 osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.openstreetmap.fr
 osm104.openstreetmap.fr letsencrypt_hosts=osm104.openstreetmap.fr,bano.openstreetmap.fr,cadastre.openstreetmap.fr,imagery.openstreetmap.fr,tms.cadastre.openstreetmap.fr
-osm105.openstreetmap.fr letsencrypt_hosts=osm105.openstreetmap.fr,osm2pgsql-monde.openstreetmap.fr
 osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
 osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
 osm149.openstreetmap.fr letsencrypt_hosts=osm149.openstreetmap.fr
@@ -202,7 +200,6 @@ osm141.openstreetmap.fr
 [osm2pgsql]
 #osm13.openstreetmap.fr ## osm2pgsql installé hors ansible
 #osm25.openstreetmap.fr ## osm2pgsql installé hors ansible
-osm105.openstreetmap.fr
 osm165.openstreetmap.fr
 osm2pgsql-osm12.vm.openstreetmap.fr # nom pas ideal. osm2pgsql.free ?
 osm2pgsql.th3.vm.openstreetmap.fr
@@ -319,9 +316,6 @@ osm170.openstreetmap.fr
 osm26.openstreetmap.fr
 osm125.openstreetmap.fr
 
-[etienne]
-osm105.openstreetmap.fr
-
 [eloks]
 osm26.openstreetmap.fr
 osm130.openstreetmap.fr
@@ -343,7 +337,6 @@ mapcontrib.vm.openstreetmap.fr
 mobilizon.vm.openstreetmap.fr
 osm14.openstreetmap.fr
 osm104.openstreetmap.fr
-osm105.openstreetmap.fr
 osmose.vm.openstreetmap.fr
 proxy.osmose.vm.openstreetmap.fr
 taginfo.vm.openstreetmap.fr
@@ -441,9 +434,6 @@ osm166.openstreetmap.fr
 mobilizon.vm.openstreetmap.fr
 pleinair.vm.openstreetmap.fr
 
-[rodolphe]
-osm105.openstreetmap.fr
-
 [rvoirin]
 osm27.openstreetmap.fr
 osm130.openstreetmap.fr
@@ -451,7 +441,6 @@ osm151.openstreetmap.fr
 
 [ssh-tunnel]
 osm13.openstreetmap.fr
-osm105.openstreetmap.fr
 
 [stephanec]
 pleinair.vm.openstreetmap.fr
@@ -510,7 +499,6 @@ bano.vm.openstreetmap.fr
 [ybon]
 osm28.openstreetmap.fr
 osm104.openstreetmap.fr
-osm105.openstreetmap.fr
 osm144.openstreetmap.fr
 umap.vm.openstreetmap.fr
 
