@@ -95,6 +95,8 @@ umap.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm199.openstreetmap.f
 postgres-ovh.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm200.openstreetmap.fr
 pleinair.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm201.openstreetmap.fr
 bzh202.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm202.openstreetmap.fr
+postgres-free.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm203.openstreetmap.fr
+adopte-une-commune.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm204.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -234,6 +236,7 @@ download.vm.openstreetmap.fr
 
 [postgresql]
 postgres-ovh.vm.openstreetmap.fr
+postgres-free.vm.openstreetmap.fr
 
 [taginfo]
 taginfo.vm.openstreetmap.fr
@@ -300,6 +303,8 @@ sotm.vm.openstreetmap.fr
 [apavie] # Adrien P.
 osm14.openstreetmap.fr
 projetdumois.vm.openstreetmap.fr
+postgres-free.vm.openstreetmap.fr
+adopte-une-commune.vm.openstreetmap.fr
 
 [cgiquello]
 notes-heatmap.vm.openstreetmap.fr
