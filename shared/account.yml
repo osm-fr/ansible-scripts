@@ -22,7 +22,7 @@
   authorized_key: user={{ user }} key="{{ lookup('file',item) }}"
   tags: user_creation
   with_fileglob:
-    - "{{ lookup('env','PWD') }}/public_keys/{{ user }}*"
+    - "{{ lookup('env','PWD') }}/private/ssh_keys/{{ user }}*"
 
 - name: copy default config files
   copy: force=no src="shared/files/default{{ item }}" dest="/home/{{ user }}/{{ item }}" owner={{ user }} group={{ user }}
