@@ -100,7 +100,6 @@ osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 osm318.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm318.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
-osmose-eurecom.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose1.davintech.ca
@@ -148,7 +147,6 @@ osm211.openstreetmap.fr
 osm212.openstreetmap.fr
 osm213.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
-osmose-eurecom.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose1.davintech.ca
