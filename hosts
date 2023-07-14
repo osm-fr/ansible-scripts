@@ -463,6 +463,7 @@ osmose-backend
 osmose-frontend
 osm2pgsql
 postgresql
+renderd
 
 [thomasg77]
 sotm.vm.openstreetmap.fr
