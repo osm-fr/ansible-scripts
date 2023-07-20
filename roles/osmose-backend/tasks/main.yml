@@ -42,23 +42,6 @@
     path: /root/packages/
     state: directory
 
-- name: install additional local packages
-  copy:
-    src: "{{ item }}"
-    dest: "/root/packages/{{ item }}"
-  with_items:
-    - python3-lark-parser_0.6.7-1_all.deb
-    - python3-backports.csv_1.0.7-1_all.deb
-    - python3-transporthours_0.0.4-1_all.deb
-
-- name: install additional local packages
-  apt:
-    deb: /root/packages/{{ item }}
-  with_items:
-    - python3-lark-parser_0.6.7-1_all.deb
-    - python3-backports.csv_1.0.7-1_all.deb
-    - python3-transporthours_0.0.4-1_all.deb
-
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
