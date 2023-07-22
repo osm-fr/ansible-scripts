@@ -15,7 +15,7 @@ jobs:
             python3-pylama \
             yamllint
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: yamllint
         run: |
