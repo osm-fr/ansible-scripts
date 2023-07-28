@@ -7,3 +7,6 @@
 - name: systemd daemon-reload
   ansible.builtin.systemd:
     daemon_reload: true
+
+- name: restart munin-node
+  service: name=munin-node state=restarted
