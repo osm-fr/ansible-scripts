@@ -2,5 +2,5 @@
 host_proxy:
   -
     logname: "layers"
-    websites: "layers.openstreetmap.fr"
+    websites: "layers.openstreetmap.fr tile.openstreetmap.fr"
     target: "10.1.0.190"
