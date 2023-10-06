@@ -1,0 +1,69 @@
+# necessary to run a lot of containers, each which systemd launching several inotify
+- name: increase fs.inotify.max_user_instances on host
+  sysctl:
+    name: fs.inotify.max_user_instances
+    value: 1024
+    sysctl_file: /etc/sysctl.d/ansible.conf
+
+- name: Reduce swappiness to 1
+  sysctl:
+    name: vm.swappiness
+    value: 1
+    sysctl_file: /etc/sysctl.d/ansible.conf
+
+# https://forum.proxmox.com/threads/increase-performance-with-sched_autogroup_enabled-0.41729/
+# https://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com
+#
+# * sched_migration_cost
+#
+# The migration cost is the total time the scheduler will consider a
+# migrated process "cache hot" and thus less likely to be re-migrated. By
+# default, this is 0.5ms (500000 ns), and as the size of the process table
+# increases, eventually causes the scheduler to break down. On our
+# systems, after a smooth degradation with increasing connection count,
+# system CPU spiked from 20 to 70% sustained and TPS was cut by 5-10x once
+# we crossed some invisible connection count threshold. For us, that was a
+# pgbench with 900 or more clients.
+#
+# The migration cost should be increased, almost universally on server
+# systems with many processes. This means systems like PostgreSQL or
+# Apache would benefit from having higher migration costs. We've had good
+# luck with a setting of 5ms (5000000 ns) instead.
+#
+# When the breakdown occurs, system CPU (as obtained from sar) increases
+# from 20% on a heavy pgbench (scale 3500 on a 72GB system) to over 70%,
+# and %nice/%user is cut by half or more. A higher migration cost
+# essentially eliminates this artificial throttle.
+#
+#
+# * sched_autogroup_enabled
+#
+# This is a relatively new patch which Linus lauded back in late 2010. It
+# basically groups tasks by TTY so perceived responsiveness is improved.
+# But on server systems, large daemons like PostgreSQL are going to be
+# launched from the same pseudo-TTY, and be effectively choked out of CPU
+# cycles in favor of less important tasks.
+#
+# The default setting is 1 (enabled) on some platforms. By setting this to
+# 0 (disabled), we saw an outright 30% performance boost on the same
+# pgbench test. A fully cached scale 3500 database on a 72GB system went
+# from 67k TPS to 82k TPS with 900 client connections.
+
+# We use systemd-tmpfiles mechanism to write in pseudo filesystem
+# https://sleeplessbeastie.eu/2022/11/18/how-to-create-persistent-sysfs-configuration-using-systemd/
+# https://wiki.archlinux.org/title/Systemd#systemd-tmpfiles_-_temporary_files
+- name: Disable Transparent Huge Pages and apply scheduler changes on recent kernels
+  template:
+    src: 'systemd-tmpfiles.conf.j2'
+    dest: '/etc/tmpfiles.d/thp.conf'
+  notify:
+    - systemd-tmpfiles create
+
+# La mémoire n'est pas allouée/réservée. Le kernel essaiera d'allouer les hugepages si c'est possible, sinon tant pis.
+# Ca marche bien au démarrage. Une fois que le serveur tourne et que la mémoire est utilisée pour le cache ou est fragmentée,
+# il aura plus de mal à trouver des blocs consécutifs.
+- name: Allow 2MB huge pages up to 60% of the RAM
+  sysctl:
+    name: vm.nr_overcommit_hugepages
+    value: "{{ ( ansible_memtotal_mb * 0.6 / 2)|int }}"
+    sysctl_file: /etc/sysctl.d/ansible.conf

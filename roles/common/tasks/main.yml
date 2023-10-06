@@ -670,14 +670,6 @@
   notify:
     - generate locales
 
-# necessary to run a lot of containers, each which systemd launching several inotify
-- name: increase fs.inotify.max_user_instances on host
-  sysctl:
-    name: fs.inotify.max_user_instances
-    value: 1024
-    sysctl_file: /etc/sysctl.d/ansible.conf
-  when: "not 'vm' in group_names"
-
 # configure lxfs so that VMs get their own load-average
 - name: create systemd override directory for lxcfs
   file:
@@ -709,7 +701,10 @@
 - include: munin-node.yml
 
 - include: sysstat.yml
+  when: "'proxmox' in group_names"
+
+- include: sysctl.yml
+  when: "'proxmox' in group_names"
 
 - include: ntp.yml
   when: "not 'vm' in group_names"
-

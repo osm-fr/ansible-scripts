@@ -27,6 +27,8 @@
 
 - include: sysstat.yml
 
+- include: sysctl.yml
+
 - name: restart systemd-hostnamed
   systemd:
     daemon_reload: yes
