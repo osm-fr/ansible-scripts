@@ -28,6 +28,6 @@
   authorized_key: user={{ user }} key="{{ item }}" key_options='no-pty,no-X11-forwarding,permitopen="localhost:*"'
   tags: ssh-tunnel
   when: ansible_hostname == 'osm7'
-  with_file:
+  with_fileglob:
     - "{{ lookup('env','PWD') }}/public_keys/ansible/{{ user }}-osm3"
     - "{{ lookup('env','PWD') }}/public_keys/ansible/{{ user }}-osm101"
