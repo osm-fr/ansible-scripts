@@ -630,7 +630,7 @@
   lineinfile:
     dest: /etc/locale.gen
     regexp: "{{ item }}"
-    line: "{{ item }} "
+    line: "{{ item }}"
   notify:
     - generate locales
   with_items:
@@ -652,7 +652,7 @@
   lineinfile:
     dest: /var/lib/locales/supported.d/local
     regexp: "{{ item }}"
-    line: "{{ item }} "
+    line: "{{ item }}"
   notify:
     - generate locales
   with_items:
