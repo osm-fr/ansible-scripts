@@ -464,6 +464,7 @@ osm165.openstreetmap.fr
 postgres-ovh.vm.openstreetmap.fr
 
 [teslix:children]
+buildbot-master
 osmose-backend
 osmose-frontend
 osm2pgsql
