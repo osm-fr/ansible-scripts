@@ -1,0 +1,41 @@
+---
+- name: Set {{ user }} group
+  group:
+    name: "{{ user }}"
+
+- name: Set {{ user }} account
+  user:
+    group: "{{ user }}"
+    home: "/home/{{ user }}"
+    name: "{{ user }}"
+    uid: "{{ uid }}"
+
+- name: Initialise /data/work/ folder for {{ user }}
+  file:
+    path: /data/work/{{ user }}
+    state: directory
+    group: "{{ user }}"
+    owner: "{{ user }}"
+
+- name: Copy SSH key of user {{ user }}
+  authorized_key:
+    user: "{{ user }}"
+    key: "{{ lookup('file', file) }}"
+  with_fileglob:
+    - "public_keys/{{ user }}*"
+  loop_control:
+    loop_var: file
+
+- name: Copy default config files
+  copy:
+    force: false
+    src: "default{{ file }}"
+    dest: "/home/{{ user }}/{{ file }}"
+    group: "{{ user }}"
+    owner: "{{ user }}"
+  loop:
+    - .gitconfig
+    - .vimrc
+  loop_control:
+    loop_var: file
+...

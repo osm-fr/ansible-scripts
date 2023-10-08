@@ -1,6 +1,9 @@
 ---
 - name: Set accounts
-  include: ../../shared/account.yml user={{ item.user }} uid={{ item.uid }}
+  include_tasks: account.yml
+  vars:
+    user: "{{ item.user }}"
+    uid: "{{ item.value.uid }}"
   loop: "{{ users__accounts | dict2items(key_name = 'user') }}"
   when: "item.user in group_names or (item.value.admin | default(false))"
 ...
