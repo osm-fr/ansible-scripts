@@ -19,14 +19,18 @@
   tags: user_creation
 
 - name: init ssh key to user {{ user }}
-  authorized_key: user={{ user }} key="{{ lookup('file',item) }}"
+  authorized_key: user={{ user }} key="{{ lookup('file',file) }}"
   tags: user_creation
   with_fileglob:
     - "{{ lookup('env','PWD') }}/public_keys/{{ user }}*"
+  loop_control:
+    loop_var: file
 
 - name: copy default config files
-  copy: force=no src="shared/files/default{{ item }}" dest="/home/{{ user }}/{{ item }}" owner={{ user }} group={{ user }}
+  copy: force=no src="shared/files/default{{ file }}" dest="/home/{{ user }}/{{ file }}" owner={{ user }} group={{ user }}
   tags: user_creation
   with_items:
     - .gitconfig
     - .vimrc
+  loop_control:
+    loop_var: file

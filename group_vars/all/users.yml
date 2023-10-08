@@ -1,0 +1,149 @@
+---
+users__accounts:
+  cquest:
+    uid: 1202
+    admin: true
+
+  jocelyn:
+    uid: 1203
+    admin: true
+
+  marc_marc:
+    uid: 1216
+    admin: true
+
+  achetta:
+    uid: 1236
+
+  apavie:
+    uid: 1211
+
+  cgiquello:
+    uid: 1212
+
+  cormoran:
+    uid: 1219
+
+  davidbgk:
+    uid: 1251
+
+  don-vip:
+    uid: 1247
+
+  driss:
+    uid: 1224
+
+  etienne:
+    uid: 1213
+
+  eloks:
+    uid: 1214
+
+  famlam:
+    uid: 1250
+
+  flacombe:
+    uid: 1246
+
+  francois2:
+    uid: 1221
+
+  fred:
+    uid: 1205
+
+  gileri:
+    uid: 1311
+
+  guillaumeamat:
+    uid: 1235
+
+  gpelloux:
+    uid: 1237
+
+  hamlet:
+    uid: 1305
+
+  jacques:
+    uid: 1306
+
+  jben:
+    uid: 1206
+
+  jgcailton:
+    uid: 1207
+
+  juliep:
+    uid: 1210
+
+  karl:
+    uid: 1238
+
+  lcombe:
+    uid: 1215
+
+  ljbouere:
+    uid: 1248
+
+  mael:
+    uid: 1218
+
+  nlehuby:
+    uid: 1220
+
+  nmoyroud:
+    uid: 1226
+
+  panieravide:
+    uid: 1230
+
+  phyks:
+    uid: 1233
+
+  pyrog:
+    uid: 1333
+
+  redfox:
+    uid: 1209
+
+  rodolphe:
+    uid: 1208
+
+  rvoirin:
+    uid: 1308
+
+  sly:
+    uid: 1209
+
+  stephanec:
+    uid: 1225
+
+  teslix:
+    uid: 1222
+
+  thomasg77:
+    uid: 1249
+
+  thomasl:
+    uid: 1210
+
+  thorieux:
+    uid: 1229
+
+  thrrp:
+    uid: 1310
+
+  tykayn:
+    uid: 1312
+
+  tyndare:
+    uid: 1212
+
+  vdct:
+    uid: 1217
+
+  ybon:
+    uid: 1223
+
+  ydel:
+    uid: 1313
+...
