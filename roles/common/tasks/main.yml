@@ -423,6 +423,31 @@
     validate: 'visudo -cf %s'
   when: users_root is defined or group_users_root is defined
 
+- name: Configure .gitignore for etckeeper
+  blockinfile:
+    path: /etc/.gitignore
+    block: |
+      pve/.clusterlog
+      pve/.rrd
+      pve/.vmlist
+      pve/authkey.pub
+      pve/local
+      pve/lxc
+      pve/nodes/*/lrm_status
+      pve/openvz
+      pve/priv/authkey.key
+      pve/qemu-server
+  when: "'proxmox' in group_names"
+  register: gitignore_status
+
+- name: Remove new gitignore items from tracking
+  shell: |
+    git rm -r --quiet --cached `git ls-files -i -c --exclude-from=.gitignore`
+    git add .gitignore
+    git commit -m "Cleanup git-ignore files"
+  args:
+    chdir: /etc/
+  when: "'proxmox' in group_names and gitignore_status.changed"
 
 - name: Check if user backuppc exists
   action: shell /usr/bin/getent passwd backuppc
