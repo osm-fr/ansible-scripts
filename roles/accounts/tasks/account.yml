@@ -22,6 +22,14 @@
   loop_control:
     loop_var: file
 
+- name: Initialise {{ ssd }}/{{ user }} folder
+  file:
+    path: "{{ ssd }}/{{ user }}"
+    state: directory
+    group: "{{ user }}"
+    owner: "{{ user }}"
+  when: "service and ssd is defined"
+
 - name: Copy SSH key of user {{ user }}
   authorized_key:
     user: "{{ user }}"

@@ -2,6 +2,7 @@
 - name: Set accounts
   include_tasks: account.yml
   vars:
+    service: "{{ item.value.service | default(false) }}"
     uid: "{{ item.value.uid | default(omit) }}"
     user: "{{ item.user }}"
     workspace: "{{ '/data/project' if item.value.service | default(false) else '/home' }}"
