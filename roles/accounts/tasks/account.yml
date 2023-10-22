@@ -6,16 +6,21 @@
 - name: Set {{ user }} account
   user:
     group: "{{ user }}"
-    home: "/home/{{ user }}/"
+    home: "{{ workspace }}/{{ user }}"
     name: "{{ user }}"
     uid: "{{ uid }}"
 
-- name: Initialise /data/work/ folder for {{ user }}
+- name: Initialise folders for {{ user }}
   file:
     path: /data/work/{{ user }}
     state: directory
     group: "{{ user }}"
     owner: "{{ user }}"
+  loop:
+    - "/data/work/{{ user }}"
+    - "{{ workspace }}/{{ user }}"
+  loop_control:
+    loop_var: file
 
 - name: Copy SSH key of user {{ user }}
   authorized_key:
@@ -30,7 +35,7 @@
   copy:
     force: false
     src: "default{{ file }}"
-    dest: "/home/{{ user }}/{{ file }}"
+    dest: "{{ workspace }}/{{ user }}/{{ file }}"
     group: "{{ user }}"
     owner: "{{ user }}"
   loop:

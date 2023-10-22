@@ -2,9 +2,9 @@
 - name: Set accounts
   include_tasks: account.yml
   vars:
-    home_prefix: "{{ '/data/project' if item.value.service | default(false) else '/home' }}"
     uid: "{{ item.value.uid | default(omit) }}"
     user: "{{ item.user }}"
+    workspace: "{{ '/data/project' if item.value.service | default(false) else '/home' }}"
   loop: "{{ accounts__users | dict2items(key_name = 'user') }}"
   when: "item.user in group_names or (item.value.admin | default(false))"
 ...
