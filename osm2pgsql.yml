@@ -3,4 +3,9 @@
   gather_facts: no
   become: yes
   roles:
+    - accounts
     - osm2pgsql
+  vars:
+    accounts__users:
+      osm2pgsql:
+        service: true
