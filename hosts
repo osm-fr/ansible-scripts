@@ -262,8 +262,8 @@ proxy.osmose.vm.openstreetmap.fr
 cluster-free
 
 [overpass-api]
-osm147.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
-osm148.openstreetmap.fr overpass_version="v0.7.54" ssd="/ssd"
+osm147.openstreetmap.fr overpass_version="v0.7.54"
+osm148.openstreetmap.fr overpass_version="v0.7.54"
 
 [proxmox-backup]
 osm26.openstreetmap.fr proxmox_backup_exclude="118 144 186 999" proxmox_backup_target="osm32.openstreetmap.fr:rpool/backups"
@@ -275,7 +275,7 @@ osm32.openstreetmap.fr proxmox_backup_host=true
 osm13.openstreetmap.fr renderd_layers=true
 osm166.openstreetmap.fr renderd_cyclosm=true
 renderd.th3.vm.openstreetmap.fr renderd_layers=true
-bzh202.vm.openstreetmap.fr renderd_bzh=true 
+bzh202.vm.openstreetmap.fr renderd_bzh=true
 
 [wireguard]
 proxy.ovh.vm.openstreetmap.fr wireguard_config=server
