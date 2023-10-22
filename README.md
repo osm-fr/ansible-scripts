@@ -43,10 +43,10 @@ installed with:
 ### Adding a new user to a specific machine
 
 1. add the machine to file `hosts`, in the relevant section `[user]`
-1. if necessary, add the user to `roles/common/tasks/main.yml`, with the public ssh key in `public\_keys/<user>`
+1. if necessary, add the user to `group_vars/all/accounts.yml`, with the public ssh key in `public\_keys/<user>`
 1. launch following command:
     ```shell
-    ansible-playbook -l <hostname> common.yml --tags user_creation
+    ansible-playbook -l <hostname> accounts.yml
     ```
 
 ### Adding a service to a specific machine
