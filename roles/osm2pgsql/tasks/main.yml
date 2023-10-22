@@ -12,6 +12,13 @@
       - osmosis
       - osmium-tool
 
+- name: install packages
+  apt:
+    pkg:
+      - osm2pgsql
+    default_release: bullseye-backports
+  when: ansible_distribution_release == "bullseye"
+
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
