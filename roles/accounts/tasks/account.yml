@@ -12,7 +12,7 @@
 
 - name: Initialise folders for {{ user }}
   file:
-    path: /data/work/{{ user }}
+    path: "{{ file }}"
     state: directory
     group: "{{ user }}"
     owner: "{{ user }}"
