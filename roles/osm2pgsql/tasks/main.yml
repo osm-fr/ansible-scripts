@@ -22,8 +22,6 @@
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
-- include: ../../../shared/project-account.yml user=osm2pgsql
-
 - name: add sudoers to access osm2pgsql user
   copy: src=sudoers dest=/etc/sudoers.d/osm2pgsql-backend mode=0440 owner=root group=root validate='visudo -cf %s'
 

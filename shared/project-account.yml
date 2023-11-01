@@ -11,11 +11,6 @@
     project_dir: "/data/project/{{ user }}"
     work_dir: "/data/work/{{ user }}"
 
-- name: set ssd_dir if there is ssd disk
-  set_fact:
-    ssd_dir: "{{ ssd }}/{{ user }}"
-  when: "ssd is defined"
-
 - name: Check if user exists
   action: shell /usr/bin/getent passwd {{ user }}
   register: user_exist
@@ -47,14 +42,6 @@
 
 - name: init /data/work/ path for ${user}
   file: path={{ work_dir }} state=directory owner={{ user }} group={{ user }}
-
-- name: create {{ ssd_dir }} dir
-  file:
-    path: "{{ ssd_dir }}"
-    state: directory
-    owner: "{{ user }}"
-    group: "{{ user }}"
-  when: "ssd_dir is defined"
 
 - name: copy default config files
   copy: force=no src="shared/files/default{{ item }}" dest="{{ project_dir }}/{{ item }}" owner={{ user }} group={{ user }}
