@@ -21,5 +21,3 @@ rules:
   document-start: disable
   truthy:
     allowed-values: ['true', 'false', 'True', 'False', 'yes', 'no']
-    ignore: |
-      .github/workflows/ci.yml
