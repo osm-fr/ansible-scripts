@@ -81,6 +81,9 @@ accounts__users:
   lcombe:
     uid: 1215
 
+  lefuturiste:
+    uid: 1227
+
   ljbouere:
     uid: 1248
 
