@@ -1,21 +1,22 @@
 ---
-- name: Set {{ user }} group
-  group:
+- name: Set group {{ user }}
+  ansible.builtin.group:
     name: "{{ user }}"
 
-- name: Set {{ user }} account
-  user:
+- name: Set account {{ user }}
+  ansible.builtin.user:
     group: "{{ user }}"
     home: "{{ workspace }}/{{ user }}"
     name: "{{ user }}"
     uid: "{{ uid }}"
 
 - name: Initialise folders for {{ user }}
-  file:
+  ansible.builtin.file:
     path: "{{ file }}"
     state: directory
     group: "{{ user }}"
     owner: "{{ user }}"
+    mode: u=rwx,g=rx,o=rx
   loop:
     - "/data/work/{{ user }}"
     - "{{ workspace }}/{{ user }}"
@@ -23,7 +24,7 @@
     loop_var: file
 
 - name: Copy SSH key of user {{ user }}
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ user }}"
     key: "{{ lookup('file', file) }}"
   with_fileglob:
@@ -32,12 +33,13 @@
     loop_var: file
 
 - name: Copy default config files
-  copy:
+  ansible.builtin.copy:
     force: false
     src: "default{{ file }}"
     dest: "{{ workspace }}/{{ user }}/{{ file }}"
     group: "{{ user }}"
     owner: "{{ user }}"
+    mode: u=rw,g=r,o=r
   loop:
     - .gitconfig
     - .vimrc

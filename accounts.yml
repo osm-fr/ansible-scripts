@@ -1,4 +1,4 @@
-- name: default configuration
+- name: Default configuration
   hosts: all
   gather_facts: no
   become: yes
