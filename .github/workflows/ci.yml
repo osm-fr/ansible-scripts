@@ -1,26 +1,25 @@
 name: CI
 
-on: [push, pull_request]
+on: [fork, pull_request, push]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - run: |
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends \
-            pylama \
-            python3-pylama \
-            yamllint
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          cache: 'pip'
 
-      - uses: actions/checkout@v3
+      - name: Install Python dependencies
+        run: pip install -U -r requirements.txt
 
-      - name: yamllint
-        run: |
-          yamllint .
+      - name: Run ansible-lint
+        run: ansible-lint
 
-      - name: pylama
-        run: |
-          pylama
+      - name: Run Pylama
+        run: pylama
