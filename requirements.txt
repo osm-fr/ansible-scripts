@@ -1,3 +1,4 @@
 ansible ~= 8.0
 ansible-lint ~= 6.0
+proxmoxer ~= 1.0
 pylama ~= 8.0
