@@ -1,0 +1,8 @@
+---
+dependencies:
+  - role: accounts
+    vars:
+      accounts__users:
+        "{{ osm2pgsql__user }}":
+          service: true
+...
