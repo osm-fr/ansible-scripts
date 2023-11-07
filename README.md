@@ -4,22 +4,49 @@ This repository contains various scripts to setup and configure machines
 handled by OSM-FR association (a french association for OpenStreetMap). These
 scripts are used with [ansible](https://www.ansible.com/).
 
-## Configuring ansible
+## Installing dependencies
+
+### Installing on Debian
 
 A version of ansible >= 2.3 is sufficient, and is available in Debian,
 or from [git repository](https://github.com/ansible/ansible.git). To install all
 dependency on Debian, use:
 
   ```shell
-  apt-get install ansible python-jmespath
+  apt-get install ansible
   ```
 
 To install VM through proxmox, python promoxer module is necessary, It can be
 installed with:
 
   ```shell
-  sudo pip install proxmoxer
+  apt-get install python3-proxmoxer
   ```
+  
+### Installing using `venv`
+
+`venv` module creates isolated Python environments.
+
+First of all, install the required packages. On Debian, use:
+
+  ```shell
+  apt-get install python3 python3-venv
+  ```
+
+You can jump into a new isolated environments using:
+
+  ```shell
+  python3 -m venv <folder>      # Create the environment, only needs to be done once
+  source <folder>/bin/activate  # Run a subshell using the environment 
+  ```
+  
+Then, install the required packages:
+
+  ```shell
+  pip install -r requirements.txt
+  ```
+
+Note: The created environment folder should be placed outside this project folder to prevent `ansible-lint` from looking at it.
 
 ## Using ansible scripts
 
