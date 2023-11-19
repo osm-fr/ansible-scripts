@@ -19,7 +19,6 @@ osmose-frontend.yml name[casing]
 osmosis.yml name[casing]
 overpass-api.yml name[casing]
 peertube.yml name[casing]
-phpbb.yml name[casing]
 polygons.yml name[casing]
 postgresql.yml name[casing]
 proxmox-backup.yml name[casing]
@@ -327,15 +326,6 @@ roles/overpass-api/tasks/set_up_database.yml risky-file-permissions
 roles/overpass-api/tasks/web.yml fqcn[action-core]
 roles/overpass-api/tasks/web.yml name[casing]
 roles/overpass-api/tasks/web.yml risky-file-permissions
-roles/phpbb/handlers/main.yml fqcn[action-core]
-roles/phpbb/handlers/main.yml name[casing]
-roles/phpbb/handlers/main.yml no-free-form
-roles/phpbb/tasks/main.yml deprecated-module
-roles/phpbb/tasks/main.yml fqcn[action-core]
-roles/phpbb/tasks/main.yml name[casing]
-roles/phpbb/tasks/main.yml name[missing]
-roles/phpbb/tasks/main.yml no-free-form
-roles/phpbb/tasks/main.yml risky-file-permissions
 roles/polygons/handlers/main.yml fqcn[action-core]
 roles/polygons/handlers/main.yml name[casing]
 roles/polygons/handlers/main.yml no-free-form

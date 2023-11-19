@@ -161,9 +161,6 @@ osm146.openstreetmap.fr  # for prev.openstreetmap.fr
 [export-cadastre]
 cadastre.vm.openstreetmap.fr
 
-[phpbb]
-osm139.openstreetmap.fr  # for forum.openstreetmap.fr
-
 [geoosm]
 osm167.openstreetmap.fr
 
