@@ -7,7 +7,6 @@ common.yml name[casing]
 drupal.yml name[casing]
 export-cadastre.yml name[casing]
 geoosm.yml name[casing]
-jenkins-slave.yml name[casing]
 layers.openstreetmap.fr.yml name[casing]
 letsencrypt.yml name[casing]
 live.yml name[casing]
@@ -154,14 +153,6 @@ roles/geoosm/tasks/main.yml latest[git]
 roles/geoosm/tasks/main.yml name[casing]
 roles/geoosm/tasks/main.yml name[missing]
 roles/geoosm/tasks/main.yml no-free-form
-roles/jenkins-slave role-name
-roles/jenkins-slave/tasks/main.yml deprecated-module
-roles/jenkins-slave/tasks/main.yml fqcn[action-core]
-roles/jenkins-slave/tasks/main.yml fqcn[action]
-roles/jenkins-slave/tasks/main.yml name[casing]
-roles/jenkins-slave/tasks/main.yml name[missing]
-roles/jenkins-slave/tasks/main.yml no-free-form
-roles/jenkins-slave/tasks/main.yml risky-file-permissions
 roles/layers.openstreetmap.fr role-name
 roles/layers.openstreetmap.fr/handlers/main.yml fqcn[action-core]
 roles/layers.openstreetmap.fr/handlers/main.yml name[casing]
