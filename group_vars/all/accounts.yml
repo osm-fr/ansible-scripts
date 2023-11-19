@@ -18,6 +18,9 @@ accounts__users:
   apavie:
     uid: 1211
 
+  bristow:
+    uid: 1252
+
   cgiquello:
     uid: 1212
 
