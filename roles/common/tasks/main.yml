@@ -1,6 +1,6 @@
 - name: set proxmox password
   set_fact:
-    proxmox_password: "{{ lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) }}"
+    proxmox_password: "{{ lookup('env', 'PROXMOX_PASSWORD_' + proxmox_var.host.split('.')[0]) }}"
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0])
 
 - name: init cache/templates/
@@ -71,7 +71,7 @@
     onboot: yes
     ostemplate: "local:vztmpl/{{ proxmox_var.ostemplate }}"
     password: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
-    pubkey: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    pubkey: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
@@ -113,7 +113,7 @@
     ostype: "l26"
     scsi:
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
-    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
   when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   register: create_vm
@@ -139,7 +139,7 @@
     ostype: "l26"
     scsi:
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
-    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     update: yes
   when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
@@ -232,7 +232,7 @@
     block: |
       Host {{ item }}
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
-  with_items: '{{play_hosts}}'
+  with_items: '{{ play_hosts }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -242,7 +242,7 @@
     module: known_hosts
     name: "{{ hostvars[item].proxmox_var.ipv6 }}"
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
-  with_items: '{{play_hosts}}'
+  with_items: '{{ play_hosts }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -491,9 +491,9 @@
 - name: add ssh key to user backuppc
   authorized_key:
     user: backuppc
-    key: "{{ lookup('file',item) }}"
+    key: "{{ lookup('file', item) }}"
   with_fileglob:
-    - "{{ lookup('env','PWD') }}/public_keys/backuppc-*"
+    - "{{ lookup('env', 'PWD') }}/public_keys/backuppc-*"
 
 - name: create empty /var/www for backuppc
   file:

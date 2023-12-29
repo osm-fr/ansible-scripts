@@ -46,5 +46,5 @@
   tags: ssh-tunnel
   when: ansible_hostname == 'osm7'
   with_fileglob:
-    - "{{ lookup('env','PWD') }}/public_keys/ansible/{{ user }}-osm3"
-    - "{{ lookup('env','PWD') }}/public_keys/ansible/{{ user }}-osm101"
+    - "{{ lookup('env', 'PWD') }}/public_keys/ansible/{{ user }}-osm3"
+    - "{{ lookup('env', 'PWD') }}/public_keys/ansible/{{ user }}-osm101"
