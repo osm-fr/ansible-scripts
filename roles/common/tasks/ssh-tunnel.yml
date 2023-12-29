@@ -26,6 +26,7 @@
     dest: "/data/project/{{ user }}/{{ item }}"
     owner: "{{ user }}"
     group: "{{ user }}"
+    mode: 0644
   tags: ssh-tunnel
   with_items:
     - .gitconfig

@@ -89,7 +89,6 @@ roles/common/tasks/main.yml name[casing]
 roles/common/tasks/main.yml name[missing]
 roles/common/tasks/main.yml no-changed-when
 roles/common/tasks/main.yml no-handler
-roles/common/tasks/main.yml risky-file-permissions
 roles/common/tasks/main.yml risky-shell-pipe
 roles/common/tasks/munin-node.yml fqcn[action-core]
 roles/common/tasks/munin-node.yml jinja[spacing]
@@ -107,12 +106,10 @@ roles/common/tasks/ssh-tunnel.yml jinja[spacing]
 roles/common/tasks/ssh-tunnel.yml name[casing]
 roles/common/tasks/ssh-tunnel.yml name[missing]
 roles/common/tasks/ssh-tunnel.yml no-handler
-roles/common/tasks/ssh-tunnel.yml risky-file-permissions
 roles/common/tasks/sysctl.yml fqcn[action-core]
 roles/common/tasks/sysctl.yml fqcn[action]
 roles/common/tasks/sysctl.yml jinja[spacing]
 roles/common/tasks/sysctl.yml name[casing]
-roles/common/tasks/sysctl.yml risky-file-permissions
 roles/common/tasks/sysstat.yml fqcn[action-core]
 roles/common/tasks/sysstat.yml name[casing]
 roles/drupal/handlers/main.yml fqcn[action-core]
