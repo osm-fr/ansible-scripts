@@ -4,18 +4,19 @@
     state: reloaded
 
 - name: restart apache
-  service: name=apache2 state=restarted
+  systemd:
+    name: apache2
+    state: restarted
 
 - name: reload nginx
   systemd:
     name: nginx
     state: reloaded
 
-- name: restart denyhosts
-  service: name=denyhosts state=restarted
-
 - name: restart monit
-  service: name=monit state=restarted
+  systemd:
+    name: monit
+    state: restarted
 
 - name: generate locales
   command: /usr/sbin/locale-gen

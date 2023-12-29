@@ -1,2 +1,4 @@
 - name: restart sysstat
-  service: name=sysstat state=restarted
+  systemd:
+    name: sysstat
+    state: restarted

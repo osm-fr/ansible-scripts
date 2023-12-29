@@ -266,7 +266,8 @@
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18') or
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '20'))
 
-- set_fact: install_apache=false
+- set_fact:
+    install_apache: false
   when: install_apache is undefined
 
 - name: add backports

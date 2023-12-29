@@ -1,9 +1,10 @@
 - name: install packages for sysstat and atop
-  apt: pkg={{ item }} update_cache=yes
-  with_items:
-    - sysstat
-    - xz-utils
-    - atop
+  apt:
+    update_cache: yes
+    pkg:
+      - sysstat
+      - xz-utils
+      - atop
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 - name: Enable sysstat

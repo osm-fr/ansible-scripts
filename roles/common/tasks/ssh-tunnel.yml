@@ -6,26 +6,42 @@
   tags: ssh-tunnel
 
 - name: init user ${user}
-  user: name={{ user }} home=/data/project/{{ user }}/ shell=/bin/false generate_ssh_key=yes
+  user:
+    name: "{{ user }}"
+    home: "/data/project/{{ user }}/"
+    shell: "/bin/false"
+    generate_ssh_key: yes
   when: user_exist.changed
   tags: ssh-tunnel
 
 - name: init group ${user}
-  group: name={{ user }}
+  group:
+    name: "{{ user }}"
   tags: ssh-tunnel
 
 - name: copy default config files
-  copy: force=no src="shared/files/default{{ item }}" dest="/data/project/{{ user }}/{{ item }}" owner={{ user }} group={{ user }}
+  copy:
+    force: no
+    src: "shared/files/default{{ item }}"
+    dest: "/data/project/{{ user }}/{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
   tags: ssh-tunnel
   with_items:
     - .gitconfig
     - .vimrc
 
-- fetch: src=/data/project/{{ user }}/.ssh/id_rsa.pub dest=public_keys/ansible/{{ user }}-{{ ansible_hostname }} flat=yes
+- fetch:
+    src: "/data/project/{{ user }}/.ssh/id_rsa.pub"
+    dest: "public_keys/ansible/{{ user }}-{{ ansible_hostname }}"
+    flat: yes
   tags: ssh-tunnel
 
 - name: init ssh key to user ${user}
-  authorized_key: user={{ user }} key="{{ item }}" key_options='no-pty,no-X11-forwarding,permitopen="localhost:*"'
+  authorized_key:
+    user: "{{ user }}"
+    key: "{{ item }}"
+    key_options: 'no-pty,no-X11-forwarding,permitopen="localhost:*"'
   tags: ssh-tunnel
   when: ansible_hostname == 'osm7'
   with_fileglob:
