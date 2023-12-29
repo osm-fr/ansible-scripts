@@ -430,12 +430,6 @@ shared/osmosis.yml fqcn[action-core]
 shared/osmosis.yml name[casing]
 shared/osmosis.yml no-free-form
 shared/osmosis.yml risky-file-permissions
-shared/project-account.yml command-instead-of-shell
-shared/project-account.yml fqcn[action-core]
-shared/project-account.yml name[casing]
-shared/project-account.yml no-free-form
-shared/project-account.yml no-handler
-shared/project-account.yml risky-file-permissions
 sympa.yml name[casing]
 taginfo.yml name[casing]
 unattended-upgrades.yml name[casing]
