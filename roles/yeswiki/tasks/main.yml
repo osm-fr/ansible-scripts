@@ -11,7 +11,9 @@
     - php7.0-zip
     - python-pymysql
 
-- include: ../../../shared/project-account.yml user=yeswiki
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: yeswiki
 
 
 # install yeswiki manually in /data/project/yeswiki/yeswiki/

@@ -33,7 +33,9 @@
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
-- include: ../../../shared/project-account.yml user=geoosm
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: geoosm
 
 - name: checkout git repository for backend
   git:

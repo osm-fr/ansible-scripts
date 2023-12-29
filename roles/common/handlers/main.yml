@@ -23,11 +23,11 @@
 - name: detect sensors
   shell: /usr/sbin/sensors-detect < /dev/null
 
-- include: munin-node.yml
+- import_tasks: munin-node.yml
 
-- include: sysstat.yml
+- import_tasks: sysstat.yml
 
-- include: sysctl.yml
+- import_tasks: sysctl.yml
 
 - name: restart systemd-hostnamed
   systemd:

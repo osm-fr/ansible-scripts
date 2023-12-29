@@ -9,7 +9,9 @@
     - postgresql-9.4
     - python-psycopg2
 
-- include: ../../../shared/project-account.yml user=www
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: www
 
 - name: init database
   postgresql_db: name=osm_fr encoding='UTF-8' lc_collate='en_US.UTF-8' lc_ctype='en_US.UTF-8' template='template0'

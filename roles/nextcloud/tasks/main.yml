@@ -19,7 +19,9 @@
     - php-xml
     - php-zip
 
-- include: ../../../shared/project-account.yml user=nextcloud
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: nextcloud
 
 
 # install phpBB3 manually in /data/project/nextcloud/nextcloud/

@@ -6,7 +6,9 @@
     - python3-iso8601
     - sqlite3
 
-- include: ../../../shared/project-account.yml user=live
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: live
 
 - name: add sudoers to access live user
   copy: src=sudoers dest=/etc/sudoers.d/live mode=0440 owner=root group=root validate='visudo -cf %s'

@@ -577,20 +577,23 @@
     - systemd daemon-reload
   when: "'proxmox' in group_names"
 
-- include: ssh-tunnel.yml user=ssh-tunnel uid=1104
+- ansible.builtin.include_tasks: ssh-tunnel.yml
+  vars:
+    user: "ssh-tunnel"
+    uid: "1104"
   when: "'ssh-tunnel' in group_names"
 
-- include: apache2.yml
+- ansible.builtin.import_tasks: apache2.yml
 
-- include: nginx.yml
+- ansible.builtin.import_tasks: nginx.yml
 
-- include: munin-node.yml
+- ansible.builtin.import_tasks: munin-node.yml
 
-- include: sysstat.yml
+- ansible.builtin.include_tasks: sysstat.yml
   when: "'proxmox' in group_names"
 
-- include: sysctl.yml
+- ansible.builtin.include_tasks: sysctl.yml
   when: "'proxmox' in group_names"
 
-- include: ntp.yml
+- ansible.builtin.include_tasks: ntp.yml
   when: "not 'vm' in group_names"
