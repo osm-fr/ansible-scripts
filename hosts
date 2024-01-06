@@ -128,6 +128,11 @@ osm34.openstreetmap.fr
 osm35.openstreetmap.fr
 osm36.openstreetmap.fr
 
+[cluster-moji]
+osm38.openstreetmap.fr
+osm39.openstreetmap.fr
+osm40.openstreetmap.fr
+
 [proxmox:children]
 cluster-ovh
 cluster-free
