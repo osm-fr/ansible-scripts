@@ -29,7 +29,9 @@
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
-- include: ../../../shared/project-account.yml user=osmose
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: osmose
 
 - name: init /data/work/osmose/results/
   file: path=/data/work/osmose/results/ state=directory owner=osmose group=osmose

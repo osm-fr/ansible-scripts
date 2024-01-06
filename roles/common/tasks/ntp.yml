@@ -1,5 +1,10 @@
 - name: install ntp package
-  apt: pkg=ntp
+  apt:
+    pkg:
+      - ntp
 
 - name: launch ntp
-  service: name=ntp state=started enabled=yes
+  systemd:
+    name: ntp
+    state: started
+    enabled: yes

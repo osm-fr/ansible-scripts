@@ -1,4 +1,7 @@
-- include: ../../../shared/project-account.yml user=letsencrypt generate_ssh_key=yes
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: letsencrypt
+    generate_ssh_key: yes
 
 - name: fetch generated public ssh key
   fetch: src=/data/project/letsencrypt/.ssh/id_rsa.pub dest=public_keys/letsencrypt-{{ inventory_hostname }} flat=yes

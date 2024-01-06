@@ -29,7 +29,9 @@
     - osmctools
 
 
-- include: ../../../shared/project-account.yml user=taginfo
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: taginfo
 
 - name: init /data/work/taginfo paths
   file: path={{ item }} state=directory owner=taginfo group=taginfo

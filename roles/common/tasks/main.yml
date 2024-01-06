@@ -1,6 +1,6 @@
 - name: set proxmox password
   set_fact:
-    proxmox_password: "{{ lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) }}"
+    proxmox_password: "{{ lookup('env', 'PROXMOX_PASSWORD_' + proxmox_var.host.split('.')[0]) }}"
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0])
 
 - name: init cache/templates/
@@ -9,6 +9,7 @@
     path: "cache/templates/"
     state: directory
     force: no
+    mode: 0755
   when: proxmox_password is defined
   become: no
 
@@ -25,6 +26,7 @@
     module: get_url
     dest: "cache/templates/{{ item }}"
     url: "http://download.proxmox.com/images/system/{{ item }}"
+    mode: 0644
   with_items:
     - "{{ proxmox_var.ostemplate }}"
     - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
@@ -69,7 +71,7 @@
     onboot: yes
     ostemplate: "local:vztmpl/{{ proxmox_var.ostemplate }}"
     password: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
-    pubkey: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    pubkey: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
@@ -111,7 +113,7 @@
     ostype: "l26"
     scsi:
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
-    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
   when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   register: create_vm
@@ -137,7 +139,7 @@
     ostype: "l26"
     scsi:
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
-    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     update: yes
   when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
@@ -230,7 +232,7 @@
     block: |
       Host {{ item }}
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
-  with_items: '{{play_hosts}}'
+  with_items: '{{ play_hosts }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -240,7 +242,7 @@
     module: known_hosts
     name: "{{ hostvars[item].proxmox_var.ipv6 }}"
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
-  with_items: '{{play_hosts}}'
+  with_items: '{{ play_hosts }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -266,7 +268,8 @@
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18') or
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '20'))
 
-- set_fact: install_apache=false
+- set_fact:
+    install_apache: false
   when: install_apache is undefined
 
 - name: add backports
@@ -340,6 +343,7 @@
     url: "https://download.docker.com/linux/debian/gpg"
     dest: "/usr/share/keyrings/docker-archive-keyring.gpg.tmp"
     checksum: "sha512:d07607e3119181026e3309fb828882a13621960c54290416c2f897e1834f36abdb48d11b6f71aba1d2b9e7dac3f3fe8281c248500cfe13705674a5446826b699"
+    mode: 0644
   when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
 
 - name: activate docker apt key
@@ -396,6 +400,7 @@
     owner: root
     group: root
     force: no
+    mode: 0755
   with_items:
     - /data
     - /data/project
@@ -486,21 +491,23 @@
 - name: add ssh key to user backuppc
   authorized_key:
     user: backuppc
-    key: "{{ lookup('file',item) }}"
+    key: "{{ lookup('file', item) }}"
   with_fileglob:
-    - "{{ lookup('env','PWD') }}/public_keys/backuppc-*"
+    - "{{ lookup('env', 'PWD') }}/public_keys/backuppc-*"
 
 - name: create empty /var/www for backuppc
   file:
     path: /var/www/
     state: directory
     force: no
+    mode: 0755
 
 - name: create empty file in backup-ed /var/www
   copy:
     content: ""
     dest: /var/www/.empty-file-for-backuppc
     force: no
+    mode: 0444
 
 - name: update hosts.allow
   lineinfile:
@@ -532,6 +539,7 @@
     dest: /var/lib/locales/supported.d/local
     force: no
     owner: root
+    mode: 0644
   when: ansible_distribution == 'Ubuntu'
 
 - name: configure locales
@@ -577,20 +585,23 @@
     - systemd daemon-reload
   when: "'proxmox' in group_names"
 
-- include: ssh-tunnel.yml user=ssh-tunnel uid=1104
+- ansible.builtin.include_tasks: ssh-tunnel.yml
+  vars:
+    user: "ssh-tunnel"
+    uid: "1104"
   when: "'ssh-tunnel' in group_names"
 
-- include: apache2.yml
+- ansible.builtin.import_tasks: apache2.yml
 
-- include: nginx.yml
+- ansible.builtin.import_tasks: nginx.yml
 
-- include: munin-node.yml
+- ansible.builtin.import_tasks: munin-node.yml
 
-- include: sysstat.yml
+- ansible.builtin.include_tasks: sysstat.yml
   when: "'proxmox' in group_names"
 
-- include: sysctl.yml
+- ansible.builtin.include_tasks: sysctl.yml
   when: "'proxmox' in group_names"
 
-- include: ntp.yml
+- ansible.builtin.include_tasks: ntp.yml
   when: "not 'vm' in group_names"

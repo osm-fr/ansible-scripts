@@ -1,50 +1,58 @@
-- name: create root project_dir and work_dir
-  file:
+---
+- name: Create root project_dir and work_dir
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: "0755"
   with_items:
     - /data/project
     - /data/work
 
-- name: set project_dir and work_dir
-  set_fact:
-    project_dir: "/data/project/{{ user }}"
-    work_dir: "/data/work/{{ user }}"
+- name: Set project_dir and work_dir
+  ansible.builtin.set_fact:
+    project_dir: /data/project/{{ user }}
+    work_dir: /data/work/{{ user }}
 
-- name: Check if user exists
-  action: shell /usr/bin/getent passwd {{ user }}
-  register: user_exist
-  ignore_errors: True
-  changed_when: "user_exist.rc != 0"
-
-- name: init user ${user}
-  user:
+- name: Init user ${user}
+  ansible.builtin.user:
     name: "{{ user }}"
     home: "{{ project_dir }}"
-    shell: "/bin/bash"
+    shell: /bin/bash
     generate_ssh_key: "{{ generate_ssh_key | default('no') }}"
     system: "{{ user_system | default('no') }}"
-  when: user_exist.changed
 
-- name: init group ${user}
-  group: name={{ user }}
+- name: Init group ${user}
+  ansible.builtin.group:
+    name: "{{ user }}"
 
-- name: check if /data exists
-  stat:
+- name: Check if /data exists
+  ansible.builtin.stat:
     path: /data
   register: data_exists
 
-- name: init /data path
-  file:
+- name: Init /data path
+  ansible.builtin.file:
     path: /data
     state: directory
+    mode: "0755"
   when: not data_exists.stat.exists
 
-- name: init /data/work/ path for ${user}
-  file: path={{ work_dir }} state=directory owner={{ user }} group={{ user }}
+- name: Init /data/work/ path for ${user}
+  ansible.builtin.file:
+    path: "{{ work_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "0755"
 
-- name: copy default config files
-  copy: force=no src="shared/files/default{{ item }}" dest="{{ project_dir }}/{{ item }}" owner={{ user }} group={{ user }}
+- name: Copy default config files
+  ansible.builtin.copy:
+    force: false
+    src: shared/files/default{{ item }}
+    dest: "{{ project_dir }}/{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "0644"
   with_items:
     - .gitconfig
     - .vimrc

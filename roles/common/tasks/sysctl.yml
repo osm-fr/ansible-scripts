@@ -56,6 +56,7 @@
   template:
     src: 'systemd-tmpfiles.conf.j2'
     dest: '/etc/tmpfiles.d/thp.conf'
+    mode: 0644
   notify:
     - systemd-tmpfiles create
 
@@ -65,5 +66,5 @@
 - name: Allow 2MB huge pages up to 60% of the RAM
   sysctl:
     name: vm.nr_overcommit_hugepages
-    value: "{{ ( ansible_memtotal_mb * 0.6 / 2)|int }}"
+    value: "{{ (ansible_memtotal_mb * 0.6 / 2) | int }}"
     sysctl_file: /etc/sysctl.d/ansible.conf

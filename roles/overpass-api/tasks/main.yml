@@ -4,7 +4,10 @@
       - "ansible_version.full | version_compare('2.3', '>=')"
     msg: "ansible version must be >= 2.3, please update ansible."
 
-- include: ../../../shared/project-account.yml user="{{ overpass_user }}" user_system="yes"
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: "{{ overpass_user }}"
+    user_system: "yes"
 
 
 - name: set overpass_database_dir
@@ -25,9 +28,9 @@
     - "{{ overpass_database_dir }}"
     - "{{ overpass_webroot_dir }}"
 
-- include: compile.yml
-- include: set_up_database.yml
-- include: services.yml
-- include: web.yml
-- include: munin.yml
-- include: restart.yml
+- import_tasks: compile.yml
+- import_tasks: set_up_database.yml
+- import_tasks: services.yml
+- import_tasks: web.yml
+- import_tasks: munin.yml
+- import_tasks: restart.yml

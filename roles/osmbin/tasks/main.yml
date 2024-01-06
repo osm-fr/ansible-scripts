@@ -37,7 +37,9 @@
   with_items:
     - osmium-2.15.2-or-later_1.0_all.deb
 
-- include: ../../../shared/project-account.yml user=osmbin
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: osmbin
 
 - name: add sudoers to access osmbin user
   copy: src=sudoers dest=/etc/sudoers.d/osmbin mode=0440 owner=root group=root validate='visudo -cf %s'

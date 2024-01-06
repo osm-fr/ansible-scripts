@@ -21,7 +21,7 @@
     dest: /etc/munin/munin-node.conf
     regexp: "^host_name {{ inventory_hostname }}"
     insertafter: "^#host_name"
-    line: "host_name {{ inventory_hostname  }}"
+    line: "host_name {{ inventory_hostname }}"
   notify:
     - restart munin-node
 

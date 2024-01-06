@@ -42,7 +42,9 @@
       - libapache2-mod-tile
 
 # style OSM-FR style
-- include: ../../../shared/project-account.yml user=osmfr-cartocss
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: osmfr-cartocss
   when: renderd_osmfr
 
 - name: checkout git repository
@@ -53,7 +55,9 @@
 
 # style layers
 # TODO: recompilation de renderd avec XMLCONFIGS_MAX=64
-- include: ../../../shared/project-account.yml user=layers
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: layers
   when: renderd_layers
 
 - name: checkout git repository

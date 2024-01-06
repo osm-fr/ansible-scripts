@@ -26,7 +26,9 @@
       - zlib1g-dev
       - libjpeg-dev
 
-- include: ../../../shared/project-account.yml user=cadastre
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: cadastre
 
 - name: add cadastre user to www-data group
   user: name="cadastre" groups="www-data" append=yes

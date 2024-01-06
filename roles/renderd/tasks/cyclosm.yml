@@ -1,5 +1,7 @@
 # style cyclosm
-- include: ../../../shared/project-account.yml user=cyclosm
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: cyclosm
 
 - name: checkout git repository
   git:
