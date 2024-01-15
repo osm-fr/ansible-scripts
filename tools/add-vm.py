@@ -118,10 +118,30 @@ host_config = {
     "ipv6": "2001:67c:1740:9031::%d",
     "default_storage": "local-zfs",
   },
+  "osm35": {
+    "hostname": "osm35.openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr1",
+    "gw4":  "10.0.0.35",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2001:67c:1740:9031::1",
+    "ipv6": "2001:67c:1740:9031::%d",
+    "default_storage": "local-zfs",
+  },
+  "osm36": {
+    "hostname": "osm36.openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr1",
+    "gw4":  "10.0.0.36",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2001:67c:1740:9031::1",
+    "ipv6": "2001:67c:1740:9031::%d",
+    "default_storage": "local-zfs",
+  },
 }
 
 templates = [
-  "debian-12-standard_12.0-1_amd64.tar.zst",
+  "debian-12-standard_12.2-1_amd64.tar.zst",
   "debian-11-standard_11.6-1_amd64.tar.zst",
   "debian-10-standard_10.7-1_amd64.tar.gz",
   "debian-9.0-standard_9.7-1_amd64.tar.gz",
