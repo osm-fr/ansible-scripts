@@ -585,6 +585,15 @@
     - systemd daemon-reload
   when: "'proxmox' in group_names"
 
+- name: Add ZFS reservation on /rpool
+  community.general.zfs:
+    name: rpool/reservation
+    state: present
+    extra_zfs_properties:
+      reservation: 20G
+  when: "'proxmox' in group_names"
+
+
 - ansible.builtin.include_tasks: ssh-tunnel.yml
   vars:
     user: "ssh-tunnel"
