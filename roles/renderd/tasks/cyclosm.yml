@@ -24,15 +24,11 @@
     state: present
     filename: nodesource
 
-- name: install nodejs packages
-  apt:
-    pkg: nodejs
-    state: latest
-
 - name: install packages
   apt:
     pkg:
       - nodejs
+      - npm
     state: latest
 
 - name: npm install

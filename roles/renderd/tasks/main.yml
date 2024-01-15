@@ -121,5 +121,5 @@
   when: renderd_layers
 
 # style cyclosm
-- import_tasks: cyclosm.yml
+- include_tasks: cyclosm.yml
   when: renderd_cyclosm

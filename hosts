@@ -97,6 +97,7 @@ pleinair.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm201.openstreetm
 bzh202.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm202.openstreetmap.fr
 postgres-free.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm203.openstreetmap.fr
 adopte-une-commune.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm204.openstreetmap.fr
+renderd-cyclosm.vm.openstreetmap.fr vm_host=osm36.openstreetmap.fr # osm205.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -282,6 +283,7 @@ osm32.openstreetmap.fr proxmox_backup_host=true
 osm13.openstreetmap.fr renderd_layers=true
 osm166.openstreetmap.fr renderd_cyclosm=true
 renderd.th3.vm.openstreetmap.fr renderd_layers=true
+renderd-cyclosm.vm.openstreetmap.fr renderd_cyclosm=true
 bzh202.vm.openstreetmap.fr renderd_bzh=true
 
 [wireguard]
@@ -454,6 +456,7 @@ pic4review.vm.openstreetmap.fr
 osm11.openstreetmap.fr
 osm165.openstreetmap.fr
 osm166.openstreetmap.fr
+renderd-cyclosm.vm.openstreetmap.fr renderd_cyclosm=true
 
 [pyrog]
 mobilizon.vm.openstreetmap.fr
