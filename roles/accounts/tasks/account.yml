@@ -9,6 +9,7 @@
     home: "{{ workspace }}/{{ user }}"
     name: "{{ user }}"
     uid: "{{ uid }}"
+    shell: "/bin/bash"
 
 - name: Initialise folders for {{ user }}
   ansible.builtin.file:
