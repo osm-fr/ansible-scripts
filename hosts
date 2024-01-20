@@ -98,6 +98,7 @@ bzh202.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm202.openstreetmap
 postgres-free.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm203.openstreetmap.fr
 adopte-une-commune.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm204.openstreetmap.fr
 renderd-cyclosm.vm.openstreetmap.fr vm_host=osm36.openstreetmap.fr # osm205.openstreetmap.fr
+renderd-bzh.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm206.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -424,6 +425,7 @@ osm26.openstreetmap.fr
 osm27.openstreetmap.fr
 osm160.openstreetmap.fr
 bzh202.vm.openstreetmap.fr
+renderd-bzh.vm.openstreetmap.fr
 
 [marc_marc:children]
 cluster-free
