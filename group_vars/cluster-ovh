@@ -62,6 +62,7 @@ proxy:
     logname: "osmose"
     websites: "osmose.openstreetmap.fr"
     target: "10.1.0.186"
+    redirect_to_https: true
   -
     logname: "beta.osmose"
     websites: "beta.osmose.openstreetmap.fr"
