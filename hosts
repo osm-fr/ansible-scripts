@@ -100,6 +100,7 @@ adopte-une-commune.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm204.o
 renderd-cyclosm.vm.openstreetmap.fr vm_host=osm36.openstreetmap.fr # osm205.openstreetmap.fr
 renderd-bzh.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm206.openstreetmap.fr
 osm2pgsql-cyclosm.vm.openstreetmap.fr vm_host=osm36.openstreetmap.fr # osm207.openstreetmap.fr
+osm2pgsql-bzh.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm208.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -212,6 +213,7 @@ osm165.openstreetmap.fr
 osm2pgsql-osm12.vm.openstreetmap.fr # nom pas ideal. osm2pgsql.free ?
 osm2pgsql.th3.vm.openstreetmap.fr
 osm2pgsql-cyclosm.vm.openstreetmap.fr
+osm2pgsql-bzh.vm.openstreetmap.fr
 
 [osmose-backend]
 osm110.openstreetmap.fr
@@ -244,6 +246,7 @@ download.vm.openstreetmap.fr
 postgres-ovh.vm.openstreetmap.fr
 postgres-free.vm.openstreetmap.fr
 osm2pgsql-cyclosm.vm.openstreetmap.fr
+osm2pgsql-bzh.vm.openstreetmap.fr
 
 [taginfo]
 taginfo.vm.openstreetmap.fr

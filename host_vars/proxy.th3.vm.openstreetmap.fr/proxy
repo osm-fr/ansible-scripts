@@ -31,3 +31,13 @@ host_proxy:
     logname: "umap"
     websites: "dev.umap.openstreetmap.fr umap.openstreetmap.fr"
     target: "10.1.0.199"
+  -
+    logname: "openstreetmap.bzh"
+    websites: "tile.openstreetmap.bzh stats.openstreetmap.bzh"
+    target: "10.1.0.206"
+  -
+    logname: "monit.tile.openstreetmap.bzh"
+    websites: "monit.tile.openstreetmap.bzh"
+    target: "10.1.0.206"
+    target_port: "2812"
+    config_src: "nginx-site-port.j2"
