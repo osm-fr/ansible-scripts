@@ -158,6 +158,7 @@ storages = [
   "ceph",
   "local",
   "local-zfs",
+  "nvme-zfs",
   "ssd-nvme",
   "ssd-sata",
   "ssd-zfs",
