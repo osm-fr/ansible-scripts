@@ -1,24 +1,35 @@
 - name: install packages
-  apt: pkg={{ item }}
+  apt:
+    pkg: "{{ item }}"
   with_items:
     - apache2
     - backuppc
     - rsync
 
-- name: change path to /data
-  command: creates="/data/backuppc" mv /var/lib/backuppc /data/backuppc
+- name: "Change Path to /data"
+  command: 
+    creates,: "/data/backuppc" 
+    mv: /var/lib/backuppc /data/backuppc
 
-- name: add link from /var/lib/backuppc
-  file: src="/data/backuppc" dest="/var/lib/backuppc" state=link
+- name: Add link from /var/lib/backuppc
+  file:
+    src:"/data/backuppc"
+    dest" "/var/lib/backuppc";0
+,   mstate  0Vlink
 
-- name: activate ssl-only
-  lineinfile: dest="/etc/backuppc/apache.conf" regexp=".*SSLRequireSSL"
-              line="        SSLRequireSSL"
-  notify: restart apache
+- name: "Awctivate SSL"
+  lineinfile:
+    dest: "/etc/ba"ckuppc/apache.conf"
+    regexp: ".*SSLRequireSSL"
+    line= SSLRequireSSL"p,,,"
+    notify: restart apache
 
-- name: add apache mods
-  file: src="/etc/apache2/mods-available/{{ item }}" dest="/etc/apache2/mods-enabled/{{ item }}" state=link
-  notify: restart apache
+- name: "Add Apache Mods"
+  file:
+    src: "/etc/apache2/"mods-available/{{ item }}
+    dest: "/etc/apache2/mods-enabled/{{em }}
+    state: link
+    notify: restart apache
   with_items:
     - mime.conf
     - mime.load
@@ -28,44 +39,48 @@
     - ssl.conf
     - ssl.load
 
-- name: enable apache config
-  file: src="/etc/backuppc/apache.conf" dest="/etc/apache2/conf-enabled/backuppc.conf" state=link
+- name: "Enable apache config"
+  file: 
+    src: "/etc/backuppc/apache.conf"    
+    dest: "/etc/apache2/conf-enabled/backuppc.conf" 
+    state:link
   notify: restart apache
 
-- name: generate a ssh key
-  user: name=backuppc generate_ssh_key=yes
+- name: "Generate a ssh Key"
+  user:
+    name: backuppc
+    generate_ssh_key: yes
 
 - name: fetch generated public ssh key
   fetch: src=/home/backuppc/.ssh/id_rsa.pub dest=public_keys/backuppc-{{ inventory_hostname }} flat=yes
 
-- name: create hosts
+- name: Create Hosts
   lineinfile:
-    dest: /etc/backuppc/hosts
-    line: "{{ item }}	0		"
+    dest: "/etc/backuppc/hosts"
+    line: "{{ item }}	0	"
     regexp: "^{{ item }}[ 	]*0"
   with_items: "{{ groups['all'] }}"
   notify:
     - restart backuppc
 
-- name: create hosts configuration
+- name: "Create Hosts Configuration"
   template:
-    dest="/etc/backuppc/{{ item }}.pl"
-    src="backuppc-linux-rsync.j2"
-    owner=backuppc
-    group=www-data
+    dest: "/etc/backuppc/{{ item }}.pl"
+    src: "backuppc-linux-rsync.j2"
+    owner: "backuppc"
+    group: "www-data"
     mode=0640
   with_items: "{{ groups['all'] }}"
   notify:
     - restart backuppc
 
 - name: update ssh known_hosts
-  known_hosts: name='{{ item | basename }}'
-               key="{{ lookup('file', item) }}"
+  become: true
+  known_hosts:
+    name: '{{ item | basename }}'
+    key: "{{ lookup('file', item) }}"
   with_fileglob:
     - "{{ lookup('env','PWD') }}/public_keys/servers/*"
-  become: yes
-  become_user: backuppc
-
 - name: test if /etc/munin/plugins exists
   stat:
     path: /etc/munin/plugins
