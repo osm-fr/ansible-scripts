@@ -2,7 +2,7 @@
 host_proxy:
   -
     logname: "devfrtiles"
-    websites: "a.layers.openstreetmap.fr b.layers.openstreetmap.fr c.layers.openstreetmap.fr"
+    websites: "a.layers.openstreetmap.fr b.layers.openstreetmap.fr c.layers.openstreetmap.fr a.dev.tile.openstreetmap.fr b.dev.tile.openstreetmap.fr c.dev.tile.openstreetmap.fr"
     target: "10.1.0.102"
   -
     logname: "wms"
