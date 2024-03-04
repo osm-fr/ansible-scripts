@@ -31,6 +31,8 @@ host_proxy:
     logname: "umap"
     websites: "dev.umap.openstreetmap.fr umap.openstreetmap.fr"
     target: "10.1.0.199"
+    redirect_to_https: True
+    http3_udp_port: 8444
   -
     logname: "openstreetmap.bzh"
     websites: "tile.openstreetmap.bzh stats.openstreetmap.bzh"
