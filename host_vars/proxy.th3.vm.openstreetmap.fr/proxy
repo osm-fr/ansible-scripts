@@ -22,7 +22,7 @@ host_proxy:
     logname: "geovisio"
     websites: "geovisio.openstreetmap.fr"
     target: "10.1.0.197"
-    target_port: 5000
+    redirect: "panoramax.openstreetmap.fr"
   -
     logname: "enedis"
     websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com"
