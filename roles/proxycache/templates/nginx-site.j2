@@ -51,9 +51,9 @@ server {
 
     location / {
 {% if item.target_port is defined %}
-        proxy_pass	http://{{ item.target }}:{{ item.target_port }};
+        proxy_pass         http://{{ item.target }}:{{ item.target_port }};
 {% else %}
-        proxy_pass	http://{{ item.target }};
+        proxy_pass         http://{{ item.target }};
 {% endif %}
         proxy_redirect     off;
         proxy_buffering    off;
