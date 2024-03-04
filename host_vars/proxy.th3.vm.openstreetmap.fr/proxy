@@ -34,6 +34,10 @@ host_proxy:
     redirect_to_https: True
     http3_udp_port: 8444
   -
+    logname: "umap-short"
+    websites: "u.osmfr.org"
+    redirect: "umap.openstreetmap.fr"
+  -
     logname: "openstreetmap.bzh"
     websites: "tile.openstreetmap.bzh stats.openstreetmap.bzh"
     target: "10.1.0.206"
