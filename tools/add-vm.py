@@ -166,7 +166,7 @@ storages = [
 
 default_template = templates[0]
 default_cpus = 1
-default_memory = 1024
+default_memory = 1
 default_disk = 10
 
 
@@ -185,7 +185,7 @@ def parse_args():
   parser.add_argument('--cpus',    action='store', type=int, default=default_cpus,
                       help="default: %(default)s")
   parser.add_argument('--memory',  action='store', type=int, default=default_memory,
-                      help="default: %(default)s Mio")
+                      help="default: %(default)s Gio")
   parser.add_argument('--disk',    action='store', type=int, default=default_disk,
                       help="default: %(default)s Gio")
   parser.add_argument('--storage', action='store', choices=storages,
@@ -341,7 +341,7 @@ def print_config(args):
   print("dns:      %s" % args.dns_name)
   print("host:     %s" % args.host)
   print("cpus:     %s" % args.cpus)
-  print("memory:   %s Mio" % args.memory)
+  print("memory:   %s Gio" % args.memory)
   print("disk:     %s Gio on %s" % (args.disk, args.storage))
   print("ipv6:     %s" % args.ipv6)
   print("template: %s" % args.template)
@@ -380,7 +380,7 @@ def configure_ansible(args):
       f.write("  ipconfig: %s\n" % args.ipconfig)
     else:
       f.write("  netif: %s\n" % args.netif)
-    f.write("  memory: %s\n" % args.memory)
+    f.write("  memory: %s\n" % (args.memory * 1024))
     f.write("  ostemplate: %s\n" % args.template)
     f.write("  storage: \"%s\"\n" % args.storage)
     f.write("  swap: %s\n" % args.swap)
