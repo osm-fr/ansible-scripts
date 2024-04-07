@@ -140,6 +140,20 @@ host_config = {
   },
 }
 
+# cluster moji
+for n in range(38, 45):
+  h = "osm%d" % n
+  host_config[h] = {
+    "hostname": h + ".openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr0",
+    "gw4":  "45.147.209.254",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2a06:c484:5::",
+    "ipv6": "2a06:c484:5::%d",
+    "default_storage": "local-zfs",
+   }
+
 templates = [
   "debian-12-standard_12.2-1_amd64.tar.zst",
   "debian-11-standard_11.6-1_amd64.tar.zst",
