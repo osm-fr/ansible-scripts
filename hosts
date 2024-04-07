@@ -136,6 +136,10 @@ osm36.openstreetmap.fr
 osm38.openstreetmap.fr
 osm39.openstreetmap.fr
 osm40.openstreetmap.fr
+osm41.openstreetmap.fr
+osm42.openstreetmap.fr
+osm43.openstreetmap.fr
+osm44.openstreetmap.fr
 
 [proxmox:children]
 cluster-ovh
