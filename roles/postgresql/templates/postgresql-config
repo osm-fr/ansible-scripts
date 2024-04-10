@@ -15,6 +15,9 @@ maintenance_work_mem = 1GB
 
 work_mem = {{ work_mem }}
 wal_buffers = 128MB
+{% if postgres_info.version.major > 13 %}
+min_dynamic_shared_memory ={{ min_dynamic_shared_memory }}
+{% endif %}
 
 {% if postgres_info.version.major < 15 %}
 hash_mem_multiplier = 2.0
@@ -44,6 +47,11 @@ effective_cache_size = {{ effective_cache_size }}
 # et la requête suivante devient couteuse :
 # https://github.com/MagicStack/asyncpg/issues/530
 jit = {{ jit }}
+
+autovacuum_vacuum_cost_limit ={{ autovacuum_vacuum_cost_limit }}
+{% if postgres_info.version.major > 15 %}
+vacuum_buffer_usage_limit = 2MB
+{% endif %}
 
 
 synchronous_commit = {{ synchronous_commit }}
