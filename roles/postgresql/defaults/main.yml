@@ -14,6 +14,20 @@ shared_buffers: "{{ var1 | map('int')| min }}"
 
 work_mem: "64MB"
 
+min_dynamic_shared_memory: >-
+ {% if ansible_memtotal_mb < 4096 %}
+ 0
+ {% elif ansible_memtotal_mb >= 4096 and ansible_memtotal_mb < 8192 %}
+ 256MB
+ {% elif ansible_memtotal_mb >= 8192 and ansible_memtotal_mb < 16384 %}
+ 512MB
+ {% elif ansible_memtotal_mb >= 16384 and ansible_memtotal_mb < 32768 %}
+ 1GB
+ {% elif ansible_memtotal_mb >= 32768 %}
+ 2GB
+ {% endif %}
+
+
 bgwriter_delay: 200
 bgwriter_lru_maxpages: 100
 bgwriter_lru_multiplier: 2.0
@@ -45,6 +59,13 @@ effective_cache_size: "{{ (ansible_memtotal_mb * 1024 / 3 / 8) | int }}"
 # et la requête suivante devient couteuse :
 # https://github.com/MagicStack/asyncpg/issues/530
 jit: "false"
+
+autovacuum_vacuum_cost_limit: >-
+  {% if ssd %}
+  400
+  {% else %}
+  -1
+  {% endif %}
 
 log_min_duration_statement: "10s"
 auto_explain_log_min_duration: "60s"
