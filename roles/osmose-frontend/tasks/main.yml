@@ -183,11 +183,12 @@
     - expires.load
     - headers.load
     - rewrite.load
-    - wsgi.conf
-    - wsgi.load
     - cache.load
     - cache_disk.conf
     - cache_disk.load
+    - proxy.conf
+    - proxy.load
+    - proxy_http.load
 
 - name: configure apache mpm_event
   lineinfile:
