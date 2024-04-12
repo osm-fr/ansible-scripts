@@ -113,7 +113,7 @@
 
 - name: add nodejs apt repository
   apt_repository:
-    repo: deb https://deb.nodesource.com/node_14.x "{{ ansible_distribution_release }}" main
+    repo: deb https://deb.nodesource.com/node_20.x "{{ ansible_distribution_release }}" main
     state: present
     filename: nodesource
 
@@ -121,21 +121,6 @@
   apt:
     pkg: nodejs
     state: latest
-
-- name: init /data/work/osmose/node_modules
-  file:
-    path: /data/work/osmose/node_modules/
-    state: directory
-  become: yes
-  become_user: osmose
-
-- name: add link to /data/project/osmose/frontend/web/node_modules
-  file:
-    src: /data/work/osmose/node_modules
-    dest: /data/project/osmose/frontend/web/node_modules
-    state: link
-  become: yes
-  become_user: osmose
 
 - name: npm install
   command: chdir=/data/project/osmose/frontend/web/ npm install
