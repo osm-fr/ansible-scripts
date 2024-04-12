@@ -102,6 +102,7 @@ renderd-bzh.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm206.openstre
 osm2pgsql-cyclosm.vm.openstreetmap.fr vm_host=osm36.openstreetmap.fr # osm207.openstreetmap.fr
 osm2pgsql-bzh.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm208.openstreetmap.fr
 localdb.osmose.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm209.openstreetmap.fr
+dev.osmose.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm210.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -233,8 +234,8 @@ osmose2.davintech.ca
 localdb.osmose.vm.openstreetmap.fr
 
 [osmose-frontend]
-osm153.openstreetmap.fr osmose_frontend_site=osmose.openstreetmap.fr
-osmose.vm.openstreetmap.fr osmose_frontend_site=dev.osmose.openstreetmap.fr
+osmose.vm.openstreetmap.fr osmose_frontend_site=osmose.openstreetmap.fr
+dev.osmose.vm.openstreetmap.fr osmose_frontend_site=dev.osmose.openstreetmap.fr
 
 [osmbin]
 download.vm.openstreetmap.fr
@@ -253,6 +254,7 @@ postgres-ovh.vm.openstreetmap.fr
 postgres-free.vm.openstreetmap.fr
 osm2pgsql-cyclosm.vm.openstreetmap.fr
 osm2pgsql-bzh.vm.openstreetmap.fr
+dev.osmose.vm.openstreetmap.fr
 
 [taginfo]
 taginfo.vm.openstreetmap.fr
@@ -364,6 +366,7 @@ enedis.vm.openstreetmap.fr
 
 [fred]
 cadastre-joker.vm.openstreetmap.fr
+dev.osmose.vm.openstreetmap.fr
 localdb.osmose.vm.openstreetmap.fr
 mapcontrib.vm.openstreetmap.fr
 mobilizon.vm.openstreetmap.fr
