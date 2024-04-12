@@ -103,6 +103,7 @@ osm2pgsql-cyclosm.vm.openstreetmap.fr vm_host=osm36.openstreetmap.fr # osm207.op
 osm2pgsql-bzh.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm208.openstreetmap.fr
 localdb.osmose.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm209.openstreetmap.fr
 dev.osmose.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm210.openstreetmap.fr
+proxy.moji.vm.openstreetmap.fr vm_host=osm39.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
@@ -205,6 +206,7 @@ osm27.openstreetmap.fr letsencrypt_slave=osm26.openstreetmap.fr
 osm28.openstreetmap.fr letsencrypt_slave=osm26.openstreetmap.fr
 backuppc2.vm.openstreetmap.fr letsencrypt_hosts=backuppc2.vm.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr letsencrypt_certbot=yes letsencrypt_hosts=proxy.th3.vm.openstreetmap.fr
+proxy.moji.vm.openstreetmap.fr letsencrypt_certbot=yes letsencrypt_hosts=proxy.moji.vm.openstreetmap.fr
 
 [munin-server]
 munin.vm.openstreetmap.fr
@@ -278,6 +280,7 @@ osm25.openstreetmap.fr
 osm26.openstreetmap.fr
 osm27.openstreetmap.fr
 osm28.openstreetmap.fr
+proxy.moji.vm.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr
 proxy.osmose.vm.openstreetmap.fr
 

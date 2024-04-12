@@ -1,0 +1,6 @@
+# for proxycache
+host_proxy:
+  -
+    logname: "dev.osmose"
+    websites: "dev.osmose.openstreetmap.fr"
+    target: "10.1.0.210"
