@@ -44,14 +44,20 @@
   with_file:
     - "{{ lookup('env','PWD') }}/public_keys/jocelyn"
 
-- name: init database
-  postgresql_db: name=osmose_frontend encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
-  register: createdb_osmose
+- name: init database user
+  postgresql_user: name=osmose password=clostAdtoi
   become: yes
   become_user: postgres
 
-- name: init database user
-  postgresql_user: name=osmose password=clostAdtoi db=osmose_frontend priv=ALL
+- name: init database
+  postgresql_db:
+    name: osmose_frontend
+    encoding: 'UTF-8'
+    lc_collate: 'C'
+    lc_ctype: 'C'
+    owner: osmose
+    template: 'template0'
+  register: createdb_osmose
   become: yes
   become_user: postgres
 
