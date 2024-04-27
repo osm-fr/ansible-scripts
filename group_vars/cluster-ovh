@@ -64,10 +64,6 @@ proxy:
     target: "10.1.0.186"
     redirect_to_https: true
   -
-    logname: "beta.osmose"
-    websites: "beta.osmose.openstreetmap.fr"
-    target: "10.1.0.186"
-  -
     logname: "sotm2018"
     websites: "sotm2018.openstreetmap.fr"
     target: "10.1.0.154"
