@@ -140,6 +140,9 @@ host_config = {
   },
 }
 
+for h in host_config.keys():
+  host_config[h]["ipv4_range"] = 24
+
 # cluster moji
 for n in range(38, 45):
   h = "osm%d" % n
@@ -149,6 +152,7 @@ for n in range(38, 45):
     "bridge_ipv6": "vmbr0",
     "gw4":  "45.147.209.254",
     "ipv4": "10.1.%d.%d",
+    "ipv4_range": 8,
     "gw6":  "2a06:c484:5::",
     "ipv6": "2a06:c484:5::%d",
     "default_storage": "local-zfs",
@@ -320,7 +324,7 @@ def expand_args(args):
     args.net  = '{"net0": "bridge=%(bridge)s",' % {"bridge": cfg_host["bridge"]}
     args.net += ' "net1": "bridge=%(bridge_ipv6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"]}
 
-    args.ipconfig  = '{"ipconfig0": "ip=%(ipv4)s/24,gw=%(gw4)s",' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
+    args.ipconfig  = '{"ipconfig0": "ip=%(ipv4)s/%(ipv4_range)s,gw=%(gw4)s",' % {"ipv4": args.ipv4, "ipv4_range": cfg_host["ipv4_range"], "gw4": cfg_host["gw4"]}
     args.ipconfig += ' "ipconfig1": "ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
   else:
