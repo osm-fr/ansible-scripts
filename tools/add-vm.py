@@ -240,7 +240,7 @@ def find_vmid(vmid=None, vmname=None):
         existing_names.add(m)
 
   if vmid is None:
-    vmid = max([vmid for vmid in existing_vmid if vmid < 211]) + 1
+    vmid = max([vmid for vmid in existing_vmid if vmid < 300]) + 1
 
   if vmname is None:
     vmname = "osm%d" % vmid
