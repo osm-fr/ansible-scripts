@@ -82,9 +82,9 @@
   become: no
 
 # To create kvm template:
-# wget http://cloud.debian.org/images/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2
-# qm create 9000 --name debian-11-genericcloud-amd64 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1,firewall=1
-# qm importdisk 9000 debian-11-genericcloud-amd64.qcow2 local-zfs
+# wget http://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2
+# qm create 9000 --name debian-12-genericcloud-amd64 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1,firewall=1
+# qm importdisk 9000 debian-12-genericcloud-amd64.qcow2 local-zfs
 # qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-zfs:vm-9000-disk-0
 # qm set 9000 --ide2 local-zfs:cloudinit
 # qm set 9000 --boot c --bootdisk scsi0
