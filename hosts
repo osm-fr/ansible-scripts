@@ -107,6 +107,7 @@ proxy.moji.vm.openstreetmap.fr vm_host=osm39.openstreetmap.fr
 osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
+geoosm.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm214.openstreetmap.fr
 osm318.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm318.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
@@ -421,9 +422,11 @@ osm133.openstreetmap.fr
 sotm.vm.openstreetmap.fr
 
 [karl]
+geoosm.vm.openstreetmap.fr
 osm167.openstreetmap.fr
 
 [lafeychine]
+geoosm.vm.openstreetmap.fr
 osm167.openstreetmap.fr
 
 [lcombe]
