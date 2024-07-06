@@ -68,5 +68,9 @@ server {
 {% endif %}
     }
 {% endif %}
+{% if item.dedicated_certbot_cert is defined %}
+    ssl_certificate /etc/letsencrypt/live/{{ item.websites.split(' ')[0] }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ item.websites.split(' ')[0] }}/privkey.pem; # managed by Certbot
+{% endif %}
 }
 

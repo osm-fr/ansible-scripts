@@ -2,9 +2,10 @@
 host_proxy:
   -
     logname: "osmose"
-    websites: "dev.osmose.openstreetmap.fr osmose.openstreetmap.fr"
+    websites: "osmose.openstreetmap.fr dev.osmose.openstreetmap.fr"
     target: "10.1.0.210"
     redirect_to_https: True
+    dedicated_certbot_cert: True
   -
     logname: "beta.osmose"
     websites: "beta.osmose.openstreetmap.fr"
