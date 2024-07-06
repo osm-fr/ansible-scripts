@@ -21,10 +21,6 @@ proxy:
     websites: "maposmatic.openstreetmap.fr"
     target: "10.1.0.130"
   -
-    logname: "live"
-    websites: "live.openstreetmap.fr"
-    target: "10.1.0.132"
-  -
     logname: "bato"
     websites: "bato.openstreetmap.fr"
     target: "10.1.0.135"
@@ -138,10 +134,6 @@ proxy:
     logname: "garmin"
     websites: "garmin.openstreetmap.fr"
     target: "10.1.0.176"
-  -
-    logname: "cadastre"
-    websites: "cadastre.openstreetmap.fr"
-    target: "10.1.0.180"
   -
     logname: "mobilizon"
     websites: "mobilizon.openstreetmap.fr"
