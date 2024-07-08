@@ -37,6 +37,20 @@
     - {regexp: "WorkingDirectory=",   line: "WorkingDirectory=/data/work/buildbot-slave"}
   notify: restart buildbot-worker
 
+- name: create systemd override for buildbot-worker
+  file:
+    path: /etc/systemd/system/buildbot-worker@osmose.service.d/
+    state: directory
+
+- name: add systemd override for postgresql
+  template:
+    dest: "/etc/systemd/system/buildbot-worker@osmose.service.d/override.conf"
+    src: "systemd-buildbot-worker-override.conf"
+    owner: root
+  notify:
+    - systemd daemon-reload
+    - restart buildbot-worker
+
 - name: enable systemd service
   systemd:
     name: "{{ item }}"
