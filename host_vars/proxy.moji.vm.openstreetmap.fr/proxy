@@ -17,6 +17,11 @@ host_proxy:
     target: "10.1.0.132"
     dedicated_certbot_cert: True
   -
+    logname: "petitereine"
+    websites: "petitereine.openstreetmap.fr"
+    target: "10.1.0.157"
+    dedicated_certbot_cert: True
+  -
     logname: "buildbot"
     websites: "buildbot.osmose.openstreetmap.fr"
     target: "10.1.0.175"
@@ -27,4 +32,9 @@ host_proxy:
     logname: "cadastre"
     websites: "cadastre.openstreetmap.fr"
     target: "10.1.0.180"
+    dedicated_certbot_cert: True
+  -
+    logname: "notes-heatmap"
+    websites: "notes-heatmap.openstreetmap.fr"
+    target: "10.1.0.194"
     dedicated_certbot_cert: True

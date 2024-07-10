@@ -85,10 +85,6 @@ proxy:
     target: "10.1.0.155"
     config_src: "nginx-site-peertube.j2"
   -
-    logname: "petitereine"
-    websites: "petitereine.openstreetmap.fr"
-    target: "10.1.0.157"
-  -
     logname: "backup.umap"
     websites: "backup.umap.openstreetmap.fr"
     target: "10.1.0.159"
@@ -132,10 +128,6 @@ proxy:
     logname: "mobilizon"
     websites: "mobilizon.openstreetmap.fr"
     target: "10.1.0.181"
-  -
-    logname: "notes-heatmap"
-    websites: "notes-heatmap.openstreetmap.fr"
-    target: "10.1.0.194"
   -
     logname: "openstreetmap.bzh"
 #    websites: "teol.openstreetmap.bzh tile.openstreetmap.bzh api.openstreetmap.bzh stats.openstreetmap.bzh"

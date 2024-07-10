@@ -49,7 +49,7 @@ osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 sotm.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true # osm154.openstreetmap.fr
 peertube.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm155.openstreetmap.fr
-osm157.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+petitereine.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm157.openstreetmap.fr
 mail.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 # osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm160.openstreetmap.fr vm_host=osm28.openstreetmap.fr
@@ -83,7 +83,7 @@ layers.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm190.openstreetmap
 commerces.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm191.openstreetmap.fr
 proxy-free.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm192.openstreetmap.fr
 enedis.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm193.openstreetmap.fr
-notes-heatmap.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm194.openstreetmap.fr
+notes-heatmap.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm194.openstreetmap.fr
 matrix.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm195.openstreetmap.fr
 osm2pgsql.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 renderd.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
@@ -335,7 +335,7 @@ osm167.openstreetmap.fr
 [cgiquello]
 notes-heatmap.vm.openstreetmap.fr
 osm28.openstreetmap.fr
-osm157.openstreetmap.fr
+petitereine.vm.openstreetmap.fr
 
 [cormoran]
 osm26.openstreetmap.fr
