@@ -22,6 +22,11 @@ host_proxy:
     target: "10.1.0.157"
     dedicated_certbot_cert: True
   -
+    logname: "educosm"
+    websites: "educosm.openstreetmap.fr"
+    target: "10.1.0.164"
+    dedicated_certbot_cert: True
+  -
     logname: "buildbot"
     websites: "buildbot.osmose.openstreetmap.fr"
     target: "10.1.0.175"
