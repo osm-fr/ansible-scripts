@@ -43,3 +43,8 @@ host_proxy:
     websites: "notes-heatmap.openstreetmap.fr"
     target: "10.1.0.194"
     dedicated_certbot_cert: True
+  -
+    logname: "pleinair"
+    websites: "pleinair.openstreetmap.fr"
+    target: "10.1.0.201"
+    dedicated_certbot_cert: True
