@@ -27,6 +27,13 @@ host_proxy:
     target: "10.1.0.164"
     dedicated_certbot_cert: True
   -
+    logname: "pic4review"
+    websites: "api.pic4review.pavie.info"
+    target: "10.1.0.168"
+    target_port: 28113
+    redirect_to_https: True
+    dedicated_certbot_cert: True
+  -
     logname: "buildbot"
     websites: "buildbot.osmose.openstreetmap.fr"
     target: "10.1.0.175"

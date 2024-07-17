@@ -102,12 +102,6 @@ proxy:
     websites: "dev.analyser.openstreetmap.fr"
     target: "10.1.1.47"
   -
-    logname: "pic4review"
-    websites: "api.pic4review.pavie.info"
-    target: "10.1.0.168"
-    target_port: 28113
-    redirect_to_https: True
-  -
     logname: "discourse"
     websites: "discourse.openstreetmap.fr"
     target: "10.1.0.169"
