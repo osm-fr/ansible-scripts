@@ -34,7 +34,7 @@ osm136.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 # osm137.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm138.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm139.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-osm141.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+nextcloud.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm141.openstreetmap.fr
 osm142.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm143.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm144.openstreetmap.fr vm_host=osm26.openstreetmap.fr
@@ -213,7 +213,7 @@ proxy.moji.vm.openstreetmap.fr letsencrypt_certbot=yes letsencrypt_hosts=proxy.m
 munin.vm.openstreetmap.fr
 
 [nextcloud]
-osm141.openstreetmap.fr
+nextcloud.vm.openstreetmap.fr
 
 [osm2pgsql]
 #osm13.openstreetmap.fr ## osm2pgsql installé hors ansible
