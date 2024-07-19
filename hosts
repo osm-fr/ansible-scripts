@@ -39,7 +39,7 @@ osm142.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm143.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm144.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm145.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-osm146.openstreetmap.fr vm_host=osm26.openstreetmap.fr
+prev.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm146.openstreetmap.fr
 osm147.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm148.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
@@ -177,9 +177,6 @@ osmose2.davintech.ca
 
 [comcommaker]
 comcommaker.vm.openstreetmap.fr
-
-[drupal]
-osm146.openstreetmap.fr  # for prev.openstreetmap.fr
 
 [export-cadastre]
 cadastre.vm.openstreetmap.fr
@@ -405,7 +402,7 @@ batimap.vm.openstreetmap.fr
 [jacques]
 osm103.openstreetmap.fr
 osm142.openstreetmap.fr
-osm146.openstreetmap.fr
+prev.vm.openstreetmap.fr
 osm147.openstreetmap.fr
 osm148.openstreetmap.fr
 garmin.vm.openstreetmap.fr

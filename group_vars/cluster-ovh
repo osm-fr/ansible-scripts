@@ -34,10 +34,6 @@ proxy:
     websites: "next.openstreetmap.fr www.openstreetmap.fr openstreetmap.fr"
     target: "10.1.0.142"
   -
-    logname: "www-old"
-    websites: "prev.openstreetmap.fr"
-    target: "10.1.0.146"
-  -
     logname: "umap"
     websites: "old.umap.openstreetmap.fr"
     target: "10.1.0.144"
