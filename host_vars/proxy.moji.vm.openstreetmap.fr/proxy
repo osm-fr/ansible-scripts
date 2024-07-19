@@ -23,6 +23,36 @@ host_proxy:
     redirect_to_https: True
     dedicated_certbot_cert: True
   -
+    logname: "sotm2018"
+    websites: "sotm2018.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2019"
+    websites: "sotm2019.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2020"
+    websites: "sotm2020.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2022"
+    websites: "sotm2022.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2023"
+    websites: "sotm2023.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2024"
+    websites: "sotm2024.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
     logname: "petitereine"
     websites: "petitereine.openstreetmap.fr"
     target: "10.1.0.157"

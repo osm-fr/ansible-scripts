@@ -55,26 +55,6 @@ proxy:
     target: "10.1.0.186"
     redirect_to_https: true
   -
-    logname: "sotm2018"
-    websites: "sotm2018.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2019"
-    websites: "sotm2019.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2020"
-    websites: "sotm2020.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2022"
-    websites: "sotm2022.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2023"
-    websites: "sotm2023.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
     logname: "peertube"
     websites: "peertube.openstreetmap.fr"
     target: "10.1.0.155"

@@ -47,7 +47,7 @@ osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-sotm.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr install_apache=true # osm154.openstreetmap.fr
+sotm.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr install_apache=true # osm154.openstreetmap.fr
 peertube.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm155.openstreetmap.fr
 petitereine.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm157.openstreetmap.fr
 mail.openstreetmap.fr vm_host=osm28.openstreetmap.fr
