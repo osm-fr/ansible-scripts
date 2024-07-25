@@ -65,7 +65,7 @@ download.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm171.openstreetm
 osm173.openstreetmap.fr vm_host=osm11.openstreetmap.fr install_apache=true
 projetdumois.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm174.openstreetmap.fr
 buildbot.osmose.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm175.openstreetmap.fr
-garmin.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm176.openstreetmap.fr
+garmin.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm176.openstreetmap.fr
 tile-vect.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm177.openstreetmap.fr
 osmose-jupyter.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm178.openstreetmap.fr
 comcommaker.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm179.openstreetmap.fr

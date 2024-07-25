@@ -82,6 +82,11 @@ host_proxy:
     redirect_to_https: True
     dedicated_certbot_cert: True
   -
+    logname: "garmin"
+    websites: "garmin.openstreetmap.fr"
+    target: "10.1.0.176"
+    dedicated_certbot_cert: True
+  -
     logname: "cadastre"
     websites: "cadastre.openstreetmap.fr"
     target: "10.1.0.180"

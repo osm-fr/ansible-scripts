@@ -82,10 +82,6 @@ proxy:
     target: "10.1.0.170"
     redirect_to_https: True
   -
-    logname: "garmin"
-    websites: "garmin.openstreetmap.fr"
-    target: "10.1.0.176"
-  -
     logname: "mobilizon"
     websites: "mobilizon.openstreetmap.fr"
     target: "10.1.0.181"
