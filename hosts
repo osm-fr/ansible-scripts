@@ -294,6 +294,9 @@ osm26.openstreetmap.fr proxmox_backup_exclude="118 144 186 999" proxmox_backup_t
 osm27.openstreetmap.fr proxmox_backup_exclude="118 144 186 999" proxmox_backup_target="osm32.openstreetmap.fr:rpool/backups"
 osm28.openstreetmap.fr proxmox_backup_exclude="118 144 186 999" proxmox_backup_target="osm32.openstreetmap.fr:rpool/backups"
 osm32.openstreetmap.fr proxmox_backup_host=true
+osm43.openstreetmap.fr proxmox_backup_exclude="101 118 144 186 209 400 999 9000" proxmox_backup_target="osm32.openstreetmap.fr:backups/cluster-moji"
+osm40.openstreetmap.fr proxmox_backup_exclude="101 118 144 186 209 400 999 9000" proxmox_backup_target="osm32.openstreetmap.fr:backups/cluster-moji"
+osm43.openstreetmap.fr proxmox_backup_exclude="101 118 144 186 209 400 999 9000" proxmox_backup_target="osm32.openstreetmap.fr:backups/cluster-moji"
 
 [renderd]
 osm13.openstreetmap.fr renderd_layers=true

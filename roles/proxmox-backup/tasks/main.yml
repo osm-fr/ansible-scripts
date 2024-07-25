@@ -2,6 +2,7 @@
   apt:
     pkg:
       - python3
+      - sanoid
 
 - name: add user proxmox-backup
   user:
@@ -32,6 +33,8 @@
     key_options: "no-port-forwarding"
   with_items:
     "{{ groups['proxmox-backup'] }}"
+  when:
+    proxmox_backup_host is defined
 
 - name: configure sudoers to launch pct commands
   community.general.sudoers:
@@ -39,20 +42,27 @@
     user: proxmox-backup
     commands:
       - /usr/bin/cat /etc/pve/.vmlist
-      - /usr/bin/cat /etc/pve/lxc/*.conf
       - /usr/sbin/pct snapshot *
       - /usr/sbin/pct listsnapshot *
       - /usr/sbin/pct delsnapshot *
-      - /usr/sbin/zfs send *
+      - /usr/sbin/pct config *
+      - /usr/sbin/pvesm path *
   when:
     proxmox_backup_host is not defined
 
-- name: configure sudoers to launch zfs commands
-  community.general.sudoers:
-    name: proxmox-backup-host
-    user: proxmox-backup
-    commands:
-      - /usr/sbin/zfs recv *
+- name: Allow zfs commands to send
+  community.general.zfs_delegate_admin:
+    name: local-zfs
+    users: proxmox-backup
+    permissions: send,hold,mount,snapshot,destroy
+  when:
+    proxmox_backup_host is not defined
+
+- name: Allow zfs commands to receive
+  community.general.zfs_delegate_admin:
+    name: backups
+    users: proxmox-backup
+    permissions: compression,mountpoint,create,mount,receive,rollback,destroy
   when:
     proxmox_backup_host is defined
 
