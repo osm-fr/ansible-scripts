@@ -17,14 +17,6 @@ proxy:
     websites: "munin.openstreetmap.fr"
     target: "10.1.0.127"
   -
-    logname: "maposmatic"
-    websites: "maposmatic.openstreetmap.fr"
-    target: "10.1.0.130"
-  -
-    logname: "bato"
-    websites: "bato.openstreetmap.fr"
-    target: "10.1.0.135"
-  -
     logname: "forum"
     websites: "forum.openstreetmap.fr dev.forum.openstreetmap.fr"
     target: "10.1.0.169"
@@ -34,71 +26,24 @@ proxy:
     websites: "next.openstreetmap.fr www.openstreetmap.fr openstreetmap.fr"
     target: "10.1.0.142"
   -
-    logname: "umap"
-    websites: "old.umap.openstreetmap.fr"
-    target: "10.1.0.144"
-  -
     logname: "api-pic4carto"
     websites: "api-pic4carto.openstreetmap.fr"
     target: "10.1.0.145"
-  -
-    logname: "monitor"
-    websites: "monitor.openstreetmap.fr"
-    target: "10.1.0.149"
-  -
-    logname: "osmose"
-    websites: "osmose.openstreetmap.fr"
-    target: "10.1.0.186"
-    redirect_to_https: true
   -
     logname: "peertube"
     websites: "peertube.openstreetmap.fr"
     target: "10.1.0.155"
     config_src: "nginx-site-peertube.j2"
   -
-    logname: "backup.umap"
-    websites: "backup.umap.openstreetmap.fr"
-    target: "10.1.0.159"
-  -
     logname: "stats"
     websites: "stats.openstreetmap.fr"
     target: "10.1.0.160"
     redirect_to_https: True
   -
-    logname: "dev.bano"
-    websites: "dev.bano.openstreetmap.fr"
-    target: "10.1.0.162"
-  -
-    logname: "dev.analyser"
-    websites: "dev.analyser.openstreetmap.fr"
-    target: "10.1.1.47"
-  -
     logname: "discourse"
     websites: "discourse.openstreetmap.fr"
     target: "10.1.0.169"
   -
-    logname: "librenms"
-    websites: "librenms.openstreetmap.fr"
-    target: "10.1.0.170"
-    redirect_to_https: True
-  -
     logname: "mobilizon"
     websites: "mobilizon.openstreetmap.fr"
     target: "10.1.0.181"
-  -
-    logname: "openstreetmap.bzh"
-#    websites: "teol.openstreetmap.bzh tile.openstreetmap.bzh api.openstreetmap.bzh stats.openstreetmap.bzh"
-    websites: "teol.openstreetmap.bzh tile.openstreetmap.bzh stats.openstreetmap.bzh"
-    target: "10.1.0.202"
-  -
-    logname: "monit.tile.openstreetmap.bzh"
-    websites: "monit.tile.openstreetmap.bzh"
-    target: "10.1.0.202"
-    target_port: "2812"
-    config_src: "nginx-site-port.j2"
-  -
-    logname: "kosmtik.openstreetmap.bzh"
-    websites: "kosmtik.openstreetmap.bzh"
-    target: "10.1.0.202"
-    target_port: "6789"
-    config_src: "nginx-site-port.j2"
