@@ -25,7 +25,7 @@ host_proxy:
     redirect: "panoramax.openstreetmap.fr"
   -
     logname: "enedis"
-    websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com"
+    websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com cuivre.infos-reseaux.com"
     target: "10.1.0.193"
   -
     logname: "umap"
