@@ -28,12 +28,14 @@ host_proxy:
     websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com cuivre.infos-reseaux.com"
     target: "10.1.0.193"
     redirect_to_https: True
+    dedicated_certbot_cert: True
   -
     logname: "umap"
-    websites: "dev.umap.openstreetmap.fr umap.openstreetmap.fr"
+    websites: "umap.openstreetmap.fr dev.umap.openstreetmap.fr"
     target: "10.1.0.199"
     redirect_to_https: True
     http3_udp_port: 8444
+    dedicated_certbot_cert: True
   -
     logname: "umap-short"
     websites: "u.osmfr.org"
@@ -42,6 +44,8 @@ host_proxy:
     logname: "openstreetmap.bzh"
     websites: "tile.openstreetmap.bzh stats.openstreetmap.bzh"
     target: "10.1.0.206"
+    http3_udp_port: 8445
+    dedicated_certbot_cert: True
   -
     logname: "monit.tile.openstreetmap.bzh"
     websites: "monit.tile.openstreetmap.bzh"
