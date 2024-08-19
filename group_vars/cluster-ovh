@@ -42,7 +42,7 @@ proxy:
   -
     logname: "discourse"
     websites: "discourse.openstreetmap.fr"
-    target: "10.1.0.169"
+    redirect: "forum.openstreetmap.fr"
   -
     logname: "mobilizon"
     websites: "mobilizon.openstreetmap.fr"
