@@ -27,6 +27,7 @@ host_proxy:
     logname: "enedis"
     websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com cuivre.infos-reseaux.com"
     target: "10.1.0.193"
+    redirect_to_https: True
   -
     logname: "umap"
     websites: "dev.umap.openstreetmap.fr umap.openstreetmap.fr"
