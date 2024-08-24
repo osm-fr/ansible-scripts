@@ -306,10 +306,10 @@ renderd-cyclosm.vm.openstreetmap.fr renderd_cyclosm=true
 bzh202.vm.openstreetmap.fr renderd_bzh=true
 
 [wireguard]
-proxy.ovh.vm.openstreetmap.fr wireguard_config=server
-osmose-aquilenet.openstreetmap.fr
-osmose-hivane1.openstreetmap.fr
-osmose-hivane2.openstreetmap.fr
+osmose.vm.openstreetmap.fr wireguard_config=server wireguard_address=10.230.0.10
+osmose-aquilenet.openstreetmap.fr wireguard_server=osmose.vm.openstreetmap.fr wireguard_address=10.230.0.2
+osmose-hivane1.openstreetmap.fr wireguard_server=osmose.vm.openstreetmap.fr wireguard_address=10.230.0.3
+osmose-hivane2.openstreetmap.fr wireguard_server=osmose.vm.openstreetmap.fr wireguard_address=10.230.0.4
 
 [wordpress]
 osm142.openstreetmap.fr
