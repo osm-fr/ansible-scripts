@@ -23,6 +23,11 @@ host_proxy:
     redirect_to_https: True
     dedicated_certbot_cert: True
   -
+    logname: "www"
+    websites: "openstreetmap.fr www.openstreetmap.fr next.openstreetmap.fr"
+    target: "10.1.0.142"
+    dedicated_certbot_cert: True
+  -
     logname: "www-old"
     websites: "prev.openstreetmap.fr"
     target: "10.1.0.146"
@@ -56,6 +61,12 @@ host_proxy:
     logname: "sotm2024"
     websites: "sotm2024.openstreetmap.fr"
     target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "peertube"
+    websites: "peertube.openstreetmap.fr"
+    target: "10.1.0.155"
+    config_src: "nginx-site-peertube.j2"
     dedicated_certbot_cert: True
   -
     logname: "petitereine"
