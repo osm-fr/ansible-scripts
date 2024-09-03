@@ -13,10 +13,6 @@ proxy:
     websites: "opendata.osmose.openstreetmap.fr"
     target: "10.1.0.128"
   -
-    logname: "munin"
-    websites: "munin.openstreetmap.fr"
-    target: "10.1.0.127"
-  -
     logname: "forum"
     websites: "forum.openstreetmap.fr dev.forum.openstreetmap.fr"
     target: "10.1.0.169"
