@@ -1,6 +1,5 @@
-- name: osm2pgsql configuration
+- name: Configure osm2pgsql
   hosts: osm2pgsql
-  gather_facts: no
   become: yes
   roles:
     - osm2pgsql

@@ -3,6 +3,8 @@
 	ServerName polygons.openstreetmap.fr
 	DocumentRoot /data/project/polygons/polygons-generation/website/
 
+	Header set Access-Control-Allow-Origin "*"
+
 	TimeOut 1800
 
 	<Directory /data/project/polygons/polygons-generation/website/>

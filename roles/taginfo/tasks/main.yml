@@ -1,14 +1,15 @@
 - name: install packages
   apt: pkg={{ item }}
   with_items:
+    - apache2
     - build-essential
     - curl
     - libapache2-mod-passenger
     - sqlite3
-    - openjdk-6-jre-headless
+    - default-jre-headless
 
-    - ruby2.1
-    - ruby2.1-dev
+    - ruby
+    - ruby-dev
     - ruby-passenger
     - ruby-sqlite3
 
@@ -16,8 +17,8 @@
     - libboost-dev
     - libbz2-dev
     - libshp-dev
-    - libgd2-xpm-dev
-    - libgdal1-dev
+    - libgdchart-gd2-xpm
+    - libgdal-dev
     - libexpat1-dev
     - libgeos++-dev
     - libsparsehash-dev
@@ -28,7 +29,9 @@
     - osmctools
 
 
-- include: ../../../shared/project-account.yml user=taginfo
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: taginfo
 
 - name: init /data/work/taginfo paths
   file: path={{ item }} state=directory owner=taginfo group=taginfo
@@ -84,15 +87,21 @@
     - taginfo-config.json
     - 10_download.sh
     - 10_filtre.sh
+    - 10_filtre.osh.sh
     - 10_update_pbf.sh
+    - 10_update_pbf.osh.sh
     - 20_update.sh
     - 30_restart_webserver.sh
     - crontab.sh
+    - crontab.osh.sh
     - france.poly
     - remove-not-in-france.sh
+    - remove-metadata.sh
+    - remove-source.sh
+    - key-source-valide.txt
 
-- name: add taginfo france.png file
-  copy: src="france.png" dest="/data/project/taginfo/taginfo/web/public/img/france.png"
+- name: add taginfo fr-metropolitaine.png file
+  copy: src="fr-metropolitaine.png" dest="/data/project/taginfo/taginfo/web/public/img/logo/fr-metropolitaine.png"
   become: yes
   become_user: taginfo
 

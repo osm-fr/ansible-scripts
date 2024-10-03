@@ -1,4 +1,7 @@
-- include: ../../../shared/project-account.yml user=layers.openstreetmap.fr
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: layers.openstreetmap.fr
+
 - name: install packages
   apt: pkg={{ item }}
   with_items:

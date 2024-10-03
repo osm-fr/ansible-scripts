@@ -1,0 +1,12 @@
+- name: restart postgresql
+  service: name=postgresql state=restarted
+
+- name: reload postgresql
+  service: name=postgresql state=reloaded
+
+- name: systemd daemon-reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: restart munin-node
+  service: name=munin-node state=restarted

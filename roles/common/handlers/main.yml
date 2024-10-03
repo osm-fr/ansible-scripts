@@ -4,18 +4,19 @@
     state: reloaded
 
 - name: restart apache
-  service: name=apache2 state=restarted
+  systemd:
+    name: apache2
+    state: restarted
 
 - name: reload nginx
   systemd:
     name: nginx
     state: reloaded
 
-- name: restart denyhosts
-  service: name=denyhosts state=restarted
-
 - name: restart monit
-  service: name=monit state=restarted
+  systemd:
+    name: monit
+    state: restarted
 
 - name: generate locales
   command: /usr/sbin/locale-gen
@@ -23,9 +24,11 @@
 - name: detect sensors
   shell: /usr/sbin/sensors-detect < /dev/null
 
-- include: munin-node.yml
+- import_tasks: munin-node.yml
 
-- include: sysstat.yml
+- import_tasks: sysstat.yml
+
+- import_tasks: sysctl.yml
 
 - name: restart systemd-hostnamed
   systemd:

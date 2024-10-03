@@ -3,10 +3,6 @@
     pkg:
       - bzr  # for josm translations
       - gdal-bin
-      - postgresql
-      - postgresql-contrib
-      - postgresql-postgis
-      - postgis
       - default-jre-headless
       # to run with python3
       - python3-dateutil
@@ -21,6 +17,7 @@
       - python3-regex
       - python3-requests
       - python3-unidecode
+      - python3-venv
       - pyosmium
       # dependencies for pip3 install
       - libarchive-dev
@@ -38,28 +35,12 @@
       - qtbase5-dev
       - flex
       - bison
+      - zstd
 
 - name: init /root/packages/
   file:
     path: /root/packages/
     state: directory
-
-- name: install additional local packages
-  copy:
-    src: "{{ item }}"
-    dest: "/root/packages/{{ item }}"
-  with_items:
-    - python3-lark-parser_0.6.7-1_all.deb
-    - python3-backports.csv_1.0.7-1_all.deb
-    - python3-transporthours_0.0.4-1_all.deb
-
-- name: install additional local packages
-  apt:
-    deb: /root/packages/{{ item }}
-  with_items:
-    - python3-lark-parser_0.6.7-1_all.deb
-    - python3-backports.csv_1.0.7-1_all.deb
-    - python3-transporthours_0.0.4-1_all.deb
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
@@ -97,34 +78,16 @@
   become: yes
   become_user: postgres
 
-- name: read postgresql_version
-  command: psql -qAt -c "SELECT regexp_replace(current_setting('config_file'), '^.*/etc/postgresql/(.*)/main.*$', '\1');"
-  register: psql_res
-  become: yes
-  become_user: postgres
-
-- name: set postgresql_version to {{ psql_res.stdout_lines[0] }}
-  set_fact:
-    postgresql_version: "{{ psql_res.stdout_lines[0] }}"
-
 - name: psql extensions
-  command: psql -d osmose -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
-  register: psql_res
-  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
   become: yes
   become_user: postgres
-  with_items:
+  community.postgresql.postgresql_ext:
+    db: osmose
+    name: "{{ item }}"
+  loop:
     - fuzzystrmatch
     - hstore
     - unaccent
-
-- name: psql extension postgis
-  command: psql -d osmose -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
-  register: psql_res
-  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
-  become: yes
-  become_user: postgres
-  with_items:
     - postgis
 
 - name: psql access to tables
@@ -134,28 +97,6 @@
   with_items:
     - geometry_columns
     - spatial_ref_sys
-
-- name: create postgresql conf.d
-  file:
-    path: /etc/postgresql/{{ postgresql_version }}/main/conf.d
-    state: directory
-
-- name: configure postgresql
-  template:
-    dest="/etc/postgresql/{{ postgresql_version }}/main/conf.d/10-ansible-osmose.conf"
-    src="postgresql-config"
-    owner=root
-  notify:
-    - reload postgresql
-
-- name: enable postgresql configuration
-  lineinfile:
-    dest: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
-    regexp: "^.*include_dir = 'conf.d"
-    line: "include_dir = 'conf.d'                  # include files ending in '.conf' from"
-  when: not 'osmbin' in group_names and not 'osmosis' in group_names and not 'osm2pgsql' in group_names
-  notify:
-    - reload postgresql
 
 - name: checkout git repository
   git: repo=https://github.com/osm-fr/osmose-backend.git dest=/data/project/osmose/backend/ force=no update=no
@@ -175,8 +116,22 @@
 
 - name: pip install
   pip:
-    executable: pip3
     requirements: /data/project/osmose/backend/requirements.txt
+    virtualenv: ~/.venvs/backend/
+    virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_site_packages: True
+  environment:
+    PYTHONNOUSERSITE: 1
+  become: yes
+  become_user: osmose
+
+- name: enable venv for osmose account
+  blockinfile:
+    dest: "~/.bashrc"
+    block: |
+      if [ -f ~/.venvs/backend/bin/activate ]; then
+        . ~/.venvs/backend/bin/activate
+      fi
   become: yes
   become_user: osmose
 

@@ -13,149 +13,24 @@ proxy:
     websites: "opendata.osmose.openstreetmap.fr"
     target: "10.1.0.128"
   -
-    logname: "munin"
-    websites: "munin.openstreetmap.fr"
-    target: "10.1.0.127"
-  -
-    logname: "maposmatic"
-    websites: "maposmatic.openstreetmap.fr"
-    target: "10.1.0.130"
-  -
-    logname: "live"
-    websites: "live.openstreetmap.fr"
-    target: "10.1.0.132"
-  -
-    logname: "bato"
-    websites: "bato.openstreetmap.fr"
-    target: "10.1.0.135"
-  -
     logname: "forum"
     websites: "forum.openstreetmap.fr dev.forum.openstreetmap.fr"
     target: "10.1.0.169"
     redirect_to_https: True
   -
-    logname: "nextcloud"
-    websites: "nextcloud.openstreetmap.fr"
-    target: "10.1.0.141"
-    redirect_to_https: True
-  -
-    logname: "www"
-    websites: "next.openstreetmap.fr www.openstreetmap.fr openstreetmap.fr"
-    target: "10.1.0.142"
-  -
-    logname: "www-old"
-    websites: "prev.openstreetmap.fr"
-    target: "10.1.0.146"
-  -
-    logname: "umap"
-    websites: "dev.umap.openstreetmap.fr umap.openstreetmap.fr"
-    target: "10.1.0.144"
-  -
     logname: "api-pic4carto"
     websites: "api-pic4carto.openstreetmap.fr"
     target: "10.1.0.145"
-  -
-    logname: "monitor"
-    websites: "monitor.openstreetmap.fr"
-    target: "10.1.0.149"
-  -
-    logname: "osmose"
-    websites: "osmose.openstreetmap.fr"
-    target: "10.1.0.186"
-  -
-    logname: "beta.osmose"
-    websites: "beta.osmose.openstreetmap.fr"
-    target: "10.1.0.186"
-  -
-    logname: "sotm2018"
-    websites: "sotm2018.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2019"
-    websites: "sotm2019.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2020"
-    websites: "sotm2020.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2022"
-    websites: "sotm2022.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "sotm2023"
-    websites: "sotm2023.openstreetmap.fr"
-    target: "10.1.0.154"
-  -
-    logname: "peertube"
-    websites: "peertube.openstreetmap.fr"
-    target: "10.1.0.155"
-    config_src: "nginx-site-peertube.j2"
-  -
-    logname: "petitereine"
-    websites: "petitereine.openstreetmap.fr"
-    target: "10.1.0.157"
-  -
-    logname: "backup.umap"
-    websites: "backup.umap.openstreetmap.fr"
-    target: "10.1.0.159"
   -
     logname: "stats"
     websites: "stats.openstreetmap.fr"
     target: "10.1.0.160"
     redirect_to_https: True
   -
-    logname: "dev.bano"
-    websites: "dev.bano.openstreetmap.fr"
-    target: "10.1.0.162"
-  -
-    logname: "educosm"
-    websites: "educosm.openstreetmap.fr"
-    target: "10.1.0.164"
-  -
-    logname: "dev.analyser"
-    websites: "dev.analyser.openstreetmap.fr"
-    target: "10.1.1.47"
-  -
-    logname: "buildbot"
-    websites: "buildbot.osmose.openstreetmap.fr"
-    target: "10.1.0.175"
-    config_src: "nginx-site-buildbot.j2"
-    redirect_to_https: True
-  -
-    logname: "id-editor"
-    websites: "id-editor.openstreetmap.fr id.openstreetmap.fr"
-    target: "10.1.0.163"
-    target_port: 8080
-    redirect_to_https: True
-  -
-    logname: "pic4review"
-    websites: "api.pic4review.pavie.info"
-    target: "10.1.0.168"
-    target_port: 28113
-    redirect_to_https: True
-  -
     logname: "discourse"
     websites: "discourse.openstreetmap.fr"
-    target: "10.1.0.169"
-  -
-    logname: "librenms"
-    websites: "librenms.openstreetmap.fr"
-    target: "10.1.0.170"
-    redirect_to_https: True
-  -
-    logname: "garmin"
-    websites: "garmin.openstreetmap.fr"
-    target: "10.1.0.176"
-  -
-    logname: "cadastre"
-    websites: "cadastre.openstreetmap.fr"
-    target: "10.1.0.180"
+    redirect: "forum.openstreetmap.fr"
   -
     logname: "mobilizon"
     websites: "mobilizon.openstreetmap.fr"
     target: "10.1.0.181"
-  -
-    logname: "notes-heatmap"
-    websites: "notes-heatmap.openstreetmap.fr"
-    target: "10.1.0.194"

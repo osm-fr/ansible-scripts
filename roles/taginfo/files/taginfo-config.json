@@ -6,15 +6,15 @@
         // URL prefix for the site.
         "url": "http://taginfo.openstreetmap.fr",
         // Used in the title of all HTML pages.
-        "name": "Taginfo - Metropolitan France",
+        "name": "Taginfo - France métropolitaine",
         // Description of this taginfo instance.
-        "description": "This is the Taginfo instance for Metropolitan France. It shows only tag information of OSM data within France mainland.",
+        "description": "Ceci est l'instance Taginfo pour la France métropolitaine. Elle ne contient pas les données concernant les DOM et TOM.",
         // URL path to instance icon in the upper left.
-        "icon": "/img/logo/fr.png",
+        "icon": "/img/logo/fr-metropolitaine.png",
         // Contact name and email address.
         "contact": "taginfo@openstreetmap.fr",
         // Geographical area this taginfo instance covers.
-        "area": "Metropolitan France"
+        "area": "France métropolitaine"
     },
     // For the geodistribution map. See the wiki documentation about these settings.
     "geodistribution": {
@@ -42,9 +42,9 @@
     },
     "opensearch": {
         // For the OpenSearchDescription. You have to change at least the shortname and the contact for your instance.
-        "shortname": "Taginfo - Metropolitan France",
+        "shortname": "Taginfo - France métropolitaine",
         "contact": "taginfo@openstreetmap.fr",
-        "description": "Find metadata about OpenStreetMap tags in Metropolitan France",
+        "description": "Trouver des informations sur l'usage des tags OpenStreetMap en France métropolitaine",
         "tags": "osm openstreetmap tag tags taginfo"
     },
     "sources": {

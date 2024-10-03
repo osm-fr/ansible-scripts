@@ -12,16 +12,26 @@
       - osmosis
       - osmium-tool
 
+- name: install packages
+  apt:
+    pkg:
+      - osm2pgsql
+    default_release: bullseye-backports
+  when: ansible_distribution_release == "bullseye"
+
 - name: ensure postgresql server is running
   service: name=postgresql state=started
-
-- include: ../../../shared/project-account.yml user=osm2pgsql
 
 - name: add sudoers to access osm2pgsql user
   copy: src=sudoers dest=/etc/sudoers.d/osm2pgsql-backend mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - name: init database
-  postgresql_db: name=osm encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
+  community.postgresql.postgresql_db:
+    name: osm
+    encoding: UTF-8
+    lc_collate: C
+    lc_ctype: C
+    template: template0
   register: createdb_osm
   become: yes
   become_user: postgres

@@ -23,7 +23,9 @@
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
-- include: ../../../shared/project-account.yml user=osmosis
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: osmosis
 
 - name: add sudoers to access osmosis user
   copy: src=sudoers dest=/etc/sudoers.d/osmosis-backend mode=0440 owner=root group=root validate='visudo -cf %s'
@@ -97,7 +99,10 @@
   become: yes
   become_user: osmosis
 
-- include: ../../../shared/osmosis.yml user=osmosis version=0.47
+- include_tasks: ../../../shared/osmosis.yml
+  vars:
+    user: osmosis
+    version: 0.47
 
 # To finish installation, run:
 # - (cd /data/work/osmosis/ && wget http://download.openstreetmap.fr/extracts/europe/france.osm.pbf)

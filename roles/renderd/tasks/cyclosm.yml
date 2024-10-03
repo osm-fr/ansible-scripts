@@ -1,0 +1,142 @@
+# style cyclosm
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: cyclosm
+
+- name: checkout git repository
+  git:
+    repo: https://github.com/cyclosm/cyclosm-cartocss-style.git
+    dest: /data/project/cyclosm/cyclosm-cartocss-style/
+    force: no
+    update: no
+    version: v0.6
+  become: yes
+  become_user: cyclosm
+
+- name: get nodejs apt key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+
+- name: add nodejs apt repository
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_18.x "{{ ansible_distribution_release }}" main
+    state: present
+    filename: nodesource
+
+- name: install packages
+  apt:
+    pkg:
+      - nodejs
+      - npm
+    state: latest
+
+- name: npm install
+  community.general.npm:
+    name: carto
+    path: /data/project/cyclosm/
+  become: yes
+  become_user: cyclosm
+
+- name: init /data/work/cyclosm/data
+  file:
+    path: /data/work/cyclosm/data
+    state: directory
+  become: yes
+  become_user: cyclosm
+
+- name: download land polygons
+  ansible.builtin.unarchive:
+    src: http://osmdata.openstreetmap.de/download/land-polygons-complete-3857.zip
+    dest: /data/work/cyclosm/data/
+    remote_src: true
+    creates: /data/work/cyclosm/data/land-polygons-complete-3857/
+  become: yes
+  become_user: cyclosm
+
+- name: download simplified land polygons
+  ansible.builtin.unarchive:
+    src: http://osmdata.openstreetmap.de/download/simplified-land-polygons-complete-3857.zip
+    dest: /data/work/cyclosm/data/
+    remote_src: true
+    creates: /data/work/cyclosm/data/simplified-land-polygons-complete-3857/
+  become: yes
+  become_user: cyclosm
+
+- name: update project.mml
+  lineinfile:
+    path: /data/project/cyclosm/cyclosm-cartocss-style/project.mml
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - {regexp: "^    file:.*/simplified-land-polygons", line: "    file: /data/work/cyclosm/data/simplified-land-polygons-complete-3857/simplified_land_polygons.shp"}
+    - {regexp: "^    file:.*/land-polygons", line: "    file: /data/work/cyclosm/data/land-polygons-complete-3857/land_polygons.shp"}
+  become: yes
+  become_user: cyclosm
+
+- name: configure hostname for postgresql
+  lineinfile:
+    path: /etc/hosts
+    line: '{{ renderd_pghostip }} osmdb'
+  when: renderd_pghostip is defined
+
+- name: configure database connection
+  ansible.builtin.blockinfile:
+    path: /data/project/cyclosm/cyclosm-cartocss-style/project.mml
+    insertafter: '    dbname: "osm"'
+    block: |2
+          user: "cyclosm"
+          host: "osmdb"
+          port: 5432
+          password: "{{ lookup('password', 'private/passwords/postgresql-cyclosm') }}"
+
+- name: mapnik file generation
+  command: chdir=/data/project/cyclosm/ node_modules/.bin/carto \
+                       /data/project/cyclosm/cyclosm-cartocss-style/project.mml \
+                       --file /data/project/cyclosm/cyclosm-cartocss-style/mapnik.xml.new
+  become: yes
+  become_user: cyclosm
+
+- name: mapnik file copy
+  copy:
+    dest: /data/project/cyclosm/cyclosm-cartocss-style/mapnik.xml
+    src: /data/project/cyclosm/cyclosm-cartocss-style/mapnik.xml.new
+    remote_src: true
+  notify:
+    - restart renderd
+    - reload apache2
+  become: yes
+  become_user: cyclosm
+
+- name: add layer cyclosm into renderd.conf
+  blockinfile:
+    path: /etc/renderd.conf
+    marker: "## {mark} ANSIBLE MANAGED BLOCK - cyclosm"
+    block: |
+      [cyclosm]
+      URI=/cyclosm/
+      XML=/data/project/cyclosm/cyclosm-cartocss-style/mapnik.xml
+      HOST=tile.openstreetmap.fr
+      MAXZOOM=20
+  notify:
+    - restart renderd
+    - reload apache2
+
+- name: copy apache config
+  template:
+    src: tileserver_site.conf
+    dest: /etc/apache2/sites-available/tileserver_site.conf
+  notify: reload apache2
+
+- name: enable apache site
+  file:
+    src: /etc/apache2/sites-available/tileserver_site.conf
+    dest: /etc/apache2/sites-enabled/tileserver_site.conf
+    state: link
+  notify: reload apache2
+
+- name: remove default apache site
+  file:
+    dest: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: reload apache2

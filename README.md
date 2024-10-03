@@ -4,22 +4,49 @@ This repository contains various scripts to setup and configure machines
 handled by OSM-FR association (a french association for OpenStreetMap). These
 scripts are used with [ansible](https://www.ansible.com/).
 
-## Configuring ansible
+## Installing dependencies
+
+### Installing on Debian
 
 A version of ansible >= 2.3 is sufficient, and is available in Debian,
 or from [git repository](https://github.com/ansible/ansible.git). To install all
 dependency on Debian, use:
 
   ```shell
-  apt-get install ansible python-jmespath
+  apt-get install ansible
   ```
 
 To install VM through proxmox, python promoxer module is necessary, It can be
 installed with:
 
   ```shell
-  sudo pip install proxmoxer
+  apt-get install python3-proxmoxer
   ```
+  
+### Installing using `venv`
+
+`venv` module creates isolated Python environments.
+
+First of all, install the required packages. On Debian, use:
+
+  ```shell
+  apt-get install python3 python3-venv
+  ```
+
+You can jump into a new isolated environments using:
+
+  ```shell
+  python3 -m venv <folder>      # Create the environment, only needs to be done once
+  source <folder>/bin/activate  # Run a subshell using the environment 
+  ```
+  
+Then, install the required packages:
+
+  ```shell
+  pip install -r requirements.txt
+  ```
+
+Note: The created environment folder should be placed outside this project folder to prevent `ansible-lint` from looking at it.
 
 ## Using ansible scripts
 
@@ -43,10 +70,10 @@ installed with:
 ### Adding a new user to a specific machine
 
 1. add the machine to file `hosts`, in the relevant section `[user]`
-1. if necessary, add the user to `roles/common/tasks/main.yml`, with the public ssh key in `public\_keys/<user>`
+1. if necessary, add the user to `group_vars/all/accounts.yml`, with the public ssh key in `public\_keys/<user>`
 1. launch following command:
     ```shell
-    ansible-playbook -l <hostname> common.yml --tags user_creation
+    ansible-playbook -l <hostname> accounts.yml
     ```
 
 ### Adding a service to a specific machine

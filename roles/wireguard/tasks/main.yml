@@ -1,0 +1,68 @@
+- name: install packages
+  ansible.builtin.apt:
+    pkg:
+      - wireguard
+
+- name: Install packages on server
+  ansible.builtin.apt:
+    pkg:
+      - iptables
+  when: wireguard_config is defined and wireguard_config == "server"
+
+- name: Generate the client keys
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail #
+      wg genkey | tee credentials/wireguard/{{ inventory_hostname }}.private.key | wg pubkey > credentials/wireguard/{{ inventory_hostname }}.public.key
+    executable: /bin/bash
+    creates: "credentials/wireguard/{{ inventory_hostname }}.private.key"
+  delegate_to: 127.0.0.1
+  become: no
+
+- name: Get client IP
+  ansible.builtin.copy:
+    content: "{{ wireguard_address }}\n"
+    dest: "credentials/wireguard/{{ inventory_hostname }}.address"
+  delegate_to: 127.0.0.1
+  become: no
+
+- name: Enable NAT on server
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+  when: wireguard_config is defined and wireguard_config == "server"
+
+- name: configure wireguard
+  ansible.builtin.template:
+    dest="/etc/wireguard/wg0.conf"
+    src="wireguard-{{ wireguard_config | default('client') }}-wg0.conf"
+    owner=root
+  notify:
+    - restart wireguard
+
+# Need to reload wireguard to update hostname
+- name: init wireguard reloader
+  ansible.builtin.copy:
+    src="{{ item }}"
+    dest="/etc/systemd/system/{{ item }}"
+  with_items:
+    - wireguard_reresolve-dns.timer
+    - wireguard_reresolve-dns.service
+  when: wireguard_config is not defined or wireguard_config == "client"
+
+- name: enable reloader on systemd
+  ansible.builtin.systemd:
+    name: wireguard_reresolve-dns.timer
+    enabled: true
+    masked: false
+    state: started
+  when: wireguard_config is not defined or wireguard_config == "client"
+
+- name: enable wireguard on systemd
+  ansible.builtin.systemd:
+    name: wg-quick@wg0
+    enabled: true
+    masked: false
+    state: started

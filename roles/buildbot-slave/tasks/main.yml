@@ -1,17 +1,7 @@
-- name: set name to buildslave
-  set_fact:
-    buildbot_name: buildslave
-
-- name: set name to buildbot-worker
-  set_fact:
-    buildbot_name: buildbot-worker
-  when: ((ansible_distribution == "Debian" and ansible_distribution_major_version|int >= 10) or
-         (ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int >= 16))
-
 - name: install packages
   apt:
     pkg:
-      - buildbot-slave
+      - buildbot-worker
 
 - name: init paths
   file: path={{ item }} state=directory owner=buildbot group=buildbot force=no
@@ -26,29 +16,7 @@
   become_user: buildbot
   command:
     creates="/data/work/buildbot-slave/buildbot.tac" chdir="/data/work/buildbot-slave/"
-    /usr/bin/buildslave create-slave . buildbot.osmose.openstreetmap.fr:8127 {{ inventory_hostname.split(".") | first }} "{{ lookup('password', 'credentials/' + inventory_hostname + '/buildbot-slave-password length=15 chars=ascii_letters,digits') }}"
-  when: buildbot_name == "buildslave"
-
-- name: configure buildbot directory
-  become: yes
-  become_user: buildbot
-  command:
-    creates="/data/work/buildbot-slave/buildbot.tac" chdir="/data/work/buildbot-slave/"
     /usr/bin/buildbot-worker create-worker . buildbot.osmose.openstreetmap.fr:9989 {{ inventory_hostname.split(".") | first }} "{{ lookup('password', 'credentials/' + inventory_hostname + '/buildbot-slave-password length=15 chars=ascii_letters,digits') }}"
-  when: buildbot_name == "buildbot-worker"
-
-
-- name: enable buildslave
-  lineinfile: dest=/etc/default/buildslave regexp="{{ item.regexp }}" line="{{ item.line }}"
-  with_items:
-    - {regexp: "SLAVE_ENABLED.1.=",   line: "SLAVE_ENABLED[1]=1"}
-    - {regexp: "SLAVE_NAME.1.=",      line: 'SLAVE_NAME[1]="buildslave #1"'}
-    - {regexp: "SLAVE_USER.1.=",      line: 'SLAVE_USER[1]="buildbot"'}
-    - {regexp: "SLAVE_BASEDIR.1.=",   line: 'SLAVE_BASEDIR[1]="/data/work/buildbot-slave"'}
-    - {regexp: "SLAVE_OPTIONS.1.=",   line: 'SLAVE_OPTIONS[1]=""'}
-    - {regexp: "SLAVE_PREFIXCMD.1.=", line: 'SLAVE_PREFIXCMD[1]=""'}
-  when: buildbot_name == "buildslave"
-  notify: restart buildslave
 
 - name: copy systemd service
   copy:
@@ -56,7 +24,6 @@
     dest: /etc/systemd/system/buildbot-worker@osmose.service
     remote_src: yes
     force: no
-  when: buildbot_name == "buildbot-worker"
   notify: restart buildbot-worker
 
 - name: modify systemd service
@@ -68,8 +35,21 @@
     - {regexp: "ConditionDirectoryNotEmpty=",   line: "ConditionDirectoryNotEmpty=/data/work/buildbot-slave"}
     - {regexp: "ConditionFileNotEmpty=",   line: "ConditionFileNotEmpty=/data/work/buildbot-slave/buildbot.tac"}
     - {regexp: "WorkingDirectory=",   line: "WorkingDirectory=/data/work/buildbot-slave"}
-  when: buildbot_name == "buildbot-worker"
   notify: restart buildbot-worker
+
+- name: create systemd override for buildbot-worker
+  file:
+    path: /etc/systemd/system/buildbot-worker@osmose.service.d/
+    state: directory
+
+- name: add systemd override for postgresql
+  template:
+    dest: "/etc/systemd/system/buildbot-worker@osmose.service.d/override.conf"
+    src: "systemd-buildbot-worker-override.conf"
+    owner: root
+  notify:
+    - systemd daemon-reload
+    - restart buildbot-worker
 
 - name: enable systemd service
   systemd:
@@ -79,5 +59,4 @@
     daemon_reload: yes
   with_items:
     - buildbot-worker@osmose.service
-  when: buildbot_name == "buildbot-worker"
   notify: restart buildbot-worker

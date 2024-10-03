@@ -29,7 +29,9 @@
 - name: ensure postgresql server is running
   service: name=postgresql state=started
 
-- include: ../../../shared/project-account.yml user=osmose
+- include_tasks: ../../../shared/project-account.yml
+  vars:
+    user: osmose
 
 - name: init /data/work/osmose/results/
   file: path=/data/work/osmose/results/ state=directory owner=osmose group=osmose
@@ -42,14 +44,20 @@
   with_file:
     - "{{ lookup('env','PWD') }}/public_keys/jocelyn"
 
-- name: init database
-  postgresql_db: name=osmose_frontend encoding='UTF-8' lc_collate='fr_FR.UTF-8' lc_ctype='fr_FR.UTF-8' template='template0'
-  register: createdb_osmose
+- name: init database user
+  postgresql_user: name=osmose password=clostAdtoi
   become: yes
   become_user: postgres
 
-- name: init database user
-  postgresql_user: name=osmose password=clostAdtoi db=osmose_frontend priv=ALL
+- name: init database
+  postgresql_db:
+    name: osmose_frontend
+    encoding: 'UTF-8'
+    lc_collate: 'C'
+    lc_ctype: 'C'
+    owner: osmose
+    template: 'template0'
+  register: createdb_osmose
   become: yes
   become_user: postgres
 
@@ -105,7 +113,7 @@
 
 - name: add nodejs apt repository
   apt_repository:
-    repo: deb https://deb.nodesource.com/node_14.x "{{ ansible_distribution_release }}" main
+    repo: deb https://deb.nodesource.com/node_20.x "{{ ansible_distribution_release }}" main
     state: present
     filename: nodesource
 
@@ -113,21 +121,6 @@
   apt:
     pkg: nodejs
     state: latest
-
-- name: init /data/work/osmose/node_modules
-  file:
-    path: /data/work/osmose/node_modules/
-    state: directory
-  become: yes
-  become_user: osmose
-
-- name: add link to /data/project/osmose/frontend/web/node_modules
-  file:
-    src: /data/work/osmose/node_modules
-    dest: /data/project/osmose/frontend/web/node_modules
-    state: link
-  become: yes
-  become_user: osmose
 
 - name: npm install
   command: chdir=/data/project/osmose/frontend/web/ npm install
@@ -190,11 +183,12 @@
     - expires.load
     - headers.load
     - rewrite.load
-    - wsgi.conf
-    - wsgi.load
     - cache.load
     - cache_disk.conf
     - cache_disk.load
+    - proxy.conf
+    - proxy.load
+    - proxy_http.load
 
 - name: configure apache mpm_event
   lineinfile:

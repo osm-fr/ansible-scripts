@@ -1,0 +1,107 @@
+- name: install packages
+  apt:
+    pkg:
+      - python3
+      - sanoid
+
+- name: add user proxmox-backup
+  user:
+    name: proxmox-backup
+    generate_ssh_key: true
+    home: /home/proxmox-backup
+    system: true
+
+- name: fetch generated public ssh key
+  fetch:
+    src: /home/proxmox-backup/.ssh/id_rsa.pub
+    dest: public_keys/proxmox-backup/{{ inventory_hostname }}
+    flat: true
+
+- name: update ssh known_hosts
+  known_hosts:
+    name: "{{ item }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan {{ item }}') }}"
+  with_items:
+    "{{ groups['proxmox-backup'] }}"
+  become: yes
+  become_user: proxmox-backup
+
+- name: update authorized keys
+  authorized_key:
+    user: proxmox-backup
+    key: "{{ lookup('file', 'public_keys/proxmox-backup/{{ item }}') }}"
+    key_options: "no-port-forwarding"
+  with_items:
+    "{{ groups['proxmox-backup'] }}"
+  when:
+    proxmox_backup_host is defined
+
+- name: configure sudoers to launch pct commands
+  community.general.sudoers:
+    name: proxmox-backup
+    user: proxmox-backup
+    commands:
+      - /usr/bin/cat /etc/pve/.vmlist
+      - /usr/sbin/pct snapshot *
+      - /usr/sbin/pct listsnapshot *
+      - /usr/sbin/pct delsnapshot *
+      - /usr/sbin/pct config *
+      - /usr/sbin/pvesm path *
+  when:
+    proxmox_backup_host is not defined
+
+- name: Allow zfs commands to send
+  community.general.zfs_delegate_admin:
+    name: local-zfs
+    users: proxmox-backup
+    permissions: send,hold,mount,snapshot,destroy
+  when:
+    proxmox_backup_host is not defined
+
+- name: Allow zfs commands to receive
+  community.general.zfs_delegate_admin:
+    name: backups
+    users: proxmox-backup
+    permissions: compression,mountpoint,create,mount,receive,rollback,destroy
+  when:
+    proxmox_backup_host is defined
+
+- name: checkout git repository
+  git:
+    repo: https://github.com/osm-fr/proxmox-autosnap.git
+    dest: /home/proxmox-backup/proxmox-autosnap
+  become: true
+  become_user: proxmox-backup
+  when:
+    proxmox_backup_host is not defined
+
+- name: init systemd services+timers
+  template:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  with_items:
+    - proxmox-autosnap-daily.service
+    - proxmox-autosnap-daily.timer
+    - proxmox-autosnap-monthly.service
+    - proxmox-autosnap-monthly.timer
+    - proxmox-autosnap-weekly.service
+    - proxmox-autosnap-weekly.timer
+  notify:
+    - systemd daemon-reload
+  when:
+    proxmox_backup_host is not defined
+
+- name: enable timers on systemd
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    masked: false
+    state: started
+  with_items:
+    - proxmox-autosnap-daily.timer
+    - proxmox-autosnap-monthly.timer
+    - proxmox-autosnap-weekly.timer
+  notify:
+    - systemd daemon-reload
+  when:
+    proxmox_backup_host is not defined

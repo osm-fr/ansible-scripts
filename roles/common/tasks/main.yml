@@ -1,6 +1,6 @@
 - name: set proxmox password
   set_fact:
-    proxmox_password: "{{ lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) }}"
+    proxmox_password: "{{ lookup('env', 'PROXMOX_PASSWORD_' + proxmox_var.host.split('.')[0]) }}"
   when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0])
 
 - name: init cache/templates/
@@ -9,6 +9,7 @@
     path: "cache/templates/"
     state: directory
     force: no
+    mode: 0755
   when: proxmox_password is defined
   become: no
 
@@ -25,6 +26,7 @@
     module: get_url
     dest: "cache/templates/{{ item }}"
     url: "http://download.proxmox.com/images/system/{{ item }}"
+    mode: 0644
   with_items:
     - "{{ proxmox_var.ostemplate }}"
     - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
@@ -69,7 +71,7 @@
     onboot: yes
     ostemplate: "local:vztmpl/{{ proxmox_var.ostemplate }}"
     password: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
-    pubkey: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    pubkey: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     storage: "{{ proxmox_var.storage }}"
     swap: "{{ proxmox_var.swap }}"
@@ -80,9 +82,9 @@
   become: no
 
 # To create kvm template:
-# wget http://cloud.debian.org/images/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2
-# qm create 9000 --name debian-11-genericcloud-amd64 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1,firewall=1
-# qm importdisk 9000 debian-11-genericcloud-amd64.qcow2 local-zfs
+# wget http://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2
+# qm create 9000 --name debian-12-genericcloud-amd64 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1,firewall=1
+# qm importdisk 9000 debian-12-genericcloud-amd64.qcow2 local-zfs
 # qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-zfs:vm-9000-disk-0
 # qm set 9000 --ide2 local-zfs:cloudinit
 # qm set 9000 --boot c --bootdisk scsi0
@@ -111,7 +113,7 @@
     ostype: "l26"
     scsi:
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
-    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
   when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   register: create_vm
@@ -137,7 +139,7 @@
     ostype: "l26"
     scsi:
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
-    sshkeys: "{{ lookup('file', lookup('env','PROXMOX_SSHPUBKEY')) }}"
+    sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     update: yes
   when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
@@ -230,7 +232,7 @@
     block: |
       Host {{ item }}
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
-  with_items: '{{play_hosts}}'
+  with_items: '{{ play_hosts }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -240,7 +242,7 @@
     module: known_hosts
     name: "{{ hostvars[item].proxmox_var.ipv6 }}"
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
-  with_items: '{{play_hosts}}'
+  with_items: '{{ play_hosts }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -266,16 +268,17 @@
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '18') or
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '20'))
 
-- set_fact: install_apache=false
+- set_fact:
+    install_apache: false
   when: install_apache is undefined
 
-- name: add buster-backports for monit
+- name: add backports
   apt_repository:
     filename: 'backports'
-    repo: 'deb http://ftp.debian.org/debian buster-backports main'
+    repo: 'deb http://ftp.debian.org/debian {{ ansible_distribution_release }}-backports main'
     state: present
     update_cache: yes
-  when: ansible_distribution_release == "buster"
+  when: ansible_distribution_release == "buster" or ansible_distribution_release == "bullseye"
 
 - name: install packages
   apt:
@@ -301,7 +304,6 @@
       - munin-node
       - mutt
       - nano
-      - rsync   # for backuppc
       - screen
       - sudo
       - time
@@ -340,6 +342,7 @@
     url: "https://download.docker.com/linux/debian/gpg"
     dest: "/usr/share/keyrings/docker-archive-keyring.gpg.tmp"
     checksum: "sha512:d07607e3119181026e3309fb828882a13621960c54290416c2f897e1834f36abdb48d11b6f71aba1d2b9e7dac3f3fe8281c248500cfe13705674a5446826b699"
+    mode: 0644
   when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
 
 - name: activate docker apt key
@@ -396,140 +399,11 @@
     owner: root
     group: root
     force: no
+    mode: 0755
   with_items:
     - /data
     - /data/project
     - /data/work
-
-- include: ../../../shared/account.yml user=cquest  uid=1202
-- include: ../../../shared/account.yml user=jocelyn uid=1203
-- include: ../../../shared/account.yml user=marc_marc uid=1216
-
-- include: ../../../shared/account.yml user=achetta uid=1236
-  when: "'achetta' in group_names"
-
-- include: ../../../shared/account.yml user=apavie uid=1211
-  when: "'apavie' in group_names"
-
-- include: ../../../shared/account.yml user=cgiquello uid=1212
-  when: "'cgiquello' in group_names"
-
-- include: ../../../shared/account.yml user=cormoran uid=1219
-  when: "'cormoran' in group_names"
-
-- include: ../../../shared/account.yml user=don-vip uid=1247
-  when: "'don-vip' in group_names"
-
-- include: ../../../shared/account.yml user=driss uid=1224
-  when: "'driss' in group_names"
-
-- include: ../../../shared/account.yml user=etienne uid=1213
-  when: "'etienne' in group_names"
-
-- include: ../../../shared/account.yml user=eloks uid=1214
-  when: "'eloks' in group_names"
-
-- include: ../../../shared/account.yml user=famlam uid=1250
-  when: "'famlam' in group_names"
-
-- include: ../../../shared/account.yml user=flacombe uid=1246
-  when: "'flacombe' in group_names"
-
-- include: ../../../shared/account.yml user=francois2 uid=1221
-  when: "'francois2' in group_names"
-
-- include: ../../../shared/account.yml user=fred uid=1205
-  when: "'fred' in group_names"
-
-- include: ../../../shared/account.yml user=gileri uid=1311
-  when: "'gileri' in group_names"
-
-- include: ../../../shared/account.yml user=guillaumeamat uid=1235
-  when: "'guillaumeamat' in group_names"
-
-- include: ../../../shared/account.yml user=gpelloux uid=1237
-  when: "'gpelloux' in group_names"
-
-- include: ../../../shared/account.yml user=hamlet uid=1305
-  when: "'hamlet' in group_names"
-
-- include: ../../../shared/account.yml user=jacques uid=1306
-  when: "'jacques' in group_names"
-
-- include: ../../../shared/account.yml user=jben uid=1206
-  when: "'jben' in group_names"
-
-- include: ../../../shared/account.yml user=jgcailton uid=1207
-  when: "'jgcailton' in group_names"
-
-- include: ../../../shared/account.yml user=juliep uid=1210
-  when: "'juliep' in group_names"
-
-- include: ../../../shared/account.yml user=karl uid=1238
-  when: "'karl' in group_names"
-
-- include: ../../../shared/account.yml user=lcombe uid=1215
-  when: "'lcombe' in group_names"
-
-- include: ../../../shared/account.yml user=ljbouere uid=1248
-  when: "'ljbouere' in group_names"
-
-- include: ../../../shared/account.yml user=mael uid=1218
-  when: "'mael' in group_names"
-
-- include: ../../../shared/account.yml user=nlehuby uid=1220
-  when: "'nlehuby' in group_names"
-
-- include: ../../../shared/account.yml user=nmoyroud uid=1226
-  when: "'nmoyroud' in group_names"
-
-- include: ../../../shared/account.yml user=panieravide uid=1230
-  when: "'panieravide' in group_names"
-
-- include: ../../../shared/account.yml user=phyks uid=1233
-  when: "'phyks' in group_names"
-
-- include: ../../../shared/account.yml user=pyrog uid=1333
-  when: "'pyrog' in group_names"
-
-- include: ../../../shared/account.yml user=redfox uid=1209
-  when: "'redfox' in group_names"
-
-- include: ../../../shared/account.yml user=rodolphe uid=1208
-  when: "'rodolphe' in group_names"
-
-- include: ../../../shared/account.yml user=rvoirin uid=1308
-  when: "'rvoirin' in group_names"
-
-- include: ../../../shared/account.yml user=sly     uid=1209
-  when: "'sly' in group_names"
-
-- include: ../../../shared/account.yml user=teslix uid=1222
-  when: "'teslix' in group_names"
-
-- include: ../../../shared/account.yml user=thomasg77 uid=1249
-  when: "'thomasg77' in group_names"
-
-- include: ../../../shared/account.yml user=thomasl uid=1210
-  when: "'thomasl' in group_names"
-
-- include: ../../../shared/account.yml user=thorieux uid=1229
-  when: "'thorieux' in group_names"
-
-- include: ../../../shared/account.yml user=thrrp uid=1310
-  when: "'thrrp' in group_names"
-
-- include: ../../../shared/account.yml user=tykayn uid=1312
-  when: "'tykayn' in group_names"
-
-- include: ../../../shared/account.yml user=tyndare uid=1212
-  when: "'tyndare' in group_names"
-
-- include: ../../../shared/account.yml user=vdct uid=1217
-  when: "'vdct' in group_names"
-
-- include: ../../../shared/account.yml user=ybon uid=1223
-  when: "'ybon' in group_names"
 
 - name: add default sudoers
   copy:
@@ -539,6 +413,9 @@
     owner: root
     group: root
     validate: 'visudo -cf %s'
+
+- set_fact:
+    group_users_root: "{{ q('vars', *q('varnames', '^group_users_root')) | flatten }}"
 
 - name: add sudoers for users
   template:
@@ -550,59 +427,31 @@
     validate: 'visudo -cf %s'
   when: users_root is defined or group_users_root is defined
 
+- name: Configure .gitignore for etckeeper
+  blockinfile:
+    path: /etc/.gitignore
+    block: |
+      pve/.clusterlog
+      pve/.rrd
+      pve/.vmlist
+      pve/authkey.pub
+      pve/local
+      pve/lxc
+      pve/nodes/*/lrm_status
+      pve/openvz
+      pve/priv/authkey.key
+      pve/qemu-server
+  when: "'proxmox' in group_names"
+  register: gitignore_status
 
-- name: Check if user backuppc exists
-  action: shell /usr/bin/getent passwd backuppc
-  register: user_exist
-  ignore_errors: True
-  changed_when: "user_exist.rc != 0"
-
-- name: add user backuppc
-  user:
-    name: backuppc
-    home: /home/backuppc
-    system: yes
-  when: user_exist.changed
-
-- name: init group backuppc
-  group:
-    name: backuppc
-
-- name: init backuppc ssh
-  file:
-    path: /home/backuppc/.ssh
-    state: directory
-    mode: 0700
-    owner: backuppc
-    group: backuppc
-
-- name: add authorized_keys for user backuppc
-  copy:
-    src: backuppc.authorized_keys
-    dest: /home/backuppc/.ssh/authorized_keys
-    mode: 0600
-    owner: backuppc
-    group: backuppc
-    force: yes
-
-- name: add ssh key to user backuppc
-  authorized_key:
-    user: backuppc
-    key: "{{ lookup('file',item) }}"
-  with_fileglob:
-    - "{{ lookup('env','PWD') }}/public_keys/backuppc-*"
-
-- name: create empty /var/www for backuppc
-  file:
-    path: /var/www/
-    state: directory
-    force: no
-
-- name: create empty file in backup-ed /var/www
-  copy:
-    content: ""
-    dest: /var/www/.empty-file-for-backuppc
-    force: no
+- name: Remove new gitignore items from tracking
+  shell: |
+    git rm -r --quiet --cached `git ls-files -i -c --exclude-from=.gitignore`
+    git add .gitignore
+    git commit -m "Cleanup git-ignore files"
+  args:
+    chdir: /etc/
+  when: "'proxmox' in group_names and gitignore_status.changed"
 
 - name: update hosts.allow
   lineinfile:
@@ -618,7 +467,7 @@
   lineinfile:
     dest: /etc/locale.gen
     regexp: "{{ item }}"
-    line: "{{ item }} "
+    line: "{{ item }}"
   notify:
     - generate locales
   with_items:
@@ -634,13 +483,14 @@
     dest: /var/lib/locales/supported.d/local
     force: no
     owner: root
+    mode: 0644
   when: ansible_distribution == 'Ubuntu'
 
 - name: configure locales
   lineinfile:
     dest: /var/lib/locales/supported.d/local
     regexp: "{{ item }}"
-    line: "{{ item }} "
+    line: "{{ item }}"
   notify:
     - generate locales
   with_items:
@@ -657,14 +507,6 @@
     vtype: select
   notify:
     - generate locales
-
-# necessary to run a lot of containers, each which systemd launching several inotify
-- name: increase fs.inotify.max_user_instances on host
-  sysctl:
-    name: fs.inotify.max_user_instances
-    value: 1024
-    sysctl_file: /etc/sysctl.d/ansible.conf
-  when: "not 'vm' in group_names"
 
 # configure lxfs so that VMs get their own load-average
 - name: create systemd override directory for lxcfs
@@ -687,14 +529,32 @@
     - systemd daemon-reload
   when: "'proxmox' in group_names"
 
-- include: ssh-tunnel.yml user=ssh-tunnel uid=1104
+- name: Add ZFS reservation on /rpool
+  community.general.zfs:
+    name: rpool/reservation
+    state: present
+    extra_zfs_properties:
+      reservation: 20G
+  when: "'proxmox' in group_names"
+
+
+- ansible.builtin.include_tasks: ssh-tunnel.yml
+  vars:
+    user: "ssh-tunnel"
+    uid: "1104"
   when: "'ssh-tunnel' in group_names"
 
-- include: apache2.yml
+- ansible.builtin.import_tasks: apache2.yml
 
-- include: nginx.yml
+- ansible.builtin.import_tasks: nginx.yml
 
-- include: munin-node.yml
+- ansible.builtin.import_tasks: munin-node.yml
 
-- include: ntp.yml
+- ansible.builtin.include_tasks: sysstat.yml
+  when: "'proxmox' in group_names"
+
+- ansible.builtin.include_tasks: sysctl.yml
+  when: "'proxmox' in group_names"
+
+- ansible.builtin.include_tasks: ntp.yml
   when: "not 'vm' in group_names"

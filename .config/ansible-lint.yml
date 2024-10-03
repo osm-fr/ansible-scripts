@@ -1,0 +1,11 @@
+---
+profile: production
+
+enable_list:
+  - empty-string-compare
+  - no-log-password
+  - no-prompting
+  - no-same-owner
+
+offline: true
+...

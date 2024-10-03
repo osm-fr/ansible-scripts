@@ -22,14 +22,28 @@ server {
 {% endif %}
     include /etc/nginx/global.d/*.conf;
 
+{% if item.http3_udp_port is defined %}
+    http3               on;
+    listen              [::]:{{ item.http3_udp_port }} quic reuseport;
+    listen              {{ item.http3_udp_port }} quic reuseport;
+    quic_gso            on;     # segmentation offloading by ethernet card
+
+{% endif %}
     #charset koi8-r;
     access_log  "/var/log/nginx/{{ item.logname }}.access.log";
 
     client_max_body_size 50M;
 
 {% if item.redirect is defined %}
-    return 301 $scheme://{{ item.redirect }}$request_uri;
+    location /.well-known/acme-challenge {
+
+    }
+
+    location / {
+        return 301 $scheme://{{ item.redirect }}$request_uri;
+    }
 {% else %}
+    proxy_http_version    1.1;
     proxy_connect_timeout 6000;
     proxy_send_timeout    6000;
     proxy_read_timeout    6000;
@@ -37,9 +51,9 @@ server {
 
     location / {
 {% if item.target_port is defined %}
-        proxy_pass	http://{{ item.target }}:{{ item.target_port }};
+        proxy_pass         http://{{ item.target }}:{{ item.target_port }};
 {% else %}
-        proxy_pass	http://{{ item.target }};
+        proxy_pass         http://{{ item.target }};
 {% endif %}
         proxy_redirect     off;
         proxy_buffering    off;
@@ -49,7 +63,14 @@ server {
         proxy_set_header   X-Forwarded-Proto $scheme;
 
         add_header Permissions-Policy interest-cohort=();
+{% if item.http3_udp_port is defined %}
+        add_header          Alt-Svc 'h3=":{{ item.http3_udp_port }}"; ma=86400';
+{% endif %}
     }
+{% endif %}
+{% if item.dedicated_certbot_cert is defined %}
+    ssl_certificate /etc/letsencrypt/live/{{ item.websites.split(' ')[0] }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ item.websites.split(' ')[0] }}/privkey.pem; # managed by Certbot
 {% endif %}
 }
 

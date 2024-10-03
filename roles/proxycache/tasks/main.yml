@@ -1,6 +1,7 @@
 - name: install packages
   apt:
     pkg:
+      - iptables
       - nginx
       - logrotate
 
@@ -9,6 +10,7 @@
   file:
     path: /etc/nginx/global.d/
     state: directory
+
 
 - name: copy nginx challenge config
   copy:
@@ -21,6 +23,17 @@
     src: nginx-letsencrypt-ssl.conf     
     dest: "/etc/nginx/global.d/letsencrypt-ssl.conf"
   notify: reload nginx
+=======
+- name: add include global.d in default nginx site
+  lineinfile:
+    dest: /etc/nginx/sites-available/default
+    regexp: "include /etc/nginx/global.d/*.conf;"
+    line: "	include /etc/nginx/global.d/*.conf;"
+    insertbefore: "# listen 443 ssl default_server;"
+    firstmatch: true
+  notify:
+    - reload nginx
+
 
 # recherche config pour ce host
 - name: check if nginx config exists

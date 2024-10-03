@@ -1,0 +1,15 @@
+proxmox_var:
+  host: osm42.openstreetmap.fr
+  cpus: 4
+  disk: 300
+  docker: 0
+  hostname: geoosm.vm.openstreetmap.fr
+  ipv6: 2a06:c484:5::214
+  kvm: 1
+  net: {"net0": "bridge=vmbr0", "net1": "bridge=vmbr0"}
+  ipconfig: {"ipconfig0": "ip=10.1.0.214/8,gw=45.147.209.254", "ipconfig1": "ip6=2a06:c484:5::214/64,gw6=2a06:c484:5::"}
+  memory: 32768
+  ostemplate: debian-12-genericcloud-amd64
+  storage: "local-zfs"
+  swap: 2048
+  vmid: 214

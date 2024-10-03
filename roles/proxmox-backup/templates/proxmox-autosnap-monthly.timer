@@ -1,0 +1,8 @@
+[Unit]
+Description=Run proxmox-autosnap monthly
+
+[Timer]
+OnCalendar=*-*-1 00:05:00
+
+[Install]
+WantedBy=timers.target

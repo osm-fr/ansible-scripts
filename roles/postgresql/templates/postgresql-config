@@ -1,0 +1,115 @@
+# {{ ansible_managed }}
+{# Voir le fichier defaults/main.yml pour l'explication #}
+
+ssl = false
+
+shared_buffers = {{ shared_buffers }}
+
+{% if ansible_memtotal_mb >= 2048 and ansible_memtotal_mb < 4096%}
+maintenance_work_mem = 256MB
+{% elif ansible_memtotal_mb >= 4096 and ansible_memtotal_mb < 8192 %}
+maintenance_work_mem = 512MB
+{% elif ansible_memtotal_mb >= 8192 %}
+maintenance_work_mem = 1GB
+{% endif %}
+
+work_mem = {{ work_mem }}
+wal_buffers = 128MB
+{% if postgres_info.version.major > 13 %}
+min_dynamic_shared_memory ={{ min_dynamic_shared_memory }}
+{% endif %}
+
+{% if postgres_info.version.major < 15 %}
+hash_mem_multiplier = 2.0
+{% endif %}
+
+# - Background Writer -
+bgwriter_delay = {{ bgwriter_delay }}
+bgwriter_lru_maxpages = {{ bgwriter_lru_maxpages }}
+bgwriter_lru_multiplier = {{ bgwriter_lru_multiplier }}
+
+max_worker_processes = {{ max_worker_processes }}
+max_parallel_maintenance_workers = {{ max_parallel_maintenance_workers }}
+max_parallel_workers_per_gather = {{ max_parallel_workers_per_gather }}
+max_parallel_workers = {{ max_parallel_workers }}
+
+{% if ssd %}
+# Ces paramètres sont revus par rapport à la valeur par défaut si on est sur du SSD
+effective_io_concurrency = {{ effective_io_concurrency }}
+maintenance_io_concurrency = {{ maintenance_io_concurrency }}
+random_page_cost = {{ random_page_cost }}
+{% endif %}
+
+# 2/3 de la RAM
+effective_cache_size = {{ effective_cache_size }}
+
+# L'estimation sur le JIT se prend un peu les pieds dans le tapis
+# et la requête suivante devient couteuse :
+# https://github.com/MagicStack/asyncpg/issues/530
+jit = {{ jit }}
+
+autovacuum_vacuum_cost_limit ={{ autovacuum_vacuum_cost_limit }}
+{% if postgres_info.version.major > 15 %}
+vacuum_buffer_usage_limit = 2MB
+{% endif %}
+
+
+synchronous_commit = {{ synchronous_commit }}
+# On n'utilise pas la réplication ni le Point In Time Recovery
+max_wal_senders = 0
+wal_level = minimal
+
+# Une config pour avoir un peu d'informations dans les logs
+log_min_duration_statement = {{ log_min_duration_statement }}
+{% if postgres_info.version.major < 15 %}
+log_checkpoints = on
+{% endif %}
+log_lock_waits = on
+log_temp_files = 0
+log_statement = 'ddl'
+track_io_timing = on
+{% if postgres_info.version.major >= 15 %}
+track_wal_io_timing = on
+{% endif %}
+log_autovacuum_min_duration = 0
+log_line_prefix = '%m [%p-%l]: db=%d,user=%u,app=%a,client=%h,xid=%x '
+
+# Active pg_stat_statements
+shared_preload_libraries = {{ shared_preload_libraries }}
+pg_stat_statements.track = all
+pg_stat_statements.track_utility = on
+
+# Active auto_explain
+session_preload_libraries = {{ session_preload_libraries }}
+auto_explain.log_min_duration = {{ auto_explain_log_min_duration }}
+
+auto_explain.log_analyze=on
+auto_explain.log_buffers=on
+auto_explain.log_timing=off # le timing peut être couteux si c'est couplé avec log_analyze
+auto_explain.log_nested_statements=on
+auto_explain.log_triggers=on
+auto_explain.log_settings=on
+auto_explain.log_wal=on
+
+{% if zfs %}
+# Si on est sur ZFS, on peut désactiver les FPW
+full_page_writes = off                  # recover from partial page writes
+
+# https://www.postgresql.org/message-id/E1hB8W7-0005OZ-Lt%40gemulon.postgresql.org
+wal_init_zero = off                     # zero-fill new WAL files
+wal_recycle = off                       # recycle WAL files
+{% endif %}
+
+wal_compression = {{ wal_compression }}
+{% if postgres_info.version.major >= 15 %}
+default_toast_compression = lz4
+{% endif %}
+
+# On espace un peu plus les checkpoints
+checkpoint_timeout = {{ checkpoint_timeout }}
+{% if postgres_info.version.major < 15 %}
+checkpoint_completion_target = 0.9
+{% endif %}
+max_wal_size = {{ max_wal_size }}
+min_wal_size = 1GB
+

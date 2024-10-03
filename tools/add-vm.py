@@ -39,7 +39,7 @@ host_config = {
     "bridge": "vmbr0",
     "gw4":  "10.0.0.26",
     "ipv4": "10.1.%d.%d",
-    "gw6": "2001:41d0:1008:1f65:1::26",
+    "gw6": "2001:41d0:1008:1fff:ff:ff:ff:ff",
     "ipv6": "2001:41d0:1008:1f65:1::%d",
     "default_storage": "local-zfs",
   },
@@ -48,7 +48,7 @@ host_config = {
     "bridge": "vmbr0",
     "gw4":  "10.0.0.27",
     "ipv4": "10.1.%d.%d",
-    "gw6":  "2001:41d0:1008:1f84:1::27",
+    "gw6":  "2001:41d0:1008:1fff:ff:ff:ff:ff",
     "ipv6": "2001:41d0:1008:1f84:1::%d",
     "default_storage": "local-zfs",
   },
@@ -118,17 +118,56 @@ host_config = {
     "ipv6": "2001:67c:1740:9031::%d",
     "default_storage": "local-zfs",
   },
+  "osm35": {
+    "hostname": "osm35.openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr1",
+    "gw4":  "10.0.0.35",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2001:67c:1740:9031::1",
+    "ipv6": "2001:67c:1740:9031::%d",
+    "default_storage": "local-zfs",
+  },
+  "osm36": {
+    "hostname": "osm36.openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr1",
+    "gw4":  "10.0.0.36",
+    "ipv4": "10.1.%d.%d",
+    "gw6":  "2001:67c:1740:9031::1",
+    "ipv6": "2001:67c:1740:9031::%d",
+    "default_storage": "local-zfs",
+  },
 }
 
+for h in host_config.keys():
+  host_config[h]["ipv4_range"] = 24
+
+# cluster moji
+for n in range(38, 45):
+  h = "osm%d" % n
+  host_config[h] = {
+    "hostname": h + ".openstreetmap.fr",
+    "bridge": "vmbr0",
+    "bridge_ipv6": "vmbr0",
+    "gw4":  "45.147.209.254",
+    "ipv4": "10.1.%d.%d",
+    "ipv4_range": 8,
+    "gw6":  "2a06:c484:5::",
+    "ipv6": "2a06:c484:5::%d",
+    "default_storage": "local-zfs",
+   }
+
 templates = [
-  "debian-11-standard_11.3-1_amd64.tar.zst",
+  "debian-12-standard_12.2-1_amd64.tar.zst",
+  "debian-11-standard_11.6-1_amd64.tar.zst",
   "debian-10-standard_10.7-1_amd64.tar.gz",
   "debian-9.0-standard_9.7-1_amd64.tar.gz",
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
 ]
 
 templates_kvm = [
-  "debian-11-genericcloud-amd64"
+  "debian-12-genericcloud-amd64"
 ]
 
 storages = [
@@ -137,6 +176,7 @@ storages = [
   "ceph",
   "local",
   "local-zfs",
+  "nvme-zfs",
   "ssd-nvme",
   "ssd-sata",
   "ssd-zfs",
@@ -144,8 +184,9 @@ storages = [
 
 default_template = templates[0]
 default_cpus = 1
-default_memory = 1024
+default_memory = 1
 default_disk = 10
+
 
 def parse_args():
 
@@ -162,7 +203,7 @@ def parse_args():
   parser.add_argument('--cpus',    action='store', type=int, default=default_cpus,
                       help="default: %(default)s")
   parser.add_argument('--memory',  action='store', type=int, default=default_memory,
-                      help="default: %(default)s Mio")
+                      help="default: %(default)s Gio")
   parser.add_argument('--disk',    action='store', type=int, default=default_disk,
                       help="default: %(default)s Gio")
   parser.add_argument('--storage', action='store', choices=storages,
@@ -187,8 +228,8 @@ def find_vmid(vmid=None, vmname=None):
   existing_names = set()
 
   with open("hosts") as f:
-    re_osm = re.compile("osm([0-9]+)\.")
-    re_vm_openstreetmap_fr = re.compile("([0-9a-z_.]+)\.openstreetmap\.fr")
+    re_osm = re.compile(r"osm([0-9]+)\.")
+    re_vm_openstreetmap_fr = re.compile(r"([0-9a-z_.]+)\.openstreetmap\.fr")
 
     for line in f:
       ms = re_osm.findall(line)
@@ -199,7 +240,7 @@ def find_vmid(vmid=None, vmname=None):
         existing_names.add(m)
 
   if vmid is None:
-    vmid = max([vmid for vmid in existing_vmid if vmid < 200]) + 1
+    vmid = max([vmid for vmid in existing_vmid if vmid < 300]) + 1
 
   if vmname is None:
     vmname = "osm%d" % vmid
@@ -234,41 +275,62 @@ def get_host(host=None):
     try:
       resp = int(input("? "))
       host = hosts[resp]
-    except (ValueError, IndexError) as e:
+    except (ValueError, IndexError):
       print("- Incorrect answer\n")
 
   return host
+
+
+def compute_ipv4(cfg_host, vmid):
+
+  if cfg_host["ipv4"].count("%d") == 1 and vmid > 255:
+    raise Exception("vmid > 255 not supported for ipv4 calculation")
+
+  if cfg_host["ipv4"].count("%d") == 1:
+    return cfg_host["ipv4"] % vmid
+  else:
+    return cfg_host["ipv4"] % (vmid // 256, vmid % 256)
+
+
+def compute_ipv4_prefix(cfg_host, vmid):
+  return "24"
+
+
+def compute_ipv6(cfg_host, vmid):
+
+  if vmid > 9999:
+    raise Exception("vmid > 9999 not supported for ipv6 calculation")
+
+  return cfg_host["ipv6"] % vmid
+
+
+def compute_ipv6_prefix(cfg_host, vmid):
+  return "80"
 
 
 def expand_args(args):
 
   cfg_host = host_config[args.host]
 
-  if cfg_host["ipv4"].count("%d") == 1 and args.vmid > 255:
-    raise Exception("vmid > 255 not supported for ipv4 calculation")
-  elif args.vmid > 9999:
-    raise Exception("vmid > 9999 not supported for ipv6 calculation")
-
-  if cfg_host["ipv4"].count("%d") == 1:
-    args.ipv4 = cfg_host["ipv4"] % args.vmid
-  else:
-    args.ipv4 = cfg_host["ipv4"] % (args.vmid // 256, args.vmid % 256)
-  args.ipv6 = cfg_host["ipv6"] % args.vmid
+  args.ipv4 = compute_ipv4(cfg_host, args.vmid)
+  args.ipv6 = compute_ipv6(cfg_host, args.vmid)
+  args.ipv4_prefix = compute_ipv4_prefix(cfg_host, args.vmid)
+  args.ipv6_prefix = compute_ipv6_prefix(cfg_host, args.vmid)
 
   if args.kvm:
-    if not "bridge_ipv6" in cfg_host:
+    if "bridge_ipv6" not in cfg_host:
       raise Exception("kvm not supported without bridge_ipv6 in host")
 
-    args.net =  '{"net0": "bridge=%(bridge)s",' % {"bridge": cfg_host["bridge"]}
+    args.net  = '{"net0": "bridge=%(bridge)s",' % {"bridge": cfg_host["bridge"]}
     args.net += ' "net1": "bridge=%(bridge_ipv6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"]}
 
-    args.ipconfig =  '{"ipconfig0": "ip=%(ipv4)s/24,gw=%(gw4)s",' % {"ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
+    args.ipconfig  = '{"ipconfig0": "ip=%(ipv4)s/%(ipv4_range)s,gw=%(gw4)s",' % {"ipv4": args.ipv4, "ipv4_range": cfg_host["ipv4_range"], "gw4": cfg_host["gw4"]}
     args.ipconfig += ' "ipconfig1": "ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
   else:
     if "bridge_ipv6" in cfg_host:
-      args.netif =  '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"]}
-      args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/128,gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
+      args.netif  = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/%(ipv4_prefix)s,gw=%(gw4)s",' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "ipv4_prefix": args.ipv4_prefix, "gw4": cfg_host["gw4"]}
+      args.netif += ' "net1": "name=eth1,bridge=%(bridge_ipv6)s,ip6=%(ipv6)s/%(ipv6_prefix)s,gw6=%(gw6)s"}' % {"bridge_ipv6": cfg_host["bridge_ipv6"], "ipv6": args.ipv6, "ipv6_prefix": args.ipv6_prefix, "gw6": cfg_host["gw6"]}
     else:
       args.netif = '{"net0": "name=eth0,bridge=%(bridge)s,ip=%(ipv4)s/24,gw=%(gw4)s,ip6=%(ipv6)s/97,gw6=%(gw6)s"}' % {"bridge": cfg_host["bridge"], "ipv4": args.ipv4, "gw4": cfg_host["gw4"], "ipv6": args.ipv6, "gw6": cfg_host["gw6"]}
 
@@ -297,7 +359,7 @@ def print_config(args):
   print("dns:      %s" % args.dns_name)
   print("host:     %s" % args.host)
   print("cpus:     %s" % args.cpus)
-  print("memory:   %s Mio" % args.memory)
+  print("memory:   %s Gio" % args.memory)
   print("disk:     %s Gio on %s" % (args.disk, args.storage))
   print("ipv6:     %s" % args.ipv6)
   print("template: %s" % args.template)
@@ -336,7 +398,7 @@ def configure_ansible(args):
       f.write("  ipconfig: %s\n" % args.ipconfig)
     else:
       f.write("  netif: %s\n" % args.netif)
-    f.write("  memory: %s\n" % args.memory)
+    f.write("  memory: %s\n" % (args.memory * 1024))
     f.write("  ostemplate: %s\n" % args.template)
     f.write("  storage: \"%s\"\n" % args.storage)
     f.write("  swap: %s\n" % args.swap)
@@ -352,7 +414,7 @@ def configure_ansible(args):
   hosts_tmp = "hosts.tmp"
 
   with open("hosts", "rt") as f_h:
-    re_osm = re.compile("osm([0-9]+)\.")
+    re_osm = re.compile(r"osm([0-9]+)\.")
     with open(hosts_tmp, "xt") as f:
       add_vm = False
       add_user = False
@@ -400,4 +462,3 @@ if __name__ == '__main__':
       sys.exit(1)
 
   configure_ansible(args)
-

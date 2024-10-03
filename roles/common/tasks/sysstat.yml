@@ -1,0 +1,19 @@
+- name: install packages for sysstat and atop
+  apt:
+    update_cache: yes
+    pkg:
+      - sysstat
+      - xz-utils
+      - atop
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Enable sysstat
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    mode: "{{ item.mode }}"
+  loop:
+    - { src: 'sysstat-default', dest: '/etc/default/sysstat', mode: '0644' }
+    - { src: 'sysstat.conf', dest: '/etc/sysstat/sysstat', mode: '0644' }
+  notify: restart sysstat

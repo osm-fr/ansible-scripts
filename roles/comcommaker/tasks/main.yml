@@ -11,7 +11,7 @@
       - libapache2-mod-wsgi-py3
 
 
-- include: ../../../shared/project-account.yml
+- include_tasks: ../../../shared/project-account.yml
   vars:
     user: "{{ comcommaker_user }}"
 

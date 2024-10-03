@@ -1,3 +1,7 @@
+- name: systemd daemon-reload
+  systemd:
+    daemon_reload: yes
+
 - name: restart buildslave
   service: name=buildslave state=restarted
 

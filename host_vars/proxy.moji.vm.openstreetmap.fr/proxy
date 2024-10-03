@@ -1,0 +1,119 @@
+# for proxycache
+host_proxy:
+  -
+    logname: "osmose"
+    websites: "osmose.openstreetmap.fr dev.osmose.openstreetmap.fr"
+    target: "10.1.0.210"
+    redirect_to_https: True
+    dedicated_certbot_cert: True
+  -
+    logname: "beta.osmose"
+    websites: "beta.osmose.openstreetmap.fr"
+    target: "10.1.0.210"
+    redirect_to_https: True
+  -
+    logname: "munin"
+    websites: "munin.openstreetmap.fr"
+    target: "10.1.0.127"
+    dedicated_certbot_cert: True
+  -
+    logname: "live"
+    websites: "live.openstreetmap.fr"
+    target: "10.1.0.132"
+    dedicated_certbot_cert: True
+  -
+    logname: "nextcloud"
+    websites: "nextcloud.openstreetmap.fr"
+    target: "10.1.0.141"
+    redirect_to_https: True
+    dedicated_certbot_cert: True
+  -
+    logname: "www"
+    websites: "openstreetmap.fr www.openstreetmap.fr next.openstreetmap.fr"
+    target: "10.1.0.142"
+    dedicated_certbot_cert: True
+  -
+    logname: "www-old"
+    websites: "prev.openstreetmap.fr"
+    target: "10.1.0.146"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2018"
+    websites: "sotm2018.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2019"
+    websites: "sotm2019.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2020"
+    websites: "sotm2020.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2022"
+    websites: "sotm2022.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2023"
+    websites: "sotm2023.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "sotm2024"
+    websites: "sotm2024.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
+    logname: "peertube"
+    websites: "peertube.openstreetmap.fr"
+    target: "10.1.0.155"
+    config_src: "nginx-site-peertube.j2"
+    dedicated_certbot_cert: True
+  -
+    logname: "petitereine"
+    websites: "petitereine.openstreetmap.fr"
+    target: "10.1.0.157"
+    dedicated_certbot_cert: True
+  -
+    logname: "educosm"
+    websites: "educosm.openstreetmap.fr"
+    target: "10.1.0.164"
+    dedicated_certbot_cert: True
+  -
+    logname: "pic4review"
+    websites: "api.pic4review.pavie.info"
+    target: "10.1.0.168"
+    target_port: 28113
+    redirect_to_https: True
+    dedicated_certbot_cert: True
+  -
+    logname: "buildbot"
+    websites: "buildbot.osmose.openstreetmap.fr"
+    target: "10.1.0.175"
+    config_src: "nginx-site-buildbot.j2"
+    redirect_to_https: True
+    dedicated_certbot_cert: True
+  -
+    logname: "garmin"
+    websites: "garmin.openstreetmap.fr"
+    target: "10.1.0.176"
+    dedicated_certbot_cert: True
+  -
+    logname: "cadastre"
+    websites: "cadastre.openstreetmap.fr"
+    target: "10.1.0.180"
+    dedicated_certbot_cert: True
+  -
+    logname: "notes-heatmap"
+    websites: "notes-heatmap.openstreetmap.fr"
+    target: "10.1.0.194"
+    dedicated_certbot_cert: True
+  -
+    logname: "pleinair"
+    websites: "pleinair.openstreetmap.fr"
+    target: "10.1.0.201"
+    dedicated_certbot_cert: True
