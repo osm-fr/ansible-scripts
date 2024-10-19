@@ -91,6 +91,17 @@ host_proxy:
     redirect_to_https: True
     dedicated_certbot_cert: True
   -
+    logname: "forum"
+    websites: "forum.openstreetmap.fr dev.forum.openstreetmap.fr"
+    target: "10.1.0.169"
+    redirect_to_https: True
+    dedicated_certbot_cert: True
+  -
+    logname: "discourse"
+    websites: "discourse.openstreetmap.fr"
+    redirect: "forum.openstreetmap.fr"
+    dedicated_certbot_cert: True
+  -
     logname: "buildbot"
     websites: "buildbot.osmose.openstreetmap.fr"
     target: "10.1.0.175"
