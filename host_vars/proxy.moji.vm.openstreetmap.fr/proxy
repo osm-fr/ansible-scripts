@@ -79,6 +79,12 @@ host_proxy:
     target: "10.1.0.157"
     dedicated_certbot_cert: True
   -
+    logname: "stats"
+    websites: "stats.openstreetmap.fr"
+    target: "10.1.0.160"
+    redirect_to_https: True
+    dedicated_certbot_cert: True
+  -
     logname: "educosm"
     websites: "educosm.openstreetmap.fr"
     target: "10.1.0.164"
@@ -117,6 +123,11 @@ host_proxy:
     logname: "cadastre"
     websites: "cadastre.openstreetmap.fr"
     target: "10.1.0.180"
+    dedicated_certbot_cert: True
+  -
+    logname: "mobilizon"
+    websites: "mobilizon.openstreetmap.fr"
+    target: "10.1.0.181"
     dedicated_certbot_cert: True
   -
     logname: "notes-heatmap"
