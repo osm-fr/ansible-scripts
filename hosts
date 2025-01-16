@@ -109,6 +109,7 @@ osm211.openstreetmap.fr vm_host=osm29.openstreetmap.fr
 osm212.openstreetmap.fr vm_host=osm30.openstreetmap.fr
 osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 geoosm.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm214.openstreetmap.fr
+dev.download.vm.openstreetmap.fr vm_host=osm44.openstreetmap.fr # osm215.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
@@ -239,6 +240,7 @@ dev.osmose.vm.openstreetmap.fr osmose_frontend_site=dev.osmose.openstreetmap.fr
 
 [osmbin]
 download.vm.openstreetmap.fr
+dev.download.vm.openstreetmap.fr
 
 [osmosis]
 osm110.openstreetmap.fr
@@ -248,6 +250,7 @@ peertube.vm.openstreetmap.fr
 
 [polygons]
 download.vm.openstreetmap.fr
+dev.download.vm.openstreetmap.fr
 
 [postgresql]
 postgres-ovh.vm.openstreetmap.fr
