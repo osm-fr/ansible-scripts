@@ -14,28 +14,8 @@
     - libosmpbf-dev
     - make
     - pkg-config
-    # osmium needs to support <bbox> in diff, added in libosmium version 2.15.2
-    # the version requirement is added by following package osmium-2.15.2-or-later_1.0_all.deb
-    # - osmium-tool
-    # - pyosmium>
-
-- name: init /root/packages/
-  file:
-    path: /root/packages/
-    state: directory
-
-- name: install additional local packages
-  copy:
-    src: "{{ item }}"
-    dest: "/root/packages/{{ item }}"
-  with_items:
-    - osmium-2.15.2-or-later_1.0_all.deb
-
-- name: install additional local packages
-  apt:
-    deb: /root/packages/{{ item }}
-  with_items:
-    - osmium-2.15.2-or-later_1.0_all.deb
+    - osmium-tool
+    - pyosmium
 
 - include_tasks: ../../../shared/project-account.yml
   vars:
