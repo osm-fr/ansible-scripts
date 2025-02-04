@@ -2,10 +2,12 @@
   apt: pkg={{ item }}
   with_items:
     - apache2
+    - libgeos-dev
     - osmctools
     - osmosis
     - parallel
     - python3-dateutil
+    - python3-fasteners
     - python3-lockfile
     - python3-shapely
     # to compile osm_pbf_parser
