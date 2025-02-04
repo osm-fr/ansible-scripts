@@ -29,7 +29,7 @@ host_proxy:
     dedicated_certbot_cert: True
   -
     logname: "www"
-    websites: "openstreetmap.fr www.openstreetmap.fr next.openstreetmap.fr"
+    websites: "openstreetmap.fr www.openstreetmap.fr"
     target: "10.1.0.142"
     dedicated_certbot_cert: True
   -
