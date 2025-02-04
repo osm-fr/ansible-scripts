@@ -86,3 +86,7 @@ host_proxy:
     websites: "comcommaker.openstreetmap.fr"
     target: "10.1.0.179"
     redirect_to_https: True
+  -
+    logname: "layers"
+    websites: "layers.openstreetmap.fr tile.openstreetmap.fr"
+    target: "10.1.0.190"
