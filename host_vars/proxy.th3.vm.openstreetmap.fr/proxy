@@ -38,8 +38,9 @@ host_proxy:
     dedicated_certbot_cert: True
   -
     logname: "umap-short"
-    websites: "u.osmfr.org"
+    websites: "u.osmfr.org umap.osmfr.org"
     redirect: "umap.openstreetmap.fr"
+    dedicated_certbot_cert: True
   -
     logname: "openstreetmap.bzh"
     websites: "tile.openstreetmap.bzh stats.openstreetmap.bzh"
@@ -52,3 +53,48 @@ host_proxy:
     target: "10.1.0.206"
     target_port: "2812"
     config_src: "nginx-site-port.j2"
+  -
+    logname: "osmfr.org"
+    websites: "osmfr.org www.osmfr.org"
+    redirect: "openstreetmap.fr"
+    dedicated_certbot_cert: True
+  -
+    logname: "gard.osmfr.org"
+    websites: "gard.osmfr.org"
+    redirect_to_url: "https://wiki.openstreetmap.org/wiki/Gard"
+    dedicated_certbot_cert: True
+  -
+    logname: "herault.osmfr.org"
+    websites: "herault.osmfr.org"
+    redirect_to_url: "https://wiki.openstreetmap.org/wiki/Hérault"
+    dedicated_certbot_cert: True
+  -
+    logname: "montpellier.osmfr.org"
+    websites: "montpellier.osmfr.org"
+    redirect_to_url: "https://wiki.openstreetmap.org/wiki/Montpellier"
+    dedicated_certbot_cert: True
+  -
+    logname: "nancy.osmfr.org"
+    websites: "nancy.osmfr.org"
+    redirect_to_url: "https://www.openstreetmap.fr/groupe-local-nancy"
+    dedicated_certbot_cert: True
+  -
+    logname: "nantes.osmfr.org"
+    websites: "nantes.osmfr.org"
+    redirect_to_url: "https://wiki.openstreetmap.org/wiki/Nantes"
+    dedicated_certbot_cert: True
+  -
+    logname: "osmose.osmfr.org"
+    websites: "o.osmfr.org osmose.osmfr.org"
+    redirect: "osmose.openstreetmap.fr"
+    dedicated_certbot_cert: True
+  -
+    logname: "rennes.osmfr.org"
+    websites: "rennes.osmfr.org"
+    redirect_to_url: "https://wiki.openstreetmap.org/wiki/Rennes"
+    dedicated_certbot_cert: True
+  -
+    logname: "t.osmfr.org"
+    websites: "t.osmfr.org tile.osmfr.org"
+    redirect: "tile.openstreetmap.fr"
+    dedicated_certbot_cert: True
