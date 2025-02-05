@@ -34,13 +34,17 @@ server {
 
     client_max_body_size 50M;
 
-{% if item.redirect is defined %}
+{% if item.redirect is defined or item.redirect_to_url is defined %}
     location /.well-known/acme-challenge {
 
     }
 
     location / {
+{%   if item.redirect is defined %}
         return 301 $scheme://{{ item.redirect }}$request_uri;
+{%   else %}
+        return 301 {{ item.redirect_to_url }};
+{%   endif %}
     }
 {% else %}
     proxy_http_version    1.1;
