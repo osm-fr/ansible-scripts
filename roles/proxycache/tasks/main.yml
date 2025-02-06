@@ -11,6 +11,19 @@
     path: /etc/nginx/global.d/
     state: directory
 
+
+- name: copy nginx challenge config
+  copy:
+    src: nginx-letsencrypt-challenge.conf     
+    dest: "/etc/nginx/global.d/  letsencrypt-challenge.conf"
+    notify: reload nginx
+
+- name: copy nginx ssl config
+  copy:
+    src: nginx-letsencrypt-ssl.conf     
+    dest: "/etc/nginx/global.d/letsencrypt-ssl.conf"
+  notify: reload nginx
+=======
 - name: add include global.d in default nginx site
   lineinfile:
     dest: /etc/nginx/sites-available/default
@@ -20,6 +33,7 @@
     firstmatch: true
   notify:
     - reload nginx
+
 
 # recherche config pour ce host
 - name: check if nginx config exists
@@ -64,7 +78,10 @@
   notify: reload nginx
 
 - name: enable nginx site
-  file: src="/etc/nginx/sites-available/{{ item.logname }}" dest="/etc/nginx/sites-enabled/{{ item.logname }}" state=link
+  file: 
+    src: "/etc/nginx/sites-available/{{ item.logname }}" 
+    dest: "/etc/nginx/sites-enabled/{{ item.logname }}" 
+    state: link
   with_items: "{{ host_proxy }}"
   when: host_proxy is defined
   notify: reload nginx
