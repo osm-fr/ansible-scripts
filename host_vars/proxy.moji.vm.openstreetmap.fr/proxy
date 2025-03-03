@@ -68,6 +68,11 @@ host_proxy:
     target: "10.1.0.154"
     dedicated_certbot_cert: True
   -
+    logname: "sotm2025"
+    websites: "sotm2025.openstreetmap.fr"
+    target: "10.1.0.154"
+    dedicated_certbot_cert: True
+  -
     logname: "peertube"
     websites: "peertube.openstreetmap.fr"
     target: "10.1.0.155"
