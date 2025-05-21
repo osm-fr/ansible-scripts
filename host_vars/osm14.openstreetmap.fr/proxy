@@ -44,8 +44,7 @@ host_proxy:
   -
     logname: "commerces"
     websites: "commerces.openstreetmap.fr"
-    target: "10.1.0.191"
-    target_port: 3000
+    redirect_to_url: "https://www.openstreetmap.fr"
   -
     logname: "commerces_tiles"
     websites: "tile-commerces.openstreetmap.fr"
@@ -55,10 +54,11 @@ host_proxy:
     logname: "cadastre"
     websites: "dev.cadastre.openstreetmap.fr"
     target: "192.168.0.162"
+    redirect_to_https: True
   -
     logname: "bano"
     websites: "bano.openstreetmap.fr"
-    target: "192.168.0.162"
+    target: "10.1.0.162"
     redirect_to_https: True
   -
     logname: "dev.osm162"
