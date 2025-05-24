@@ -1,6 +1,5 @@
 - name: osmosis configuration
   hosts: osmosis
-  gather_facts: no
   become: yes
   roles:
     - osmosis
