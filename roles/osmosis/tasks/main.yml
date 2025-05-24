@@ -10,6 +10,12 @@
     postgis_version: 2.5
   when: ansible_distribution_release == "buster"
 
+- name: set postgresql_version = 17
+  set_fact:
+    postgresql_version: 17
+    postgis_version: 3.5
+  when: ansible_distribution_release == "bookworm"
+
 - name: install packages
   apt: pkg={{ item }}
   with_items:
@@ -17,7 +23,7 @@
     - postgresql
     - postgis
     - postgresql-contrib
-    - python-psycopg2
+    - python3-psycopg2
     - default-jre-headless
 
 - name: ensure postgresql server is running
@@ -46,10 +52,10 @@
   become: yes
   become_user: postgres
 
-- name: psql extension hstore
+- name: psql extensions
   command: psql -d osm -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
   register: psql_res
-  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
+  changed_when: "not 'extension \"item | string\" already exists' in psql_res.stderr | string"
   become: yes
   become_user: postgres
   with_items:
@@ -74,7 +80,7 @@
 - name: psql check schema osmosis
   command: psql -t -d osm -c "SELECT EXISTS(SELECT 1 FROM pg_namespace WHERE nspname = 'osmosis');"
   register: check_schema
-  changed_when: "'f' in '{{ check_schema.stdout }}'"
+  changed_when: "'f' in check_schema.stdout | string"
   become: yes
   become_user: postgres
 
