@@ -146,11 +146,15 @@ osm42.openstreetmap.fr
 osm43.openstreetmap.fr
 osm44.openstreetmap.fr
 
+[cluster-dc1]
+osm50.openstreetmap.fr
+
 [proxmox:children]
 cluster-ovh
 cluster-free
 cluster-th3
 cluster-moji
+cluster-dc1
 
 [proxmox]
 osm29.openstreetmap.fr
