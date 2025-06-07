@@ -46,6 +46,10 @@
       - /usr/sbin/pct listsnapshot *
       - /usr/sbin/pct delsnapshot *
       - /usr/sbin/pct config *
+      - /usr/sbin/qm snapshot *
+      - /usr/sbin/qm listsnapshot *
+      - /usr/sbin/qm delsnapshot *
+      - /usr/sbin/qm config *
       - /usr/sbin/pvesm path *
   when:
     proxmox_backup_host is not defined
