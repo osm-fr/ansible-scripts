@@ -74,6 +74,7 @@
   git:
     repo: https://github.com/osm-fr/proxmox-autosnap.git
     dest: /home/proxmox-backup/proxmox-autosnap
+    version: zfs-send-to-hostname
   become: true
   become_user: proxmox-backup
   when:
