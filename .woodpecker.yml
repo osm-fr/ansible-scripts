@@ -1,0 +1,16 @@
+when:
+  - event: [push, pull_request, manual]
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      recursive: true
+
+steps:
+  - name: Ansible Lint
+    image: python:3-slim-bookworm
+    commands:
+      - chmod o-w .
+      - python -m pip install --upgrade -r requirements.txt
+      - ansible-lint
