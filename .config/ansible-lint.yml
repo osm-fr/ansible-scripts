@@ -7,5 +7,9 @@ enable_list:
   - no-prompting
   - no-same-owner
 
+exclude_paths:
+  - .cache/  # implicit unless exclude_paths is defined in config
+  - galaxy/  # external submodules
+
 offline: true
 ...
