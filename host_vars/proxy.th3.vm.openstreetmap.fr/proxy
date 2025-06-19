@@ -98,3 +98,8 @@ host_proxy:
     websites: "t.osmfr.org tile.osmfr.org"
     redirect: "tile.openstreetmap.fr"
     dedicated_certbot_cert: True
+  -
+    logname: "taginfo"
+    websites: "taginfo.openstreetmap.fr"
+    redirect: "taginfo.geofabrik.de/europe/france/"
+    dedicated_certbot_cert: True
