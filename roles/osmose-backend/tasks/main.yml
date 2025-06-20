@@ -7,6 +7,7 @@
       # to run with python3
       - python3-dateutil
       - python3-distro
+      - python3-icu
       - python3-packaging
       - python3-pip
       - python3-polib
@@ -21,6 +22,7 @@
       - pyosmium
       # dependencies for pip3 install
       - libarchive-dev
+      - libicu-dev
       - libproj-dev
       - libpq-dev
       # to compile osm_pbf_parser
