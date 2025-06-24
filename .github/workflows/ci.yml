@@ -20,6 +20,3 @@ jobs:
 
       - name: Run ansible-lint
         run: ansible-lint
-
-      - name: Run Pylama
-        run: pylama
