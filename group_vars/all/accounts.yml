@@ -39,6 +39,9 @@ accounts__users:
   etienne:
     uid: 1213
 
+  etiennejr:
+    uid: 1255
+
   eloks:
     uid: 1214
 
@@ -95,6 +98,9 @@ accounts__users:
 
   mael:
     uid: 1218
+
+  maelito:
+    uid: 1254
 
   nlehuby:
     uid: 1220

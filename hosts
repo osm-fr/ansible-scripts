@@ -110,6 +110,7 @@ osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 geoosm.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm214.openstreetmap.fr
 dev.download.vm.openstreetmap.fr vm_host=osm44.openstreetmap.fr # osm215.openstreetmap.fr
 crm.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm216.openstreetmap.fr
+overpass.vm.openstreetmap.fr vm_host=osm44.openstreetmap.fr # osm217.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
@@ -363,6 +364,9 @@ osm125.openstreetmap.fr
 osm26.openstreetmap.fr
 osm130.openstreetmap.fr
 
+[etiennejr]
+overpass.vm.openstreetmap.fr
+
 [famlam]
 osm14.openstreetmap.fr
 osm26.openstreetmap.fr
@@ -455,6 +459,9 @@ osm27.openstreetmap.fr
 osm160.openstreetmap.fr
 bzh202.vm.openstreetmap.fr
 renderd-bzh.vm.openstreetmap.fr
+
+[maelito]
+overpass.vm.openstreetmap.fr
 
 [marc_marc:children]
 cluster-free
