@@ -463,11 +463,6 @@ renderd-bzh.vm.openstreetmap.fr
 [maelito]
 overpass.vm.openstreetmap.fr
 
-[marc_marc:children]
-cluster-free
-cluster-ovh
-cluster-th3
-
 [marc_marc]
 osm24.openstreetmap.fr
 osm103.openstreetmap.fr  # old overpass api
