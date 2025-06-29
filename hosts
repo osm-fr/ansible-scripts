@@ -4,9 +4,6 @@ osm13.openstreetmap.fr
 osm23.openstreetmap.fr
 osm24.openstreetmap.fr
 osm25.openstreetmap.fr
-osm26.openstreetmap.fr
-osm27.openstreetmap.fr
-osm28.openstreetmap.fr
 osm29.openstreetmap.fr
 osm30.openstreetmap.fr
 osm31.openstreetmap.fr
@@ -21,38 +18,17 @@ osm110.openstreetmap.fr vm_host=osm11.openstreetmap.fr # backend osmose (non gé
 # osm112.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm116.openstreetmap.fr vm_host=osm12.openstreetmap.fr
 # osm117.openstreetmap.fr vm_host=osm11.openstreetmap.fr
-old.taginfo.vm.openstreetmap.fr vm_host=osm26.openstreetmap.fr # osm118.openstreetmap.fr
 taginfo.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm119.openstreetmap.fr
-osm125.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 munin.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm127.openstreetmap.fr
-# osm128.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm130.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 live.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm132.openstreetmap.fr
-osm133.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-osm134.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-# osm135.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-osm136.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-# osm137.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm138.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-osm139.openstreetmap.fr vm_host=osm27.openstreetmap.fr
+listes.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm138.openstreetmap.fr
 nextcloud.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm141.openstreetmap.fr
 www.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm142.openstreetmap.fr
-osm143.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm144.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm145.openstreetmap.fr vm_host=osm27.openstreetmap.fr
 prev.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm146.openstreetmap.fr
-osm147.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm148.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm149.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-# osm150.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm151.openstreetmap.fr vm_host=osm27.openstreetmap.fr
-osm152.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-osm153.openstreetmap.fr vm_host=osm28.openstreetmap.fr
 sotm.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr install_apache=true # osm154.openstreetmap.fr
 peertube.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm155.openstreetmap.fr
 petitereine.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm157.openstreetmap.fr
-mail.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-# osm159.openstreetmap.fr vm_host=osm28.openstreetmap.fr
+mail.openstreetmap.fr vm_host=osm35.openstreetmap.fr
 matomo.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm160.openstreetmap.fr
 bano.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm162.openstreetmap.fr
 educosm.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm164.openstreetmap.fr
@@ -61,7 +37,6 @@ osm166.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 osm167.openstreetmap.fr vm_host=osm11.openstreetmap.fr
 pic4review.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm168.openstreetmap.fr
 osm169.openstreetmap.fr vm_host=osm41.openstreetmap.fr
-osm170.openstreetmap.fr vm_host=osm26.openstreetmap.fr
 download.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm171.openstreetmap.fr
 osm173.openstreetmap.fr vm_host=osm11.openstreetmap.fr install_apache=true
 projetdumois.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm174.openstreetmap.fr
@@ -85,17 +60,13 @@ commerces.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm191.openstreet
 proxy-free.vm.openstreetmap.fr vm_host=osm14.openstreetmap.fr # osm192.openstreetmap.fr
 enedis.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm193.openstreetmap.fr
 notes-heatmap.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm194.openstreetmap.fr
-matrix.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm195.openstreetmap.fr
 osm2pgsql.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 renderd.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm103.openstreetmap.fr
 proxy.osmose.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm196.openstreetmap.fr
 geovisio.vm.openstreetmap.fr vm_host=osm33.openstreetmap.fr # osm197.openstreetmap.fr
-proxy.ovh.vm.openstreetmap.fr vm_host=osm28.openstreetmap.fr # osm198.openstreetmap.fr
 umap.vm.openstreetmap.fr vm_host=osm34.openstreetmap.fr # osm199.openstreetmap.fr
-postgres-ovh.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm200.openstreetmap.fr
 pleinair.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm201.openstreetmap.fr
-bzh202.vm.openstreetmap.fr vm_host=osm27.openstreetmap.fr # osm202.openstreetmap.fr
 postgres-free.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm203.openstreetmap.fr
 adopte-une-commune.vm.openstreetmap.fr vm_host=osm12.openstreetmap.fr # osm204.openstreetmap.fr
 renderd-cyclosm.vm.openstreetmap.fr vm_host=osm36.openstreetmap.fr # osm205.openstreetmap.fr
@@ -116,15 +87,6 @@ osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
 osmose1.davintech.ca
 osmose2.davintech.ca
-
-# temporary VMs
-osm303.openstreetmap.fr vm_host=osm26.openstreetmap.fr
-osm342.openstreetmap.fr vm_host=osm28.openstreetmap.fr
-
-[cluster-ovh]
-osm26.openstreetmap.fr
-osm27.openstreetmap.fr
-osm28.openstreetmap.fr
 
 [cluster-free]
 osm11.openstreetmap.fr
@@ -164,7 +126,6 @@ osm31.openstreetmap.fr
 
 # services
 [backuppc-server]
-osm134.openstreetmap.fr
 backuppc2.vm.openstreetmap.fr
 
 [buildbot-master]
@@ -191,7 +152,6 @@ cadastre.vm.openstreetmap.fr
 osm167.openstreetmap.fr
 
 [layers.openstreetmap.fr]
-osm136.openstreetmap.fr
 
 [letsencrypt]
 osm11.openstreetmap.fr letsencrypt_hosts=osm11.openstreetmap.fr
@@ -199,15 +159,9 @@ osm13.openstreetmap.fr letsencrypt_hosts=osm13.openstreetmap.fr,a.layers.openstr
 osm14.openstreetmap.fr letsencrypt_hosts=osm14.openstreetmap.fr
 osm103.openstreetmap.fr letsencrypt_hosts=osm103.openstreetmap.fr,analyser.openstreetmap.fr
 osm104.openstreetmap.fr letsencrypt_hosts=osm104.openstreetmap.fr,bano.openstreetmap.fr,cadastre.openstreetmap.fr,imagery.openstreetmap.fr,tms.cadastre.openstreetmap.fr
-osm134.openstreetmap.fr letsencrypt_hosts=osm134.openstreetmap.fr
-osm138.openstreetmap.fr letsencrypt_hosts=listes.openstreetmap.fr,dev.listes.openstreetmap.fr,osm138.openstreetmap.fr
-osm149.openstreetmap.fr letsencrypt_hosts=osm149.openstreetmap.fr
 mail.openstreetmap.fr letsencrypt_hosts=mail.openstreetmap.fr,osm158.openstreetmap.fr
 osm24.openstreetmap.fr letsencrypt_hosts=proxy-ign.openstreetmap.fr
 osm25.openstreetmap.fr
-osm26.openstreetmap.fr letsencrypt_hosts=osm26.openstreetmap.fr,osm27.openstreetmap.fr,osm28.openstreetmap.fr,fr.osm.social
-osm27.openstreetmap.fr letsencrypt_slave=osm26.openstreetmap.fr
-osm28.openstreetmap.fr letsencrypt_slave=osm26.openstreetmap.fr
 backuppc2.vm.openstreetmap.fr letsencrypt_hosts=backuppc2.vm.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr letsencrypt_certbot=yes letsencrypt_hosts=proxy.th3.vm.openstreetmap.fr
 proxy.moji.vm.openstreetmap.fr letsencrypt_certbot=yes letsencrypt_hosts=proxy.moji.vm.openstreetmap.fr
@@ -257,14 +211,12 @@ download.vm.openstreetmap.fr
 dev.download.vm.openstreetmap.fr
 
 [postgresql]
-postgres-ovh.vm.openstreetmap.fr
 postgres-free.vm.openstreetmap.fr
 osm2pgsql-cyclosm.vm.openstreetmap.fr
 osm2pgsql-bzh.vm.openstreetmap.fr
 
 [taginfo]
 taginfo.vm.openstreetmap.fr
-old.taginfo.vm.openstreetmap.fr
 
 [live]
 live.vm.openstreetmap.fr
@@ -272,7 +224,7 @@ live.vm.openstreetmap.fr
 [rawedit]
 
 [sympa]
-osm138.openstreetmap.fr
+listes.vm.openstreetmap.fr
 
 [proxmox-mail-gateway]
 mail.openstreetmap.fr
@@ -281,9 +233,6 @@ mail.openstreetmap.fr
 osm23.openstreetmap.fr
 osm24.openstreetmap.fr
 osm25.openstreetmap.fr
-osm26.openstreetmap.fr
-osm27.openstreetmap.fr
-osm28.openstreetmap.fr
 proxy.moji.vm.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr
 proxy.osmose.vm.openstreetmap.fr
@@ -292,8 +241,6 @@ proxy.osmose.vm.openstreetmap.fr
 cluster-free
 
 [overpass-api]
-osm147.openstreetmap.fr overpass_version="v0.7.54"
-osm148.openstreetmap.fr overpass_version="v0.7.54"
 
 [proxmox-backup]
 osm32.openstreetmap.fr proxmox_backup_host=true
@@ -310,7 +257,6 @@ osm13.openstreetmap.fr renderd_layers=true
 osm166.openstreetmap.fr renderd_cyclosm=true
 renderd.th3.vm.openstreetmap.fr renderd_layers=true
 renderd-cyclosm.vm.openstreetmap.fr renderd_cyclosm=true
-bzh202.vm.openstreetmap.fr renderd_bzh=true
 
 [wireguard]
 osmose.vm.openstreetmap.fr wireguard_config=server wireguard_address=10.230.0.10
@@ -341,35 +287,23 @@ osm167.openstreetmap.fr
 
 [cgiquello]
 notes-heatmap.vm.openstreetmap.fr
-osm28.openstreetmap.fr
 petitereine.vm.openstreetmap.fr
 
 [cormoran]
-osm26.openstreetmap.fr
 osm103.openstreetmap.fr
-osm303.openstreetmap.fr
-osm149.openstreetmap.fr
-osm152.openstreetmap.fr
-osm170.openstreetmap.fr
 
 [davidbgk]
-osm28.openstreetmap.fr
 umap.vm.openstreetmap.fr
 
 [driss]
-osm26.openstreetmap.fr
-osm125.openstreetmap.fr
 
 [eloks]
-osm26.openstreetmap.fr
-osm130.openstreetmap.fr
 
 [etiennejr]
 overpass.vm.openstreetmap.fr
 
 [famlam]
 osm14.openstreetmap.fr
-osm26.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [flacombe]
@@ -390,8 +324,6 @@ osm104.openstreetmap.fr
 osmose.vm.openstreetmap.fr
 proxy.osmose.vm.openstreetmap.fr
 taginfo.vm.openstreetmap.fr
-osm26.openstreetmap.fr
-osm153.openstreetmap.fr
 osm173.openstreetmap.fr
 tile-vect.vm.openstreetmap.fr
 osmose-jupyter.vm.openstreetmap.fr
@@ -405,7 +337,6 @@ osm11.openstreetmap.fr
 comcommaker.vm.openstreetmap.fr
 
 [guillaumeamat]
-osm26.openstreetmap.fr
 mapcontrib.vm.openstreetmap.fr
 
 [gpelloux]
@@ -417,17 +348,12 @@ batimap.vm.openstreetmap.fr
 osm103.openstreetmap.fr
 www.vm.openstreetmap.fr
 prev.vm.openstreetmap.fr
-osm147.openstreetmap.fr
-osm148.openstreetmap.fr
 garmin.vm.openstreetmap.fr
-osm342.openstreetmap.fr
 
 [jben]
 
 [jgcailton]
 osm104.openstreetmap.fr
-osm26.openstreetmap.fr
-osm133.openstreetmap.fr
 
 [juliep]
 sotm.vm.openstreetmap.fr
@@ -441,9 +367,6 @@ geoosm.vm.openstreetmap.fr
 osm167.openstreetmap.fr
 
 [lcombe]
-osm27.openstreetmap.fr
-osm130.openstreetmap.fr
-osm151.openstreetmap.fr
 
 [lefuturiste]
 tile-vect.vm.openstreetmap.fr
@@ -452,12 +375,9 @@ tile-vect.vm.openstreetmap.fr
 educosm.vm.openstreetmap.fr
 
 [nlehuby]
-osm26.openstreetmap.fr
 
 [mael]
-osm27.openstreetmap.fr
 osm160.openstreetmap.fr
-bzh202.vm.openstreetmap.fr
 renderd-bzh.vm.openstreetmap.fr
 
 [maelito]
@@ -468,21 +388,14 @@ osm24.openstreetmap.fr
 osm103.openstreetmap.fr  # old overpass api
 munin.vm.openstreetmap.fr
 osm138.openstreetmap.fr
-osm147.openstreetmap.fr  # new overpass api
-osm148.openstreetmap.fr
-osm153.openstreetmap.fr
 bano.vm.openstreetmap.fr
 
 [nmoyroud]
-osm26.openstreetmap.fr
 sotm.vm.openstreetmap.fr
 
 [panieravide]
 commerces.vm.openstreetmap.fr
 geovisio.vm.openstreetmap.fr
-osm26.openstreetmap.fr
-osm27.openstreetmap.fr
-osm145.openstreetmap.fr
 pic4review.vm.openstreetmap.fr
 
 [phyks]
@@ -496,9 +409,6 @@ mobilizon.vm.openstreetmap.fr
 pleinair.vm.openstreetmap.fr
 
 [rvoirin]
-osm27.openstreetmap.fr
-osm130.openstreetmap.fr
-osm151.openstreetmap.fr
 
 [ssh-tunnel]
 osm13.openstreetmap.fr
@@ -509,14 +419,10 @@ pleinair.vm.openstreetmap.fr
 [teslix]
 osm13.openstreetmap.fr
 osm25.openstreetmap.fr
-osm26.openstreetmap.fr
-osm28.openstreetmap.fr
 osm29.openstreetmap.fr
 osm30.openstreetmap.fr
 osm31.openstreetmap.fr
-osm153.openstreetmap.fr
 osm165.openstreetmap.fr
-postgres-ovh.vm.openstreetmap.fr
 
 [teslix:children]
 buildbot-master
@@ -539,12 +445,7 @@ peertube.vm.openstreetmap.fr
 sotm.vm.openstreetmap.fr
 
 [thrrp] # Rodolphe P-P
-osm28.openstreetmap.fr
 osm103.openstreetmap.fr
-osm147.openstreetmap.fr
-osm148.openstreetmap.fr
-osm149.openstreetmap.fr
-osm152.openstreetmap.fr
 
 [tykayn]
 proxy.moji.vm.openstreetmap.fr
@@ -559,15 +460,12 @@ cadastre.vm.openstreetmap.fr
 osm11.openstreetmap.fr
 osm12.openstreetmap.fr
 osm104.openstreetmap.fr
-osm26.openstreetmap.fr
 bano.vm.openstreetmap.fr
 
 [ybon]
 proxy.th3.vm.openstreetmap.fr
 osm104.openstreetmap.fr
-osm144.openstreetmap.fr
 umap.vm.openstreetmap.fr
 
 [ydel]
-osm144.openstreetmap.fr
 umap.vm.openstreetmap.fr
