@@ -5,7 +5,7 @@ AssertPathExists={{ overpass_database_dir }}/replicate_id
 [Service]
 Type=simple
 User={{ overpass_user }}
-ExecStart=/usr/local/bin/dispatcher --osm-base --db-dir={{ overpass_database_dir }} --meta
+ExecStart=/usr/local/bin/dispatcher --osm-base --db-dir={{ overpass_database_dir }} --meta --allow-duplicate-queries=yes
 ExecStop=/usr/local/bin/dispatcher --osm-base --terminate
 Restart=always
 RestartSec=30s
