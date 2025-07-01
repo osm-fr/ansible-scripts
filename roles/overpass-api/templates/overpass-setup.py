@@ -68,6 +68,9 @@ else:
 obj_datetime = pbf_datetime - delta
 url = '{{ overpass_replication_url }}/state.txt'
 
+log.info(url)
+log.info(obj_datetime)
+
 repl_seq, repl_datetime = parse_state_txt(url)
 diff_datetime = obj_datetime - repl_datetime
 while diff_datetime > timedelta(
@@ -81,6 +84,7 @@ while diff_datetime > timedelta(
     diff_datetime = obj_datetime - repl_datetime
 
 log.info('download pbf')
+log.info(url)
 pbf_url = '{{ overpass_pbf_root_url }}/{{ overpass_pbf_region }}-{}.osm.pbf'.format(
     pbf_datetime.strftime('%y%m%d'))
 pbf_dest = '{{ overpass_database_dir }}/{{ overpass_pbf_region }}-{}.osm.pbf'.format(
