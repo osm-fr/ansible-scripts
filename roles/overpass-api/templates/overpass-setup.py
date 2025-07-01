@@ -16,6 +16,7 @@ from systemd.journal import JournalHandler
 
 
 def parse_state_txt(url):
+    log.info(url)
     resp = requests.get(url)
 
     for line in resp.text.split('\n'):

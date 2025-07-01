@@ -12,6 +12,7 @@
     state: directory
 
 - name: install overpass-setup.py
+  tags: overpass-setup
   template:
     src: templates/overpass-setup.py
     dest: "/usr/local/bin/"

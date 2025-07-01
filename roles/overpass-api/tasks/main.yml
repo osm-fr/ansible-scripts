@@ -28,7 +28,23 @@
     - "{{ overpass_webroot_dir }}"
 
 - import_tasks: compile.yml
-- import_tasks: set_up_database.yml
+# Deactivated, it looks like the "Fast Startup" option here https://overpass-api.de/no_frills.html#startup did remove the need for this...
+# ... as long as the .de instance is online
+#
+#- import_tasks: set_up_database.yml
+
+- name: Ensure download_clone.sh is executable
+  file:
+    path: "{{ project_dir }}/osm-3s_{{ overpass_version }}"/bin/*.sh
+    mode: "0755" # This sets the permissions to rwxr-xr-x
+
+# TODO meta option could be set in general options
+- name: Run "Fast Startup" scenario
+  tags: fast-startup
+  shell: nohup bin/download_clone.sh --source=https://dev.overpass-api.de/api_drolbr/ --db-dir=\"{{ overpass_database_dir }}\" --meta=yes &
+  args:
+    chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
+
 - import_tasks: services.yml
 - import_tasks: web.yml
 - import_tasks: munin.yml
