@@ -37,6 +37,9 @@
 - name: Run "Fast Startup" scenario
   tags: fast-startup
   shell: "/usr/local/bin/download_clone.sh --source=https://dev.overpass-api.de/api_drolbr/ --db-dir={{ overpass_database_dir }} --meta=yes &"
+  become_user: "{{ overpass_user }}"
+  become: yes
+  become_method: sudo
   args:
     chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
 
