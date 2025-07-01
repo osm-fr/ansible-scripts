@@ -23,8 +23,8 @@ def parse_state_txt(url):
             sequence_number = line.split('=')[1]
         elif line.startswith('timestamp'):
             timestamp = line.split('=')[1]
-
-    return (sequence_number, datetime.strptime(timestamp[:-5],
+    cleaned_timestamp = timestamp.replace("\:", ":") # Looks like the datetime is not escaped in the URL https://osm-planet-eu-central-1.s3.dualstack.eu-central-1.amazonaws.com/planet/replication/minute/state.txt
+    return (sequence_number, datetime.strptime(cleaned_timestamp[:-5],
                                                '%Y-%m-%dT%H:%M'))
 
 
@@ -76,6 +76,7 @@ while diff_datetime > timedelta(
         int(repl_seq) + int(diff_datetime.total_seconds() // divider))
     url = '{{ overpass_replication_url }}/{}/{}/{}.state.txt'.format(
         repl_seq[:-6], repl_seq[-6:-3], repl_seq[-3:])
+
     repl_seq, repl_datetime = parse_state_txt(url)
     diff_datetime = obj_datetime - repl_datetime
 
