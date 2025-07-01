@@ -33,15 +33,22 @@
 #
 #- import_tasks: set_up_database.yml
 
-- name: Ensure download_clone.sh is executable
+- name: Find all files in the bin directory
+  find:
+    paths: "{{ project_dir }}/osm-3s_{{ overpass_version }}/bin/"
+    file_type: file
+  register: files_to_chmod
+
+- name: Ensure all files in bin/ are executable
   file:
-    path: "{{ project_dir }}/osm-3s_{{ overpass_version }}"/bin/*.sh
+    path: "{{ item.path }}"
     mode: "0755" # This sets the permissions to rwxr-xr-x
+  with_items: "{{ files_to_chmod.files }}"
 
 # TODO meta option could be set in general options
 - name: Run "Fast Startup" scenario
   tags: fast-startup
-  shell: nohup bin/download_clone.sh --source=https://dev.overpass-api.de/api_drolbr/ --db-dir=\"{{ overpass_database_dir }}\" --meta=yes &
+  shell: "bin/download_clone.sh --source=https://dev.overpass-api.de/api_drolbr/ --db-dir={{ overpass_database_dir }} --meta=yes &"
   args:
     chdir: "{{ project_dir }}/osm-3s_{{ overpass_version }}"
 
