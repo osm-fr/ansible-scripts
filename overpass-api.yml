@@ -1,11 +1,11 @@
 - name: overpass-api.yml
   hosts: maelito
+  remote_user: maelito
   roles:
     - role: overpass-api
       vars:
-      overpass_version: v0.7.62.7
-      overpass_database_dir: /data/work/overpass
+        overpass_version: v0.7.62.7
+        overpass_database_dir: /data/work/overpass
       when:
         - overpass_version != "skip"
-        - ansible_distribution_release == "stretch"
       become: yes
