@@ -113,7 +113,6 @@ osm44.openstreetmap.fr
 osm50.openstreetmap.fr
 
 [proxmox:children]
-cluster-ovh
 cluster-free
 cluster-th3
 cluster-moji
