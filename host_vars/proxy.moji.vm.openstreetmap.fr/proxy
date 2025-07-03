@@ -150,3 +150,8 @@ host_proxy:
     websites: "dev.download.openstreetmap.fr"
     target: "10.1.0.215"
     dedicated_certbot_cert: True
+  -
+    logname: "overpass"
+    websites: "overpass.openstreetmap.fr"
+    target: "10.1.0.217"
+    dedicated_certbot_cert: True
