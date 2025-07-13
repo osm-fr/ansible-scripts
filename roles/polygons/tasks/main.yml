@@ -1,26 +1,25 @@
-- name: set postgresql_version = 11
+- name: set postgis = 2.5
   set_fact:
-    postgresql_version: 11
     postgis_version: 2.5
-    postgis_suffix: -2.5
-    openjdk_version: 11
   when: ansible_distribution_release == "buster"
+
+- name: set postgis = 3.3
+  set_fact:
+    postgis_version: 3.3
+  when: ansible_distribution_release == "bookworm"
 
 - name: install packages
   apt:
+    update_cache: yes
     pkg:
       - apache2
-      - python-lockfile
-      - python-matplotlib
-      - python-psycopg2
-      - python-shapely
       - python3-lockfile
       - python3-matplotlib
       - python3-psycopg2
       - python3-shapely
-      - postgresql-{{ postgresql_version }}
-      - postgresql-{{ postgresql_version }}-postgis{{ postgis_suffix }}
-      - postgresql-contrib-{{ postgresql_version }}
+      - postgresql
+      - postgresql-postgis
+      - postgresql-contrib
 
 - name: ensure postgresql server is running
   service: name=postgresql state=started
@@ -43,19 +42,46 @@
   become: yes
   become_user: postgres
 
+- name: Add access to postgres database
+  postgresql_privs:
+    login_db: polygons
+    state: present
+    privs: ALL
+    type: database
+    roles: polygons
+  become: yes
+  become_user: postgres
+
+- name: Add access to postgres database
+  postgresql_privs:
+    login_db: polygons
+    state: present
+    privs: ALL
+    type: schema
+    obj: public
+    roles: polygons
+  become: yes
+  become_user: postgres
+
 - name: psql extensions
-  command: psql -d polygons -c "CREATE EXTENSION IF NOT EXISTS {{ item }}"
-  register: psql_res
-  changed_when: "not 'extension \"{{ item }}\" already exists' in '{{ psql_res.stderr }}'"
+  postgresql_ext:
+    name: "{{ item }}"
+    login_db: "polygons"
   become: yes
   become_user: postgres
   with_items:
     - hstore
     - postgis
 
+- name: Get Postgres informations
+  community.postgresql.postgresql_info:
+  become: true
+  become_user: postgres
+  register: postgres_info
+
 - name: psql extension postgis - spatial_ref_sys
-  command: psql -d polygons -f /usr/share/postgresql/{{ postgresql_version }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
-  when: createdb_polygons.changed
+  command: psql -d polygons -f /usr/share/postgresql/{{ postgres_info.version.major }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
+    #  when: createdb_polygons.changed
   become: yes
   become_user: postgres
 
@@ -78,13 +104,13 @@
   become_user: polygons
 
 - name: add apache mods
-  file:
-    src: "/etc/apache2/mods-available/{{ item }}"
-    dest: "/etc/apache2/mods-enabled/{{ item }}"
-    state: link
+  apache2_module:
+    state: present
+    name: "{{ item }}"
   notify: restart apache
   with_items:
-    - cgi.load
+    - cgid
+    - headers
 
 - name: copy apache config
   copy: src=apache.site dest="/etc/apache2/sites-available/polygons.conf"
