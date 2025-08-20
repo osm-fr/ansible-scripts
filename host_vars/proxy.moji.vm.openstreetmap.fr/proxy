@@ -146,8 +146,18 @@ host_proxy:
     target: "10.1.0.201"
     dedicated_certbot_cert: True
   -
+    logname: "download"
+    websites: "download.openstreetmap.fr"
+    target: "10.1.0.215"
+    dedicated_certbot_cert: True
+  -
     logname: "dev.download"
     websites: "dev.download.openstreetmap.fr"
+    target: "10.1.0.215"
+    dedicated_certbot_cert: True
+  -
+    logname: "polygons"
+    websites: "polygons.openstreetmap.fr"
     target: "10.1.0.215"
     dedicated_certbot_cert: True
   -
