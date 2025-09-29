@@ -81,7 +81,7 @@
 
 - name: psql extension postgis - spatial_ref_sys
   command: psql -d polygons -f /usr/share/postgresql/{{ postgres_info.version.major }}/contrib/postgis-{{ postgis_version }}/spatial_ref_sys.sql
-    #  when: createdb_polygons.changed
+  when: createdb_polygons.changed
   become: yes
   become_user: postgres
 
