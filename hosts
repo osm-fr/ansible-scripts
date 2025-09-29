@@ -29,6 +29,7 @@ sotm.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr install_apache=true # os
 peertube.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm155.openstreetmap.fr
 petitereine.vm.openstreetmap.fr vm_host=osm43.openstreetmap.fr # osm157.openstreetmap.fr
 mail.openstreetmap.fr vm_host=osm35.openstreetmap.fr
+mail2.openstreetmap.fr vm_host=osm35.openstreetmap.fr
 matomo.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm160.openstreetmap.fr
 bano.vm.openstreetmap.fr vm_host=osm11.openstreetmap.fr # osm162.openstreetmap.fr
 educosm.vm.openstreetmap.fr vm_host=osm40.openstreetmap.fr # osm164.openstreetmap.fr
