@@ -11,6 +11,7 @@ host_proxy:
     websites: "beta.osmose.openstreetmap.fr"
     target: "10.1.0.210"
     redirect_to_https: True
+    dedicated_certbot_cert: True
   -
     logname: "munin"
     websites: "munin.openstreetmap.fr"

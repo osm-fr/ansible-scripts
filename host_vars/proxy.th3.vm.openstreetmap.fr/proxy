@@ -23,11 +23,13 @@ host_proxy:
     logname: "proxy.osmose"
     websites: "proxy.osmose.openstreetmap.fr"
     target: "10.1.0.196"
+    dedicated_certbot_cert: True
   -
     logname: "geovisio"
     websites: "geovisio.openstreetmap.fr"
     target: "10.1.0.197"
     redirect: "panoramax.openstreetmap.fr"
+    dedicated_certbot_cert: True
   -
     logname: "enedis"
     websites: "enedis.openstreetmap.fr dev.enedis.openstreetmap.fr gespot.fr www.gespot.fr map.infos-reseaux.com cuivre.infos-reseaux.com"
@@ -58,6 +60,7 @@ host_proxy:
     target: "10.1.0.206"
     target_port: "2812"
     config_src: "nginx-site-port.j2"
+    dedicated_certbot_cert: True
   -
     logname: "osmfr.org"
     websites: "osmfr.org www.osmfr.org"
