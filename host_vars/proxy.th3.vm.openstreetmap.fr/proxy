@@ -37,6 +37,11 @@ host_proxy:
     redirect_to_https: True
     dedicated_certbot_cert: True
   -
+    logname: "ftth.infos-reseaux.com"
+    websites: "ftth.infos-reseaux.com"
+    target: "10.1.0.193"
+    dedicated_certbot_cert: True
+  -
     logname: "umap"
     websites: "umap.openstreetmap.fr dev.umap.openstreetmap.fr"
     target: "10.1.0.199"
