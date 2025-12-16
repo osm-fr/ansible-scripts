@@ -1,7 +1,7 @@
 - name: set proxmox password
   set_fact:
     proxmox_password: "{{ lookup('env', 'PROXMOX_PASSWORD_' + proxmox_var.host.split('.')[0]) }}"
-  when: proxmox_var is defined and vm_host is defined and lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0])
+  when: proxmox_var is defined and vm_host is defined and (lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) | length > 1)
 
 - name: init cache/templates/
   local_action:
@@ -154,7 +154,7 @@
 - name: enable docker support on VM
   command: "pct set {{ proxmox_var.vmid }} --features keyctl=1,nesting=1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  when: proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker > 0 and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
 
 - name: start container
@@ -186,13 +186,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm2[67].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm2[67].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -202,7 +202,7 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm1[123].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm1[123].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -212,13 +212,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm14.openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm14.openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and vm_host | regex_search('osm1[1234].openstreetmap.fr')
+  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm1[1234].openstreetmap.fr') is not none)
   become: yes
 
 
@@ -232,7 +232,7 @@
     block: |
       Host {{ item }}
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
-  with_items: '{{ play_hosts }}'
+  with_items: '{{ ansible_play_batch }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -242,7 +242,7 @@
     module: known_hosts
     name: "{{ hostvars[item].proxmox_var.ipv6 }}"
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
-  with_items: '{{ play_hosts }}'
+  with_items: '{{ ansible_play_batch }}'
   when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
   become: no
 
@@ -343,13 +343,13 @@
     dest: "/usr/share/keyrings/docker-archive-keyring.gpg.tmp"
     checksum: "sha512:d07607e3119181026e3309fb828882a13621960c54290416c2f897e1834f36abdb48d11b6f71aba1d2b9e7dac3f3fe8281c248500cfe13705674a5446826b699"
     mode: 0644
-  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker > 0
 
 - name: activate docker apt key
   command: "gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg /usr/share/keyrings/docker-archive-keyring.gpg.tmp"
   args:
     creates: "/usr/share/keyrings/docker-archive-keyring.gpg"
-  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker > 0
 
 - name: add repository for docker
   apt_repository:
@@ -357,7 +357,7 @@
     repo: 'deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable'
     state: present
     update_cache: yes
-  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker and ansible_distribution_release == "bullseye"
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker > 0 and ansible_distribution_release == "bullseye"
 
 - name: remove obsolete docker packages
   apt:
@@ -368,7 +368,7 @@
       - docker.io
       - containerd
       - runc
-  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker > 0
 
 - name: install docker packages
   apt:
@@ -376,7 +376,7 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker
+  when: proxmox_var is defined and proxmox_var.docker is defined and proxmox_var.docker > 0
 
 - name: install sensors package
   apt:
