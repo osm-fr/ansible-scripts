@@ -23,6 +23,11 @@ host_proxy:
     target: "10.1.0.132"
     dedicated_certbot_cert: True
   -
+    logname: "listes"
+    websites: "listes.openstreetmap.fr"
+    target: "10.1.0.138"
+    dedicated_certbot_cert: True
+  -
     logname: "nextcloud"
     websites: "nextcloud.openstreetmap.fr"
     target: "10.1.0.141"
