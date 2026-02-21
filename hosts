@@ -83,6 +83,7 @@ osm213.openstreetmap.fr vm_host=osm31.openstreetmap.fr
 geoosm.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm214.openstreetmap.fr
 crm.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm216.openstreetmap.fr
 overpass.vm.openstreetmap.fr vm_host=osm44.openstreetmap.fr # osm217.openstreetmap.fr
+ortho-enedis.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm219.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr
@@ -305,6 +306,7 @@ osm14.openstreetmap.fr
 osm110.openstreetmap.fr
 
 [flacombe]
+ortho-enedis.vm.openstreetmap.fr
 osm34.openstreetmap.fr
 osm110.openstreetmap.fr
 enedis.vm.openstreetmap.fr
@@ -459,6 +461,9 @@ osm11.openstreetmap.fr
 osm12.openstreetmap.fr
 osm104.openstreetmap.fr
 bano.vm.openstreetmap.fr
+
+[victor]
+ortho-enedis.vm.openstreetmap.fr
 
 [ybon]
 proxy.th3.vm.openstreetmap.fr

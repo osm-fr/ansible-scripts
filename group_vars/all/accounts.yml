@@ -159,6 +159,9 @@ accounts__users:
   vdct:
     uid: 1217
 
+  victor:
+    uid: 1231
+
   ybon:
     uid: 1223
 
