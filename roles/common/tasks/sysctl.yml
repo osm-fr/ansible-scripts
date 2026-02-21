@@ -1,12 +1,12 @@
 # necessary to run a lot of containers, each which systemd launching several inotify
 - name: increase fs.inotify.max_user_instances on host
-  sysctl:
+  ansible.posix.sysctl:
     name: fs.inotify.max_user_instances
     value: 1024
     sysctl_file: /etc/sysctl.d/ansible.conf
 
 - name: Reduce swappiness to 1
-  sysctl:
+  ansible.posix.sysctl:
     name: vm.swappiness
     value: 1
     sysctl_file: /etc/sysctl.d/ansible.conf
@@ -64,7 +64,7 @@
 # Ca marche bien au démarrage. Une fois que le serveur tourne et que la mémoire est utilisée pour le cache ou est fragmentée,
 # il aura plus de mal à trouver des blocs consécutifs.
 - name: Allow 2MB huge pages up to 60% of the RAM
-  sysctl:
+  ansible.posix.sysctl:
     name: vm.nr_overcommit_hugepages
     value: "{{ (ansible_memtotal_mb * 0.6 / 2) | int }}"
     sysctl_file: /etc/sysctl.d/ansible.conf

@@ -42,7 +42,7 @@
   become: no
 
 - name: send proxmox template
-  proxmox_template:
+  community.proxmox.proxmox_template:
     timeout: 60
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -55,7 +55,7 @@
   become: no
 
 - name: create container
-  proxmox:
+  community.proxmox.proxmox:
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -92,7 +92,7 @@
 # qm template 9000
 
 - name: create VM
-  proxmox_kvm:
+  community.proxmox.proxmox_kvm:
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -120,7 +120,7 @@
   become: no
 
 - name: update VM config
-  proxmox_kvm:
+  community.proxmox.proxmox_kvm:
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -150,15 +150,17 @@
   delegate_to: "{{ vm_host }}"
   when: common_proxmox_password is defined and (proxmox_var.docker is not defined or not proxmox_var.docker) and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
+  changed_when: true
 
 - name: enable docker support on VM
   command: "pct set {{ proxmox_var.vmid }} --features keyctl=1,nesting=1"
   delegate_to: "{{ vm_host }}"
   when: common_proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker > 0 and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
+  changed_when: true
 
 - name: start container
-  proxmox:
+  community.proxmox.proxmox:
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
     api_password: "{{ common_proxmox_password }}"
@@ -169,7 +171,7 @@
   become: no
 
 - name: start VM
-  proxmox_kvm:
+  community.proxmox.proxmox_kvm:
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
     api_password: "{{ common_proxmox_password }}"
@@ -180,7 +182,7 @@
   become: no
 
 - name: configure ipv6 on host interfaces
-  interfaces_file:
+  community.general.interfaces_file:
     iface: vmbr0
     address_family: inet6
     option: "post-up"
@@ -194,9 +196,10 @@
   delegate_to: "{{ vm_host }}"
   when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
+  changed_when: true
 
 - name: configure ipv6 on host interfaces
-  interfaces_file:
+  community.general.interfaces_file:
     iface: vmbr1
     address_family: inet6
     option: "post-up"
@@ -206,7 +209,7 @@
   become: yes
 
 - name: configure ipv6 on host interfaces
-  interfaces_file:
+  community.general.interfaces_file:
     iface: vmbr2
     address_family: inet6
     option: "post-up"

@@ -39,7 +39,7 @@
   tags: ssh-tunnel
 
 - name: init ssh key to user ${user}
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ user }}"
     key: "{{ item }}"
     key_options: 'no-pty,no-X11-forwarding,permitopen="localhost:*"'
