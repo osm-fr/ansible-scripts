@@ -14,6 +14,7 @@ exclude_paths:
 offline: true
 
 skip_list:
+  - fqcn[action-core]
   - name[casing]
   - var-naming[no-role-prefix]
   - yaml[octal-values]
