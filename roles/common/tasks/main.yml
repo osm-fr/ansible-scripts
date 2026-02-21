@@ -392,18 +392,26 @@
       - molly-guard
   when: not 'vm' in group_names
 
+- name: check existing /data/ paths
+  stat:
+    path: "{{ item }}"
+  register: data_path_stat
+  loop:
+    - /data
+    - /data/project
+    - /data/work
+
 - name: init /data/ paths
   file:
-    path: "{{ item }}"
+    path: "{{ item.item }}"
     state: directory
     owner: root
     group: root
     force: no
     mode: 0755
-  with_items:
-    - /data
-    - /data/project
-    - /data/work
+  loop: "{{ data_path_stat.results }}"
+  when: not item.stat.exists
+  become: yes
 
 - name: add default sudoers
   copy:
