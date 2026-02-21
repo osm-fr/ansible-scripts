@@ -62,7 +62,7 @@
     lc_ctype: en_US.UTF-8
     owner: "{{ db_owner_account }}"
     template: template0
-  register: createdb_{{ db_name }}
+  register: createdb
   become: yes
   become_user: postgres
 
