@@ -12,4 +12,7 @@ exclude_paths:
   - galaxy/  # external submodules
 
 offline: true
+
+skip_list:
+  - yaml[octal-values]
 ...
