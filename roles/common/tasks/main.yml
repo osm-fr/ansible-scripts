@@ -17,7 +17,7 @@
   stat:
     path: "cache/templates/{{ proxmox_var.ostemplate }}"
   delegate_to: localhost
-  register: template_downloaded
+  register: common_template_downloaded
   when: common_proxmox_password is defined
   become: no
 
@@ -30,7 +30,7 @@
   with_items:
     - "{{ proxmox_var.ostemplate }}"
     - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
-  when: common_proxmox_password is defined and not template_downloaded.stat.exists and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  when: common_proxmox_password is defined and not common_template_downloaded.stat.exists and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   register: common_download_template
   become: no
 
@@ -78,7 +78,7 @@
     vmid: "{{ proxmox_var.vmid }}"
   delegate_to: localhost
   when: common_proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
-  register: create_ct
+  register: common_create_ct
   become: no
 
 # To create kvm template:
@@ -186,13 +186,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
   delegate_to: "{{ vm_host }}"
-  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
   delegate_to: "{{ vm_host }}"
-  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -202,7 +202,7 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[123].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[123].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -212,13 +212,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm14.openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm14.openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0 "
   delegate_to: "{{ vm_host }}"
-  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[1234].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[1234].openstreetmap.fr') is not none)
   become: yes
 
 
@@ -233,7 +233,7 @@
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
   with_items: '{{ ansible_play_batch }}'
   delegate_to: localhost
-  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed)
+  when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed)
   become: no
 
 - name: add ssh key to known_hosts
@@ -243,7 +243,7 @@
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
   with_items: '{{ ansible_play_batch }}'
   delegate_to: localhost
-  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed)
+  when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed)
   become: no
 
 - name: apt-get update
@@ -395,7 +395,7 @@
 - name: check existing /data/ paths
   stat:
     path: "{{ item }}"
-  register: data_path_stat
+  register: common_data_path_stat
   loop:
     - /data
     - /data/project
@@ -409,7 +409,7 @@
     group: root
     force: no
     mode: 0755
-  loop: "{{ data_path_stat.results }}"
+  loop: "{{ common_data_path_stat.results }}"
   when: not item.stat.exists
   become: yes
 

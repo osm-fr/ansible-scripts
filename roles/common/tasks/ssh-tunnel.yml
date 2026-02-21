@@ -1,8 +1,8 @@
 - name: Check if user exists
   action: shell /usr/bin/getent passwd {{ user }}
-  register: user_exist
+  register: common_user_exist
   ignore_errors: True
-  changed_when: "user_exist.rc != 0"
+  changed_when: "common_user_exist.rc != 0"
   tags: ssh-tunnel
 
 - name: init user ${user}
@@ -11,7 +11,7 @@
     home: "/data/project/{{ user }}/"
     shell: "/bin/false"
     generate_ssh_key: yes
-  when: user_exist.changed
+  when: common_user_exist.changed
   tags: ssh-tunnel
 
 - name: init group ${user}

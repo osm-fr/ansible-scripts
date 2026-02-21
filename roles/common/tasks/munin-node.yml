@@ -49,13 +49,13 @@
 - name: check if postgresql installed
   command: /usr/bin/test -e /etc/postgresql/
   ignore_errors: True
-  register: postgres_installed
+  register: common_postgres_installed
 
 - name: install packages for postgres munin
   apt:
     pkg:
       - libdbd-pg-perl
-  when: postgres_installed.rc == 0
+  when: common_postgres_installed.rc == 0
 
 - name: add postgres munin plugin links
   file:
@@ -74,4 +74,4 @@
     - {src: /usr/share/munin/plugins/postgres_size_,        dest: postgres_size_ALL}
     - {src: /usr/share/munin/plugins/postgres_users,        dest: postgres_users}
     - {src: /usr/share/munin/plugins/postgres_xlog,         dest: postgres_xlog}
-  when: postgres_installed.rc == 0
+  when: common_postgres_installed.rc == 0
