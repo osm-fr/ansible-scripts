@@ -38,8 +38,8 @@
     cmd: pip3 install -r requirements.txt
   args:
     chdir: "{{ comcommaker_install_path }}"
-  register: pip_install
-  changed_when: '"Successfully installed" in pip_install.stdout'
+  register: comcommaker_pip_install
+  changed_when: '"Successfully installed" in comcommaker_pip_install.stdout'
 
 - name: Create cache folder
   file:

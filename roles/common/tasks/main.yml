@@ -1,6 +1,6 @@
 - name: set proxmox password
   set_fact:
-    proxmox_password: "{{ lookup('env', 'PROXMOX_PASSWORD_' + proxmox_var.host.split('.')[0]) }}"
+    common_proxmox_password: "{{ lookup('env', 'PROXMOX_PASSWORD_' + proxmox_var.host.split('.')[0]) }}"
   when: proxmox_var is defined and vm_host is defined and (lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) | length > 1)
 
 - name: init cache/templates/
@@ -10,7 +10,7 @@
     state: directory
     force: no
     mode: 0755
-  when: proxmox_password is defined
+  when: common_proxmox_password is defined
   become: no
 
 - name: check if proxmox template downloaded
@@ -18,7 +18,7 @@
     module: stat
     path: "cache/templates/{{ proxmox_var.ostemplate }}"
   register: template_downloaded
-  when: proxmox_password is defined
+  when: common_proxmox_password is defined
   become: no
 
 - name: download proxmox template
@@ -30,15 +30,15 @@
   with_items:
     - "{{ proxmox_var.ostemplate }}"
     - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
-  when: proxmox_password is defined and not template_downloaded.stat.exists and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
-  register: download_template
+  when: common_proxmox_password is defined and not template_downloaded.stat.exists and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  register: common_download_template
   become: no
 
 - name: check template sha512sum
   local_action:
     module: shell
     _raw_params: "sha512sum 'cache/templates/{{ proxmox_var.ostemplate | quote }}' | grep $(grep sha512sum: 'cache/templates/{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' | quote }}' | cut -d' ' -f2)"
-  when: proxmox_password is defined and download_template.changed
+  when: common_proxmox_password is defined and common_download_template.changed
   become: no
 
 - name: send proxmox template
@@ -47,11 +47,11 @@
     timeout: 60
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ common_proxmox_password }}"
     node: "{{ vm_host.split('.')[0] }}"
     src: "cache/templates/{{ proxmox_var.ostemplate }}"
     storage: "local"
-  when: proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  when: common_proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: no
 
 - name: create container
@@ -60,7 +60,7 @@
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ common_proxmox_password }}"
     cores: "{{ proxmox_var.cpus }}"
     cpus: "{{ proxmox_var.cpus }}"
     disk: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }}"
@@ -77,7 +77,7 @@
     swap: "{{ proxmox_var.swap }}"
     unprivileged: yes
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  when: common_proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   register: create_ct
   become: no
 
@@ -97,7 +97,7 @@
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ common_proxmox_password }}"
     cipassword: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
     ciuser: "root"
     clone: "{{ proxmox_var.ostemplate }}"
@@ -115,8 +115,8 @@
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
     sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
-  when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
-  register: create_vm
+  when: common_proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
+  register: common_create_vm
   become: no
 
 - name: update VM config
@@ -125,7 +125,7 @@
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ common_proxmox_password }}"
     cipassword: "{{ lookup('password', 'credentials/proxmox/' + inventory_hostname) }}"
     ciuser: "root"
     cores: "{{ proxmox_var.cpus }}"
@@ -142,19 +142,19 @@
     sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     update: yes
-  when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
+  when: common_proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   become: no
 
 - name: enable nesting support on VM, required for systemd
   command: "pct set {{ proxmox_var.vmid }} --features nesting=1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (proxmox_var.docker is not defined or not proxmox_var.docker) and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  when: common_proxmox_password is defined and (proxmox_var.docker is not defined or not proxmox_var.docker) and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
 
 - name: enable docker support on VM
   command: "pct set {{ proxmox_var.vmid }} --features keyctl=1,nesting=1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker > 0 and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  when: common_proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker > 0 and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
 
 - name: start container
@@ -162,10 +162,10 @@
     module: proxmox
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ common_proxmox_password }}"
     state: started
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
+  when: common_proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: no
 
 - name: start VM
@@ -173,10 +173,10 @@
     module: proxmox_kvm
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ common_proxmox_password }}"
     state: started
     vmid: "{{ proxmox_var.vmid }}"
-  when: proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
+  when: common_proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   become: no
 
 - name: configure ipv6 on host interfaces
@@ -186,13 +186,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -202,7 +202,7 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm1[123].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[123].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host interfaces
@@ -212,13 +212,13 @@
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm14.openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm14.openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0 "
   delegate_to: "{{ vm_host }}"
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed) and (vm_host | regex_search('osm1[1234].openstreetmap.fr') is not none)
+  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[1234].openstreetmap.fr') is not none)
   become: yes
 
 
@@ -233,7 +233,7 @@
       Host {{ item }}
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
   with_items: '{{ ansible_play_batch }}'
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
+  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed)
   become: no
 
 - name: add ssh key to known_hosts
@@ -243,7 +243,7 @@
     name: "{{ hostvars[item].proxmox_var.ipv6 }}"
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
   with_items: '{{ ansible_play_batch }}'
-  when: proxmox_password is defined and (create_ct.changed or create_vm.changed)
+  when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed)
   become: no
 
 - name: apt-get update
@@ -269,8 +269,8 @@
          (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == '20'))
 
 - set_fact:
-    install_apache: false
-  when: install_apache is undefined
+    common_install_apache: false
+  when: common_install_apache is undefined
 
 - name: add backports
   apt_repository:
@@ -328,7 +328,7 @@
     pkg:
       - apache2
       - libwww-perl  # for apache's munin plugin
-  when: install_apache
+  when: common_install_apache
 
 - name: remove packages
   apt:
@@ -415,7 +415,7 @@
     validate: 'visudo -cf %s'
 
 - set_fact:
-    group_users_root: "{{ q('vars', *q('varnames', '^group_users_root')) | flatten }}"
+    common_group_users_root: "{{ q('vars', *q('varnames', '^group_users_root')) | flatten }}"
 
 - name: add sudoers for users
   template:
@@ -425,7 +425,7 @@
     owner: root
     group: root
     validate: 'visudo -cf %s'
-  when: users_root is defined or group_users_root is defined
+  when: users_root is defined or common_group_users_root is defined
 
 - name: Configure .gitignore for etckeeper
   blockinfile:
@@ -442,7 +442,7 @@
       pve/priv/authkey.key
       pve/qemu-server
   when: "'proxmox' in group_names"
-  register: gitignore_status
+  register: common_gitignore_status
 
 - name: Remove new gitignore items from tracking
   shell: |
@@ -451,7 +451,7 @@
     git commit -m "Cleanup git-ignore files"
   args:
     chdir: /etc/
-  when: "'proxmox' in group_names and gitignore_status.changed"
+  when: "'proxmox' in group_names and common_gitignore_status.changed"
 
 - name: update hosts.allow
   lineinfile:

@@ -1,7 +1,7 @@
 - name: check if apache installed
   command: /usr/bin/test -e /etc/apache2/conf-available/ -a -e /etc/apache2/conf-enabled/
   ignore_errors: True
-  register: apache_installed
+  register: common_apache_installed
 
 - name: install packages for apache2
   apt:
@@ -9,7 +9,7 @@
   with_items:
     - libwww-perl    # for munin
     - lynx           # for apache2ctl
-  when: apache_installed.rc == 0
+  when: common_apache_installed.rc == 0
 
 - name: add apache munin plugin links
   file:
@@ -23,7 +23,7 @@
     - {src: /usr/share/munin/plugins/apache_accesses, dest: apache_accesses}
     - {src: /usr/share/munin/plugins/apache_processes, dest: apache_processes}
     - {src: /usr/share/munin/plugins/apache_volume, dest: apache_volume}
-  when: apache_installed.rc == 0
+  when: common_apache_installed.rc == 0
 
 # change logformat from %h to %a to support reverse proxy
 - name: configure logformat for apache
@@ -34,7 +34,7 @@
     group: root
     mode: 0644
   notify: reload apache
-  when: apache_installed.rc == 0
+  when: common_apache_installed.rc == 0
 
 - name: enable logformat config for apache
   file:
@@ -42,7 +42,7 @@
     dest: /etc/apache2/conf-enabled/ansible-logformat.conf
     state: link
   notify: reload apache
-  when: apache_installed.rc == 0
+  when: common_apache_installed.rc == 0
 
 # enable mod_remoteip for reverse proxy
 - name: configure remoteip
@@ -53,7 +53,7 @@
     owner: root
     group: root
   notify: reload apache
-  when: apache_installed.rc == 0 and vm_host is defined
+  when: common_apache_installed.rc == 0 and vm_host is defined
 
 - name: enable mod_remoteip
   file:
@@ -64,4 +64,4 @@
   with_items:
     - remoteip.load
     - remoteip.conf
-  when: apache_installed.rc == 0 and vm_host is defined
+  when: common_apache_installed.rc == 0 and vm_host is defined
