@@ -4,29 +4,29 @@
   when: proxmox_var is defined and vm_host is defined and (lookup('env','PROXMOX_PASSWORD_'+proxmox_var.host.split('.')[0]) | length > 1)
 
 - name: init cache/templates/
-  local_action:
-    module: file
+  file:
     path: "cache/templates/"
     state: directory
     force: no
     mode: 0755
+  delegate_to: localhost
   when: common_proxmox_password is defined
   become: no
 
 - name: check if proxmox template downloaded
-  local_action:
-    module: stat
+  stat:
     path: "cache/templates/{{ proxmox_var.ostemplate }}"
+  delegate_to: localhost
   register: template_downloaded
   when: common_proxmox_password is defined
   become: no
 
 - name: download proxmox template
-  local_action:
-    module: get_url
+  get_url:
     dest: "cache/templates/{{ item }}"
     url: "http://download.proxmox.com/images/system/{{ item }}"
     mode: 0644
+  delegate_to: localhost
   with_items:
     - "{{ proxmox_var.ostemplate }}"
     - "{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' }}"
@@ -35,15 +35,14 @@
   become: no
 
 - name: check template sha512sum
-  local_action:
-    module: shell
+  shell:
     _raw_params: "sha512sum 'cache/templates/{{ proxmox_var.ostemplate | quote }}' | grep $(grep sha512sum: 'cache/templates/{{ '.'.join(proxmox_var.ostemplate.split('.')[0:-2]) + '.aplinfo' | quote }}' | cut -d' ' -f2)"
+  delegate_to: localhost
   when: common_proxmox_password is defined and common_download_template.changed
   become: no
 
 - name: send proxmox template
-  local_action:
-    module: proxmox_template
+  proxmox_template:
     timeout: 60
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -51,12 +50,12 @@
     node: "{{ vm_host.split('.')[0] }}"
     src: "cache/templates/{{ proxmox_var.ostemplate }}"
     storage: "local"
+  delegate_to: localhost
   when: common_proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: no
 
 - name: create container
-  local_action:
-    module: proxmox
+  proxmox:
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -77,6 +76,7 @@
     swap: "{{ proxmox_var.swap }}"
     unprivileged: yes
     vmid: "{{ proxmox_var.vmid }}"
+  delegate_to: localhost
   when: common_proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   register: create_ct
   become: no
@@ -92,8 +92,7 @@
 # qm template 9000
 
 - name: create VM
-  local_action:
-    module: proxmox_kvm
+  proxmox_kvm:
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -115,13 +114,13 @@
       scsi0: "{{ proxmox_var.storage }}:{{ proxmox_var.disk }},format=raw"
     sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
+  delegate_to: localhost
   when: common_proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   register: common_create_vm
   become: no
 
 - name: update VM config
-  local_action:
-    module: proxmox_kvm
+  proxmox_kvm:
     timeout: 240
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
@@ -142,6 +141,7 @@
     sshkeys: "{{ lookup('file', lookup('env', 'PROXMOX_SSHPUBKEY')) }}"
     state: present
     update: yes
+  delegate_to: localhost
   when: common_proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   become: no
 
@@ -158,24 +158,24 @@
   become: yes
 
 - name: start container
-  local_action:
-    module: proxmox
+  proxmox:
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
     api_password: "{{ common_proxmox_password }}"
     state: started
     vmid: "{{ proxmox_var.vmid }}"
+  delegate_to: localhost
   when: common_proxmox_password is defined and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: no
 
 - name: start VM
-  local_action:
-    module: proxmox_kvm
+  proxmox_kvm:
     api_host: "{{ proxmox_var.host }}"
     api_user: "ansible@pve"
     api_password: "{{ common_proxmox_password }}"
     state: started
     vmid: "{{ proxmox_var.vmid }}"
+  delegate_to: localhost
   when: common_proxmox_password is defined and (proxmox_var.kvm is defined and proxmox_var.kvm == 1)
   become: no
 
@@ -224,8 +224,7 @@
 
 - name: add VM to .ssh/config
   run_once: true
-  local_action:
-    module: blockinfile
+  blockinfile:
     path: "~/.ssh/config"
     backup: yes
     marker: "# {mark} ANSIBLE MANAGED for vm {{ item }}"
@@ -233,16 +232,17 @@
       Host {{ item }}
         Hostname {{ hostvars[item].proxmox_var.ipv6 }}
   with_items: '{{ ansible_play_batch }}'
+  delegate_to: localhost
   when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed)
   become: no
 
 - name: add ssh key to known_hosts
   run_once: true
-  local_action:
-    module: known_hosts
+  known_hosts:
     name: "{{ hostvars[item].proxmox_var.ipv6 }}"
     key: "{{ lookup('pipe', 'ssh-keyscan {{ hostvars[item].proxmox_var.ipv6 }}') }}"
   with_items: '{{ ansible_play_batch }}'
+  delegate_to: localhost
   when: common_proxmox_password is defined and (create_ct.changed or common_create_vm.changed)
   become: no
 

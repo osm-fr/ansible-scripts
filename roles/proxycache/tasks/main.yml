@@ -23,7 +23,9 @@
 
 # recherche config pour ce host
 - name: check if nginx config exists
-  local_action: stat path="roles/proxycache/files/nginx-{{ inventory_hostname }}.site"
+  stat:
+    path: "roles/proxycache/files/nginx-{{ inventory_hostname }}.site"
+  delegate_to: localhost
   become: no
   register: nginx_site
 
@@ -33,7 +35,9 @@
   notify: reload nginx
 
 - name: check if nginx config template exists
-  local_action: stat path="roles/proxycache/templates/nginx-{{ inventory_hostname }}.site"
+  stat:
+    path: "roles/proxycache/templates/nginx-{{ inventory_hostname }}.site"
+  delegate_to: localhost
   become: no
   register: nginx_site
 
