@@ -51,6 +51,7 @@
       - /usr/sbin/qm delsnapshot *
       - /usr/sbin/qm config *
       - /usr/sbin/pvesm path *
+      - /usr/bin/pvesh get /cluster/resources --type vm --output-format json
   when:
     proxmox_backup_host is not defined
 
