@@ -1,3 +1,4 @@
 ansible ~= 12.0
 ansible-lint ~= 25.0
 proxmoxer ~= 2.2
+requests # needed by proxmoxer
