@@ -113,6 +113,7 @@ osm44.openstreetmap.fr
 
 [cluster-dc1]
 osm50.openstreetmap.fr
+osm51.openstreetmap.fr
 
 [proxmox:children]
 cluster-free
