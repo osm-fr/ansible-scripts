@@ -566,6 +566,3 @@
 
 - ansible.builtin.include_tasks: sysctl.yml
   when: "'proxmox' in group_names"
-
-- ansible.builtin.include_tasks: ntp.yml
-  when: "not 'vm' in group_names"
