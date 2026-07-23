@@ -245,6 +245,7 @@ cluster-free
 [proxmox-backup]
 osm32.openstreetmap.fr proxmox_backup_host=true
 osm34.openstreetmap.fr proxmox_backup_target="osm50.openstreetmap.fr:rpool/backups/cluster-th3"
+osm38.openstreetmap.fr proxmox_backup_exclude="101 118 144 186 209 400 999 9000" proxmox_backup_target="osm32.openstreetmap.fr:backups/cluster-moji"
 osm39.openstreetmap.fr proxmox_backup_exclude="101 118 144 186 209 400 999 9000" proxmox_backup_target="osm32.openstreetmap.fr:backups/cluster-moji"
 osm40.openstreetmap.fr proxmox_backup_exclude="101 118 144 186 209 400 999 9000" proxmox_backup_target="osm32.openstreetmap.fr:backups/cluster-moji"
 osm41.openstreetmap.fr proxmox_backup_exclude="101 118 144 186 209 400 999 9000" proxmox_backup_target="osm32.openstreetmap.fr:backups/cluster-moji"
