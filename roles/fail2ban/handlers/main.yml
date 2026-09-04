@@ -1,0 +1,4 @@
+- name: reload fail2ban
+  systemd:
+    name: fail2ban
+    state: reloaded

@@ -1,0 +1,44 @@
+- name: Install fail2ban
+  ansible.builtin.apt:
+    pkg:
+      - fail2ban
+
+- name: Check if fail2ban ignoreip is accessible
+  ansible.builtin.stat:
+    path: "{{ role_path }}/files/jail-ignoreip.conf"
+    follow: true
+  delegate_to: localhost
+  become: no
+  run_once: true
+  register: stat_ignoreip
+
+- name: Configure fail2ban ignoreip
+  copy:
+    src: jail-ignoreip.conf
+    dest: /etc/fail2ban/jail.d/ansible-ignoreip.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: stat_ignoreip is defined and stat_ignoreip.stat.exists
+  notify:
+    - reload fail2ban
+
+- name: Configure proxmox filter
+  copy:
+    src: filter-proxmox.conf
+    dest: /etc/fail2ban/filter.d/proxmox.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload fail2ban
+
+- name: Configure proxmox jail
+  copy:
+    src: jail-proxmox.conf
+    dest: /etc/fail2ban/jail.d/proxmox.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload fail2ban

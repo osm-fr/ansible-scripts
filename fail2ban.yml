@@ -1,0 +1,5 @@
+- name: fail2ban configuration
+  hosts: proxmox
+  become: yes
+  roles:
+    - fail2ban
