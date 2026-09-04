@@ -147,14 +147,14 @@
 
 - name: enable nesting support on VM, required for systemd
   command: "pct set {{ proxmox_var.vmid }} --features nesting=1"
-  delegate_to: "{{ vm_host }}"
+  delegate_to: "{{ vm_host | default('nonexisting.openstreetmap.fr') }}"
   when: common_proxmox_password is defined and (proxmox_var.docker is not defined or not proxmox_var.docker) and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
   changed_when: true
 
 - name: enable docker support on VM
   command: "pct set {{ proxmox_var.vmid }} --features keyctl=1,nesting=1"
-  delegate_to: "{{ vm_host }}"
+  delegate_to: "{{ vm_host | default('nonexisting.openstreetmap.fr') }}"
   when: common_proxmox_password is defined and proxmox_var.docker is defined and proxmox_var.docker > 0 and (proxmox_var.kvm is not defined or proxmox_var.kvm == 0)
   become: yes
   changed_when: true
@@ -187,13 +187,13 @@
     address_family: inet6
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1"
-  delegate_to: "{{ vm_host }}"
+  delegate_to: "{{ vm_host | default('nonexisting.openstreetmap.fr') }}"
   when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr1 "
-  delegate_to: "{{ vm_host }}"
+  delegate_to: "{{ vm_host | default('nonexisting.openstreetmap.fr') }}"
   when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm2[67].openstreetmap.fr') is not none)
   become: yes
   changed_when: true
@@ -204,7 +204,7 @@
     address_family: inet6
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
-  delegate_to: "{{ vm_host }}"
+  delegate_to: "{{ vm_host | default('nonexisting.openstreetmap.fr') }}"
   when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[123].openstreetmap.fr') is not none)
   become: yes
 
@@ -214,13 +214,13 @@
     address_family: inet6
     option: "post-up"
     value: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0"
-  delegate_to: "{{ vm_host }}"
+  delegate_to: "{{ vm_host | default('nonexisting.openstreetmap.fr') }}"
   when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm14.openstreetmap.fr') is not none)
   become: yes
 
 - name: configure ipv6 on host
   raw: "/sbin/ip -f inet6 neigh add proxy {{ proxmox_var.ipv6 }} dev vmbr0 "
-  delegate_to: "{{ vm_host }}"
+  delegate_to: "{{ vm_host | default('nonexisting.openstreetmap.fr') }}"
   when: common_proxmox_password is defined and (common_create_ct.changed or common_create_vm.changed) and (vm_host | regex_search('osm1[1234].openstreetmap.fr') is not none)
   become: yes
 
