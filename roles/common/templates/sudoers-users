@@ -4,8 +4,8 @@
 {{ user }} ALL=(ALL) NOPASSWD: ALL
 {% endfor %}
 {% endif %}
-{% if group_users_root is defined %}
-{% for user in group_users_root %}
+{% if common_group_users_root is defined %}
+{% for user in common_group_users_root %}
 {{ user }} ALL=(ALL) NOPASSWD: ALL
 {% endfor %}
 {% endif %}
