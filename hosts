@@ -95,6 +95,11 @@ osm11.openstreetmap.fr
 osm12.openstreetmap.fr
 osm14.openstreetmap.fr
 
+[cluster-paulla]
+osm29.openstreetmap.fr
+osm30.openstreetmap.fr
+osm31.openstreetmap.fr
+
 [cluster-th3]
 osm32.openstreetmap.fr
 osm33.openstreetmap.fr
@@ -373,6 +378,7 @@ geoosm.vm.openstreetmap.fr
 osm167.openstreetmap.fr
 
 [lafeychine:children]
+cluster-paulla
 cluster-th3
 cluster-moji
 cluster-dc1
