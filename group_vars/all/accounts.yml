@@ -84,6 +84,9 @@ accounts__users:
   karl:
     uid: 1238
 
+  khomille:
+    uid: 1239
+
   lafeychine:
     uid: 1228
 

@@ -375,6 +375,9 @@ sotm.vm.openstreetmap.fr
 geoosm.vm.openstreetmap.fr
 osm167.openstreetmap.fr
 
+[khomille]
+proxy.dc1.vm.openstreetmap.fr
+
 [lafeychine]
 proxy.moji.vm.openstreetmap.fr
 proxy.th3.vm.openstreetmap.fr
@@ -485,6 +488,7 @@ osm11.openstreetmap.fr
 osm12.openstreetmap.fr
 osm104.openstreetmap.fr
 bano.vm.openstreetmap.fr
+proxy.dc1.vm.openstreetmap.fr
 
 [victor]
 ortho-enedis.vm.openstreetmap.fr
