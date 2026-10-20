@@ -374,8 +374,11 @@ geoosm.vm.openstreetmap.fr
 osm167.openstreetmap.fr
 
 [lafeychine]
+proxy.moji.vm.openstreetmap.fr
+proxy.th3.vm.openstreetmap.fr
 geoosm.vm.openstreetmap.fr
 osm167.openstreetmap.fr
+ortho-enedis.vm.openstreetmap.fr
 
 [lafeychine:children]
 cluster-paulla
