@@ -84,6 +84,7 @@ geoosm.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm214.openstreetmap
 crm.vm.openstreetmap.fr vm_host=osm41.openstreetmap.fr # osm216.openstreetmap.fr
 overpass.vm.openstreetmap.fr vm_host=osm44.openstreetmap.fr # osm217.openstreetmap.fr
 ortho-enedis.vm.openstreetmap.fr vm_host=osm35.openstreetmap.fr # osm219.openstreetmap.fr
+dev.discourse.vm.openstreetmap.fr vm_host=osm42.openstreetmap.fr # osm221.openstreetmap.fr
 osmose-aquilenet.openstreetmap.fr
 osmose-hivane1.openstreetmap.fr
 osmose-hivane2.openstreetmap.fr

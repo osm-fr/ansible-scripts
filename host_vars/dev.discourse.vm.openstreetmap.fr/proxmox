@@ -1,0 +1,15 @@
+proxmox_var:
+  host: osm42.openstreetmap.fr
+  cpus: 4
+  disk: 200
+  docker: 0
+  hostname: dev.discourse.vm.openstreetmap.fr
+  ipv6: 2a06:c484:5::221
+  kvm: 1
+  net: {"net0": "bridge=vmbr0"}
+  ipconfig: {"ipconfig0": "ip=10.1.0.221/8,gw=45.147.209.254,ip6=2a06:c484:5::221/128,gw6=2a06:c484:5::"}
+  memory: 8192
+  ostemplate: debian-13-genericcloud-amd64
+  storage: "nvme-zfs"
+  swap: 2048
+  vmid: 221
