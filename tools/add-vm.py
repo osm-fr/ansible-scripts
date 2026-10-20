@@ -165,7 +165,8 @@ templates = [
 ]
 
 templates_kvm = [
-  "debian-12-genericcloud-amd64"
+  "debian-13-genericcloud-amd64",
+  "debian-12-genericcloud-amd64",
 ]
 
 storages = [
