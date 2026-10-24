@@ -1,0 +1,14 @@
+proxmox_var:
+  host: osm41.openstreetmap.fr
+  cpus: 1
+  disk: 10
+  docker: 0
+  hostname: petitereine.vm.openstreetmap.fr
+  ipv6: 2a06:c484:5::157
+  kvm: 0
+  netif: {"net0": "name=eth0,bridge=vmbr0,ip=10.1.0.157/24,gw=45.147.209.254,ip6=2a06:c484:5::157/80,gw6=2a06:c484:5::"}
+  memory: 1024
+  ostemplate: debian-13-standard_13.6-1_amd64.tar.zst
+  storage: "local-zfs"
+  swap: 1024
+  vmid: 157

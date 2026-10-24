@@ -159,6 +159,7 @@ for n in range(38, 45):
    }
 
 templates = [
+  "debian-13-standard_13.6-1_amd64.tar.zst",
   "debian-12-standard_12.12-1_amd64.tar.zst",
   "debian-11-standard_11.7-1_amd64.tar.zst",
   "ubuntu-18.04-standard_18.04-1_amd64.tar.gz",
